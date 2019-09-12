@@ -16,7 +16,7 @@ app.get('/', function(req, res){
   res.render('index');
 })
 
-app.get('/persons', db.getUsers)
+app.get('/users', db.getUsers)
 app.get('/users/:id', db.getUserById)
 app.post('/users', db.createUser)
 app.put('/users/:id', db.updateUser)
