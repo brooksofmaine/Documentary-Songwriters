@@ -12,5 +12,4 @@
 4. cd into the file Documentary-Songwriters 
     1. Run the command node index.js 
     2. Go to any browser and enter http://localhost:3000/
-    3. You should see "Hello JumboCode!"
-    
+
