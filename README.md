@@ -9,4 +9,7 @@
     1. https://github.com/JumboCode/Documentary-Songwriters
     2. Enter the following command: 
         1. git clone https://github.com/JumboCode/Documentary-Songwriters
-4. All set! 
+4. cd into the file Documentary-Songwriters 
+    1. Run the command node index.js 
+    2. Go to any browser and enter http://localhost:3000/
+
