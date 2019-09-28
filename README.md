@@ -2,8 +2,8 @@
 ## About the project: ##
 
 ## Team Members: ##
+Isabelle Lai
 Peter Lam 
-
 Rebecca Miller
 
 ## Setting up your workspace: ##
