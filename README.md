@@ -12,7 +12,7 @@
     4. Create a user: postgres=# CREATE ROLE me WITH LOGIN PASSWORD 'password'; 
     5. Allow user "me" to have new permissions: postgres=# ALTER ROLE me CREATEDB;
     6. Create a "jumbocode" database under user "me": postgres=# \q (quiting) --> psql -d postgres -U me (re-enter) --> postgres=> CREATE DATABASE jumbocode;
-    7. Connect to database: postgres=> \c api
+    7. Connect to database: postgres=> \c jumbocode
     8. Create a table in the database: jumbocode=>
                                         CREATE TABLE users (
                                         personid PRIMARY KEY,
