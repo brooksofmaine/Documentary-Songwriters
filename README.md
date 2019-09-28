@@ -2,6 +2,7 @@
 ## About the project: ##
 
 ## Team Members: ##
+Isabelle Lai
 
 ## Setting up your workspace: ##
 1. Download postgres (this will be how we will be interacting with the database)
