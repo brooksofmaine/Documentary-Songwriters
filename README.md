@@ -15,7 +15,7 @@
     7. Connect to database: postgres=> \c jumbocode
     8. Create a table in the database: jumbocode=>
                                         CREATE TABLE users (
-                                        personid PRIMARY KEY,
+                                        personid INT PRIMARY KEY,
                                         lastname VARCHAR(30),
                                         firstname VARCHAR(30),
                                         instrument VARCHAR(30)
