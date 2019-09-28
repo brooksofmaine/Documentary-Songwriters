@@ -4,6 +4,8 @@
 ## Team Members: ##
 Peter Lam 
 
+Rebecca Miller
+
 ## Setting up your workspace: ##
 1. Download postgres (this will be how we will be interacting with the database)
     1. Download homebrew: https://brew.sh/
