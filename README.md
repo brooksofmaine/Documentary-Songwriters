@@ -12,7 +12,13 @@ Will Kendall
 Yichen Wei
 
 ## Setting up your workspace: ##
-1. Download postgres (this will be how we will be interacting with the database)
+# 1. Download postgres (this will be how we will be interacting with the database)
+    1. Mac users: 
+        1. Download homebrew: https://brew.sh/
+        2. Enter the following command: brew install postgresql
+    2. Window users: 
+        1. Follow this tutorial: https://www.enterprisedb.com/downloads/postgres-postgresql-downloads
+# 2. Setting up a local database #
     1. Download homebrew: https://brew.sh/
     2. Enter the following command:
         1.  brew install postgresql
@@ -28,18 +34,14 @@ Yichen Wei
                                         firstname VARCHAR(30),
                                         instrument VARCHAR(30)
                                         );
-    1. Mac users: 
-        1. Download homebrew: https://brew.sh/
-        2. Enter the following command: brew install postgresql
-    2. Window users: 
-        1. Follow this tutorial: https://www.enterprisedb.com/downloads/postgres-postgresql-downloads
-2. Download node.js 
+
+# 3. Download node.js #
     1. Follow this tutorial: https://www.taniarascia.com/how-to-install-and-use-node-js-and-npm-mac-and-windows/
-3. Clone to the repository to your local computer
+# 4. Clone to the repository to your local computer #
     1. https://github.com/JumboCode/Documentary-Songwriters
     2. Enter the following command: 
         1. git clone https://github.com/JumboCode/Documentary-Songwriters
-4. cd into the file Documentary-Songwriters 
+# 5. Run the code #
     1. Run the command node index.js 
     2. Go to any browser and enter http://localhost:3000/
 
