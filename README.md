@@ -2,13 +2,13 @@
 ## About the project: ##
 
 ## Team Members: ##
-Harsh Prajapati
+Harsh Prajapati  
 Isabelle Lai  
 Peter Lam  
 Rebecca Miller  
 Yaqara Patterson  
 Molly Campbell  
-Will Kendall
+Will Kendall  
 Yichen Wei
 
 ## Setting up your workspace: ##

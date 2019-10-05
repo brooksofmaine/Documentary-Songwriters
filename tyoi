@@ -1,1 +1,0 @@
- \q --> psql -d postgres -U me (re-enter) --> postgres=> CREATE DATABASE jumbocode;
