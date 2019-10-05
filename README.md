@@ -2,10 +2,10 @@
 ## About the project: ##
 
 ## Team Members: ##
-Harsh Prajapati
-Isabelle Lai
-Peter Lam 
-Rebecca Miller
+Harsh Prajapati  
+Isabelle Lai  
+Peter Lam  
+Rebecca Miller  
 
 ## Setting up your workspace: ##
 1. Download postgres (this will be how we will be interacting with the database)
