@@ -8,6 +8,7 @@ Peter Lam
 Rebecca Miller  
 Yaqara Patterson  
 Molly Campbell  
+Will Kendall
 
 ## Setting up your workspace: ##
 1. Download postgres (this will be how we will be interacting with the database)
