@@ -2,6 +2,7 @@
 ## About the project: ##
 
 ## Team Members: ##
+Harsh Prajapati
 Isabelle Lai
 Peter Lam 
 Rebecca Miller
