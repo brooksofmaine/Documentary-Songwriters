@@ -9,7 +9,7 @@ Rebecca Miller
 Yaqara Patterson  
 Molly Campbell  
 Will Kendall  
-Yichen Wei
+Yichen Wei  
 Adam Peters
 
 ## Setting up your workspace: ##
