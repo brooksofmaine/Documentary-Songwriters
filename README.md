@@ -10,7 +10,7 @@ Yaqara Patterson
 Molly Campbell  
 Will Kendall  
 Yichen Wei  
-Adam Peters
+Adam Peters  
 Emily Liu
 
 ## Setting up your workspace: ##
