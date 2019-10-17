@@ -15,4 +15,3 @@ parserOptions:
 plugins:
   - react
 rules: {}
-parser: babel-eslint
