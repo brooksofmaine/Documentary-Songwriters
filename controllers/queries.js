@@ -4,7 +4,7 @@ const pool = new Pool({
   host: 'localhost',
   database: 'jumbocode',
   password: 'password',
-  port: 5432,
+  port: 5432
 })
 
 const getUsers = (request, response) => {
@@ -17,5 +17,5 @@ const getUsers = (request, response) => {
 }
 
 module.exports = {
-  getUsers,
+  getUsers
 }
