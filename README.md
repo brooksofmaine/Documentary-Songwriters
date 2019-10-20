@@ -11,40 +11,26 @@ Molly Campbell
 Will Kendall  
 Yichen Wei  
 Adam Peters  
-Emily Liu
+Emily Liu  
+Steven Song
 
 ## Setting up your workspace: ##
-### 1. Download postgres (this will be how we will be interacting with the database) ###
-    1. Mac users: 
+### 1. Install postgres ###
+    1. Mac users:
         1. Download homebrew: https://brew.sh/
         2. Enter the following command: brew install postgresql
-    2. Window users: 
-        1. Follow this tutorial: https://www.enterprisedb.com/downloads/postgres-postgresql-downloads
-### 2. Setting up a local database ###
-    1. Download homebrew: https://brew.sh/
-    2. Enter the following command:
-        1.  brew install postgresql
-    3. Enter into postgres: $ psql postgres 
-    4. Create a user: postgres=# CREATE ROLE me WITH LOGIN PASSWORD 'password'; 
-    5. Allow user "me" to have new permissions: postgres=# ALTER ROLE me CREATEDB;
-    6. Create a "jumbocode" database under user "me": postgres=# \q (quiting) --> psql -d postgres -U me (re-enter) --> postgres=> CREATE DATABASE jumbocode;
-    7. Connect to database: postgres=> \c jumbocode
-    8. Create a table in the database: jumbocode=>
-                                        CREATE TABLE users (
-                                        personid INT PRIMARY KEY,
-                                        lastname VARCHAR(30),
-                                        firstname VARCHAR(30),
-                                        instrument VARCHAR(30)
-                                        );
+    2. Window users:
+        1. Download installer from here: https://www.enterprisedb.com/downloads/postgres-postgresql-downloads
 
-### 3. Download node.js ###
+    DO NOT SET A PASSWORD FOR SUPERUSER postgres
+### 2. Install node.js ###
     1. Follow this tutorial: https://www.taniarascia.com/how-to-install-and-use-node-js-and-npm-mac-and-windows/
-### 4. Clone to the repository to your local computer ###
+### 3. Clone the repository to your local computer ###
     1. https://github.com/JumboCode/Documentary-Songwriters
     2. Enter the following command: 
         1. git clone https://github.com/JumboCode/Documentary-Songwriters
-### 5. Run the code ###
-    1. command line: npm install express 
-    2. Run the command node index.js 
-    3. Go to any browser and enter http://localhost:3000/
-
+### 4. Run the code ###
+    0. cd into the repository
+    1. Install dependencies: npm install
+    2. Start server: node index.js
+    3. Go to: http://localhost:3000/
