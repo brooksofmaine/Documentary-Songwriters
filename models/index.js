@@ -6,6 +6,7 @@ const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/config.json')[env];
 const defaultURI = 'postgres://' + config.username + ':' + config.password + '@' + config.host + ':' + config.port + '/postgres';
+let db = {};
 
 // create database using pg (sequelize sync creates tables)
 module.exports.init = (cb) => {
@@ -17,7 +18,7 @@ module.exports.init = (cb) => {
   client.query('CREATE DATABASE ' + config.database, (err, res) => {
     client.end();
     
-    let db = {};
+
     let sequelize;
     // TODO change config setup for custom use (DONT STORE PASSWORD IN PLAIN TEXT IN PROD - config.js)
     if (config.use_env_variable) {
@@ -48,3 +49,20 @@ module.exports.init = (cb) => {
     cb(db);
   });
 };
+
+module.exports.createUser = (firstName, lastName, username, email) => {
+  return db.User.create({
+    username: username,
+    firstName: firstName,
+    lastName: lastName,
+    email: email
+  });
+};
+
+module.exports.getUser = (username) => {
+  return db.User.findByPk(username);
+};
+
+
+
+
