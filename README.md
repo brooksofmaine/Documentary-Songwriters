@@ -44,6 +44,7 @@ Emily Liu
     2. Enter the following command: 
         1. git clone https://github.com/JumboCode/Documentary-Songwriters
 ### 5. Run the code ###
-    1. Run the command node index.js 
-    2. Go to any browser and enter http://localhost:3000/
+    1. command line: npm install express 
+    2. Run the command node index.js 
+    3. Go to any browser and enter http://localhost:3000/
 
