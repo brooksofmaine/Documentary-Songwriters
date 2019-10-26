@@ -16,10 +16,10 @@
     "dialect": "postgres"
   },
   "production": {
-    "username": "CHANGEME",
-    "password": "CHANGEME",
+    "username": "postgres",
+    "password": null,
     "database": "prod",
-    "host": "CHANGEME",
+    "host": "localhost",
     "port": 5432,
     "dialect": "postgres"
   }
