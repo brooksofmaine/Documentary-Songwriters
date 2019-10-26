@@ -63,6 +63,24 @@ module.exports.getUser = (username) => {
   return db.User.findByPk(username);
 };
 
+module.exports.changeEmail = (username, email) => {
+  return db.User.update({
+    email: email
+  }, {
+    where: {username: username},
+    returning: true,
+    plain: true
+  })
+};
 
+module.exports.changeUsername = (old_username, new_username) => {
+  return db.User.update({
+    username: new_username
+  }, {
+    where: {username: old_username},
+    returning: true,
+    plain: true
+  })
+};
 
 
