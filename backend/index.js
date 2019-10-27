@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const app = express();
 const db = require('./models');
 let models;
-const port = 3000;
+const port = 5000;
 
 app.set('view engine', 'ejs');
 app.use(bodyParser.json());
@@ -14,7 +14,8 @@ app.use(
 );
 
 app.get('/', function (req, res) {
-  res.render('index');
+  // res.render('index');
+  res.send(({express : 'Hello world!'}))
 });
 
 app.get('/users', (req, res) => {
