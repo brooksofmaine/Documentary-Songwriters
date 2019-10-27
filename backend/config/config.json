@@ -1,6 +1,6 @@
 {
   "development": {
-    "username": "postgres",
+    "username": "peterlam",
     "password": null,
     "database": "dev",
     "host": "localhost",
@@ -8,7 +8,7 @@
     "dialect": "postgres"
   },
   "test": {
-    "username": "postgres",
+    "username": "peterlam",
     "password": null,
     "database": "test",
     "host": "localhost",
@@ -16,10 +16,10 @@
     "dialect": "postgres"
   },
   "production": {
-    "username": "postgres",
-    "password": null,
+    "username": "CHANGEME",
+    "password": "CHANGEME",
     "database": "prod",
-    "host": "localhost",
+    "host": "CHANGEME",
     "port": 5432,
     "dialect": "postgres"
   }
