@@ -39,7 +39,7 @@ class App extends Component {
       <NavBar />
       <Router>
         <Switch>
-          <Route path="/" component={LoginForm} />
+          <Route exact path="/" component={LoginForm} />
           <Route path="/api/home" component={WelcomeBoard} />
         </Switch>
       </Router>
