@@ -1,0 +1,14 @@
+.WelcomeCounter {
+    display: inline-block;
+    margin: 0 3em 0 0;
+    text-align: center;
+}
+
+.WelcomeCounter > h1 {
+    margin: 0;
+    font-size: 3em;
+}
+
+.WelcomeCounter > .name {
+    margin: 0;
+}

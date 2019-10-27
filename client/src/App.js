@@ -1,7 +1,14 @@
 import React, { Component } from "react";
 import NavBar from './NavBar'
 import LoginForm from './Authentication/LoginForm'
+import WelcomeBoard from './WelcomeBoard'
 import './App.css'
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,  
+} from "react-router-dom";
+
 class App extends Component {
   constructor(props) {
     super(props)
@@ -30,7 +37,13 @@ class App extends Component {
     return (
     <div className="App">
       <NavBar />
-      <LoginForm />
+      <Router>
+        <Switch>
+          <Route path="/" component={LoginForm} />
+          <Route path="/api/home" component={WelcomeBoard} />
+        </Switch>
+      </Router>
+      
     </div>);
   }
 }
