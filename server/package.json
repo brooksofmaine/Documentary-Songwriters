@@ -5,8 +5,13 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
+<<<<<<< HEAD
     "lint": "eslint \"./**/*.js\"",
     "build": "echo 'THIS IS A PLACEHOLDER BUILD SCRIPT'"
+=======
+    "test": "echo 'hello world'",
+    "lint": "eslint \"./**/*.js\""
+>>>>>>> fix-travis
   },
   "repository": {
     "type": "git",
