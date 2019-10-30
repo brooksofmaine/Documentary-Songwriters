@@ -5,6 +5,9 @@ const db = require('./models');
 let models;
 const port = 5000;
 
+const passportSetup = require('./config/passport-setup');
+const authRoutes = require('./routes/auth-routes');
+
 app.set('view engine', 'ejs');
 app.use(bodyParser.json());
 app.use(
@@ -12,6 +15,8 @@ app.use(
     extended: true
   })
 );
+
+app.use('/auth', authRoutes);
 
 app.get('/', function (req, res) {
   // res.render('index');

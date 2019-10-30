@@ -57,11 +57,16 @@ class LoginForm extends React.Component {
                     </div>
                     <div className={"new_user_prompt login_section"}>
                         <h2>New User?</h2>
+                        <button onClick={() => this.openGoogleLogin()}>Use Google to login</button>
                         <a href={"#"} >Click here to register a new account</a>
                     </div>
                 </div>
             </div>
         )
+    }
+
+    openGoogleLogin = () => {
+        window.open("http://localhost:5000/auth/google/", "Login",'height=800,width=500');
     }
 }
 
