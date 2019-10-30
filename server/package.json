@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "lint": "eslint \"./**/*.js\"",
     "build": "echo 'THIS IS A PLACEHOLDER BUILD SCRIPT'"
   },
