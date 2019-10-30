@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "postinstall": "concurrently 'cd server && npm install' 'cd client && npm install'",
+    "postinstall": "concurrently \"cd server && npm ci\" \"cd client && npm ci\"",
     "start": "concurrently \"cd server && npm start\" \"cd client && npm start\"",
     "test": "cd server && npm run lint && npm test"
   },
