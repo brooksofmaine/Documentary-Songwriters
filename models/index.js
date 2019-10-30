@@ -74,7 +74,7 @@ module.exports.changeUsername = (old_username, new_username) => {
     where: {username: old_username},
     returning: true,
     raw: true
-  }).then(([numRows, user]) => {
+  }).then(([numRows, [user]]) => {
     return user;
   });
 };
@@ -86,7 +86,7 @@ module.exports.changeEmail = (username, email) => {
     where: {username: username},
     returning: true,
     raw: true
-  }).then(([numRows, user]) => {
+  }).then(([numRows, [user]]) => {
     return user;
   });
 };
@@ -98,7 +98,7 @@ module.exports.changeFirstName = (username, firstName) => {
     where: {username: username},
     returning: true,
     raw: true
-  }).then(([numRows, user]) => {
+  }).then(([numRows, [user]]) => {
     return user;
   });
 };
@@ -110,7 +110,7 @@ module.exports.changeLastName = (username, lastName) => {
     where: {username: username},
     returning: true,
     raw: true
-  }).then(([numRows, user]) => {
+  }).then(([numRows, [user]]) => {
     return user;
   });
 };
