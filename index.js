@@ -16,17 +16,52 @@ app.get('/', function (req, res) {
   res.render('index');
 });
 
-app.get('/user', (req, res) => {
-  db.getUser("bob").then((user) => {
-    res.status(200).json(user);
-  });
-});
-
 // start app only after database is created and models are synchronized
 db.init((models) => {
   models.sequelize.sync().then(() => {
     app.listen(port, () => {
       console.log(`App running on port ${port}.`);
+
+      // test create user
+      db.createUser('bobbyS', 'bob', 'smith', 'email@email.com')
+        .then((newUser) => {
+        console.log("CREATED NEW USER");
+        console.log(newUser);
+
+        // test get user
+        db.getUser('bobbyS')
+          .then((user) => {
+          console.log("FOUND USER: bobbyS");
+          console.log(user);
+
+          // test change username
+          db.changeUsername('bobbyS', 'robertS')
+            .then((user) => {
+            console.log("USERNAME CHANGE");
+            console.log(user);
+
+            // test other user attribute modifiers
+            db.changeEmail('robertS', 'real@email.com')
+              .then((user) => {
+              console.log("EMAIL CHANGE");
+              console.log(user);
+            });
+
+            db.changeFirstName('robertS', 'robert')
+              .then((user) => {
+              console.log("FIRST NAME CHANGE");
+              console.log(user);
+            });
+
+            db.changeLastName('robertS', 'smith-jenkins')
+              .then((user) => {
+              console.log("LAST NAME CHANGE");
+              console.log(user);
+            });
+          });
+        });
+      });
+
     });
   });
 });
