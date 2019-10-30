@@ -70,7 +70,7 @@ module.exports.changeEmail = (username, email) => {
     where: {username: username},
     returning: true,
     plain: true
-  })
+  });
 };
 
 module.exports.changeUsername = (old_username, new_username) => {
@@ -80,7 +80,7 @@ module.exports.changeUsername = (old_username, new_username) => {
     where: {username: old_username},
     returning: true,
     plain: true
-  })
+  });
 };
 
 
