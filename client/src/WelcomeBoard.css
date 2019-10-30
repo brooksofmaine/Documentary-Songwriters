@@ -1,0 +1,18 @@
+.WelcomeBoard {
+    text-align: left;
+    top: 25%;
+    position: absolute;
+}
+
+.WelcomeBoard > h1 p {
+    margin: 20px;
+}
+
+.pitch_progress {
+    font-size: 3.5em;
+    margin: 0;
+}
+
+.welcome_back {
+    margin: 0;
+}

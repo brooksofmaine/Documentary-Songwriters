@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const db = require('./models');
-const port = 3000;
+const port = 5000;
 
 app.set('view engine', 'ejs');
 app.use(bodyParser.json());
@@ -13,7 +13,8 @@ app.use(
 );
 
 app.get('/', function (req, res) {
-  res.render('index');
+  // res.render('index');
+  res.send(({express : 'Hello world!'}))
 });
 
 // start app only after database is created and models are synchronized

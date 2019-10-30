@@ -1,0 +1,27 @@
+.NavLink {
+    display: inline-block;
+    margin: 10px;
+    color: #555;
+    font-weight: bold;
+    font-size: large;
+}
+
+.NavLink > a:visited {
+    color: #555;
+}
+
+.NavLink > a {
+    color: #555;
+    text-decoration:none;
+    transition-duration: 0.5s;
+    transition-timing-function: ease;
+}
+
+.NavLink > a.selected {
+    color: #000;
+    font-weight: 900;
+}
+
+.NavLink > a:hover {
+    color: #aaa;
+}

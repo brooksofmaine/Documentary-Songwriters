@@ -1,0 +1,14 @@
+.counterBox {
+    width: 200px;
+    height: 200px;
+    background-color: #ddd;
+    text-align: center;
+    margin: 0 42%;
+    padding-top: 0;
+    margin-top: 0;
+}
+
+.pitchCounter {
+    font-size: 50px;
+    padding-top: 33%;
+}
