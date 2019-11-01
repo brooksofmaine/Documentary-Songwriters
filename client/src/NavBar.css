@@ -1,0 +1,9 @@
+.NavBar {
+    text-align: right;
+    margin: 10px;
+}
+
+.NavBar > .Button {
+    margin: 30px;
+}
+
