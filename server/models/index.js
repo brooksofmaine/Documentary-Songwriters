@@ -50,6 +50,10 @@ module.exports.init = (cb) => {
   });
 };
 
+/*******************************************************************
+    USERS
+*******************************************************************/
+
 module.exports.createUser = (username, firstName, lastName, email) => {
   return db.User.create({
     username: username,
@@ -114,3 +118,68 @@ module.exports.changeLastName = (username, lastName) => {
     return user;
   });
 };
+
+
+/*******************************************************************
+    RECORDINGS
+*******************************************************************/
+
+module.exports.createRecording = (username, start, end, numPitches, description) => {
+  return db.Recording.create({
+    username: username,
+    start: start,
+    end: end,
+    numPitches: numPitches,
+    description: description
+  }).then((modelInstance) => {
+    return modelInstance.get({plain: true});
+  });
+};
+
+module.exports.getRecording = (username, start) => {
+  return db.Recording.findByPk(username, 
+  {
+    where: {
+      username: username,
+      start: start
+    }
+  }).then((modelInstance) => {
+    return modelInstance.get({plain: true});
+  });
+};
+
+module.exports.changeDescription = (username, start, description) => {
+  return db.Recording.update({
+    description: description
+  }, {
+    where: {
+      username: username,
+      start: start
+    },
+    returning: true,
+    raw: true
+  }).then(([numRows, [recording]]) => {
+    return recording;
+  });
+};
+
+
+/////
+module.exports.changeEmail = (username, email) => {
+  return db.User.update({
+    email: email
+  }, {
+    where: {username: username},
+    returning: true,
+    raw: true
+  }).then(([numRows, [user]]) => {
+    return user;
+  });
+};
+
+
+
+
+
+
+
