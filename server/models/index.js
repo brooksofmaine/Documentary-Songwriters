@@ -136,19 +136,18 @@ module.exports.createRecording = (username, start, end, numPitches, description)
   });
 };
 
-module.exports.getRecording = (username, start) => {
-  return db.Recording.findByPk(username, 
-  {
-    where: {
-      username: username,
-      start: start
-    }
-  }).then((modelInstance) => {
-    return modelInstance.get({plain: true});
-  });
-};
+// // TODO: how to find using a composite key?
+// module.exports.getRecording = (username, start) => {
+//   return db.Recording.findByPk(username, 
+//   {
+//     username: username,
+//     start: start
+//   }).then((modelInstance) => {
+//     return modelInstance.get({plain: true});
+//   });
+// };
 
-module.exports.changeDescription = (username, start, description) => {
+module.exports.changeRecordingDescription = (username, start, description) => {
   return db.Recording.update({
     description: description
   }, {
@@ -160,20 +159,6 @@ module.exports.changeDescription = (username, start, description) => {
     raw: true
   }).then(([numRows, [recording]]) => {
     return recording;
-  });
-};
-
-
-/////
-module.exports.changeEmail = (username, email) => {
-  return db.User.update({
-    email: email
-  }, {
-    where: {username: username},
-    returning: true,
-    raw: true
-  }).then(([numRows, [user]]) => {
-    return user;
   });
 };
 
