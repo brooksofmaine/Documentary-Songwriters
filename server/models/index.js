@@ -6,6 +6,7 @@ const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/config.json')[env];
 const defaultURI = 'postgres://' + config.username + ':' + config.password + '@' + config.host + ':' + config.port + '/postgres';
+let db = {};
 
 // create database using pg (sequelize sync creates tables)
 module.exports.init = (cb) => {
@@ -17,7 +18,7 @@ module.exports.init = (cb) => {
   client.query('CREATE DATABASE ' + config.database, (err, res) => {
     client.end();
     
-    let db = {};
+
     let sequelize;
     // TODO change config setup for custom use (DONT STORE PASSWORD IN PLAIN TEXT IN PROD - config.js)
     if (config.use_env_variable) {
@@ -46,5 +47,70 @@ module.exports.init = (cb) => {
     db.Sequelize = Sequelize;
 
     cb(db);
+  });
+};
+
+module.exports.createUser = (username, firstName, lastName, email) => {
+  return db.User.create({
+    username: username,
+    firstName: firstName,
+    lastName: lastName,
+    email: email
+  }).then((modelInstance) => {
+    return modelInstance.get({plain: true});
+  });
+};
+
+module.exports.getUser = (username) => {
+  return db.User.findByPk(username).then((modelInstance) => {
+    return modelInstance.get({plain: true});
+  });
+};
+
+module.exports.changeUsername = (old_username, new_username) => {
+  return db.User.update({
+    username: new_username
+  }, {
+    where: {username: old_username},
+    returning: true,
+    raw: true
+  }).then(([numRows, [user]]) => {
+    return user;
+  });
+};
+
+module.exports.changeEmail = (username, email) => {
+  return db.User.update({
+    email: email
+  }, {
+    where: {username: username},
+    returning: true,
+    raw: true
+  }).then(([numRows, [user]]) => {
+    return user;
+  });
+};
+
+module.exports.changeFirstName = (username, firstName) => {
+  return db.User.update({
+    firstName: firstName
+  }, {
+    where: {username: username},
+    returning: true,
+    raw: true
+  }).then(([numRows, [user]]) => {
+    return user;
+  });
+};
+
+module.exports.changeLastName = (username, lastName) => {
+  return db.User.update({
+    lastName: lastName
+  }, {
+    where: {username: username},
+    returning: true,
+    raw: true
+  }).then(([numRows, [user]]) => {
+    return user;
   });
 };

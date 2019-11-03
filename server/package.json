@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint \"./**/*.js\"",
-    "build": "echo 'THIS IS A PLACEHOLDER BUILD SCRIPT'"
+    "start": "node index.js",
+    "test": "echo 'hello world'",
+    "lint": "eslint \"./**/*.js\""
   },
   "repository": {
     "type": "git",
