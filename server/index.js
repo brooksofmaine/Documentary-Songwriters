@@ -17,6 +17,18 @@ app.get('/', function (req, res) {
   res.send(({express : 'Hello world!'}))
 });
 
+app.post('/user/create', (req, res) => {
+  db.createUser(req.body.username, req.body.firstName, req.body.lastName, req.body.email).then((newUser) => {
+    res.json(newUser);
+  });
+});
+
+app.get('/user/:username', (req, res) => {
+  db.getUser(req.params.username).then((user) => {
+    res.json(user);
+  });
+});
+
 // start app only after database is created and models are synchronized
 db.init((models) => {
   models.sequelize.sync().then(() => {
@@ -24,10 +36,11 @@ db.init((models) => {
       console.log(`App running on port ${port}.`);
 
       // test create user
+
       db.createUser('bobbyS', 'bob', 'smith', 'email@email.com').then((newUser) => {
         console.log("CREATED NEW USER");
         console.log(newUser);
-
+        /*
         // test get user
         db.getUser('bobbyS').then((user) => {
           console.log("FOUND USER: bobbyS");
@@ -54,7 +67,7 @@ db.init((models) => {
               console.log(user);
             });
           });
-        });
+        });*/
       });
 
     });

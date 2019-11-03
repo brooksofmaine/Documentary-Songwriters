@@ -47,8 +47,15 @@ module.exports.init = (cb) => {
     db.Sequelize = Sequelize;
 
     cb(db);
+
+    db.User.hasMany(db.Recording, {as: 'recordings', foreignKey: 'username'});
+    //db.Recording.belongsTo(db.User, {foreignKey: 'username'});
   });
 };
+
+/*******************************************************************
+    USERS
+*******************************************************************/
 
 module.exports.createUser = (username, firstName, lastName, email) => {
   return db.User.create({
@@ -114,3 +121,62 @@ module.exports.changeLastName = (username, lastName) => {
     return user;
   });
 };
+
+/*******************************************************************
+    RECORDINGS
+*******************************************************************/
+
+
+module.exports.createRecording = (username, start, end, numPitches, instrument, description) => {
+  return db.Recording.create({
+    username: username,
+    start: start,
+    end: end,
+    instrument: instrument,
+    numPitches: numPitches,
+    description: description
+  }).then((modelInstance) => {
+    return modelInstance.get({plain: true});
+  });
+};
+
+module.exports.getRecording = (username, lowRange, highRange) => {
+  return db.Recording.findAll({
+    where: {
+      username: username, 
+      start: {
+        [Op.gte]: lowRange,
+        [Op.lte]: highRange
+      }
+    }
+  }).then((modelInstance) => {
+    return modelInstance.get({plain: true});
+  });
+};
+
+
+module.exports.changeRecordingDescription = (username, start, description) => {
+  return db.Recording.update({
+    description: description
+  }, {
+    where: {
+      username: username,
+      start: start
+    },
+    returning: true,
+    raw: true
+  }).then(([numRows, [recording]]) => {
+    return recording;
+  });
+};
+
+
+module.exports.deleteRecording = (username, start) => {
+  return db.Recording.destroy({
+    where: {
+      username: username,
+      start: start
+    }
+  });
+};
+
