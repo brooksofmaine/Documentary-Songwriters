@@ -47,6 +47,9 @@ module.exports.init = (cb) => {
     db.Sequelize = Sequelize;
 
     cb(db);
+
+    db.User.hasMany(db.Recording, {as: 'recordings', foreignKey: 'username'});
+    //db.Recording.belongsTo(db.User, {foreignKey: 'username'});
   });
 };
 
@@ -114,3 +117,4 @@ module.exports.changeLastName = (username, lastName) => {
     return user;
   });
 };
+
