@@ -124,11 +124,19 @@ module.exports.changeLastName = (username, lastName) => {
     RECORDINGS
 *******************************************************************/
 
-module.exports.createRecording = (username, start, end, numPitches, description) => {
+
+module.exports.createRecording = (username, start, end, numPitches, instrument, description) => {
+  // get a user, create a recording form the user
+  // We need the line that estblishes association between users and recordings
+  // Create a recording by first getting the user and calling the addRecording function
+
+  // Create a recording agnostic of 
+
   return db.Recording.create({
     username: username,
     start: start,
     end: end,
+    instrument: instrument,
     numPitches: numPitches,
     description: description
   }).then((modelInstance) => {
@@ -136,16 +144,20 @@ module.exports.createRecording = (username, start, end, numPitches, description)
   });
 };
 
-// // TODO: how to find using a composite key?
-// module.exports.getRecording = (username, start) => {
-//   return db.Recording.findByPk(username, 
-//   {
-//     username: username,
-//     start: start
-//   }).then((modelInstance) => {
-//     return modelInstance.get({plain: true});
-//   });
-// };
+module.exports.getRecording = (username, lowRange, highRange) => {
+  return db.Recording.findAll({
+    where: {
+      username: username, 
+      start: {
+        [Op.lte]: highRange,
+        [Op.gte]: lowRange
+      }
+    }
+  }).then((modelInstance) => {
+    return modelInstance.get({plain: true});
+  });
+};
+
 
 module.exports.changeRecordingDescription = (username, start, description) => {
   return db.Recording.update({
@@ -161,7 +173,6 @@ module.exports.changeRecordingDescription = (username, start, description) => {
     return recording;
   });
 };
-
 
 
 

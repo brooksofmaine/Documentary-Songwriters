@@ -1,15 +1,9 @@
 module.exports = (sequelize, DataTypes) => {
   let Recording = sequelize.define('Recording', {
-    username: {
-        type: DataTypes.STRING,
-        primaryKey: true
-    },
-    start: {
-        type: DataTypes.DATE,
-        primaryKey: true
-    }, 
+    start: DataTypes.DATE,
     end: DataTypes.DATE,
     numPitches: DataTypes.INTEGER,
+    instrument: DataTypes.STRING,
     description: DataTypes.STRING
   });
 
