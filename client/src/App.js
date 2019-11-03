@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import NavBar from './NavBar'
 import LoginForm from './Authentication/LoginForm'
 import WelcomeBoard from './WelcomeBoard'
+import Record from './Record'
 import './App.css'
 import {
   BrowserRouter as Router,
@@ -41,6 +42,7 @@ class App extends Component {
         <Switch>
           <Route exact path="/" component={LoginForm} />
           <Route path="/api/home" component={WelcomeBoard} />
+          <Route path="/api/record" component={Record} />
         </Switch>
       </Router>
       

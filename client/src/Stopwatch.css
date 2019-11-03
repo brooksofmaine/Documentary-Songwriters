@@ -1,0 +1,45 @@
+.RecordDot {
+    height: 6px;
+    width: 6px;
+    border-radius: 50%;
+    background-color: #ff0000;
+    display: inline-block;
+    margin: 0 0.2em;
+}
+
+.Play {
+    /* max-height: 95%; */
+    max-width: 95%;
+    margin: 10% 0 0 12%;
+}
+
+.Pause {
+    /* max-height: 60%; */
+    max-width: 60%;
+    margin: 18% 0 0 2%;
+}
+
+.Stop {
+    /* max-height: 86%; */
+    max-width: 95%;
+    margin: 10% 0 0 5%;
+}
+
+.Share {
+    /* max-height: 100%; */
+    max-width: 100%;
+    margin: 0;
+}
+
+.ButtonRow {
+    padding: 1em 0;
+    display: flex;
+    justify-content: center;
+}
+
+.ButtonRow .Button {
+    height: 45px;
+    max-width: 45px;
+    border-radius: 0%;
+    margin: 0 7px;
+}

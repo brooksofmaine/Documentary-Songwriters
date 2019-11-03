@@ -1,11 +1,11 @@
 import React from 'react';
 import './LoginForm.css'
 import Button from "../Button"
-import InputField from "./InputField";
+// import InputField from "./InputField";
 import {
-    BrowserRouter as Router,
-    Switch,
-    Route,  
+    // BrowserRouter as Router,
+    // Switch,
+    // Route,  
     Link
   } from "react-router-dom";
 
@@ -57,6 +57,7 @@ class LoginForm extends React.Component {
                     </div>
                     <div className={"new_user_prompt login_section"}>
                         <h2>New User?</h2>
+                        {/* eslint-disable-next-line */}
                         <a href={"#"} >Click here to register a new account</a>
                     </div>
                 </div>

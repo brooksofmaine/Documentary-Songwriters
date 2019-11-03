@@ -6,10 +6,16 @@ class NavBar extends React.Component {
     render() {
         return (
             <nav className="NavBar">
-                <NavLink url="#" status="selected" value="Home"/>
+                <NavLink url="/api/home" status="selected" value="Home"/>
                 <NavLink url="#" value="Progress"/>
                 <NavLink url="#" value="Groups"/>
-                <NavLink url="#" value="My Profile"/>
+                <div className="added-item">
+                    <NavLink url="#" value="My Profile"/>
+                    <span className="dropdown">
+                        <NavLink className="dropdown" url="/" value="Logout" />
+                    </span>
+                </div>
+                
             </nav>
         );
     }
