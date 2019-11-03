@@ -24,7 +24,7 @@ db.init((models) => {
       console.log(`App running on port ${port}.`);
 
       // test create user
-      /*
+
       db.createUser('bobbyS', 'bob', 'smith', 'email@email.com').then((newUser) => {
         console.log("CREATED NEW USER");
         console.log(newUser);
@@ -57,7 +57,6 @@ db.init((models) => {
           });
         });
       });
-      */
 
     });
   });
