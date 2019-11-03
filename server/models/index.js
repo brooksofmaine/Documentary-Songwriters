@@ -47,6 +47,9 @@ module.exports.init = (cb) => {
     db.Sequelize = Sequelize;
 
     cb(db);
+
+    db.User.hasMany(db.Recording, {as: 'recordings', foreignKey: 'username'});
+    //db.Recording.belongsTo(db.User, {foreignKey: 'username'});
   });
 };
 
@@ -119,19 +122,12 @@ module.exports.changeLastName = (username, lastName) => {
   });
 };
 
-
 /*******************************************************************
     RECORDINGS
 *******************************************************************/
 
 
 module.exports.createRecording = (username, start, end, numPitches, instrument, description) => {
-  // get a user, create a recording form the user
-  // We need the line that estblishes association between users and recordings
-  // Create a recording by first getting the user and calling the addRecording function
-
-  // Create a recording agnostic of 
-
   return db.Recording.create({
     username: username,
     start: start,
@@ -149,8 +145,8 @@ module.exports.getRecording = (username, lowRange, highRange) => {
     where: {
       username: username, 
       start: {
-        [Op.lte]: highRange,
-        [Op.gte]: lowRange
+        [Op.gte]: lowRange,
+        [Op.lte]: highRange
       }
     }
   }).then((modelInstance) => {
@@ -175,7 +171,12 @@ module.exports.changeRecordingDescription = (username, start, description) => {
 };
 
 
-
-
-
+module.exports.deleteRecording = (username, start) => {
+  return db.Recording.destroy({
+    where: {
+      username: username,
+      start: start
+    }
+  });
+};
 
