@@ -1,0 +1,11 @@
+.Record {
+    text-align: center;
+}
+
+.Heading {
+    margin-top: 3em;
+    margin-bottom: 0em;
+    padding-left: 0.2em;
+    font-family: sans-serif;
+    text-align: left;
+}

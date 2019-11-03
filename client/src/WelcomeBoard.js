@@ -15,7 +15,7 @@ class WelcomeBoard extends React.Component {
                     <WelcomeCounter count="50" name="this week"/>
                     <WelcomeCounter count="106" name="this month"/>
                 </p>
-                <p style={{marginTop: "30px"}}><Button url="#" name="Record"/></p>
+                <p style={{marginTop: "30px"}}><Button url="/api/record" name="Record"/></p>
             </div>
             </div>
         )
