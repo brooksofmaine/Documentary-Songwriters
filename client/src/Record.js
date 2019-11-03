@@ -9,12 +9,21 @@ class Record extends React.Component {
         this.state = {
             count: 0
         }
+
+        this.handleClick = this.handleClick.bind(this)
+    }
+    // Temporary function--only used to demonstrate counter 
+    // component
+    handleClick() {
+        this.setState((state, props) => ({
+            count: state.count + 1
+        }))
     }
 
     render() {
         return(
             <div className="Record">
-                <Counter count={this.state.count} />
+                <Counter handleClick={this.handleClick} countNum={this.state.count} />
                 <Stopwatch/>
             </div>
         )

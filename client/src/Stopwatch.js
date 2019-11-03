@@ -1,5 +1,5 @@
 import React from 'react';
-import Button from './Button';
+// import Button from './Button';
 
 import './Stopwatch.css';
 import Play from './play.png';
@@ -85,17 +85,17 @@ class Stopwatch extends React.Component {
                 <div className="ButtonRow">
                     <div className="ButtonBox">
                         <button className="Button" onClick={this.playPause}>
-                            <img className={ this.state.timerOn ? "Pause" : "Play" } src={ this.state.timerOn ? Pause : Play } />
+                            <img alt="Play and pause icon" className={ this.state.timerOn ? "Pause" : "Play" } src={ this.state.timerOn ? Pause : Play } />
                         </button>
                     </div>
                     <div className="ButtonBox">
                         <button className="Button" onClick={this.stop}>
-                            <img className="Stop" src={ Stop } />
+                            <img alt="Stop icon" className="Stop" src={ Stop } />
                         </button>
                     </div>
                     <div className="ButtonBox">
                         <button className="Button">
-                            <img className="Share" src={ Share } />
+                            <img alt="Arrow icon for sharing" className="Share" src={ Share } />
                         </button>
                     </div>
                 </div>
