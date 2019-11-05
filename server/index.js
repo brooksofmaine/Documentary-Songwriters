@@ -50,7 +50,7 @@ app.get('/user/:username', (req, res) => {
 // start app or defer to test env and provide utils
 if (process.env.NODE_ENV !== 'test') {
   models.init((database) => {
-    db = database
+    db = database;
     db.sequelize.sync().then(() => {
       app.listen(port, () => {
         console.log(`App running on port ${port}.`);
@@ -60,7 +60,7 @@ if (process.env.NODE_ENV !== 'test') {
 } else {
   app.startDb = (done) => {
     models.init((database) => {
-      db = database
+      db = database;
       db.sequelize.sync({ force: true }).then(() => {
         done();
       });
