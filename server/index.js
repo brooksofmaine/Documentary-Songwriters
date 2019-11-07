@@ -28,7 +28,7 @@ app.post('/user/create', (req, res) => {
 
     console.log('Error while creating user.');
     console.log(err);
-    res.json(500).json({ err: err });
+    res.status(500).json({ err: err });
   });
 });
 
