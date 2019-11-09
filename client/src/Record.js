@@ -3,13 +3,13 @@ import Counter from './Counter'
 import Stopwatch from './Stopwatch'
 import './Record.css';
 
+
 class Record extends React.Component {
     constructor() {
         super()
         this.state = {
             count: 0
         }
-
         this.handleClick = this.handleClick.bind(this)
     }
     // Temporary function--only used to demonstrate counter 
