@@ -1,80 +1,77 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
-const db = require('./models');
 const port = 5000;
+const models = require('./models');
+let db;
 
 const passportSetup = require('./config/passport-setup');
 const authRoutes = require('./routes/auth-routes');
 
 app.set('view engine', 'ejs');
 app.use(bodyParser.json());
-app.use(
-  bodyParser.urlencoded({
-    extended: true
-  })
-);
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/auth', authRoutes);
 
 app.get('/', function (req, res) {
-  // res.render('index');
-  res.send(({express : 'Hello world!'}))
+  res.json({ express : 'Hello world!' });
 });
 
 app.post('/user/create', (req, res) => {
-  db.createUser(req.body.username, req.body.firstName, req.body.lastName, req.body.email).then((newUser) => {
-    res.json(newUser);
+  db.User.create({
+    username: req.body.username,
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    email: req.body.email
+  }).then((newUserInstance) => {
+    res.json(newUserInstance.get({ plain: true }));
+  }).catch((err) => {
+    if (err.name === 'SequelizeUniqueConstraintError') {
+      res.status(409).json({ err: 'username taken' });
+      return;
+    }
+
+    console.log('Error while creating user.');
+    console.log(err);
+    res.status(500).json({ err: err });
   });
 });
 
 app.get('/user/:username', (req, res) => {
-  db.getUser(req.params.username).then((user) => {
-    res.json(user);
+  db.User.findByPk(req.params.username).then((modelInstance) => {
+    if (modelInstance === null) {
+      res.status(404).json({ err: 'user not found' });
+      return;
+    }
+
+    res.json(modelInstance.get({ plain: true }));
+  }).catch((err) => {
+    console.log('Error while retrieving user.');
+    console.log(err);
+    res.status(500).json({ err: err });
   });
 });
 
-// start app only after database is created and models are synchronized
-db.init((models) => {
-  models.sequelize.sync().then(() => {
-    app.listen(port, () => {
-      console.log(`App running on port ${port}.`);
-
-      // test create user
-
-      db.createUser('bobbyS', 'bob', 'smith', 'email@email.com').then((newUser) => {
-        console.log("CREATED NEW USER");
-        console.log(newUser);
-        /*
-        // test get user
-        db.getUser('bobbyS').then((user) => {
-          console.log("FOUND USER: bobbyS");
-          console.log(user);
-
-          // test change username
-          db.changeUsername('bobbyS', 'robertS').then((user) => {
-            console.log("USERNAME CHANGE");
-            console.log(user);
-
-            // test other user attribute modifiers
-            db.changeEmail('robertS', 'real@email.com').then((user) => {
-              console.log("EMAIL CHANGE");
-              console.log(user);
-            });
-
-            db.changeFirstName('robertS', 'robert').then((user) => {
-              console.log("FIRST NAME CHANGE");
-              console.log(user);
-            });
-
-            db.changeLastName('robertS', 'smith-jenkins').then((user) => {
-              console.log("LAST NAME CHANGE");
-              console.log(user);
-            });
-          });
-        });*/
+// start app or defer to test env and provide utils
+if (process.env.NODE_ENV !== 'test') {
+  models.init((database) => {
+    db = database;
+    db.sequelize.sync().then(() => {
+      app.listen(port, () => {
+        console.log(`App running on port ${port}.`);
       });
-
     });
   });
-});
+} else {
+  app.startDb = (done) => {
+    models.init((database) => {
+      db = database;
+      db.sequelize.sync({ force: true }).then(() => {
+        done();
+      });
+    });
+  };
+
+  module.exports = app;
+}
