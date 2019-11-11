@@ -6,7 +6,7 @@ import {
     // BrowserRouter as Router,
     // Switch,
     // Route,  
-    Link
+    // Link
   } from "react-router-dom";
 
 
@@ -35,7 +35,7 @@ class LoginForm extends React.Component {
     }
     
     renderForm() {
-        if (this.state.loginState == 0) {
+        if (this.state.loginState === 0) {
             return this.renderLogin()
         } else {
             return this.renderRegister()
@@ -46,7 +46,7 @@ class LoginForm extends React.Component {
         var user = "";
         var pass = "";
         const loginAuth = await this.authenticate(user, pass)
-        if (loginAuth.auth == true) {
+        if (loginAuth.auth === true) {
             window.location.href = "/api/home"
         } 
     }
