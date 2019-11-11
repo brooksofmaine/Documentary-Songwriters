@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint \"./**/*.js\"",
-    "build": "echo 'THIS IS A PLACEHOLDER BUILD SCRIPT'"
+    "start": "node index.js",
+    "test": "echo 'hello world'",
+    "lint": "eslint \"./**/*.js\""
   },
   "repository": {
     "type": "git",
@@ -21,6 +22,7 @@
   "dependencies": {
     "ejs": "^2.7.1",
     "express": "^4.17.1",
+    "node": "^12.13.0",
     "passport-local": "^1.0.0",
     "pg": "^7.12.1",
     "sequelize": "^5.21.0",
