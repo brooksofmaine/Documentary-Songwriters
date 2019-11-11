@@ -4,9 +4,8 @@ import './Button.css'
 class Button extends React.Component {
     render() {
         return (
-            <p className="Button">
-                <a href={this.props.url}>{this.props.name}</a>
-            </p>
+                <a className="Button" id={this.props.id} onClick={this.props.onClick} href={this.props.url}>{this.props.name}</a>
+
         );
     }
 }
