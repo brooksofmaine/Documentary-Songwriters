@@ -19,17 +19,23 @@ router.get('/local', (req, res) => {
 
 // auth with our own signup
 router.get('/signup', (req, res) => {
-    res.render('signup');
+  res.render('signup');
 });
 
 // auth with google
 router.get('/google', passport.authenticate('google', {
   scope: ['profile']
-}));
+}, (req, res) => {
+}
+));
 
 // callback route for google to redirect to
-router.get('/google/redirect', (req,res) => {
-  res.send("you reached the callback URI, ");
-});
+router.get('/google/redirect',
+  passport.authenticate('google', { failureRedirect: '/google' }),
+  (req,res) => {
+    var name = res.profile.name;
+    res.send("<html><p>you reached the callback URI. </p><script>window.opener.loginSuccess(" + name + ");window.close()</script></html>");
+  }
+);
 
 module.exports = router;

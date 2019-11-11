@@ -69,6 +69,10 @@ class LoginForm extends React.Component {
     openGoogleLogin = () => {
         window.open("http://localhost:5000/auth/google/", "Login",'height=800,width=500');
     }
+
+    loginSuccess = (username) => {
+        alert("User " + username + "Successfully logged in.");
+    }
 }
 
 export default LoginForm
