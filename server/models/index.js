@@ -9,7 +9,7 @@ const defaultURI = 'postgres://' + config.username + ':' + config.password + '@'
 let db = {};
 
 // create database using pg (sequelize sync creates tables)
-module.exports.init = (cb) => {
+module.exports.init = (done) => {
   const client = new Client({ connectionString: defaultURI });
   client.connect((err) => {
     if (err) throw err;
@@ -46,34 +46,15 @@ module.exports.init = (cb) => {
     db.sequelize = sequelize;
     db.Sequelize = Sequelize;
 
-    cb(db);
-
     db.User.hasMany(db.Recording, {as: 'recordings', foreignKey: 'username'});
     db.User.belongsToMany(db.Group, {through: 'GroupUser'});
-    //db.Recording.belongsTo(db.User, {foreignKey: 'username'});
+    done(db);
   });
 };
 
 /*******************************************************************
     USERS
 *******************************************************************/
-
-module.exports.createUser = (username, firstName, lastName, email) => {
-  return db.User.create({
-    username: username,
-    firstName: firstName,
-    lastName: lastName,
-    email: email
-  }).then((modelInstance) => {
-    return modelInstance.get({plain: true});
-  });
-};
-
-module.exports.getUser = (username) => {
-  return db.User.findByPk(username).then((modelInstance) => {
-    return modelInstance.get({plain: true});
-  });
-};
 
 module.exports.changeUsername = (old_username, new_username) => {
   return db.User.update({
