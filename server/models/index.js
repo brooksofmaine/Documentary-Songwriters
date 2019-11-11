@@ -49,6 +49,7 @@ module.exports.init = (cb) => {
     cb(db);
 
     db.User.hasMany(db.Recording, {as: 'recordings', foreignKey: 'username'});
+    db.User.belongsToMany(db.Group, {through: 'GroupUser'});
     //db.Recording.belongsTo(db.User, {foreignKey: 'username'});
   });
 };
@@ -176,6 +177,75 @@ module.exports.deleteRecording = (username, start) => {
     where: {
       username: username,
       start: start
+    }
+  });
+};
+
+/*******************************************************************
+    GROUPS
+*******************************************************************/
+
+module.exports.createGroup = (groupName, dateCreated, description, public) => {
+  return db.Group.create({
+    groupName: groupName,
+    dateCreated: dateCreated,
+    description: description,
+    public: public
+  }).then((modelInstance) => {
+    return modelInstance.get({plain: true});
+  });
+};
+
+module.exports.getGroup = (groupName) => {
+  return db.Group.findByPk(groupName).then((modelInstance) => {
+    return modelInstance.get({plain: true});
+  });
+};
+
+module.exports.changeGroupName = (oldGroupName, newGroupName) => {
+  return db.Group.update({
+    groupName: newGroupName
+  }, {
+    where: {groupName: oldGroupName},
+    returning: true,
+    raw: true
+  }).then(([numRows, [group]]) => {
+    return group;
+  });
+};
+
+module.exports.changeGroupDescription = (groupName, description) => {
+  return db.Recording.update({
+    description: description
+  }, {
+    where: {
+      groupName: groupName
+    },
+    returning: true,
+    raw: true
+  }).then(([numRows, [group]]) => {
+    return group;
+  });
+};
+
+module.exports.changeGroupPrivacy = (groupName, public) => {
+  return db.Recording.update({
+    public: public
+  }, {
+    where: {
+      groupName: groupName
+    },
+    returning: true,
+    raw: true
+  }).then(([numRows, [group]]) => {
+    return group;
+  });
+};
+
+module.exports.deleteGroup = (groupName) => {
+  return db.Recording.destroy({
+    where: {
+      groupName: groupName
     }
   });
 };
