@@ -51,7 +51,7 @@ app.get('/user/:username', (req, res) => {
 if (process.env.NODE_ENV !== 'test') {
   models.init((database) => {
     db = database;
-    db.sequelize.sync().then(() => {
+    db.sequelize.sync({ force: process.env.NODE_ENV !== 'produdction' }).then(() => {
       app.listen(port, () => {
         console.log(`App running on port ${port}.`);
       });
