@@ -53,58 +53,6 @@ module.exports.init = (done) => {
 };
 
 /*******************************************************************
-    USERS
-*******************************************************************/
-
-module.exports.changeUsername = (old_username, new_username) => {
-  return db.User.update({
-    username: new_username
-  }, {
-    where: {username: old_username},
-    returning: true,
-    raw: true
-  }).then(([numRows, [user]]) => {
-    return user;
-  });
-};
-
-module.exports.changeEmail = (username, email) => {
-  return db.User.update({
-    email: email
-  }, {
-    where: {username: username},
-    returning: true,
-    raw: true
-  }).then(([numRows, [user]]) => {
-    return user;
-  });
-};
-
-module.exports.changeFirstName = (username, firstName) => {
-  return db.User.update({
-    firstName: firstName
-  }, {
-    where: {username: username},
-    returning: true,
-    raw: true
-  }).then(([numRows, [user]]) => {
-    return user;
-  });
-};
-
-module.exports.changeLastName = (username, lastName) => {
-  return db.User.update({
-    lastName: lastName
-  }, {
-    where: {username: username},
-    returning: true,
-    raw: true
-  }).then(([numRows, [user]]) => {
-    return user;
-  });
-};
-
-/*******************************************************************
     RECORDINGS
 *******************************************************************/
 
@@ -165,23 +113,6 @@ module.exports.deleteRecording = (username, start) => {
 /*******************************************************************
     GROUPS
 *******************************************************************/
-
-module.exports.createGroup = (groupName, dateCreated, description, public) => {
-  return db.Group.create({
-    groupName: groupName,
-    dateCreated: dateCreated,
-    description: description,
-    public: public
-  }).then((modelInstance) => {
-    return modelInstance.get({plain: true});
-  });
-};
-
-module.exports.getGroup = (groupName) => {
-  return db.Group.findByPk(groupName).then((modelInstance) => {
-    return modelInstance.get({plain: true});
-  });
-};
 
 module.exports.changeGroupName = (oldGroupName, newGroupName) => {
   return db.Group.update({

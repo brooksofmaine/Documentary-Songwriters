@@ -6,11 +6,12 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 const app = require('../index');
 const should = chai.should();
+const baseURL = '/api/user';
 
 chai.use(chaiHttp);
 
 before(function(done) {
-  app.startDb(done);
+  app.startDB(done);
 });
 
 describe('User', function() {
@@ -34,7 +35,7 @@ describe('User', function() {
 
   describe('Create', function() {
     it('should create a user that does not already exist', function(done) {
-      server.post('/user/create')
+      server.post(baseURL + '/create')
         .set('content-type', 'application/json')
         .send(userData)
         .end(function(err, res) {
@@ -49,7 +50,7 @@ describe('User', function() {
     });
 
     it('should not create a user that already exists', function(done) {
-      server.post('/user/create')
+      server.post(baseURL + '/create')
         .set('content-type', 'application/json')
         .send(userData)
         .end(function(err, res) {
@@ -63,7 +64,7 @@ describe('User', function() {
 
   describe('Get', function() {
     it('should get a user that already exists', function(done) {
-      server.get(`/user/${userData.username}`)
+      server.get(baseURL + '/' + userData.username)
         .end(function(err, res) {
           res.should.have.status(200);
           res.should.be.json;
@@ -76,12 +77,102 @@ describe('User', function() {
     });
 
     it('should not get a user that does not already exist', function(done) {
-      server.get('/user/doesNotExist')
+      server.get(baseURL + '/doesNotExist')
         .end(function(err, res) {
           res.should.have.status(404);
           res.should.be.json;
           res.body.err.should.equal('user not found');
           done();
+        });
+    });
+  });
+
+  describe('Change', function() {
+    // change username, email, firstName, lastName
+    // attempt to change for someone who does not exist
+    // attempt to change a field that does not exist
+    // attempt to change a username that is already taken
+    let newUser = {
+      username: 'robertS',
+      firstName: 'robert',
+      lastName: 'smithson',
+      email: 'new@email.com'
+    };
+
+    for (let [key, value] of Object.entries(newUser)) {
+      let data = {};
+      data[key] = value;
+
+      it('should change a user\'s ' + key + ' to a new ' + key, function(done) {
+        server.post(baseURL + '/' + userData.username + '/change/' + key)
+          .set('content-type', 'application/json')
+          .send(data)
+          .end(function(err, res) {
+            res.should.have.status(200);
+            res.should.be.json;
+            res.body[key].should.equal(newUser[key]);
+            userData[key] = res.body[key];
+            done();
+          });
+      });
+    }
+
+    // now userData == newUser
+
+    it('should not change anything for a user if the attribute is invalid', function(done) {
+      server.post(baseURL + '/' + userData.username + '/change/notAnAttribute')
+        .set('content-type', 'application/json')
+        .send({ notAnAttribute: 'someValue' })
+        .end(function(err, res) {
+          res.should.have.status(400);
+          res.should.be.json;
+          res.body.err.should.equal('key not recognized');
+          done();
+        });
+    });
+
+    it('should not change anything for a user that does not already exist', function(done) {
+      server.post(baseURL + '/doesNotExist/change/username')
+        .set('content-type', 'application/json')
+        .send({ username: 'someUsername' })
+        .end(function(err, res) {
+          res.should.have.status(404);
+          res.should.be.json;
+          res.body.err.should.equal('user not found');
+          done();
+        });
+    });
+
+    let secondUser = {
+      username: 'bobbyS',
+      firstName: 'bob',
+      lastName: 'smith',
+      email: 'email@email.com'
+    };
+
+    it('should not change a user\'s username if the new username is already taken', function(done) {
+      // need to create a second user
+      server.post(baseURL + '/create')
+        .set('content-type', 'application/json')
+        .send(secondUser)
+        .end(function(err, res) {
+          res.should.have.status(200);
+          res.should.be.json;
+          res.body.username.should.equal(secondUser.username);
+          res.body.firstName.should.equal(secondUser.firstName);
+          res.body.lastName.should.equal(secondUser.lastName);
+          res.body.email.should.equal(secondUser.email);
+
+
+          server.post(baseURL + '/' + userData.username + '/change/username')
+            .set('content-type', 'application/json')
+            .send({ username: secondUser.username })
+            .end(function(err, res) {
+              res.should.have.status(409);
+              res.should.be.json;
+              res.body.err.should.equal('username taken');
+              done();
+            });
         });
     });
   });
