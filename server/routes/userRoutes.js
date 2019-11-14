@@ -2,6 +2,10 @@ const express = require('express');
 let router = express.Router();
 let db;
 
+const anyValuesUndefined = (obj) => {
+  return Object.values(obj).some((x) => x === undefined || x === null);
+};
+
 /*
  * To create a user, post to the endpoint /api/user/create
  * with the username, firstName, lastName, and email in the body of the request
@@ -17,13 +21,21 @@ let db;
  *   }
  */
 router.post('/create', (req, res) => {
-  db.User.create({
+  let createObj = {
     username: req.body.username,
     firstName: req.body.firstName,
     lastName: req.body.lastName,
     email: req.body.email
-  }).then((newUserInstance) => {
+  };
+
+  if (anyValuesUndefined(createObj)) {
+    res.status(400).json({ err: 'undefined fields' });
+    return;
+  }
+
+  db.User.create(createObj).then((newUserInstance) => {
     res.json(newUserInstance.get({ plain: true }));
+    return;
   }).catch((err) => {
     if (err.name === 'SequelizeUniqueConstraintError') {
       res.status(409).json({ err: 'username taken' });
@@ -33,6 +45,7 @@ router.post('/create', (req, res) => {
     console.log('Error while creating user.');
     console.log(err);
     res.status(500).json({ err: err });
+    return;
   });
 });
 
@@ -51,10 +64,12 @@ router.get('/:username', (req, res) => {
     }
 
     res.json(modelInstance.get({ plain: true }));
+    return;
   }).catch((err) => {
     console.log('Error while retrieving user.');
     console.log(err);
     res.status(500).json({ err: err });
+    return;
   });
 });
 
@@ -84,15 +99,20 @@ router.post('/:username/change/:key', (req, res) => {
   let username = req.params.username;
   let key = req.params.key;
   let val = req.body[key];
-  let updateVals = {};
-  updateVals[key] = val;
+  let updateObj = {};
+  updateObj[key] = val;
 
   if (!keyCheck(key)) {
     res.status(400).json({ err: 'key not recognized' });
     return;
   }
 
-  db.User.update(updateVals, {
+  if (anyValuesUndefined(updateObj)) {
+    res.status(400).json({ err: 'undefined fields' });
+    return;
+  }
+
+  db.User.update(updateObj, {
     where: {username: username},
     returning: true,
     raw: true
@@ -103,6 +123,7 @@ router.post('/:username/change/:key', (req, res) => {
     }
 
     res.json(rowsAffected[0]);
+    return;
   }).catch((err) => {
     if (err.name === 'SequelizeUniqueConstraintError') {
       res.status(409).json({ err: 'username taken' });
@@ -112,6 +133,7 @@ router.post('/:username/change/:key', (req, res) => {
     console.log(`Error while changing ${key}`);
     console.log(err);
     res.status(500).json({ err: err });
+    return;
   });
 });
 

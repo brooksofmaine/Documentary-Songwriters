@@ -151,7 +151,7 @@ describe('User', function() {
     };
 
     it('should not change a user\'s username if the new username is already taken', function(done) {
-      // need to create a second user
+      // need to create a second user, changing own usernme to itself does not error
       server.post(baseURL + '/create')
         .set('content-type', 'application/json')
         .send(secondUser)
