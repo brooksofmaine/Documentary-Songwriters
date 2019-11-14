@@ -4,9 +4,8 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       primaryKey: true
     },
-    dateCreated: DataTypes.DATE,
     description: DataTypes.STRING,
-    public: DataTypes.BOOLEAN
+    visible: DataTypes.BOOLEAN
   });
 
   return Group;

@@ -1,10 +1,9 @@
 const express = require('express');
+const utils = require('./utils');
+const anyValuesUndefined = utils.anyValuesUndefined;
+const userKeyCheck = utils.userKeyCheck;
 let router = express.Router();
 let db;
-
-const anyValuesUndefined = (obj) => {
-  return Object.values(obj).some((x) => x === undefined || x === null);
-};
 
 /*
  * To create a user, post to the endpoint /api/user/create
@@ -14,10 +13,10 @@ const anyValuesUndefined = (obj) => {
  *   Post /api/user/create
  *   With data:
  *   {
- *     username:  bobbyS
- *     firstName: Bob
- *     lastName:  Smith
- *     email:     email@email.com
+ *     username:  "bobbyS",
+ *     firstName: "Bob",
+ *     lastName:  "Smith",
+ *     email:     "email@email.com"
  *   }
  */
 router.post('/create', (req, res) => {
@@ -73,19 +72,12 @@ router.get('/:username', (req, res) => {
   });
 });
 
-const keyCheck = (key) => {
-  return (key === 'username' ||
-          key === 'email' ||
-          key === 'firstName' || 
-          key === 'lastName');
-};
-
 /*
  * To change some attribute of a user, post to the endpoint /api/user/{username}/change/{key}
  * where username is that of the user and key is the name of the attribute to change
  * and with the name and value of the attribute in the body of the request
  *
- * Valid keys are:
+ * Valid keys for users are:
  * - username
  * - email
  * - firstName
@@ -93,7 +85,7 @@ const keyCheck = (key) => {
  *
  * For example, to change the username of user bobbyS to robertS:
  *   Post /api/user/bobbyS/change/username
- *   With data { username: robertS }
+ *   With data { username: "robertS" }
  */
 router.post('/:username/change/:key', (req, res) => {
   let username = req.params.username;
@@ -102,7 +94,7 @@ router.post('/:username/change/:key', (req, res) => {
   let updateObj = {};
   updateObj[key] = val;
 
-  if (!keyCheck(key)) {
+  if (!userKeyCheck(key)) {
     res.status(400).json({ err: 'key not recognized' });
     return;
   }
@@ -113,7 +105,7 @@ router.post('/:username/change/:key', (req, res) => {
   }
 
   db.User.update(updateObj, {
-    where: {username: username},
+    where: { username: username },
     returning: true,
     raw: true
   }).then(([numRows, rowsAffected]) => {
