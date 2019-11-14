@@ -24,7 +24,8 @@ router.post('/create', (req, res) => {
     username: req.body.username,
     firstName: req.body.firstName,
     lastName: req.body.lastName,
-    email: req.body.email
+    email: req.body.email,
+    password: null // TODO hash password
   };
 
   if (anyValuesUndefined(createObj)) {
@@ -46,6 +47,11 @@ router.post('/create', (req, res) => {
     res.status(500).json({ err: err });
     return;
   });
+});
+
+// TODO implement me
+router.post('/login', (req, res) => {
+  res.redirect('/' + req.body.username);
 });
 
 /*
@@ -73,6 +79,8 @@ router.get('/:username', (req, res) => {
 });
 
 /*
+ * TODO protect with authentication
+ *
  * To change some attribute of a user, post to the endpoint /api/user/{username}/change/{key}
  * where username is that of the user and key is the name of the attribute to change
  * and with the name and value of the attribute in the body of the request
