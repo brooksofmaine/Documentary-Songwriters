@@ -15,7 +15,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/api/user', userRoutes);
 app.use('/api/group', groupRoutes);
 
-app.get('/', function (req, res) {
+app.get('/api', function (req, res) {
   res.json({ express : 'Hello world!' });
 });
 
