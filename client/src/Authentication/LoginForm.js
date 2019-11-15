@@ -61,7 +61,7 @@ class LoginForm extends React.Component {
                     <a href="#" onClick={() => {
                         this.setState({loginState: 1})
                     }}>
-                        Sign up here.</a>
+                         Sign up here.</a>
                 </p>
             </form>
         )
@@ -74,11 +74,11 @@ class LoginForm extends React.Component {
                 <input className="login-input" type="password" placeholder="Password" name="Password"/>
                 <input className="login-input" type="password" placeholder="Confirm Password" name="Confirm Password"/>
                 <Button name="Register" onClick={this.simulateLogin}/>
-                <p>Already have an account? 
+                <p>Already have an account?  
                     <a href="#" onClick={() => {
                         this.setState({loginState: 0})
                     }}>
-                        Log in here.</a>
+                         Log in here.</a>
                 </p>
 
             </form>
