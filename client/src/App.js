@@ -30,9 +30,7 @@ class App extends Component {
 
 
   callBackendAPI = async () => {
-    console.log("In callback")
-    const response = await fetch('http://localhost:5000/');
-    console.log("Response:", response.body)
+    const response = await fetch('/api');
     const body = await response.json();
     console.log("Response body: ", body)
     if (response.status !== 200) {

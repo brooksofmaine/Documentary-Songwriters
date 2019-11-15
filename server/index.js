@@ -1,75 +1,43 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const app = express();
-const db = require('./models');
 const port = 5000;
+const models = require('./models');
+const userRoutes = require('./routes/userRoutes');
+const groupRoutes = require('./routes/groupRoutes');
+let db;
 
-app.set('view engine', 'ejs');
+app.use(cors());
 app.use(bodyParser.json());
-app.use(
-  bodyParser.urlencoded({
-    extended: true
-  })
-);
+app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get('/', function (req, res) {
-  // res.render('index');
-  res.send(({express : 'Hello world!'}))
+app.use('/api/user', userRoutes);
+app.use('/api/group', groupRoutes);
+
+app.get('/api', function (req, res) {
+  res.json({ express : 'Hello world!' });
 });
 
-app.post('/user/create', (req, res) => {
-  db.createUser(req.body.username, req.body.firstName, req.body.lastName, req.body.email).then((newUser) => {
-    res.json(newUser);
-  });
-});
+const startDB = (done) => {
+  models.init((database) => {
+    userRoutes.init(database);
+    groupRoutes.init(database);
+    db = database;
+    db.sequelize.sync({ force: true }).then(() => {
+      done();
+    });
+  }); 
+};
 
-app.get('/user/:username', (req, res) => {
-  db.getUser(req.params.username).then((user) => {
-    res.json(user);
-  });
-});
-
-// start app only after database is created and models are synchronized
-db.init((models) => {
-  models.sequelize.sync().then(() => {
+// start app or defer to test env and provide utils
+if (process.env.NODE_ENV !== 'test') {
+  startDB(() => {
     app.listen(port, () => {
       console.log(`App running on port ${port}.`);
-
-      // test create user
-
-      db.createUser('bobbyS', 'bob', 'smith', 'email@email.com').then((newUser) => {
-        console.log("CREATED NEW USER");
-        console.log(newUser);
-        /*
-        // test get user
-        db.getUser('bobbyS').then((user) => {
-          console.log("FOUND USER: bobbyS");
-          console.log(user);
-
-          // test change username
-          db.changeUsername('bobbyS', 'robertS').then((user) => {
-            console.log("USERNAME CHANGE");
-            console.log(user);
-
-            // test other user attribute modifiers
-            db.changeEmail('robertS', 'real@email.com').then((user) => {
-              console.log("EMAIL CHANGE");
-              console.log(user);
-            });
-
-            db.changeFirstName('robertS', 'robert').then((user) => {
-              console.log("FIRST NAME CHANGE");
-              console.log(user);
-            });
-
-            db.changeLastName('robertS', 'smith-jenkins').then((user) => {
-              console.log("LAST NAME CHANGE");
-              console.log(user);
-            });
-          });
-        });*/
-      });
-
     });
   });
-});
+} else {
+  app.startDB = startDB
+  module.exports = app;
+}

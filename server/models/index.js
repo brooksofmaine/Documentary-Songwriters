@@ -9,7 +9,7 @@ const defaultURI = 'postgres://' + config.username + ':' + config.password + '@'
 let db = {};
 
 // create database using pg (sequelize sync creates tables)
-module.exports.init = (cb) => {
+module.exports.init = (done) => {
   const client = new Client({ connectionString: defaultURI });
   client.connect((err) => {
     if (err) throw err;
@@ -46,79 +46,9 @@ module.exports.init = (cb) => {
     db.sequelize = sequelize;
     db.Sequelize = Sequelize;
 
-    cb(db);
-
     db.User.hasMany(db.Recording, {as: 'recordings', foreignKey: 'username'});
-    //db.Recording.belongsTo(db.User, {foreignKey: 'username'});
-  });
-};
-
-/*******************************************************************
-    USERS
-*******************************************************************/
-
-module.exports.createUser = (username, firstName, lastName, email) => {
-  return db.User.create({
-    username: username,
-    firstName: firstName,
-    lastName: lastName,
-    email: email
-  }).then((modelInstance) => {
-    return modelInstance.get({plain: true});
-  });
-};
-
-module.exports.getUser = (username) => {
-  return db.User.findByPk(username).then((modelInstance) => {
-    return modelInstance.get({plain: true});
-  });
-};
-
-module.exports.changeUsername = (old_username, new_username) => {
-  return db.User.update({
-    username: new_username
-  }, {
-    where: {username: old_username},
-    returning: true,
-    raw: true
-  }).then(([numRows, [user]]) => {
-    return user;
-  });
-};
-
-module.exports.changeEmail = (username, email) => {
-  return db.User.update({
-    email: email
-  }, {
-    where: {username: username},
-    returning: true,
-    raw: true
-  }).then(([numRows, [user]]) => {
-    return user;
-  });
-};
-
-module.exports.changeFirstName = (username, firstName) => {
-  return db.User.update({
-    firstName: firstName
-  }, {
-    where: {username: username},
-    returning: true,
-    raw: true
-  }).then(([numRows, [user]]) => {
-    return user;
-  });
-};
-
-module.exports.changeLastName = (username, lastName) => {
-  return db.User.update({
-    lastName: lastName
-  }, {
-    where: {username: username},
-    returning: true,
-    raw: true
-  }).then(([numRows, [user]]) => {
-    return user;
+    db.User.belongsToMany(db.Group, {through: 'GroupUser'});
+    done(db);
   });
 };
 
@@ -176,6 +106,58 @@ module.exports.deleteRecording = (username, start) => {
     where: {
       username: username,
       start: start
+    }
+  });
+};
+
+/*******************************************************************
+    GROUPS
+*******************************************************************/
+
+module.exports.changeGroupName = (oldGroupName, newGroupName) => {
+  return db.Group.update({
+    groupName: newGroupName
+  }, {
+    where: {groupName: oldGroupName},
+    returning: true,
+    raw: true
+  }).then(([numRows, [group]]) => {
+    return group;
+  });
+};
+
+module.exports.changeGroupDescription = (groupName, description) => {
+  return db.Recording.update({
+    description: description
+  }, {
+    where: {
+      groupName: groupName
+    },
+    returning: true,
+    raw: true
+  }).then(([numRows, [group]]) => {
+    return group;
+  });
+};
+
+module.exports.changeGroupPrivacy = (groupName, public) => {
+  return db.Recording.update({
+    public: public
+  }, {
+    where: {
+      groupName: groupName
+    },
+    returning: true,
+    raw: true
+  }).then(([numRows, [group]]) => {
+    return group;
+  });
+};
+
+module.exports.deleteGroup = (groupName) => {
+  return db.Recording.destroy({
+    where: {
+      groupName: groupName
     }
   });
 };
