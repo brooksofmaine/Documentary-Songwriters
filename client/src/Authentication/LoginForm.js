@@ -7,6 +7,7 @@ import {
     Switch,
     Route,  
     Link
+
   } from "react-router-dom";
 
 // TODO: This isn't stylisticly how these are supposed to be in 
@@ -36,6 +37,7 @@ function Register() {
         </form>
     )
 }
+
 class LoginForm extends React.Component {
     constructor(props) {
         super(props)
@@ -72,8 +74,10 @@ class LoginForm extends React.Component {
                     <div className={"new_user_prompt login_section"}>
                         <h2>New User?</h2>
                         <a href={"#"} onClick={() => this.setState({login: 1})} >Click here to register a new account</a>
+
                     </div>
                 </div>
+
             </div>
         )
     }

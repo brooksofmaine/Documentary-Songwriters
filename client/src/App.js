@@ -21,9 +21,11 @@ class App extends Component {
   //TODO: Fetch in react component tree
   componentDidMount() {
     this.callBackendAPI()
-    .then(res => this.setState({ data: res.express }))
+    .then(res => {
+      this.setState({ data: res.express })})
     .catch(err => console.log(err));
   }
+
 
   callBackendAPI = async () => {
     const response = await fetch('/');
@@ -41,7 +43,9 @@ class App extends Component {
       <Router>
         <Switch>
           <Route exact path="/" component={LoginForm} />
-          <Route path="/api/home" component={WelcomeBoard} />
+          <Route path="/api/home">
+            <WelcomeBoard username="Bobby" />
+          </Route>
           <Route path="/api/record" component={Record} />
         </Switch>
       </Router>
