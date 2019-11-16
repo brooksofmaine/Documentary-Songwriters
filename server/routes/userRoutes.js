@@ -6,6 +6,15 @@ let router = express.Router();
 let db;
 
 /*
+ * TODO: Implement login       - POST /api/user/login
+ * TODO: Add recording to user - POST /api/user/{username}/record
+ * TODO: Get recording of user - GET  /api/user/{username}/?...
+ */
+
+/*
+ * TODO: Make sure not already logged in
+ * TODO: hash password
+ *
  * To create a user, post to the endpoint /api/user/create
  * with the username, firstName, lastName, and email in the body of the request
  *
@@ -25,7 +34,7 @@ router.post('/create', (req, res) => {
     firstName: req.body.firstName,
     lastName: req.body.lastName,
     email: req.body.email,
-    password: null // TODO hash password
+    password: req.body.password // TODO hash password
   };
 
   if (anyValuesUndefined(createObj)) {
@@ -55,6 +64,8 @@ router.post('/login', (req, res) => {
 });
 
 /*
+ * TODO: Show list of groups user is in or is admin of only if user is viewing themselves
+ *
  * To get a user, get the endpoint /api/user/{username}
  * where username is that of the user
  *
@@ -79,7 +90,8 @@ router.get('/:username', (req, res) => {
 });
 
 /*
- * TODO protect with authentication
+ * TODO Ensure user is logged in and user making request is changing only themselves
+ * TODO hash password if changing password
  *
  * To change some attribute of a user, post to the endpoint /api/user/{username}/change/{key}
  * where username is that of the user and key is the name of the attribute to change
