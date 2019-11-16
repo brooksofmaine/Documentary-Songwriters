@@ -12,46 +12,45 @@ import {
 
 class LoginForm extends React.Component {
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
             loginState: 0
-        }
-        this.authenticate = this.authenticate.bind(this)
-        this.renderForm = this.renderForm.bind(this)
-        this.simulateLogin = this.simulateLogin.bind(this)
-    }
+        };
+        this.authenticate = this.authenticate.bind(this);
+        this.renderForm = this.renderForm.bind(this);
+        this.simulateLogin = this.simulateLogin.bind(this);
+    };
 
     // fake async function to authenticate
-    authenticate(username, password) {
+    authenticate = (username, password)=> {
         // return({auth : true})
         return new Promise(resolve => {
             setTimeout(() => {
-                console.log("Authorizing user...")
+                console.log("Authorizing user...");
                 resolve({auth: true});
             }, 1000)
         })
+    };
 
-
-    }
-
-    renderForm() {
+    renderForm = () => {
         if (this.state.loginState === 0) {
             return this.renderLogin()
         } else {
             return this.renderRegister()
         }
-    }
+    };
 
-    async simulateLogin() {
+    simulateLogin = async () => {
         var user = "";
         var pass = "";
-        const loginAuth = await this.authenticate(user, pass)
+        const loginAuth = await this.authenticate(user, pass);
+
         if (loginAuth.auth === true) {
             window.location.href = "/api/home"
         }
-    }
+    };
 
-    renderLogin() {
+    renderLogin = () => {
         return(
             <form className="auth-form">
                 <input className="login-input" type="text" placeholder="Username" name="Username"/>
@@ -63,12 +62,12 @@ class LoginForm extends React.Component {
                     }}>
                         Sign up here.</a>
                 </p>
-                <button onClick={this.openGoogleLogin()}>Use Google to login</button>
+                <button onClick={() => {this.openGoogleLogin()}}>Use Google to login</button>
             </form>
         )
-    }
+    };
 
-    renderRegister() {
+    renderRegister = () => {
         return(
             <form className="auth-form registration">
                 <input className="login-input" type="text" placeholder="Username" name="Email"/>
@@ -76,18 +75,16 @@ class LoginForm extends React.Component {
                 <input className="login-input" type="password" placeholder="Confirm Password" name="Confirm Password"/>
                 <Button name="Register" onClick={this.simulateLogin}/>
                 <p>Already have an account?
-                    <a href="#" onClick={() => {
-                        this.setState({loginState: 0})
-                    }}>
-                        Log in here.</a>
-                </p>
-                <button onClick={this.openGoogleLogin()}>Use Google to login</button>
-
+                <a href="#" onClick={() => {
+                    this.setState({loginState: 0})
+                }}>
+                    Log in here.</a>
+            </p>
             </form>
         )
-    }
+    };
 
-    render() {
+    render = () => {
         return (
             <div className="LoginForm">
                 <h1 className="Title">Documentary Songwriters</h1>
@@ -105,15 +102,15 @@ class LoginForm extends React.Component {
 
             </div>
         )
-    }
+    };
 
     openGoogleLogin = () => {
         window.open("http://localhost:5000/auth/google/", "Login",'height=800,width=500');
-    }
+    };
 
     loginSuccess = (username) => {
         alert("User " + username + "Successfully logged in.");
-    }
+    };
 }
 
 export default LoginForm
