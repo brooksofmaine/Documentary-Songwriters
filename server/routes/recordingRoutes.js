@@ -101,6 +101,7 @@ router.post('/:username/:startTime/:key', (req, res) => {
 
 
 // TODO: not really sure what the url should be
+// TODO: add authentication
 /*
  * To delete a recording, delete request to the endpoint /api/recording/delete
  * with the username and start time of the recording to delete.
