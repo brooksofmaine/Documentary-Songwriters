@@ -22,8 +22,7 @@ class App extends Component {
   componentDidMount() {
     this.callBackendAPI()
     .then(res => {
-      // console.log("Response:")
-      // this.setState({ data: res.express })
+      this.setState({ data: res.express })
     })
     .catch(err => console.log(err));
   }
@@ -36,7 +35,6 @@ class App extends Component {
     if (response.status !== 200) {
       throw Error(body.message) 
     }
-    
     return body;
   };
 

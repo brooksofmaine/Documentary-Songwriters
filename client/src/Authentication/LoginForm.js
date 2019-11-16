@@ -1,6 +1,7 @@
 import React from 'react';
 import './LoginForm.css'
 import Button from "../Button"
+import GoogleImg from "../assets/google_signin.png"
 // import InputField from "./InputField";
 import {
     // BrowserRouter as Router,
@@ -54,6 +55,9 @@ class LoginForm extends React.Component {
     renderLogin() {
         return(
             <form className="auth-form">
+                <button className="google-button">
+                    <img src={GoogleImg} alt="Google Login Button" />
+                </button>
                 <input className="login-input" type="text" placeholder="Username" name="Username"/>
                 <input className="login-input" type="password" placeholder="Password" name="Password"/>
                 <Button name="Login" onClick={this.simulateLogin}/>
@@ -70,6 +74,9 @@ class LoginForm extends React.Component {
     renderRegister() {
         return(
             <form className="auth-form registration">
+                <button className="google-button">
+                    <img src={GoogleImg} alt="Google Login Button" />
+                </button>
                 <input className="login-input" type="text" placeholder="Username" name="Email"/>
                 <input className="login-input" type="password" placeholder="Password" name="Password"/>
                 <input className="login-input" type="password" placeholder="Confirm Password" name="Confirm Password"/>

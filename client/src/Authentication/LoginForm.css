@@ -10,12 +10,9 @@
 }
 /* TODO: Find better workaround for this issue with input heights */
 .auth-form.registration {
-    height: 50vh;
-    justify-content: space-around;
+    height: 70vh;
 }
-.auth-form.registration input {
-    height: 2.5em;
-}
+
 
 .auth-form input:focus {
     outline: none;
@@ -26,13 +23,12 @@
 
 .auth-form {
     width: 40vw;
-    height: 100%;
+    height: 70vh;
     display: flex; 
     flex-direction: column;
-    /* justify-content: space-between;   */
 }
 .login-area {
-    margin-top: 13vh;
+    margin-top: 5vh;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -47,6 +43,22 @@
 .LoginForm .Button {
     margin-top: 25px;
     max-width: 10%;
+}
+
+#google-btn {
+    margin-bottom: 10px;
+}
+
+.google-button {
+    border: none;
+    background: clear;
+    width: 210px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.google-button img {
+    width: 200px;
 }
 
 /* .flex_container {
