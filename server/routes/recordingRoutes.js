@@ -60,7 +60,7 @@ router.post('/create', (req, res) => {
  *   {
  *     username:  "bobbyS",
  *     lowRange:  "Sun, 1  December 2019 00:00:00 GMT",
- *     highRange: "Tue, 31 December 2019 11:59:59 GMT",
+ *     highRange: "Tue, 31 December 2019 23:59:59 GMT",
  *   }
  */
 router.get('/:recording', (req, res) => {
@@ -90,8 +90,44 @@ router.get('/:recording', (req, res) => {
 
 
 // TODO: implement meee
+/*
+ * To change a specific recording...
+ */
 router.post('/:username/:startTime/:key', (req, res) => {
 });
+
+
+
+
+
+// TODO: not really sure what the url should be
+/*
+ * To delete a recording, delete request to the endpoint /api/recording/delete
+ * with the username and start time of the recording to delete.
+ *
+ * For example, to delete user Bobby Smith's recording at 9:45am October 20, 2019:
+ * Delete /api/recording/delete
+ *   With data:
+ *   {
+ *     username:  "bobbyS",
+ *     startTime:  "Sun, 20 October 2019 09:45:00 GMT"
+ *   }
+ */
+router.delete('/delete', (req, res) => {
+  db.Recording.destroy({
+    where: {
+      username:  req.body.username,
+      startTime: req.body.startTime
+    }
+  }).catch((err) => {
+    console.log('Error while deleting recording.');
+    console.log(err);
+    res.status(500).json({ err: err });
+    return;
+  });
+});
+
+
 
 
 
