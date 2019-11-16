@@ -40,4 +40,21 @@ router.get('/google/redirect',
   }
 );
 
+router.get('/loginstatus', (req, res) => {
+    console.log(req.user);
+    if (typeof req.user !== 'undefined' && req.user !== null) {
+        res.json({
+            "status": "logged_in",
+            "user": {
+                "username": req.user.username,
+                "email": req.user.email,
+                "firstName": req.user.firstName,
+                "lastName": req.user.lastName
+            }
+        });
+    } else {
+        res.json({"status": "logged_out"});
+    }
+});
+
 module.exports = router;
