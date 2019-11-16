@@ -108,9 +108,15 @@ class LoginForm extends React.Component {
         window.open("http://localhost:5000/auth/google/", "Login",'height=800,width=500');
     };
 
-    loginSuccess = (username) => {
-        alert("User " + username + "Successfully logged in.");
-    };
+    componentDidMount = () => {
+        window.addEventListener('message', (event) => {
+            console.log(event.data);
+            if (event.origin.startsWith("http://localhost:5000")) {
+                console.log("User " + event.data + " successfully logged in.");
+                window.location = "/api/home";
+            }
+        });
+    }
 }
 
 export default LoginForm

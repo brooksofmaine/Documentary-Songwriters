@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const passport = require('passport');
+let client_add = "http://localhost:3000";
 
 // auth login
 router.get('/login', (req,res) => {
@@ -34,10 +35,8 @@ router.get('/google', passport.authenticate('google', {
 router.get('/google/redirect',
   passport.authenticate('google', {"failureRedirect": "/google"}),
   (req,res) => {
-    //var name = res.user.firstName + " " + res.user.lastName;
-      console.log(req.body.username);
-      var name = "";
-      res.send("<html><p>you reached the callback URI. </p><script>window.opener.loginSuccess(" + name + ");window.close()</script></html>");
+      var name = req.user.firstName + " " + req.user.lastName;
+      res.send("<html><p>you reached the callback URI. </p><button onclick='window.close()'>Close Window</button><script>window.onload = () => {console.log(\"sending msg\");window.opener.postMessage(\"" + name + "\", \"" + client_add + "\");};</script></html>");
   }
 );
 
