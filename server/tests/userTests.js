@@ -20,7 +20,8 @@ describe('User', function() {
     username: 'bobbyS',
     firstName: 'bob',
     lastName: 'smith',
-    email: 'email@email.com'
+    email: 'email@email.com',
+    password: 'foobar'
   };
 
   before(function(done) {
@@ -96,7 +97,8 @@ describe('User', function() {
       username: 'robertS',
       firstName: 'robert',
       lastName: 'smithson',
-      email: 'new@email.com'
+      email: 'new@email.com',
+      password: 'password'
     };
 
     for (let [key, value] of Object.entries(newUser)) {
@@ -147,7 +149,8 @@ describe('User', function() {
       username: 'bobbyS',
       firstName: 'bob',
       lastName: 'smith',
-      email: 'email@email.com'
+      email: 'email@email.com',
+      password: 'anotherone'
     };
 
     it('should not change a user\'s username if the new username is already taken', function(done) {
