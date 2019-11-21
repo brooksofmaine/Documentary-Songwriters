@@ -6,6 +6,14 @@ let router = express.Router();
 let db;
 
 /*
+ * TODO: Add user to group      - POST /api/group/{groupName}/add
+ * TODO: Remove user from group - POST /api/group/{groupName}/remove
+ */
+
+/*
+ * TODO: Only allow logged in users to create groups
+ * TODO: Add user making request as the admin
+ *
  * To create a group, post to the endpoint /api/group/create
  * with the groupName, description, and visible (boolean) in the body of the request
  *
@@ -47,6 +55,9 @@ router.post('/create', (req, res) => {
 });
 
 /*
+ * TODO: If group is private, only send group info if user is part of group
+ * TODO: Send back list of users in group and some recording data
+ *
  * To get a group, get the endpoint /api/group/{groupName}
  * where groupName is that of the group
  *
@@ -71,6 +82,8 @@ router.get('/:groupName', (req, res) => {
 });
 
 /*
+ * TODO: Ensure the person changing the group attributes is the group admin
+ *
  * To change some attribute of a group, post to the endpoint /api/group/{groupName}/change/{key}
  * where groupName is that of the group and key is the name of the attribute to change
  * and with the name and value of the attribute in the body of the request
