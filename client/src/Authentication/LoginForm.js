@@ -3,105 +3,84 @@ import './LoginForm.css'
 import Button from "../Button"
 // import InputField from "./InputField";
 import {
-    // BrowserRouter as Router,
-    // Switch,
-    // Route,
-    // Link
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link
+
   } from "react-router-dom";
 
+// TODO: This isn't stylisticly how these are supposed to be in
+// the file--refactor this code
+function Login() {
+    return(
+        <form className="form">
+            <Button id="google" onClick={() => {this.openGoogleLogin()}} name="Login with Google"/>
+            <input className="login-input" type="text" placeholder="Username" name="Username"/>
+            <input className="login-input" type="password" placeholder="Password" name="Password"/>
+            <Link to="/api/home">
+                <Button name="Login"/>
+            </Link>
+        </form>
+    )
+}
+
+function Register() {
+    return(
+        <form className="Register">
+            <Button id="google" onClick={() => {this.openGoogleLogin()}} name="Login with Google"/>
+            <input className="login-input" type="text" placeholder="Username" name="Email"/>
+            <input className="login-input" type="password" placeholder="Password" name="Password"/>
+            <input className="login-input" type="password" placeholder="Confirm Password" name="Confirm Password"/>
+            <Link to="/api/home">
+                <Button name="Register"/>
+            </Link>
+        </form>
+    )
+}
 
 class LoginForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            loginState: 0
+            login: 0
         };
-        this.authenticate = this.authenticate.bind(this);
-        this.renderForm = this.renderForm.bind(this);
-        this.simulateLogin = this.simulateLogin.bind(this);
-    };
+        this.loginState = this.loginState.bind(this);
+        this.updateLoginState = this.updateLoginState.bind(this);
+    }
+    // handleClick(loginState) {
+    //     this.setState({})
+    // }
 
-    // fake async function to authenticate
-    authenticate = (username, password)=> {
-        // return({auth : true})
-        return new Promise(resolve => {
-            setTimeout(() => {
-                console.log("Authorizing user...");
-                resolve({auth: true});
-            }, 1000)
-        })
-    };
-
-    renderForm = () => {
-        if (this.state.loginState === 0) {
-            return this.renderLogin()
+    loginState() {
+        if (this.state.login === 0) {
+            return Login();
         } else {
-            return this.renderRegister()
+            return Register();
         }
-    };
+    }
 
-    simulateLogin = async () => {
-        var user = "";
-        var pass = "";
-        const loginAuth = await this.authenticate(user, pass);
+    updateLoginState(num) {
+        this.setState({login: num});
+    }
 
-        if (loginAuth.auth === true) {
-            window.location.href = "/api/home"
-        }
-    };
-
-    renderLogin = () => {
-        return(
-            <form className="auth-form">
-                <input className="login-input" type="text" placeholder="Username" name="Username"/>
-                <input className="login-input" type="password" placeholder="Password" name="Password"/>
-                <Button name="Login" onClick={this.simulateLogin}/>
-                <p>New user?
-                    <a href="#" onClick={() => {
-                        this.setState({loginState: 1})
-                    }}>
-                        Sign up here.</a>
-                </p>
-                <button onClick={() => {this.openGoogleLogin()}}>Use Google to login</button>
-            </form>
-        )
-    };
-
-    renderRegister = () => {
-        return(
-            <form className="auth-form registration">
-                <input className="login-input" type="text" placeholder="Username" name="Email"/>
-                <input className="login-input" type="password" placeholder="Password" name="Password"/>
-                <input className="login-input" type="password" placeholder="Confirm Password" name="Confirm Password"/>
-                <Button name="Register" onClick={this.simulateLogin}/>
-                <p>Already have an account?
-                <a href="#" onClick={() => {
-                    this.setState({loginState: 0})
-                }}>
-                    Log in here.</a>
-            </p>
-            </form>
-        )
-    };
-
-    render = () => {
+    render() {
         return (
-            <div className="LoginForm">
-                <h1 className="Title">Documentary Songwriters</h1>
-                <div className="login-area">
-                    <div>
-                        {this.renderForm()}
+            <div className="loginform">
+                <h1 className={"Title"}>Documentary Songwriters</h1>
+                <div className="login_area flex_container">
+                    <div className={"user_login login_section"}>
+                        {this.loginState()}
                     </div>
-                    {/* TODO: Clean Up: */}
-                    <div className="user-prompt">
+                    <div className={"new_user_prompt login_section"}>
+                        <h2>New User?</h2>
+                        <a href={"#"} onClick={() => this.setState({login: 1})} >Click here to register a new account</a>
 
-                        {/* <h2>New User?</h2>
-                        <a href="#">Click here to register a new account.</a> */}
                     </div>
                 </div>
 
             </div>
-        )
+        );
     };
 
     openGoogleLogin = () => {
