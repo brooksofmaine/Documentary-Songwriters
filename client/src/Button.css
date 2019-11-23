@@ -16,6 +16,8 @@
     user-select: none;
     vertical-align: middle;
     background-color: #cccccc;
+    transition: all 0.1s ease-in;
+    outline: none;
 }
 
 .Button > a:visited {
@@ -24,4 +26,12 @@
 
 .Button > a {
     text-decoration: none;
+}
+
+.Button:hover {
+    background-color: #b3b3b3;
+}
+
+.Button:active {
+    background-color: #a1a1a1;
 }
