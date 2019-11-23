@@ -1,20 +1,61 @@
 const passport = require('passport');
 const GoogleStrategy = require ('passport-google-oauth20');
+const LocalStrategy = require("passport-local").Strategy;
 const keys = require('./keys');
 
 let db;
 
+/************************************************************
+ *  Local Strategy
+ ************************************************************/
+passport.use('local', new LocalStrategy(localAuth));
+
+// authentification strategy for local db auth
+// TODO: not storing unencrypted password
+function localAuth(username, password, done)
+{
+    try {
+        findUser(username).then((userInstance) => {
+            if (userInstance === null) {
+                return done(null, false, {message: 'Incorrect username.'});
+            } else if (userInstance.password !== password) {
+                return done(null, false, {message: 'Incorrect password.'});
+            } else {
+                return done(null, userInstance);
+            }
+        });
+    } catch (err) {
+        return done(err);
+    }
+}
+
+
+/************************************************************
+ *  Google Strategy
+ ************************************************************/
 /* ref: https://stackoverflow.com/questions/36486397/ */
 
 passport.use(
+    'google',
     new GoogleStrategy({
         // options for the google strategy
         callbackURL: '/auth/google/redirect',
         clientID: keys.google.clientID,
         clientSecret: keys.google.clientSecret
-    }, loginDone)
+    }, googleLoginDone)
 );
 
+
+// Callback function for google login
+function googleLoginDone (accessToken, refreshToken, profile, done) {
+    console.log('passport callback function fired');
+    findUserOrCreate(profile.emails[0].value, profile, done);
+}
+
+
+/************************************************************
+ *  Helper functions
+ ************************************************************/
 // In order to help keep authentication state across HTTP requests,
 // Sequelize needs to  and deserialize the user
 // Just consider this part boilerplate needed to make it all work
@@ -28,14 +69,9 @@ passport.deserializeUser((obj, cb) => {
     });
 });
 
-function loginDone (accessToken, refreshToken, profile, done) {
-    console.log('passport callback function fired');
-    findUserOrCreate(profile.emails[0].value, profile, done);
-}
 
 function findUser(username)
 {
-    console.log(username);
     return db.User.findByPk(username);
 }
 
