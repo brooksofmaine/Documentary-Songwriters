@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const passport = require('passport');
-let client_add = "http://localhost:5000";
+let client_add = "http://localhost:3000";
 
 // function ensureAuthenticated
 // ensures the user is logged in before it grants access to the api.
