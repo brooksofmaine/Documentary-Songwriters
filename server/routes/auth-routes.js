@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const passport = require('passport');
-let client_add = "http://localhost:3000";
+let client_add = "http://localhost:5000";
 
 // function ensureAuthenticated
 // ensures the user is logged in before it grants access to the api.
@@ -16,7 +16,7 @@ function ensureAuthenticated(req, res, next)
 
 // auth login
 router.get('/login', (req,res) => {
-  res.render('login');
+  res.send('Success');
 });
 
 // auth logout
@@ -29,7 +29,19 @@ router.get('/logout', ensureAuthenticated, (req,res) => {
 
 // auth with our own Login
 router.get('/local', (req, res) => {
-  res.render('ourlogin');
+    res.sent("Error: GET method not supported.");
+});
+
+router.post('/local', passport.authenticate('local'), (req, res) => {
+    res.json({
+        "status": "success",
+        "user": {
+            "username": req.user.username,
+            "email": req.user.email,
+            "firstName": req.user.firstName,
+            "lastName": req.user.lastName
+        }
+    });
 });
 
 // auth with our own signup

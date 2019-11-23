@@ -8,25 +8,29 @@ let db;
 /************************************************************
  *  Local Strategy
  ************************************************************/
-passport.use('local', new LocalStrategy(localAuth));
+passport.use('local', new LocalStrategy({
+    usernameField: 'username',
+    passwordField: 'password'
+}, localAuth));
 
 // authentification strategy for local db auth
 // TODO: not storing unencrypted password
 function localAuth(username, password, done)
 {
-    try {
-        findUser(username).then((userInstance) => {
-            if (userInstance === null) {
-                return done(null, false, {message: 'Incorrect username.'});
-            } else if (userInstance.password !== password) {
-                return done(null, false, {message: 'Incorrect password.'});
-            } else {
-                return done(null, userInstance);
-            }
-        });
-    } catch (err) {
+    findUser(username).then((userInstance) => {
+        if (userInstance === null) {
+            console.log("No user");
+            return done(null, false, {message: 'Incorrect username.'});
+        } else if (userInstance.password !== password) {
+            console.log("Wrong passwd");
+            return done(null, false, {message: 'Incorrect password.'});
+        } else {
+            console.log("Success Login");
+            return done(null, userInstance.get({ plain: true }));
+        }
+    }).catch((err) => {
         return done(err);
-    }
+    });
 }
 
 

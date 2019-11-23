@@ -9,12 +9,18 @@ const userRoutes = require('./routes/userRoutes');
 const groupRoutes = require('./routes/groupRoutes');
 let db;
 
+const corsOptions = {
+  origin: ['http://localhost:3000', 'http://localhost:5000'],
+  optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+  credentials: true
+};
+
 const passport = require('passport');
 const authRoutes = require('./routes/auth-routes');
 const session = require('express-session');
 
 app.set('view engine', 'ejs');
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(require('cookie-parser')());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -38,6 +44,7 @@ const startDB = (done) => {
     passportSetup.init(database);
     db = database;
     db.sequelize.sync({force: true}).then(() => {
+      db.sequelize.sync;
       done();
     });
   });
