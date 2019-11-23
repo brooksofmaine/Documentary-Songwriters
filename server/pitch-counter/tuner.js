@@ -107,5 +107,5 @@ Tuner.prototype.getCents = function(frequency, note) {
   )
 }
 
-// const tuner = new Tuner()
-// module.exports = tuner
+const tuner = new Tuner()
+module.exports = tuner
