@@ -22,7 +22,8 @@ class App extends Component {
   componentDidMount() {
     this.callBackendAPI()
     .then(res => {
-      this.setState({ data: res.express })})
+      this.setState({ data: res.express })
+    })
     .catch(err => console.log(err));
   }
 
@@ -30,6 +31,7 @@ class App extends Component {
   callBackendAPI = async () => {
     const response = await fetch('/api');
     const body = await response.json();
+    console.log("Response body: ", body)
     if (response.status !== 200) {
       throw Error(body.message) 
     }
@@ -44,7 +46,7 @@ class App extends Component {
         <Switch>
           <Route exact path="/" component={LoginForm} />
           <Route path="/api/home">
-            <WelcomeBoard username="Bobby" />
+            <WelcomeBoard username={this.state.data} />
           </Route>
           <Route path="/api/record" component={Record} />
         </Switch>

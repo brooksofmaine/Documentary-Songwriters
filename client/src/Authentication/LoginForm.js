@@ -1,20 +1,11 @@
 import React from 'react';
 import './LoginForm.css'
 import Button from "../Button"
+import GoogleImg from "../assets/google_signin.png"
 // import InputField from "./InputField";
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link
 
-  } from "react-router-dom";
-
-// TODO <resolved?>: This isn't stylisticly how these are supposed to be in
-// the file--refactor this code
 
 class LoginForm extends React.Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -23,11 +14,8 @@ class LoginForm extends React.Component {
         this.loginState = this.loginState.bind(this);
         this.updateLoginState = this.updateLoginState.bind(this);
     }
-    // handleClick(loginState) {
-    //     this.setState({})
-    // }
 
-    loginState() {
+    loginState () {
         if (this.state.login === 0) {
             return this.Login();
         } else {
