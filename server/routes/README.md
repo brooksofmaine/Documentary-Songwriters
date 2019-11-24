@@ -9,9 +9,11 @@ Anytime the current user is referenced, we mean the user that is logged in.
 
 # To Do
 
+* Decide what level of detail to return if getting a user that is not the logged in user (list of groups, list of groups - private groups?)
 * Remove password from user objects
 * Lock down what time format to use in query and body parameters
 * Who can add people to groups? admin only or any group member? configurable?
+* Errors for recording routes
 
 # User Routes
 
@@ -38,9 +40,18 @@ To create a new user
     "email": "email@email.com",
     "password": "changeMePlz",
     "updatedAt": "2019-11-21T02:12:29.860Z",
-    "createdAt": "2019-11-21T02:12:29.860Z"
+    "createdAt": "2019-11-21T02:12:29.860Z",
+    "groups": [
+        {"groupName", "myGroup"},
+        {"groupName", "groupToo"}
+    ]
 }
 ```
+
+**Errors**
+
+400 - undefined fields  
+409 - username taken
 
 ### Get User:
 To get a user
@@ -57,9 +68,17 @@ To get a user
     "lastName": "Bar",
     "password": "changeMePlz",
     "createdAt": "2019-11-21T02:12:29.860Z",
-    "updatedAt": "2019-11-21T02:12:29.860Z"
+    "updatedAt": "2019-11-21T02:12:29.860Z",
+    "groups": [
+        {"groupName", "myGroup"},
+        {"groupName", "groupToo"}
+    ]
 }
 ```
+
+**Errors**
+
+404 - user not found
 
 ### Get Recordings of User:
 To get the recordings of a user between a time range
@@ -79,8 +98,8 @@ To get the recordings of a user between a time range
         "numPitches": 125,
         "instrument": "guitar",
         "description": "First round of practice!",
-        "start": "2019-11-21T02:25:42.123Z",
-        "end": "2019-11-21T02:29:15.396Z",
+        "startTime": "2019-11-21T02:25:42.123Z",
+        "endTime": "2019-11-21T02:29:15.396Z",
         "createdAt": "2019-11-21T02:29:16.025Z",
         "updatedAt": "2019-11-21T02:29:16.025Z"
     },
@@ -89,13 +108,17 @@ To get the recordings of a user between a time range
         "numPitches": 127,
         "instrument": "guitar",
         "description": "I need more practice...",
-        "start": "2019-11-21T02:31:33.091Z",
-        "end": "2019-11-21T02:34:58.720Z",
+        "startTime": "2019-11-21T02:31:33.091Z",
+        "endTime": "2019-11-21T02:34:58.720Z",
         "createdAt": "2019-11-21T02:34:59.433Z",
         "updatedAt": "2019-11-21T02:34:59.433Z"
     }
 ]
 ```
+
+**Errors**
+
+404 - user not found
 
 ### Edit User:
 To edit something about the current user
@@ -116,9 +139,20 @@ To edit something about the current user
     "lastName": "Bar",
     "password": "changeMePlz",
     "createdAt": "2019-11-21T02:12:29.860Z",
-    "updatedAt": "2019-11-21T02:12:29.860Z"
+    "updatedAt": "2019-11-21T02:12:29.860Z",
+    "groups": [
+        {"groupName", "myGroup"},
+        {"groupName", "groupToo"}
+    ]
 }
 ```
+
+**Errors**
+
+400 - key not recognized  
+400 - undefined fields  
+404 - user not found  
+409 - username taken
 
 # Group Routes
 
@@ -138,18 +172,21 @@ To create a group with the current user as the admin
 ```
 {
     "groupName": "MyGroup",
-    "admin": "foobar",
+    "adminUsername": "foobar",
     "description": "A group for friends to track their music progress",
     "visible": true,
-    "members": [
-        "foobar",
-        "friendlyUser",
-        "papa.guitar72"
-    ],
     "createdAt": "2019-11-21T02:12:29.860Z",
-    "updatedAt": "2019-11-21T02:12:29.860Z"
+    "updatedAt": "2019-11-21T02:12:29.860Z",
+    "members": [
+        {"username": "foobar"}
+    ]
 }
 ```
+
+**Errors**
+
+400 - undefined fields  
+409 - group name taken
 
 ### Get Group
 To get a group that is accessible to the current user
@@ -161,18 +198,22 @@ To get a group that is accessible to the current user
 ```
 {
     "groupName": "MyGroup",
-    "admin": "foobar",
+    "adminUsername": "foobar",
     "description": "A group for friends to track their music progress",
     "visible": true,
-    "members": [
-        "foobar",
-        "friendlyUser",
-        "papa.guitar72"
-    ],
     "createdAt": "2019-11-21T02:12:29.860Z",
-    "updatedAt": "2019-11-21T02:12:29.860Z"
+    "updatedAt": "2019-11-21T02:12:29.860Z",
+    "members": [
+        {"username": "foobar"},
+        {"username": "friendlyUser"},
+        {"username": "papa.guitar72"}
+    ]
 }
 ```
+
+**Errors**
+
+404 - group not found
 
 ### Add or Remove Group Member
 To add or remove a group member as the admin (as a member of the group?)
@@ -189,19 +230,23 @@ To add or remove a group member as the admin (as a member of the group?)
 ```
 {
     "groupName": "MyGroup",
-    "admin": "foobar",
+    "adminUsername": "foobar",
     "description": "A group for friends to track their music progress",
     "visible": true,
-    "members": [
-        "foobar",
-        "friendlyUser",
-        "papa.guitar72",
-        "mama.uke71"
-    ],
     "createdAt": "2019-11-21T02:12:29.860Z",
-    "updatedAt": "2019-11-21T02:12:29.860Z"
+    "updatedAt": "2019-11-21T02:12:29.860Z",
+    "members": [
+        {"username": "foobar"},
+        {"username": "friendlyUser"},
+        {"username": "papa.guitar72"},
+        {"username": "mama.uke71"}
+    ]
 }
 ```
+**Errors**
+
+404 - group not found  
+404 - user not found
 
 ### Edit Group
 To edit something about a group as the admin
@@ -218,18 +263,24 @@ To edit something about a group as the admin
 ```
 {
     "groupName": "MyGroup",
-    "admin": "foobar",
+    "adminUsername": "foobar",
     "description": "A group for friends to track their music progress",
     "visible": true,
-    "members": [
-        "foobar",
-        "friendlyUser",
-        "papa.guitar72"
-    ],
     "createdAt": "2019-11-21T02:12:29.860Z",
-    "updatedAt": "2019-11-21T02:12:29.860Z"
+    "updatedAt": "2019-11-21T02:12:29.860Z",
+    "members": [
+        {"username": "foobar"},
+        {"username": "friendlyUser"},
+        {"username": "papa.guitar72"}
+    ]
 }
 ```
+**Errors**
+
+400 - key not recognized  
+400 - undefined fields  
+404 - group not found  
+409 - groupName taken
 
 ### Delete Group
 To delete a group as the admin
@@ -244,6 +295,10 @@ To delete a group as the admin
 }
 ```
 
+**Errors**
+
+404 - group not found
+
 # Recording Routes
 
 ### Create Recording
@@ -256,8 +311,8 @@ To create a recording as the current user
 * numPitches - an integer
 * instrument - a string
 * description - a string
-* start - a timestamp
-* end - a timestamp
+* startTime - a timestamp
+* endTime - a timestamp
 
 **Response**
 
@@ -267,8 +322,8 @@ To create a recording as the current user
     "numPitches": 125,
     "instrument": "guitar",
     "description": "First round of practice!",
-    "start": "2019-11-21T02:25:42.123Z",
-    "end": "2019-11-21T02:29:15.396Z",
+    "startTime": "2019-11-21T02:25:42.123Z",
+    "endTime": "2019-11-21T02:29:15.396Z",
     "createdAt": "2019-11-21T02:29:16.025Z",
     "updatedAt": "2019-11-21T02:29:16.025Z"
 }
@@ -293,8 +348,8 @@ To edit something about a recording as the creator of the recording
     "numPitches": 125,
     "instrument": "guitar",
     "description": "First round of practice! - Went badly",
-    "start": "2019-11-21T02:25:42.123Z",
-    "end": "2019-11-21T02:29:15.396Z",
+    "startTime": "2019-11-21T02:25:42.123Z",
+    "endTime": "2019-11-21T02:29:15.396Z",
     "createdAt": "2019-11-21T02:29:16.025Z",
     "updatedAt": "2019-11-21T02:29:16.025Z"
 }
