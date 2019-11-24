@@ -149,5 +149,45 @@ router.post('/:username/change/:key', (req, res) => {
   });
 });
 
+
+
+/*
+ * To get a user's recordings, get the endpoint 
+ * /api/user/{username}/recordings?low=<lowBound>&high=<highBound>
+ *
+ * where username is that of the user, and lowBound/highBound indicate the 
+ * range for which you're retrieving recordings.
+ *
+ * For example, to get recordings for user bobbyS for November 2019,
+ * 
+ *   GET /api/user/bobbyS/recordings?low="2019-11-01T00:00:00.000Z"&high="2019-11-30T23:59:59.999Z"
+ *
+ */
+router.get('/:username/recordings', (req, res) => {
+  db.Recording.findAll({
+    where: {
+      username: :username,  // TODO: is this legal
+      start: {
+        [Op.gte]: req.query.lowRange,
+        [Op.lte]: req.query.highRange
+      }
+    }
+  }).then((modelInstance) => {
+    if (modelInstance === null) {
+      res.status(404).json({ err: 'recordings not found' });
+      return;
+    }
+    res.json(modelInstance.get({ plain: true }));
+    return;
+  }).catch((err) => {
+    console.log('Error while retrieving recordings.');
+    console.log(err);
+    res.status(500).json({ err: err });
+    return;
+  });
+});
+
+
+
 module.exports = router;
 module.exports.init = (database) => { db = database; };
