@@ -107,24 +107,22 @@ router.post('/edit', (req, res) => {
 
 
 
-// TODO: not really sure what the url should be
-// TODO: add authentication
 /*
- * To delete a recording, delete request to the endpoint /api/recording/delete
- * with the username and start time of the recording to delete.
+ * To delete a recording, post request to the endpoint /api/recording/delete
+ * with the start time of the recording to delete, for the logged-in user.
  *
- * For example, to delete user Bobby Smith's recording at 9:45am October 20, 2019:
+ * For example, to delete logged-in user Bobby Smith's recording at 
+ * 9:45am October 20, 2019:
  * Delete /api/recording/delete
  *   With data:
  *   {
- *     username:  "bobbyS",
  *     startTime:  "Sun, 20 October 2019 09:45:00 GMT"
  *   }
  */
-router.delete('/delete', (req, res) => {
+router.post('/delete', (req, res) => {
   db.Recording.destroy({
     where: {
-      username:  req.body.username,
+      username:  req.body.username, // TODO: how to get out the logged in user
       startTime: req.body.startTime
     }
   }).catch((err) => {
