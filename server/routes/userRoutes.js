@@ -166,7 +166,7 @@ router.post('/:username/change/:key', (req, res) => {
 router.get('/:username/recordings', (req, res) => {
   db.Recording.findAll({
     where: {
-      username: :username,  // TODO: is this legal
+      username: req.params.username,
       start: {
         [Op.gte]: req.query.lowRange,
         [Op.lte]: req.query.highRange
