@@ -7,6 +7,10 @@ Body parameters should be passed in the body of the request, as form data.
 **A user must be logged in to use any of these routes**, except for user create.  
 Anytime the current user is referenced, we mean the user that is logged in.
 
+**Errors**
+
+401 - not logged in
+
 # To Do
 
 * Decide what level of detail to return if getting a user that is not the logged in user (list of groups, list of groups - private groups?)
