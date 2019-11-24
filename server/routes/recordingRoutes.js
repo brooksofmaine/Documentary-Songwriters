@@ -10,11 +10,10 @@ let db;
  * with the username, start time, end time, instrument, number of pitches, 
  * and descriptionin the body of the request
  *
- * For example, to create a recording for Bob Smith:
+ * For example, to create a recording for Bob Smith, who is already logged in:
  *   Post /api/recording/create
  *   With data:
  *   {
- *     username:    "bobbyS",
  *     startTime:   "Wed, 27 July 2016 07:45:00 GMT",
  *     endTime:     "Wed, 27 July 2016 07:51:00 GMT",
  *     instrument:  "piano",
@@ -24,9 +23,9 @@ let db;
  */
 router.post('/create', (req, res) => {
   let createObj = {
-    username:    req.body.username,
-    startTime:   req.body.startTime,
-    endTime:     req.body.endTime,
+    username:    req.body.username, // TODO: change this to get current user
+    start:       req.body.startTime,
+    end:         req.body.endTime,
     instrument:  req.body.instrument,
     numPitches:  req.body.numPitches,
     description: req.body.description
