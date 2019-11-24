@@ -8,7 +8,7 @@ let db;
 /*
  * To create a recording, post to the endpoint /api/recording/create
  * with the username, start time, end time, instrument, number of pitches, 
- * and descriptionin the body of the request
+ * and description in the body of the request
  *
  * For example, to create a recording for Bob Smith, who is already logged in:
  *   Post /api/recording/create
@@ -86,7 +86,7 @@ router.post('/edit', (req, res) => {
   db.Recording.update(updateObj, {
     where: { 
       username: username,
-      startTime: startTime 
+      start:    startTime 
     },
     returning: true,
     raw: true
@@ -123,7 +123,7 @@ router.post('/delete', (req, res) => {
   db.Recording.destroy({
     where: {
       username:  req.body.username, // TODO: how to get out the logged in user
-      startTime: req.body.startTime
+      start:     req.body.startTime
     }
   }).catch((err) => {
     console.log('Error while deleting recording.');
