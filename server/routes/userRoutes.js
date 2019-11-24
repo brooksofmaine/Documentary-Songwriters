@@ -6,27 +6,8 @@ let router = express.Router();
 let db;
 
 /*
- * TODO: Implement login       - POST /api/user/login
- * TODO: Add recording to user - POST /api/user/{username}/record
- * TODO: Get recording of user - GET  /api/user/{username}/?...
- */
-
-/*
  * TODO: Make sure not already logged in
  * TODO: hash password
- *
- * To create a user, post to the endpoint /api/user/create
- * with the username, firstName, lastName, and email in the body of the request
- *
- * For example, to create a user for Bob Smith:
- *   Post /api/user/create
- *   With data:
- *   {
- *     username:  "bobbyS",
- *     firstName: "Bob",
- *     lastName:  "Smith",
- *     email:     "email@email.com"
- *   }
  */
 router.post('/create', (req, res) => {
   let createObj = {
@@ -37,13 +18,14 @@ router.post('/create', (req, res) => {
     password: req.body.password // TODO hash password
   };
 
+  // TODO make this a blank/null/undefined check
   if (anyValuesUndefined(createObj)) {
     res.status(400).json({ err: 'undefined fields' });
     return;
   }
 
-  db.User.create(createObj).then((newUserInstance) => {
-    res.json(newUserInstance.get({ plain: true }));
+  db.User.create(createObj).then((user) => {
+    res.redirect(`${user.get('username')}`)
     return;
   }).catch((err) => {
     if (err.name === 'SequelizeUniqueConstraintError') {
@@ -58,28 +40,22 @@ router.post('/create', (req, res) => {
   });
 });
 
-// TODO implement me
-router.post('/login', (req, res) => {
-  res.redirect('/' + req.body.username);
-});
-
 /*
  * TODO: Show list of groups user is in or is admin of only if user is viewing themselves
- *
- * To get a user, get the endpoint /api/user/{username}
- * where username is that of the user
- *
- * For example, to get user bobbyS:
- *   Get /api/user/bobbyS
  */
 router.get('/:username', (req, res) => {
-  db.User.findByPk(req.params.username).then((modelInstance) => {
-    if (modelInstance === null) {
+  db.User.findOne({
+    where: { username: req.params.username },
+    include: [
+      { model: db.Group, attributes: ['groupName'], through: { attributes: [] } }
+    ]
+  }).then((user) => {
+    if (user === null) {
       res.status(404).json({ err: 'user not found' });
       return;
     }
 
-    res.json(modelInstance.get({ plain: true }));
+    res.json(user);
     return;
   }).catch((err) => {
     console.log('Error while retrieving user.');
@@ -92,25 +68,11 @@ router.get('/:username', (req, res) => {
 /*
  * TODO Ensure user is logged in and user making request is changing only themselves
  * TODO hash password if changing password
- *
- * To change some attribute of a user, post to the endpoint /api/user/{username}/change/{key}
- * where username is that of the user and key is the name of the attribute to change
- * and with the name and value of the attribute in the body of the request
- *
- * Valid keys for users are:
- * - username
- * - email
- * - firstName
- * - lastName
- *
- * For example, to change the username of user bobbyS to robertS:
- *   Post /api/user/bobbyS/change/username
- *   With data { username: "robertS" }
  */
-router.post('/:username/change/:key', (req, res) => {
-  let username = req.params.username;
-  let key = req.params.key;
-  let val = req.body[key];
+router.post('/edit', (req, res) => {
+  let username = req.body.username; // TODO get this from auth
+  let key = req.body.key;
+  let val = req.body.value;
   let updateObj = {};
   updateObj[key] = val;
 
@@ -126,15 +88,14 @@ router.post('/:username/change/:key', (req, res) => {
 
   db.User.update(updateObj, {
     where: { username: username },
-    returning: true,
-    raw: true
+    returning: true
   }).then(([numRows, rowsAffected]) => {
     if (numRows === 0) {
       res.status(404).json({ err: 'user not found' });
       return;
     }
 
-    res.json(rowsAffected[0]);
+    res.redirect(`${rowsAffected[0].get('username')}`);
     return;
   }).catch((err) => {
     if (err.name === 'SequelizeUniqueConstraintError') {

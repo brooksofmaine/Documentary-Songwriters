@@ -13,6 +13,7 @@ module.exports.userKeyCheck = (key) => {
 
 module.exports.groupKeyCheck = (key) => {
   return (key === 'groupName' ||
+          key === 'adminUsername' ||
           key === 'description' ||
           key === 'visible');
 };

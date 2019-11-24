@@ -48,6 +48,7 @@ module.exports.init = (done) => {
 
     db.User.hasMany(db.Recording, {as: 'recordings', foreignKey: 'username'});
     db.User.belongsToMany(db.Group, {through: 'GroupUser'});
+    db.Group.belongsToMany(db.User, {as: 'members', through: 'GroupUser'})
     db.Group.belongsTo(db.User, {as: 'admin'});
 
     done(db);
