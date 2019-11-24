@@ -10,6 +10,8 @@ const baseURL = '/api/user';
 
 chai.use(chaiHttp);
 
+// TODO build in auth
+
 before(function(done) {
   app.startDB(done);
 });
@@ -88,25 +90,27 @@ describe('User', function() {
     });
   });
 
-  describe('Change', function() {
-    // change username, email, firstName, lastName
-    // attempt to change for someone who does not exist
-    // attempt to change a field that does not exist
-    // attempt to change a username that is already taken
+  describe('Edit', function() {
+    // edit username, email, firstName, lastName
+    // attempt to edit for someone who does not exist
+    // attempt to edit a field that does not exist
+    // attempt to edit a username that is already taken
     let newUser = {
-      username: 'robertS',
       firstName: 'robert',
       lastName: 'smithson',
       email: 'new@email.com',
-      password: 'password'
+      password: 'password',
+      username: 'robertS' // put username last so username test runs last
     };
 
     for (let [key, value] of Object.entries(newUser)) {
       let data = {};
-      data[key] = value;
+      data.key = key;
+      data.value = value;
+      data.username = userData.username;
 
       it('should change a user\'s ' + key + ' to a new ' + key, function(done) {
-        server.post(baseURL + '/' + userData.username + '/change/' + key)
+        server.post(baseURL + '/edit')
           .set('content-type', 'application/json')
           .send(data)
           .end(function(err, res) {
@@ -122,9 +126,9 @@ describe('User', function() {
     // now userData == newUser
 
     it('should not change anything for a user if the attribute is invalid', function(done) {
-      server.post(baseURL + '/' + userData.username + '/change/notAnAttribute')
+      server.post(baseURL + '/edit')
         .set('content-type', 'application/json')
-        .send({ notAnAttribute: 'someValue' })
+        .send({ key: 'someKey', value: 'someValue', username: userData.username })
         .end(function(err, res) {
           res.should.have.status(400);
           res.should.be.json;
@@ -134,9 +138,9 @@ describe('User', function() {
     });
 
     it('should not change anything for a user that does not already exist', function(done) {
-      server.post(baseURL + '/doesNotExist/change/username')
+      server.post(baseURL + '/edit')
         .set('content-type', 'application/json')
-        .send({ username: 'someUsername' })
+        .send({ key: 'username', value: 'username', username: 'someUser' })
         .end(function(err, res) {
           res.should.have.status(404);
           res.should.be.json;
@@ -167,9 +171,9 @@ describe('User', function() {
           res.body.email.should.equal(secondUser.email);
 
 
-          server.post(baseURL + '/' + userData.username + '/change/username')
+          server.post(baseURL + '/edit')
             .set('content-type', 'application/json')
-            .send({ username: secondUser.username })
+            .send({ key: 'username', value: secondUser.username, username: userData.username })
             .end(function(err, res) {
               res.should.have.status(409);
               res.should.be.json;

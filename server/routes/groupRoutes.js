@@ -60,12 +60,8 @@ router.get('/:groupName', (req, res) => {
       return;
     }
 
-    let isMember = group.get('members').some((user) => { console.log(user.get('username')); return user.get('username') === req.body.username; }); // TODO get this from auth
+    let isMember = group.get('members').some((user) => user.get('username') === req.body.username); // TODO get this from auth
     let isVisible = group.get('visible');
-
-    console.log('username: ' + req.body.username);
-    console.log('isMember: ' + isMember);
-    console.log('isVisible: ' + isVisible);
 
     if (!isMember && !isVisible) {
       res.status(404).json({ err: 'group not found' });
