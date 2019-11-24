@@ -49,43 +49,6 @@ router.post('/create', (req, res) => {
 
 
 
-// TODO: what should be in the URL and what should be in the data?
-/*
- * To get a list of recordings, get the endpoint /api/recording/get
- *
- * For example, to get recordings for user bobbyS for December 2019:
- *   Get /api/recording/get
- *   With data:
- *   {
- *     username:  "bobbyS",
- *     lowRange:  "Sun, 1  December 2019 00:00:00 GMT",
- *     highRange: "Tue, 31 December 2019 23:59:59 GMT",
- *   }
- */
-router.get('/:recording', (req, res) => {
-  db.Recording.findAll({
-    where: {
-      username: req.body.username,
-      start: {
-        [Op.gte]: lowRange,
-        [Op.lte]: highRange
-      }
-    }
-  }).then((modelRecordingInstance) => {
-    if (modelRecordingInstance === null) {
-      res.status(404).json({ err: 'recordings not found' });
-      return;
-    }
-    res.json(modelRecordingInstance.get({ plain: true }));
-    return;
-  }).catch((err) => {
-    console.log('Error while retrieving recordings list.');
-    console.log(err);
-    res.status(500).json({ err: err });
-    return;
-  });
-});
-
 
 
 // TODO: implement meee
