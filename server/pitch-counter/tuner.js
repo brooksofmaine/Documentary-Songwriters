@@ -17,12 +17,26 @@ const Tuner = function() {
     'B'
   ]
   this.counter = 0
-
+  this.prev_peaks = []
+  this.final_peaks = []
+  this.frequencyData;
+  this.findPeaks = this.initD3Peaks()
   this.initGetUserMedia()
+  
 }
 
 
+Tuner.prototype.initD3Peaks = function () {
+  var ricker = d3_peaks.ricker;
 
+  var findPeaks = d3_peaks.findPeaks()
+    .kernel(ricker)
+    .gapThreshold(1)
+    .minLineLength(2)
+    .minSNR(2.0)
+    .widths([1,2,3]);
+  return findPeaks
+}
 
 Tuner.prototype.initGetUserMedia = function() {
   window.AudioContext = window.AudioContext || window.webkitAudioContext
@@ -61,10 +75,6 @@ Tuner.prototype.initGetUserMedia = function() {
 Tuner.prototype.startRecord = function () {
   const self = this
 
-
-
-
-
   navigator.mediaDevices
     .getUserMedia({ audio: true })
     .then(function(stream) {
@@ -73,25 +83,40 @@ Tuner.prototype.startRecord = function () {
       self.biquad.connect(self.scriptProcessor)
       self.scriptProcessor.connect(self.audioContext.destination)
       self.scriptProcessor.addEventListener('audioprocess', function(event) {
-        const frequency = self.pitchDetector.do(
-          event.inputBuffer.getChannelData(0)
-        )
-        if (frequency && self.onNoteDetected) {
-          const note = self.getNote(frequency)
-          self.onNoteDetected({
-            name: self.noteStrings[note % 12],
-            value: note,
-            cents: self.getCents(frequency, note),
-            octave: parseInt(note / 12) - 1,
-            frequency: frequency
-          })
-        }
+          // const frequency = self.pitchDetector.do(
+          //   event.inputBuffer.getChannelData(0)
+          // )
+          // if (frequency && self.onNoteDetected) {
+          //   const note = self.getNote(frequency)
+          //   self.onNoteDetected({
+          //     name: self.noteStrings[note % 12],
+          //     value: note,
+          //     cents: self.getCents(frequency, note),
+          //     octave: parseInt(note / 12) - 1,
+          //     frequency: frequency
+          //   })
+          // }
+          self.detect()
       })
     })
     .catch(function(error) {
       alert(error.name + ': ' + error.message)
     })
 }
+
+Tuner.prototype.stop = function() {
+ this.audioContext.close()
+ this.audioContext = null
+}
+
+Tuner.prototype.changeState = function() {
+if(this.audioContext.state === 'running') {
+    this.audioContext.suspend();
+  } else if(this.audioContext.state === 'suspended') {
+    this.audioContext.resume();  
+  }
+}
+
 
 Tuner.prototype.init = function() {
   this.audioContext = new window.AudioContext()
@@ -108,25 +133,19 @@ Tuner.prototype.init = function() {
     1,
     1
   )
-  // this.filter = this.audioContext.createBiquadFilter();
-  
+    this.startRecord()
+  }
 
-  const self = this
+Tuner.prototype.test_output = function () {
+  document.getElementById('counter').innerHTML = this.counter
 
-  Aubio().then(function(aubio) {
-    self.pitchDetector = new aubio.Pitch(
-      'default',
-      self.bufferSize,
-      1,
-      self.audioContext.sampleRate
-    )
-    self.startRecord()
-  })
+  var data = [{
+  y: this.frequencyData,
+    type: 'scatter',
+    }];
 
-/*  Aubio().then(function(aubio) {
-    self.tempo = new aubio.tempo()
-  })
-*/}
+  Plotly.newPlot('myDiv', data, {}, {showSendToCloud:true});
+}
 
 /**
  * get musical note from frequency
@@ -161,3 +180,7 @@ Tuner.prototype.getCents = function(frequency, note) {
     (1200 * Math.log(frequency / this.getStandardFrequency(note))) / Math.log(2)
   )
 }
+
+
+const tuner = new Tuner()
+module.exports = tuner
