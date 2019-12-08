@@ -5,6 +5,7 @@ import WelcomeBoard from './WelcomeBoard'
 import Record from './Record'
 import Group from './Groups/Group'
 import UserProfile from './Profiles/UserProfile.js'
+import NewGroup from './Groups/NewGroup'
 import {
     BrowserRouter as Router,
     Switch,
@@ -24,7 +25,8 @@ import {
                         <WelcomeBoard />
                     </Route>
                     <Route path="/api/record" component={Record} />
-                    <Route path="/api/groups" component={Group} />
+                    <Route path="/api/groups" exact component={Group} />
+                    <Route path="/api/groups/new" component={NewGroup} />
                     <Route path="/api/profile" component={UserProfile} />
                     </Switch>
                 </Router>

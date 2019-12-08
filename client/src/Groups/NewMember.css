@@ -1,0 +1,14 @@
+.NewMember {
+    border-radius: 5px;
+    background-color: #ddd;
+    font-weight: 300;
+    transition: 0.4s;
+}
+
+.NewMember:hover {
+    background-color: #aaa;
+}
+
+.MemberX {
+    color: #666;
+}
