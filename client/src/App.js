@@ -3,6 +3,8 @@ import NavBar from './NavBar'
 import LoginForm from './Authentication/LoginForm'
 import WelcomeBoard from './WelcomeBoard'
 import Record from './Record'
+import PrivateRoute from './Authentication/PrivateRoute'
+import AuthPages from './AuthPages'
 import './App.css'
 import {
   BrowserRouter as Router,
@@ -24,6 +26,7 @@ class App extends Component {
     .then(res => {
       this.setState({ data: res.express })})
     .catch(err => console.log(err));
+
   }
 
 
@@ -39,14 +42,13 @@ class App extends Component {
   render() {
     return (
     <div className="App">
-      <NavBar />
+      {/* <NavBar /> */}
       <Router>
         <Switch>
           <Route exact path="/" component={LoginForm} />
-          <Route path="/api/home">
-            <WelcomeBoard username="Bobby" />
-          </Route>
-          <Route path="/api/record" component={Record} />
+          <PrivateRoute path="/api">
+            <AuthPages isLoggedIn={true}/>
+          </PrivateRoute>
         </Switch>
       </Router>
       
