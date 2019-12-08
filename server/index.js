@@ -34,7 +34,7 @@ secret: 'some_secret_key',
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use('/auth', authRoutes);
+app.use('/api/auth', authRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/group', groupRoutes);
 

@@ -53,7 +53,7 @@ class LoginForm extends React.Component {
     };
 
     openGoogleLogin = () => {
-        window.open("http://localhost:5000/auth/google/", "Login",'height=800,width=500');
+        window.open("http://localhost:5000/api/auth/google/", "Login",'height=800,width=500');
     };
 
     createUser = async () => {
@@ -127,7 +127,7 @@ class LoginForm extends React.Component {
 
 
         /* Send it */
-        const response = await fetch('http://localhost:5000/auth/local', {
+        const response = await fetch('http://localhost:5000/api/auth/local', {
             method: 'post',
             headers: {
                 'Content-Type': 'application/json'
