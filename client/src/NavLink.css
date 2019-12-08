@@ -2,7 +2,7 @@
     display: inline-block;
     margin: 10px;
     color: #555;
-    font-weight: bold;
+    /* font-weight: bold; */
     font-size: large;
 }
 

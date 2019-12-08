@@ -6,12 +6,16 @@ import app from './pitch-counter/app.js'
 
 // Function to pause: change_state
 
+// import PitchCounter  from '../../server/pitch-counter/pitch_counter'
+
+
 class Record extends React.Component {
     constructor() {
         super()
         this.state = {
             count: 0
         }
+
         this.handleClick = this.handleClick.bind(this)
     }
 
@@ -27,6 +31,7 @@ class Record extends React.Component {
         // this.setState((state, props) => ({
         //     count: app.get_pitch_count()
         // }))
+
     }
 
     render() {

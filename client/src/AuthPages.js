@@ -28,6 +28,7 @@ import {
                     <Route path="/api/groups" exact component={Group} />
                     <Route path="/api/groups/new" component={NewGroup} />
                     <Route path="/api/profile" component={UserProfile} />
+
                     </Switch>
                 </Router>
             </div>
