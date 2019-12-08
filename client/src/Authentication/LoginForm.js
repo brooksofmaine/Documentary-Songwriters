@@ -32,7 +32,9 @@ class LoginForm extends React.Component {
             <div className="loginform">
                 <h1 className={"Title"}>Documentary Songwriters</h1>
                 <div className="login_area flex_container">
-                    <Button id="google" onClick={this.openGoogleLogin} name="Login with Google"/>
+                    <button className="google-button" onClick={() => this.openGoogleLogin()}>
+                        <img src={GoogleImg} alt="Google Login Button" />
+                    </button>
                     <div className={"user_login login_section"}>
                         {this.loginState()}
                     </div>
@@ -45,7 +47,7 @@ class LoginForm extends React.Component {
         window.addEventListener('message', (event) => {
             if (event.origin.startsWith("http://localhost:5000")) {
                 console.log("User " + event.data + " successfully logged in.");
-                //window.location = "/api/home";
+                window.location = "/api/home";
             }
         });
     };
@@ -156,19 +158,20 @@ class LoginForm extends React.Component {
     Login = () => {
         return (
             <div>
-                <form className="form">
+                <form className="auth-form">
                     <input className="login-input" type="text" placeholder="Username"
                            name="username" onChange={this.handleChange}/>
                     <input className="login-input" type="password" placeholder="Password"
                            name="password" onChange={this.handleChange}/>
-
+                    <Button id="login" onClick={this.authUser} name="Login"/>
+                    <p>New user? 
+                    <a href="#" onClick={() => {
+                        this.setState({login: 1})
+                    }}>
+                         Sign up here.</a>
+                    </p>
                 </form>
-                <Button id="login" onClick={this.authUser} name="Login"/>
-                <div className={"new_user_prompt login_section"}>
-                    <h2>New User?</h2>
-                    <a href={"#"} onClick={() => this.setState({login: 1})} >Click here to register a new account</a>
-
-                </div>
+                
             </div>
         )
     };
@@ -176,25 +179,27 @@ class LoginForm extends React.Component {
     Register = () => {
         return (
             <div>
-            <form className="Register">
+            <form className="auth-form">
                 <input className="login-input" type="text"
                        placeholder="Username" name="username" onChange={this.handleChange}/>
                 <input className="login-input" type="text"
                        placeholder="Email" name="email" onChange={this.handleChange}/>
                 <input className="login-input" type="text"
-                       placeholder="first name" name="firstName" onChange={this.handleChange}/>
+                       placeholder="First Name" name="firstName" onChange={this.handleChange}/>
                 <input className="login-input" type="text"
-                       placeholder="last name" name="lastName" onChange={this.handleChange}/>
+                       placeholder="Last Name" name="lastName" onChange={this.handleChange}/>
                 <input className="login-input" type="password"
                        placeholder="Password" name="password" onChange={this.handleChange}/>
                 <input className="login-input" type="password"
                        placeholder="Confirm Password" name="password_confirm" onChange={this.handleChange}/>
-            </form>
                 <Button id="register" onClick={this.createUser} name="Register"/>
-                <div className={"new_user_prompt login_section"}>
-                    <h2>Already have an account?</h2>
-                    <a href={"#"} onClick={() => this.setState({login: 0})} >Click here to log in</a>
-                </div>
+                <p>Already have an account? 
+                    <a href="#" onClick={() => {
+                        this.setState({login: 0})
+                    }}>
+                         Click here to log in</a>
+                    </p>
+            </form>
             </div>
         )
     };

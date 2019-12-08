@@ -1,4 +1,8 @@
 
+.LoginForm {
+    padding-top: 10vh;
+}
+
 .LoginForm input {
     height: 40px;
     border: none;
