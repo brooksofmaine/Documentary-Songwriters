@@ -8,7 +8,7 @@ class NavBar extends React.Component {
             <nav className="NavBar">
                 <NavLink url="/api/home" status="selected" value="Home"/>
                 <NavLink url="#" value="Progress"/>
-                <NavLink url="#" value="Groups"/>
+                <NavLink url="/api/groups" value="Groups"/>
                 <div className="added-item">
                     <NavLink url="#" value="My Profile"/>
                     <span className="dropdown">

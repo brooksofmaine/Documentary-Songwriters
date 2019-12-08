@@ -3,6 +3,7 @@ import NavBar from './NavBar'
 import LoginForm from './Authentication/LoginForm'
 import WelcomeBoard from './WelcomeBoard'
 import Record from './Record'
+import Group from './Groups/Group'
 import {
     BrowserRouter as Router,
     Switch,
@@ -22,6 +23,7 @@ import {
                         <WelcomeBoard />
                     </Route>
                     <Route path="/api/record" component={Record} />
+                    <Route path="/api/groups" component={Group} />
                     </Switch>
                 </Router>
             </div>
