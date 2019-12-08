@@ -19,7 +19,6 @@ const passport = require('passport');
 const authRoutes = require('./routes/auth-routes');
 const session = require('express-session');
 
-app.set('view engine', 'ejs');
 app.use(cors(corsOptions));
 app.use(require('cookie-parser')());
 app.use(bodyParser.json());

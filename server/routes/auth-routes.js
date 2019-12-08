@@ -10,7 +10,7 @@ function ensureAuthenticated(req, res, next)
     if (req.isAuthenticated()) {
         return next();
     } else {
-        res.status(403).json( {"failure": "you are not logged in"});
+        res.status(401).json( {"failure": "you are not logged in"});
     }
 }
 
@@ -25,11 +25,6 @@ router.get('/logout', ensureAuthenticated, (req,res) => {
     // TODO: detect whether logout is successful
     res.send('Success');
   // handle with passport
-});
-
-// auth with our own Login
-router.get('/local', (req, res) => {
-    res.sent("Error: GET method not supported.");
 });
 
 router.post('/local', passport.authenticate('local'), (req, res) => {
