@@ -139,5 +139,101 @@ router.post('/:groupName/change/:key', (req, res) => {
   });
 });
 
+//delete a group
+//TODO: make sure only admin of group can delete a group
+router.post('/:groupName/delete', (req, res) => {
+  let groupName = req.params.groupName;
+  db.Group.destroy({
+    where: {
+      groupName: groupName
+    }
+  }).then(([numRows, rowsAffected]) => {
+    if (numRows === 0) {
+      res.status(404).json({ err: 'group not found' });
+      return;
+    }
+  }).catch((err) => {
+    console.log('Error while retrieving group.');
+    console.log(err);
+    res.status(500).json({ err: err });
+    return;
+  });
+});
+
+//add a user to a group
+//TODO: make sure only admin of group can add user to a group
+router.post('/:groupName/add', (req, res) => {
+  let groupName = req.params.groupName;
+  let username = req.body.username;
+  let group = db.Group.findByPk(req.params.groupName).then((modelInstance) => {
+    if (modelInstance === null) {
+      res.status(404).json({ err: 'group not found' });
+      return;
+    }
+
+    res.json(modelInstance.get({ plain: true }));
+    return;
+  }).catch((err) => {
+    console.log('Error while retrieving group.');
+    console.log(err);
+    res.status(500).json({ err: err });
+    return;
+  });
+
+  db.User.addGroup(group, {
+    where: {
+      username: username
+    }
+  }).then(([numRows, rowsAffected]) => {
+    if (numRows === 0) {
+      res.status(404).json({ err: 'user not found' });
+      return;
+    }
+  }).catch((err) => {
+    console.log('Error while retrieving user.');
+    console.log(err);
+    res.status(500).json({ err: err });
+    return;
+  });
+});
+
+
+//delete a user from a group
+//TODO: make sure only admin of group can delete user from a group
+router.post('/:groupName/remove', (req, res) => {
+  let groupName = req.params.groupName;
+  let username = req.body.username;
+  let group = db.Group.findByPk(req.params.groupName).then((modelInstance) => {
+    if (modelInstance === null) {
+      res.status(404).json({ err: 'group not found' });
+      return;
+    }
+
+    res.json(modelInstance.get({ plain: true }));
+    return;
+  }).catch((err) => {
+    console.log('Error while retrieving group.');
+    console.log(err);
+    res.status(500).json({ err: err });
+    return;
+  });
+
+  db.User.removeGroup(group, {
+    where: {
+      username: username
+    }
+  }).then(([numRows, rowsAffected]) => {
+    if (numRows === 0) {
+      res.status(404).json({ err: 'user not found' });
+      return;
+    }
+  }).catch((err) => {
+    console.log('Error while retrieving user.');
+    console.log(err);
+    res.status(500).json({ err: err });
+    return;
+  });
+});
+
 module.exports = router;
 module.exports.init = (database) => { db = database; };
