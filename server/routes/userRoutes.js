@@ -37,6 +37,9 @@ router.post('/create', (req, res) => {
     password: req.body.password // TODO hash password
   };
 
+  console.log(req.body);
+  console.log(createObj);
+
   if (anyValuesUndefined(createObj)) {
     res.status(400).json({ err: 'undefined fields' });
     return;
