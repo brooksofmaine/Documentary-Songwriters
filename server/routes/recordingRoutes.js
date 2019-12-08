@@ -23,7 +23,7 @@ let db;
  */
 router.post('/create', (req, res) => {
   let createObj = {
-    username:    req.body.username, // TODO: change this to get current user
+    username:    req.user.username,
     start:       req.body.startTime,
     end:         req.body.endTime,
     instrument:  req.body.instrument,
@@ -66,7 +66,7 @@ router.post('/create', (req, res) => {
  * 
  */
 router.post('/edit', (req, res) => {
-  let username   = req.body.username; // TODO: how to get out username
+  let username   = req.user.username;
   let startTime  = req.body.startTime;
   let key        = req.body.key;
   let val        = req.body.val;
@@ -122,7 +122,7 @@ router.post('/edit', (req, res) => {
 router.post('/delete', (req, res) => {
   db.Recording.destroy({
     where: {
-      username:  req.body.username, // TODO: how to get out the logged in user
+      username:  req.user.username,
       start:     req.body.startTime
     }
   }).catch((err) => {
