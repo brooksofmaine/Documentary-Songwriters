@@ -6,6 +6,8 @@ let db;
 
 
 /*
+ * TODO: need to standardize timestamp
+ *
  * To create a recording, post to the endpoint /api/recording/create
  * with the username, start time, end time, instrument, number of pitches, 
  * and description in the body of the request
@@ -66,8 +68,6 @@ router.post('/create', (req, res) => {
  * 
  */
 router.post('/edit', (req, res) => {
-  let username   = req.user.username;
-  let startTime  = req.body.startTime;
   let key        = req.body.key;
   let val        = req.body.val;
   let updateObj  = {};
@@ -85,8 +85,8 @@ router.post('/edit', (req, res) => {
 
   db.Recording.update(updateObj, {
     where: { 
-      username: username,
-      start:    startTime 
+      username: req.user.username,
+      start:    req.body.startTime 
     },
     returning: true,
     raw: true
