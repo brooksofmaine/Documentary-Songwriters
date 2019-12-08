@@ -24,7 +24,13 @@ app.use(require('cookie-parser')());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(session({secret: 'some_secret_key', resave: false, saveUninitialized: false }));
+app.use(session({
+secret: 'some_secret_key',
+    resave: false,
+    saveUninitialized: false,
+    // persisting session: the cookie is valid for a whole year.
+    cookie: {maxAge: 1000 * 60 * 60 * 24 * 365}
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -43,7 +49,6 @@ const startDB = (done) => {
     passportSetup.init(database);
     db = database;
     db.sequelize.sync({force: true}).then(() => {
-      db.sequelize.sync;
       done();
     });
   });

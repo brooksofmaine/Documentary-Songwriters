@@ -100,7 +100,7 @@ class LoginForm extends React.Component {
         console.log(JSON.stringify(myJson));
 
         if (response.status === 200) {
-            alert("registration successful");
+            window.location = "/api/home";
         }
 
     };
