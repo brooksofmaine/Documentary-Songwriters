@@ -1,0 +1,19 @@
+.Center {
+    text-align: center;
+}
+
+.ProfilePicture {
+    margin: 0 auto;
+    margin-top: 5%;
+    height: 150px;
+    width: 150px;
+    border-radius: 100%;
+}
+
+.NoProPic {
+    background-color: #eee;
+}
+
+.Spacer {
+	height: 40px;
+}

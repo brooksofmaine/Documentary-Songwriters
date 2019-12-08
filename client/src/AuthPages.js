@@ -4,6 +4,7 @@ import LoginForm from './Authentication/LoginForm'
 import WelcomeBoard from './WelcomeBoard'
 import Record from './Record'
 import Group from './Groups/Group'
+import UserProfile from './Profiles/UserProfile.js'
 import {
     BrowserRouter as Router,
     Switch,
@@ -24,6 +25,7 @@ import {
                     </Route>
                     <Route path="/api/record" component={Record} />
                     <Route path="/api/groups" component={Group} />
+                    <Route path="/api/profile" component={UserProfile} />
                     </Switch>
                 </Router>
             </div>
