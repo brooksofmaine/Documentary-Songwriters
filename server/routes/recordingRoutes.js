@@ -66,7 +66,7 @@ router.post('/create', (req, res) => {
  * 
  */
 router.post('/edit', (req, res) => {
-  let username   = ""; // TODO: how to get out username
+  let username   = req.body.username; // TODO: how to get out username
   let startTime  = req.body.startTime;
   let key        = req.body.key;
   let val        = req.body.val;
