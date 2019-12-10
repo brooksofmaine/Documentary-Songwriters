@@ -2,6 +2,7 @@ const Tuner = function() {
   this.middleA = 440
   this.semitone = 69
   this.bufferSize = 4096
+
   this.noteStrings = [
     'C',
     'C♯',
@@ -61,15 +62,12 @@ Tuner.prototype.initGetUserMedia = function() {
 Tuner.prototype.startRecord = function () {
   const self = this
 
-
-
-
-
   navigator.mediaDevices
     .getUserMedia({ audio: true })
     .then(function(stream) {
       self.audioContext.createMediaStreamSource(stream).connect(self.analyser)
       self.analyser.connect(self.biquad)
+
       self.biquad.connect(self.scriptProcessor)
       self.scriptProcessor.connect(self.audioContext.destination)
       self.scriptProcessor.addEventListener('audioprocess', function(event) {
@@ -87,6 +85,7 @@ Tuner.prototype.startRecord = function () {
           })
         }
       })
+
     })
     .catch(function(error) {
       alert(error.name + ': ' + error.message)
@@ -108,6 +107,7 @@ Tuner.prototype.init = function() {
     1,
     1
   )
+
   // this.filter = this.audioContext.createBiquadFilter();
   
 
@@ -127,6 +127,7 @@ Tuner.prototype.init = function() {
     self.tempo = new aubio.tempo()
   })
 */}
+
 
 /**
  * get musical note from frequency
@@ -161,5 +162,6 @@ Tuner.prototype.getCents = function(frequency, note) {
     (1200 * Math.log(frequency / this.getStandardFrequency(note))) / Math.log(2)
   )
 }
+
 const tuner = new Tuner()
 module.exports = tuner

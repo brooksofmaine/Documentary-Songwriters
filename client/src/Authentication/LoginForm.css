@@ -1,20 +1,28 @@
 
-.LoginForm {
-    padding-top: 10vh;
-}
 
-.LoginForm input {
-    height: 40px;
+.form input {
+    height: 35px;
     border: none;
     padding-left: 10px;
     margin-bottom: 20px;
-    background-color: #cccccc;
+    background-color: #EBEBEB;
     border-radius: 5px;
-    font-size: 15px; 
+    font-size: 16px; 
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    width: 30vw;
+    /* border: 1px solid blue; */
 }
 /* TODO: Find better workaround for this issue with input heights */
-.auth-form.registration {
-    height: 70vh;
+/* .auth-form.registration {
+    height: 50vh;
+    justify-content: space-around;
+}
+.auth-form.registration input {
+    height: 2.5em;
 }
 
 
@@ -23,14 +31,15 @@
     -webkit-box-shadow: 0px 0px 7px 0px rgba(19,83,245,1);
     -moz-box-shadow: 0px 0px 7px 0px rgba(19,83,245,1);
     box-shadow: 0px 0px 7px 0px rgba(19,83,245,1);
-}
+} */
 
-.auth-form {
+/* .auth-form {
     width: 40vw;
     height: 70vh;
     display: flex; 
     flex-direction: column;
-}
+    justify-content: space-between;  
+} */
 .login-area {
     margin-top: 5vh;
     display: flex;
@@ -98,38 +107,20 @@
     width: 80%;
 } */
 
-.login-input {
-    height: 35px;
-    border: none;
-    padding-left: 10px;
-    margin-bottom: 20px;
-    background-color: #cccccc;
-    border-radius: 0.3em;
-    font-size: 16px;
-
-}
-
-.login-input:focus {
+/* .login-input:focus {
     outline: none;
     -webkit-box-shadow: 0px 0px 7px 0px rgba(19,83,245,1);
     -moz-box-shadow: 0px 0px 7px 0px rgba(19,83,245,1);
     box-shadow: 0px 0px 7px 0px rgba(19,83,245,1);
-}
+} */
 
-.form {
-    display: flex;
-    flex-direction: column;
-    min-width: 50%
-}
+
 
 .Register {
     display: flex;
     flex-direction: column;
 }
 
-.Register .Button {
-    
-}
 
 #google {
     margin-bottom: 15px;

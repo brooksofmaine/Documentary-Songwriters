@@ -3,18 +3,40 @@ import './NavBar.css';
 import NavLink from './NavLink.js';
 
 class NavBar extends React.Component {
+    constructor() {
+        super()
+        this.state = {
+            highlighted: 0
+        }
+    }
+
+
     render() {
+        const style = {
+            "fontWeight": 800
+        }
         return (
             <nav className="NavBar">
-                <NavLink url="/api/home" status="selected" value="Home"/>
-                <NavLink url="#" value="Progress"/>
-                <NavLink url="#" value="Groups"/>
-                <div className="added-item">
-                    <NavLink url="#" value="My Profile"/>
+                <a style={style}
+                   className="nav-link" 
+                   href="/api/home">Home</a>
+                <a className="nav-link" href="/api/groups">Groups</a>
+                <div className="dropdown-menu">
+                    <a className="nav-link" href="/api/profile">My Progress</a>
                     <span className="dropdown">
-                        <NavLink className="dropdown" url="/" value="Logout" />
+                       <a href="/">Log out</a>
                     </span>
                 </div>
+                
+
+
+                {/* <NavLink url="/api/home" status="selected" value="Home"/>
+                <NavLink url="#" value="Progress"/>
+                <NavLink url="/api/groups" value="Groups"/>
+                <div className="added-item">
+                    <NavLink url="/api/profile" value="My Profile"/>
+                    
+                </div> */}
                 
             </nav>
         );

@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import LoginForm from './Authentication/LoginForm'
-import AuthPages from './AuthPages'
+import WelcomeBoard from './WelcomeBoard'
+import Record from './Record'
 import PrivateRoute from './Authentication/PrivateRoute'
+import AuthPages from './AuthPages'
 import './App.css'
 import {
   BrowserRouter as Router,
@@ -30,6 +32,7 @@ class App extends Component {
       this.setState({ data: res.express })
     })
     .catch(err => console.log(err));
+
   }
 
   callBackendAPI = async () => {
@@ -45,10 +48,12 @@ class App extends Component {
   render() {
     return (
     <div className="App">
+
       <Router>
         <Switch>
           <Route exact path="/" component={LoginForm} />
           <PrivateRoute path="/api">
+
             <AuthPages />
           </PrivateRoute>
         </Switch>

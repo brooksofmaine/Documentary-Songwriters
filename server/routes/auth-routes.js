@@ -5,6 +5,7 @@ let client_add = "http://localhost:3000";
 // function ensureAuthenticated
 // ensures the user is logged in before it grants access to the api.
 // input: req, the request; res, the response obj; next, the function to be called next
+
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
         return next();
@@ -38,6 +39,7 @@ router.post('/local', passport.authenticate('local'), (req, res) => {
     });
 });
 
+
 // auth with google
 router.get('/google', passport.authenticate('google', {
   scope: ['profile', 'email']
@@ -48,13 +50,16 @@ router.get('/google/redirect',
   passport.authenticate('google', {"failureRedirect": "/google"}),
   (req,res) => {
       var name = req.user.firstName + " " + req.user.lastName;
+
       res.send("<html><p>Login successful. </p><button onclick='window.close()'>Close Window</button>" +
           "<script>window.onload = () => {" +
           "window.opener.postMessage(\"" + name + "\", \"" + client_add + "\"); window.close()};</script></html>");
+
   }
 );
 
 router.get('/loginstatus', (req, res) => {
+
     if (typeof req.user !== 'undefined' && req.user !== null) {
         res.json({
             "status": "logged_in",

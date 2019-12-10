@@ -2,7 +2,9 @@ import React from "react"
 import Counter from './Counter'
 import Stopwatch from './Stopwatch'
 import './Record.css';
+import app from './pitch-counter/app.js'
 
+// Function to pause: change_state
 
 // import PitchCounter  from '../../server/pitch-counter/pitch_counter'
 
@@ -18,32 +20,25 @@ class Record extends React.Component {
     }
 
     componentDidMount() {
-        // const script1 = document.createElement("script")
-        // script1.src = './pitch-counter/tuner.js'
-        // document.body.appendChild(script1)
-
-        const app = require('./pitch-counter/pitch_counter.js')
-        app.start()
-        console.log("Pitch count: ", app.get_pitch_count())
-
-
+        this.interval = setInterval(() => this.setState({ count: app.get_pitch_count() }), 500);
 
     }
-    // Temporary function--only used to demonstrate counter
+
+    // Temporary function--only used to demonstrate counter 
     // component
     handleClick() {
-        console.log(window.app.get_pitch_count())
+        // console.log(app.get_pitch_count())
+        // this.setState((state, props) => ({
+        //     count: app.get_pitch_count()
+        // }))
 
-        this.setState((state, props) => ({
-            count: state.count + 1
-        }))
     }
 
     render() {
         return(
             <div className="Record">
                 <Counter handleClick={this.handleClick} countNum={this.state.count} />
-                <Stopwatch/>
+                <Stopwatch startFunction={() => app.start()} stopFunction={() => app.stop()}/>
             </div>
         )
     }

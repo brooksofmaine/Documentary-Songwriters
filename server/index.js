@@ -35,6 +35,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/api/auth', authRoutes);
+
 app.use('/api/user', userRoutes);
 app.use('/api/group', groupRoutes);
 
