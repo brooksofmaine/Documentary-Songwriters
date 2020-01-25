@@ -139,9 +139,12 @@ router.post('/:groupName/change/:key', (req, res) => {
   });
 });
 
+
 //delete a group
 //TODO: make sure only admin of group can delete a group
 router.post('/:groupName/delete', (req, res) => {
+  //req.user.username --> check if this is admin
+
   let groupName = req.params.groupName;
   db.Group.destroy({
     where: {
