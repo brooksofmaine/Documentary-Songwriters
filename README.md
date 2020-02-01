@@ -34,5 +34,5 @@ Steven Song
 ### 4. Run the code ###
     0. cd into the repository
     1. Install dependencies: npm install
-    2. Start server: node index.js
+    2. Start server: npm start
     3. Go to: http://localhost:3000/
