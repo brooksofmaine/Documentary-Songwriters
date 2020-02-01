@@ -110,7 +110,7 @@ router.post('/:groupName/change/:key', (req, res) => {
   }
 
   if (anyValuesUndefined(updateObj)) {
-    res.status(400).json({ err: 'undefined fields' });
+    res.status(404).json({ err: 'undefined fields' });
     return;
   }
 
