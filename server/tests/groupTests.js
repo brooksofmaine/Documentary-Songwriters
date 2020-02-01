@@ -128,7 +128,7 @@ describe('Group', function() {
     });
 
     it('should not change anything for a group that does not already exist', function(done) {
-      server.post(baseURL + '/doesNotExist/change/groupname')
+      server.post(baseURL + '/doesNotExist/change/groupName')
         .set('content-type', 'application/json')
         .send({ groupName: 'someGroupname' })
         .end(function(err, res) {
