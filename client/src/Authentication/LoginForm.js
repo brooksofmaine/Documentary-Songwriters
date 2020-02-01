@@ -191,9 +191,6 @@ class LoginForm extends React.Component {
             <div className="loginform">
                 <h1 className={"Title"}>Documentary Songwriters</h1>
                 <div className="login_area flex_container">
-                    <button className="google-button" onClick={() => this.openGoogleLogin()}>
-                        <img src={GoogleImg} alt="Google Login Button" />
-                    </button>
                     <div className={"user_login login_section"}>
                     <button className="google-button" onClick={() => this.openGoogleLogin()}>
                         <img src={GoogleImg} alt="Google Login Button" />
