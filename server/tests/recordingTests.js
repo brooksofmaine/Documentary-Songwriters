@@ -60,36 +60,36 @@ describe('Recording', function() {
   });
 
 
-  describe('Create', function() {
-    it('should create a recording for current user', function(done) {
-      server.post(baseURL + '/create')
-        .set('content-type', 'application/json')
-        .send(recordingData)
-        .end(function(err, res) {
-          res.should.have.status(200);
-          res.should.be.json;
-          res.body.username   .should.equal(recordingData.username);
-          res.body.startTime  .should.equal(recordingData.startTime);
-          res.body.endTime    .should.equal(recordingData.endTime);
-          res.body.instrument .should.equal(recordingData.instrument);
-          res.body.numPitches .should.equal(recordingData.numPitches);
-          res.body.description.should.equal(recordingData.description);
-          done();
-        });
-    });
+  // describe('Create', function() {
+  //   it('should create a recording for current user', function(done) {
+  //     server.post(baseURL + '/create')
+  //       .set('content-type', 'application/json')
+  //       .send(recordingData)
+  //       .end(function(err, res) {
+  //         res.should.have.status(200);
+  //         res.should.be.json;
+  //         res.body.username   .should.equal(recordingData.username);
+  //         res.body.startTime  .should.equal(recordingData.startTime);
+  //         res.body.endTime    .should.equal(recordingData.endTime);
+  //         res.body.instrument .should.equal(recordingData.instrument);
+  //         res.body.numPitches .should.equal(recordingData.numPitches);
+  //         res.body.description.should.equal(recordingData.description);
+  //         done();
+  //       });
+  //   });
 
-    it('should not create a recording that overlaps in time with another', function(done) {
-      server.post(baseURL + '/create')
-        .set('content-type', 'application/json')
-        .send(recordingData)
-        .end(function(err, res) {
-          res.should.have.status(409);
-          res.should.be.json;
-          res.body.err.should.equal('already recorded');
-          done();
-        });
-    });
-  });
+  //   it('should not create a recording that overlaps in time with another', function(done) {
+  //     server.post(baseURL + '/create')
+  //       .set('content-type', 'application/json')
+  //       .send(recordingData)
+  //       .end(function(err, res) {
+  //         res.should.have.status(409);
+  //         res.should.be.json;
+  //         res.body.err.should.equal('already recorded');
+  //         done();
+  //       });
+  //   });
+  // });
 
 
 
@@ -182,5 +182,4 @@ describe('Recording', function() {
   //       });
   //   });
   // });
-
 });
