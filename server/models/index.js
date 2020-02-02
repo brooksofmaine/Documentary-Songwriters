@@ -55,55 +55,55 @@ module.exports.init = (done) => {
 };
 
 
-/*******************************************************************
-    GROUPS
-*******************************************************************/
+// /*******************************************************************
+//     GROUPS
+// *******************************************************************/
 
-module.exports.changeGroupName = (oldGroupName, newGroupName) => {
-  return db.Group.update({
-    groupName: newGroupName
-  }, {
-    where: {groupName: oldGroupName},
-    returning: true,
-    raw: true
-  }).then(([numRows, [group]]) => {
-    return group;
-  });
-};
+// module.exports.changeGroupName = (oldGroupName, newGroupName) => {
+//   return db.Group.update({
+//     groupName: newGroupName
+//   }, {
+//     where: {groupName: oldGroupName},
+//     returning: true,
+//     raw: true
+//   }).then(([numRows, [group]]) => {
+//     return group;
+//   });
+// };
 
-module.exports.changeGroupDescription = (groupName, description) => {
-  return db.Recording.update({
-    description: description
-  }, {
-    where: {
-      groupName: groupName
-    },
-    returning: true,
-    raw: true
-  }).then(([numRows, [group]]) => {
-    return group;
-  });
-};
+// module.exports.changeGroupDescription = (groupName, description) => {
+//   return db.Recording.update({
+//     description: description
+//   }, {
+//     where: {
+//       groupName: groupName
+//     },
+//     returning: true,
+//     raw: true
+//   }).then(([numRows, [group]]) => {
+//     return group;
+//   });
+// };
 
-module.exports.changeGroupPrivacy = (groupName, public) => {
-  return db.Recording.update({
-    public: public
-  }, {
-    where: {
-      groupName: groupName
-    },
-    returning: true,
-    raw: true
-  }).then(([numRows, [group]]) => {
-    return group;
-  });
-};
+// module.exports.changeGroupPrivacy = (groupName, public) => {
+//   return db.Recording.update({
+//     public: public
+//   }, {
+//     where: {
+//       groupName: groupName
+//     },
+//     returning: true,
+//     raw: true
+//   }).then(([numRows, [group]]) => {
+//     return group;
+//   });
+// };
 
-module.exports.deleteGroup = (groupName) => {
-  return db.Recording.destroy({
-    where: {
-      groupName: groupName
-    }
-  });
-};
+// module.exports.deleteGroup = (groupName) => {
+//   return db.Recording.destroy({
+//     where: {
+//       groupName: groupName
+//     }
+//   });
+// };
 
