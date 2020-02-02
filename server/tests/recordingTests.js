@@ -51,17 +51,17 @@ describe('Recording', function() {
         .end(function(err, res) {
           res.should.have.status(200);
           res.should.be.json;
-          res.body.username.should.equal(userData.username);
+          res.body.username .should.equal(userData.username);
           res.body.firstName.should.equal(userData.firstName);
-          res.body.lastName.should.equal(userData.lastName);
-          res.body.email.should.equal(userData.email);
+          res.body.lastName .should.equal(userData.lastName);
+          res.body.email    .should.equal(userData.email);
           done();
         });
     });
 
     it('should create a recording for current user', function(done) {
       server.post(baseURL + '/create') 
-      .set('content-type', 'application/json')
+        .set('content-type', 'application/json')
         .send(recordingData)
         .end(function(err, res) {
           res.should.have.status(200);
