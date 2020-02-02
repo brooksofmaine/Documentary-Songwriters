@@ -76,17 +76,17 @@ describe('Recording', function() {
         });
     });
 
-    // it('should not create a recording that overlaps in time with another', function(done) {
-    //   server.post(baseURL + '/create')
-    //     .set('content-type', 'application/json')
-    //     .send(recordingData)
-    //     .end(function(err, res) {
-    //       res.should.have.status(409);
-    //       res.should.be.json;
-    //       res.body.err.should.equal('already recorded');
-    //       done();
-    //     });
-    // });
+    it('should not create a recording that overlaps in time with another', function(done) {
+      server.post(baseURL + '/create')
+        .set('content-type', 'application/json')
+        .send(recordingData)
+        .end(function(err, res) {
+          res.should.have.status(409);
+          res.should.be.json;
+          res.body.err.should.equal('already recorded');
+          done();
+        });
+    });
   });
 
 
