@@ -93,7 +93,7 @@ describe('Recording', function() {
 
   describe('Get recording', function() {
     it('should get a recording that already exists', function(done) {
-      server.get('/api/user/'+recordingData.username+'/recordings?low="' +recordingData.startTime+ '"&high="' +recordingData.endTime+ '"')
+      server.get('/api/user/'+recordingData.username+'/recordings?low="2016-04-23T17:25:43.511Z"&high="2016-04-23T20:25:43.511Z"')
         .end(function(err, res) {
           res.should.have.status(200);
           res.should.be.json;
