@@ -69,94 +69,94 @@ describe('Recording', function() {
 
 
 
-  describe('Get recording', function() {
-    it('should get a recording that already exists', function(done) {
-      server.get('/api/user/'+recordingData.userName+'/recordings?low="' +recordingData.startTime+ '"&high="' +recordingData.endTime+ '"')
-        .end(function(err, res) {
-          res.should.have.status(200);
-          res.should.be.json;
-          res.body.userName   .should.equal(recordingData.userName);
-          res.body.startTime  .should.equal(recordingData.startTime);
-          res.body.endTime    .should.equal(recordingData.endTime);
-          res.body.instrument .should.equal(recordingData.instrument);
-          res.body.numPitches .should.equal(recordingData.numPitches);
-          res.body.description.should.equal(recordingData.description);
-          done();
-        });
-    });
+  // describe('Get recording', function() {
+  //   it('should get a recording that already exists', function(done) {
+  //     server.get('/api/user/'+recordingData.userName+'/recordings?low="' +recordingData.startTime+ '"&high="' +recordingData.endTime+ '"')
+  //       .end(function(err, res) {
+  //         res.should.have.status(200);
+  //         res.should.be.json;
+  //         res.body.userName   .should.equal(recordingData.userName);
+  //         res.body.startTime  .should.equal(recordingData.startTime);
+  //         res.body.endTime    .should.equal(recordingData.endTime);
+  //         res.body.instrument .should.equal(recordingData.instrument);
+  //         res.body.numPitches .should.equal(recordingData.numPitches);
+  //         res.body.description.should.equal(recordingData.description);
+  //         done();
+  //       });
+  //   });
 
-    it('should not get a recording that does not already exist', function(done) {
-      server.get('/api/user/'+recordingData.userName+'/recordings?low="0"&high="0"')
-        .end(function(err, res) {
-          res.should.have.status(404);
-          res.should.be.json;
-          res.body.err.should.equal('recordings not found');
-          done();
-        });
-    });
-  });
-
-
-
-  describe('Edit recording', function() {
-    let newRecordingData = {
-      userName:    'user2',
-      startTime:   'Wed, 20 July 2016 06:00:00 GMT',
-      endTime:     'Wed, 20 July 2016 06:02:00 GMT',
-      instrument:  'violin',
-      numPitches:  200,
-      description: 'never gonna give you up'
-    };
-
-    it('should change a recording\'s description', function(done) {
-      server.post(baseURL + '/edit')
-        .set('content-type', 'application/json')
-        .send({
-          startTime: 'Wed, 20 July 2016 06:00:00 GMT',
-          key: 'description',
-          val: 'rickroll'
-        })
-        .end(function(err, res) {
-          res.should.have.status(200);
-          res.should.be.json;
-          res.body[key].should.equal(newRecordingData[key]);
-          recordingData[key] = res.body[key];
-          done();
-        });
-    });
-
-    // now userData == newUser
-
-    it('should not change anything for a recording if the attribute is invalid', function(done) {
-      server.post(baseURL + '/edit')
-        .set('content-type', 'application/json')
-        .send({ 
-          notAnAttribute: 'someValue' 
-        })
-        .end(function(err, res) {
-          res.should.have.status(400);
-          res.should.be.json;
-          res.body.err.should.equal('key not recognized');
-          done();
-        });
-    });
+  //   it('should not get a recording that does not already exist', function(done) {
+  //     server.get('/api/user/'+recordingData.userName+'/recordings?low="0"&high="0"')
+  //       .end(function(err, res) {
+  //         res.should.have.status(404);
+  //         res.should.be.json;
+  //         res.body.err.should.equal('recordings not found');
+  //         done();
+  //       });
+  //   });
+  // });
 
 
-    it('should not change anything for a user that does not already exist', function(done) {
-      server.post(baseURL + '/edit')
-        .set('content-type', 'application/json')
-        .send({
-          startTime: 'Wed, 20 July 2015 06:00:00 GMT',
-          key: 'description',
-          val: 'not found'
-        })
-        .end(function(err, res) {
-          res.should.have.status(404);
-          res.should.be.json;
-          res.body.err.should.equal('recording not found');
-          done();
-        });
-    });
-  });
+
+  // describe('Edit recording', function() {
+  //   let newRecordingData = {
+  //     userName:    'user2',
+  //     startTime:   'Wed, 20 July 2016 06:00:00 GMT',
+  //     endTime:     'Wed, 20 July 2016 06:02:00 GMT',
+  //     instrument:  'violin',
+  //     numPitches:  200,
+  //     description: 'never gonna give you up'
+  //   };
+
+  //   it('should change a recording\'s description', function(done) {
+  //     server.post(baseURL + '/edit')
+  //       .set('content-type', 'application/json')
+  //       .send({
+  //         startTime: 'Wed, 20 July 2016 06:00:00 GMT',
+  //         key: 'description',
+  //         val: 'rickroll'
+  //       })
+  //       .end(function(err, res) {
+  //         res.should.have.status(200);
+  //         res.should.be.json;
+  //         res.body[key].should.equal(newRecordingData[key]);
+  //         recordingData[key] = res.body[key];
+  //         done();
+  //       });
+  //   });
+
+  //   // now userData == newUser
+
+  //   it('should not change anything for a recording if the attribute is invalid', function(done) {
+  //     server.post(baseURL + '/edit')
+  //       .set('content-type', 'application/json')
+  //       .send({ 
+  //         notAnAttribute: 'someValue' 
+  //       })
+  //       .end(function(err, res) {
+  //         res.should.have.status(400);
+  //         res.should.be.json;
+  //         res.body.err.should.equal('key not recognized');
+  //         done();
+  //       });
+  //   });
+
+
+  //   it('should not change anything for a user that does not already exist', function(done) {
+  //     server.post(baseURL + '/edit')
+  //       .set('content-type', 'application/json')
+  //       .send({
+  //         startTime: 'Wed, 20 July 2015 06:00:00 GMT',
+  //         key: 'description',
+  //         val: 'not found'
+  //       })
+  //       .end(function(err, res) {
+  //         res.should.have.status(404);
+  //         res.should.be.json;
+  //         res.body.err.should.equal('recording not found');
+  //         done();
+  //       });
+  //   });
+  // });
   
 });
