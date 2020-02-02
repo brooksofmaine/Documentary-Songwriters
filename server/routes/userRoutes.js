@@ -167,7 +167,7 @@ router.get('/:username/recordings', (req, res) => {
   db.Recording.findAll({
     where: {
       username: req.params.username,
-      start: {
+      startTime: {
         [Op.gte]: req.query.lowRange,
         [Op.lte]: req.query.highRange
       }
