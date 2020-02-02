@@ -36,7 +36,7 @@ describe('Recording', function() {
   });
 
 
-  describe('Create recording', function() {
+  describe('Create', function() {
     it('should create a recording for current user', function(done) {
       server.post(baseURL + '/create')
         .set('content-type', 'application/json')
@@ -158,5 +158,5 @@ describe('Recording', function() {
   //       });
   //   });
   // });
-  
+
 });
