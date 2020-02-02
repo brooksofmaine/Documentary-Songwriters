@@ -1,6 +1,9 @@
 module.exports = (sequelize, DataTypes) => {
   let Recording = sequelize.define('Recording', {
-    username: DataTypes.STRING,
+    username: {
+      type: DataTypes.STRING,
+      primaryKey: true
+    },
     startTime: {
       type: DataTypes.DATE,
       primaryKey: true

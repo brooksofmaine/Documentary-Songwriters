@@ -25,6 +25,7 @@ const startDB = (done) => {
   models.init((database) => {
     userRoutes.init(database);
     groupRoutes.init(database);
+    recordingRoutes.init(database);
     db = database;
     db.sequelize.sync({ force: true }).then(() => {
       done();
