@@ -30,11 +30,11 @@ let db;
  */
 router.post('/create', (req, res) => {
   let createObj = {
-    username: req.body.username,
+    username:  req.body.username,
     firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    email: req.body.email,
-    password: req.body.password // TODO hash password
+    lastName:  req.body.lastName,
+    email:     req.body.email,
+    password:  req.body.password // TODO hash password
   };
 
   if (anyValuesUndefined(createObj)) {

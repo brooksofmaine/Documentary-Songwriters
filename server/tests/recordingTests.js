@@ -60,8 +60,8 @@ describe('Recording', function() {
     });
 
     it('should create a recording for current user', function(done) {
-      server.post(baseURL + '/create')
-        .set('content-type', 'application/json')
+      server.post(baseURL + '/create') 
+      .set('content-type', 'application/json')
         .send(recordingData)
         .end(function(err, res) {
           res.should.have.status(200);

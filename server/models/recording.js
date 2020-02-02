@@ -5,10 +5,10 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true
     },
     startTime: {
-      type: DataTypes.DATE,
+      type: DataTypes.STRING,
       primaryKey: true
     },
-    endTime: DataTypes.DATE,
+    endTime: DataTypes.STRING,
     numPitches: DataTypes.INTEGER,
     instrument: DataTypes.STRING,
     description: DataTypes.STRING
