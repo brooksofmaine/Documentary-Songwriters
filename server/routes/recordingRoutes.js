@@ -26,8 +26,8 @@ let db;
 router.post('/create', (req, res) => {
   let createObj = {
     username:    req.user.username,
-    start:       req.body.startTime,
-    end:         req.body.endTime,
+    startTime:   req.body.startTime,
+    endTime:     req.body.endTime,
     instrument:  req.body.instrument,
     numPitches:  req.body.numPitches,
     description: req.body.description
@@ -85,8 +85,8 @@ router.post('/edit', (req, res) => {
 
   db.Recording.update(updateObj, {
     where: { 
-      username: req.user.username,
-      start:    req.body.startTime 
+      username:  req.user.username,
+      startTime: req.body.startTime 
     },
     returning: true,
     raw: true
@@ -123,7 +123,7 @@ router.post('/delete', (req, res) => {
   db.Recording.destroy({
     where: {
       username:  req.user.username,
-      start:     req.body.startTime
+      startTime: req.body.startTime
     }
   }).catch((err) => {
     console.log('Error while deleting recording.');
