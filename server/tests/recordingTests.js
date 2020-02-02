@@ -16,8 +16,15 @@ before(function(done) {
 
 describe('Recording', function() {
   let server;
+  let userData = {
+    username: 'johnS',
+    firstName: 'john',
+    lastName: 'smith',
+    email: 'johnsmith@email.com',
+    password: 'foobar'
+  };
   let recordingData = {
-    userName:    'john',
+    username:    userData.username,
     startTime:   'Wed, 27 July 2016 07:45:00 GMT',
     endTime:     'Wed, 27 July 2016 07:51:00 GMT',
     instrument:  'piano',
@@ -36,26 +43,19 @@ describe('Recording', function() {
   });
 
   describe('Create preliminary user', function() {
-  let userData = {
-    username: recordingData.userName,
-    firstName: 'john',
-    lastName: 'smith',
-    email: 'johnsmith@email.com',
-    password: 'foobar'
-  };
-  it('should create a user that does not already exist', function(done) {
-    server.post(baseURL + '/create')
-      .set('content-type', 'application/json')
-      .send(userData)
-      .end(function(err, res) {
-        res.should.have.status(200);
-        res.should.be.json;
-        res.body.username.should.equal(userData.username);
-        res.body.firstName.should.equal(userData.firstName);
-        res.body.lastName.should.equal(userData.lastName);
-        res.body.email.should.equal(userData.email);
-        done();
-      });
+    it('should create a user that does not already exist', function(done) {
+      server.post(baseURL + '/create')
+        .set('content-type', 'application/json')
+        .send(userData)
+        .end(function(err, res) {
+          res.should.have.status(200);
+          res.should.be.json;
+          res.body.username.should.equal(userData.username);
+          res.body.firstName.should.equal(userData.firstName);
+          res.body.lastName.should.equal(userData.lastName);
+          res.body.email.should.equal(userData.email);
+          done();
+        });
     });
   });
 
@@ -68,7 +68,7 @@ describe('Recording', function() {
         .end(function(err, res) {
           res.should.have.status(200);
           res.should.be.json;
-          res.body.userName   .should.equal(recordingData.userName);
+          res.body.username   .should.equal(recordingData.username);
           res.body.startTime  .should.equal(recordingData.startTime);
           res.body.endTime    .should.equal(recordingData.endTime);
           res.body.instrument .should.equal(recordingData.instrument);
@@ -95,11 +95,11 @@ describe('Recording', function() {
 
   // describe('Get recording', function() {
   //   it('should get a recording that already exists', function(done) {
-  //     server.get('/api/user/'+recordingData.userName+'/recordings?low="' +recordingData.startTime+ '"&high="' +recordingData.endTime+ '"')
+  //     server.get('/api/user/'+recordingData.username+'/recordings?low="' +recordingData.startTime+ '"&high="' +recordingData.endTime+ '"')
   //       .end(function(err, res) {
   //         res.should.have.status(200);
   //         res.should.be.json;
-  //         res.body.userName   .should.equal(recordingData.userName);
+  //         res.body.username   .should.equal(recordingData.username);
   //         res.body.startTime  .should.equal(recordingData.startTime);
   //         res.body.endTime    .should.equal(recordingData.endTime);
   //         res.body.instrument .should.equal(recordingData.instrument);
@@ -110,7 +110,7 @@ describe('Recording', function() {
   //   });
 
   //   it('should not get a recording that does not already exist', function(done) {
-  //     server.get('/api/user/'+recordingData.userName+'/recordings?low="0"&high="0"')
+  //     server.get('/api/user/'+recordingData.username+'/recordings?low="0"&high="0"')
   //       .end(function(err, res) {
   //         res.should.have.status(404);
   //         res.should.be.json;
@@ -124,7 +124,7 @@ describe('Recording', function() {
 
   // describe('Edit recording', function() {
   //   let newRecordingData = {
-  //     userName:    'user2',
+  //     username:    'user2',
   //     startTime:   'Wed, 20 July 2016 06:00:00 GMT',
   //     endTime:     'Wed, 20 July 2016 06:02:00 GMT',
   //     instrument:  'violin',

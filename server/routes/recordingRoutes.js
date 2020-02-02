@@ -25,7 +25,7 @@ let db;
  */
 router.post('/create', (req, res) => {
   let createObj = {
-    userName:    req.user.userName,
+    username:    req.body.username,
     startTime:   req.body.startTime,
     endTime:     req.body.endTime,
     instrument:  req.body.instrument,
@@ -90,7 +90,7 @@ router.post('/edit', (req, res) => {
 
   db.Recording.update(updateObj, {
     where: { 
-      userName:  req.user.userName,
+      username:  req.body.username,
       startTime: req.body.startTime 
     },
     returning: true,
@@ -127,7 +127,7 @@ router.post('/edit', (req, res) => {
 router.post('/delete', (req, res) => {
   db.Recording.destroy({
     where: {
-      userName:  req.user.userName,
+      username:  req.body.username,
       startTime: req.body.startTime
     }
   }).catch((err) => {
