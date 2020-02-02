@@ -91,32 +91,32 @@ describe('Recording', function() {
 
 
 
-  // describe('Get recording', function() {
-  //   it('should get a recording that already exists', function(done) {
-  //     server.get('/api/user/'+recordingData.username+'/recordings?low="' +recordingData.startTime+ '"&high="' +recordingData.endTime+ '"')
-  //       .end(function(err, res) {
-  //         res.should.have.status(200);
-  //         res.should.be.json;
-  //         res.body.username   .should.equal(recordingData.username);
-  //         res.body.startTime  .should.equal(recordingData.startTime);
-  //         res.body.endTime    .should.equal(recordingData.endTime);
-  //         res.body.instrument .should.equal(recordingData.instrument);
-  //         res.body.numPitches .should.equal(recordingData.numPitches);
-  //         res.body.description.should.equal(recordingData.description);
-  //         done();
-  //       });
-  //   });
+  describe('Get recording', function() {
+    it('should get a recording that already exists', function(done) {
+      server.get('/api/user/'+recordingData.username+'/recordings?low="' +recordingData.startTime+ '"&high="' +recordingData.endTime+ '"')
+        .end(function(err, res) {
+          res.should.have.status(200);
+          res.should.be.json;
+          res.body.username   .should.equal(recordingData.username);
+          res.body.startTime  .should.equal(recordingData.startTime);
+          res.body.endTime    .should.equal(recordingData.endTime);
+          res.body.instrument .should.equal(recordingData.instrument);
+          res.body.numPitches .should.equal(recordingData.numPitches);
+          res.body.description.should.equal(recordingData.description);
+          done();
+        });
+    });
 
-  //   it('should not get a recording that does not already exist', function(done) {
-  //     server.get('/api/user/'+recordingData.username+'/recordings?low="0"&high="0"')
-  //       .end(function(err, res) {
-  //         res.should.have.status(404);
-  //         res.should.be.json;
-  //         res.body.err.should.equal('recordings not found');
-  //         done();
-  //       });
-  //   });
-  // });
+    it('should not get a recording that does not already exist', function(done) {
+      server.get('/api/user/'+recordingData.username+'/recordings?low="0"&high="0"')
+        .end(function(err, res) {
+          res.should.have.status(404);
+          res.should.be.json;
+          res.body.err.should.equal('recordings not found');
+          done();
+        });
+    });
+  });
 
 
 
