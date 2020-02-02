@@ -14,34 +14,10 @@ before(function(done) {
   app.startDB(done);
 });
 
-describe('Create', function() {
-  let userData = {
-    username: 'bobbyS',
-    firstName: 'bob',
-    lastName: 'smith',
-    email: 'email@email.com',
-    password: 'foobar'
-  };
-  it('should create a user that does not already exist', function(done) {
-    server.post(baseURL + '/create')
-      .set('content-type', 'application/json')
-      .send(userData)
-      .end(function(err, res) {
-        res.should.have.status(200);
-        res.should.be.json;
-        res.body.username.should.equal(userData.username);
-        res.body.firstName.should.equal(userData.firstName);
-        res.body.lastName.should.equal(userData.lastName);
-        res.body.email.should.equal(userData.email);
-        done();
-      });
-  });
-});
-
 describe('Recording', function() {
   let server;
   let recordingData = {
-    userName:    'bobbyS',
+    userName:    'john',
     startTime:   'Wed, 27 July 2016 07:45:00 GMT',
     endTime:     'Wed, 27 July 2016 07:51:00 GMT',
     instrument:  'piano',
@@ -57,6 +33,30 @@ describe('Recording', function() {
   after(function(done) {
     server.close();
     done();
+  });
+
+  describe('Create preliminary user', function() {
+  let userData = {
+    username: recordingData.userName,
+    firstName: 'john',
+    lastName: 'smith',
+    email: 'johnsmith@email.com',
+    password: 'foobar'
+  };
+  it('should create a user that does not already exist', function(done) {
+    server.post(baseURL + '/create')
+      .set('content-type', 'application/json')
+      .send(userData)
+      .end(function(err, res) {
+        res.should.have.status(200);
+        res.should.be.json;
+        res.body.username.should.equal(userData.username);
+        res.body.firstName.should.equal(userData.firstName);
+        res.body.lastName.should.equal(userData.lastName);
+        res.body.email.should.equal(userData.email);
+        done();
+      });
+    });
   });
 
 
