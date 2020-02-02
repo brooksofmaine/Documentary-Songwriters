@@ -16,10 +16,10 @@ let db;
  *   Post /api/recording/create
  *   With data:
  *   {
- *     startTime:   "Wed, 27 July 2016 07:45:00 GMT",
- *     endTime:     "Wed, 27 July 2016 07:51:00 GMT",
+ *     startTime:   "2016-04-23T18:25:43.511Z",
+ *     endTime:     "2016-04-23T19:25:43.511Z",
  *     instrument:  "piano",
- *     numPitches:  "100",
+ *     numPitches:  100,
  *     description: "Moonlight Sonata"
  *   }
  */

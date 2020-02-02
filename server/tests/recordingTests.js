@@ -26,8 +26,8 @@ describe('Recording', function() {
 
   let recordingData = {
     username:    userData.username,
-    startTime:   'Wed, 27 July 2016 07:45:00 GMT',
-    endTime:     'Wed, 27 July 2016 07:51:00 GMT',
+    startTime:   '2016-04-23T18:25:43.511Z',
+    endTime:     '2016-04-23T19:25:43.511Z',
     instrument:  'piano',
     numPitches:  100,
     description: 'moonlight sonata'
@@ -43,8 +43,8 @@ describe('Recording', function() {
     done();
   });
 
-  describe('Create preliminary user', function() {
-    it('should create a user that does not already exist', function(done) {
+  describe('Create', function() {
+    it('should create a preliminary user to attach recordings to', function(done) {
       server.post('/api/user/create')
         .set('content-type', 'application/json')
         .send(userData)
@@ -58,10 +58,7 @@ describe('Recording', function() {
           done();
         });
     });
-  });
 
-
-  describe('Create', function() {
     it('should create a recording for current user', function(done) {
       server.post(baseURL + '/create')
         .set('content-type', 'application/json')
