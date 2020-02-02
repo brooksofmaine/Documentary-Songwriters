@@ -23,6 +23,7 @@ describe('Recording', function() {
     email: 'johnsmith@email.com',
     password: 'foobar'
   };
+
   let recordingData = {
     username:    userData.username,
     startTime:   'Wed, 27 July 2016 07:45:00 GMT',
@@ -44,7 +45,7 @@ describe('Recording', function() {
 
   describe('Create preliminary user', function() {
     it('should create a user that does not already exist', function(done) {
-      server.post(baseURL + '/create')
+      server.post('/api/user/create')
         .set('content-type', 'application/json')
         .send(userData)
         .end(function(err, res) {
