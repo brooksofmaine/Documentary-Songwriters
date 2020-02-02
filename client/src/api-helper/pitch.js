@@ -3,10 +3,10 @@
  *
  * Usage:
  * Header Area:
- * import {getRecordings} from "./api-helper/pitch";
+ * import UserFunc from "./api-helper/pitch";
  *
  * When you use it:
- * let result = getRecordings("1", "2019-11-21T02:25:42.123Z", "2019-12-31T02:25:42.123Z")
+ * let result = UserFunc.getRecordings("1", "2019-11-21T02:25:42.123Z", "2019-12-31T02:25:42.123Z")
  *
  * TODO: include query domain in a config file.
  */
@@ -32,8 +32,7 @@ export class PitchFunc {
         }
 
         // Json Parsing
-        const myJson = await response.json();
-        return JSON.stringify(myJson);
+        return await response.json();
     }
 
     // getPitchTotalCount:
@@ -51,3 +50,5 @@ export class PitchFunc {
         return pitch_sum;
     }
 }
+
+export default PitchFunc;

@@ -3,7 +3,7 @@
  *
  * Usage:
  * Header Area:
- * import {} from "./api-helper/user";
+ * import UserFunc from "./api-helper/user";
  *
  * When you use it:
  * let result =
@@ -13,18 +13,17 @@
 
 import {server_add, init_params_get} from "./config";
 
-export class UserFunc {
-    async getCurrentUser () {
+export default class UserFunc {
+    static async getCurrentUser () {
         const query_url = server_add + "/api/auth/loginstatus";
         const response = await fetch(query_url, init_params_get);
         if (response.status !== 200) {
             throw Error("Error: Connection Error");
         }
-        const myJson = await response.json();
-        return JSON.stringify(myJson);
+        return await response.json();
     }
 
-    async getUserInfo (username) {
+    static async getUserInfo (username) {
         const query_url = server_add + "/api/user/" + username;
         const response = await fetch(query_url, init_params_get);
         if (response.status === 404) {
@@ -32,7 +31,6 @@ export class UserFunc {
         } else if (response.status !== 200) {
             throw Error("Error: Connection Error");
         }
-        const myJson = await response.json();
-        return JSON.stringify(myJson);
+        return await response.json();
     }
 }
