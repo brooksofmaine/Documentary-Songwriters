@@ -42,6 +42,11 @@ router.post('/create', (req, res) => {
     res.json(newRecordingInstance.get({ plain: true }));
     return;
   }).catch((err) => {
+    if (err.name === 'SequelizeUniqueConstraintError') {
+      res.status(409).json({ err: 'already recorded' });
+      return;
+    }
+
     console.log('Error while creating recording.');
     console.log(err);
     res.status(500).json({ err: err });

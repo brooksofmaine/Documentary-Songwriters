@@ -17,9 +17,9 @@ before(function(done) {
 describe('Recording', function() {
   let server;
   let recordingData = {
-    username:    'bobbyS',
-    start:       'Wed, 27 July 2016 07:45:00 GMT',
-    end:         'Wed, 27 July 2016 07:51:00 GMT',
+    userName:    'bobbyS',
+    startTime:   'Wed, 27 July 2016 07:45:00 GMT',
+    endTime:     'Wed, 27 July 2016 07:51:00 GMT',
     instrument:  'piano',
     numPitches:  100,
     description: 'moonlight sonata'
@@ -44,24 +44,24 @@ describe('Recording', function() {
         .end(function(err, res) {
           res.should.have.status(200);
           res.should.be.json;
-          res.body.username.should.equal(recordingData.username);
-          res.body.start.should.equal(recordingData.start);
-          res.body.end.should.equal(recordingData.end);
-          res.body.instrument.should.equal(recordingData.instrument);
-          res.body.numPitches.should.equal(recordingData.numPitches);
+          res.body.userName   .should.equal(recordingData.userName);
+          res.body.startTime  .should.equal(recordingData.startTime);
+          res.body.endTime    .should.equal(recordingData.endTime);
+          res.body.instrument .should.equal(recordingData.instrument);
+          res.body.numPitches .should.equal(recordingData.numPitches);
           res.body.description.should.equal(recordingData.description);
           done();
         });
     });
 
-    it('should not create a recording that overlaps with another', function(done) {
+    it('should not create a recording that overlaps in time with another', function(done) {
       server.post(baseURL + '/create')
         .set('content-type', 'application/json')
-        .send(userData)
+        .send(recordingData)
         .end(function(err, res) {
           res.should.have.status(409);
           res.should.be.json;
-          res.body.err.should.equal('username taken');
+          res.body.err.should.equal('already recorded');
           done();
         });
     });
@@ -70,25 +70,27 @@ describe('Recording', function() {
 
 
   describe('Get recording', function() {
-    it('should get a user that already exists', function(done) {
-      server.get(baseURL + '/' + userData.username)
+    it('should get a recording that already exists', function(done) {
+      server.get('/api/user/'+recordingData.userName+'/recordings?low="' +recordingData.startTime+ '"&high="' +recordingData.endTime+ '"')
         .end(function(err, res) {
           res.should.have.status(200);
           res.should.be.json;
-          res.body.username.should.equal(userData.username);
-          res.body.firstName.should.equal(userData.firstName);
-          res.body.lastName.should.equal(userData.lastName);
-          res.body.email.should.equal(userData.email);
+          res.body.userName   .should.equal(recordingData.userName);
+          res.body.startTime  .should.equal(recordingData.startTime);
+          res.body.endTime    .should.equal(recordingData.endTime);
+          res.body.instrument .should.equal(recordingData.instrument);
+          res.body.numPitches .should.equal(recordingData.numPitches);
+          res.body.description.should.equal(recordingData.description);
           done();
         });
     });
 
-    it('should not get a user that does not already exist', function(done) {
-      server.get(baseURL + '/doesNotExist')
+    it('should not get a recording that does not already exist', function(done) {
+      server.get('/api/user/'+recordingData.userName+'/recordings?low="0"&high="0"')
         .end(function(err, res) {
           res.should.have.status(404);
           res.should.be.json;
-          res.body.err.should.equal('user not found');
+          res.body.err.should.equal('recordings not found');
           done();
         });
     });
@@ -97,42 +99,40 @@ describe('Recording', function() {
 
 
   describe('Edit recording', function() {
-    // change username, email, firstName, lastName
-    // attempt to change for someone who does not exist
-    // attempt to change a field that does not exist
-    // attempt to change a username that is already taken
-    let newUser = {
-      username: 'robertS',
-      firstName: 'robert',
-      lastName: 'smithson',
-      email: 'new@email.com',
-      password: 'password'
+    let newRecordingData = {
+      userName:    'user2',
+      startTime:   'Wed, 20 July 2016 06:00:00 GMT',
+      endTime:     'Wed, 20 July 2016 06:02:00 GMT',
+      instrument:  'violin',
+      numPitches:  200,
+      description: 'never gonna give you up'
     };
 
-    for (let [key, value] of Object.entries(newUser)) {
-      let data = {};
-      data[key] = value;
-
-      it('should change a user\'s ' + key + ' to a new ' + key, function(done) {
-        server.post(baseURL + '/' + userData.username + '/change/' + key)
-          .set('content-type', 'application/json')
-          .send(data)
-          .end(function(err, res) {
-            res.should.have.status(200);
-            res.should.be.json;
-            res.body[key].should.equal(newUser[key]);
-            userData[key] = res.body[key];
-            done();
-          });
-      });
-    }
+    it('should change a recording\'s description', function(done) {
+      server.post(baseURL + '/edit')
+        .set('content-type', 'application/json')
+        .send({
+          startTime: 'Wed, 20 July 2016 06:00:00 GMT',
+          key: 'description',
+          val: 'rickroll'
+        })
+        .end(function(err, res) {
+          res.should.have.status(200);
+          res.should.be.json;
+          res.body[key].should.equal(newRecordingData[key]);
+          recordingData[key] = res.body[key];
+          done();
+        });
+    });
 
     // now userData == newUser
 
-    it('should not change anything for a user if the attribute is invalid', function(done) {
-      server.post(baseURL + '/' + userData.username + '/change/notAnAttribute')
+    it('should not change anything for a recording if the attribute is invalid', function(done) {
+      server.post(baseURL + '/edit')
         .set('content-type', 'application/json')
-        .send({ notAnAttribute: 'someValue' })
+        .send({ 
+          notAnAttribute: 'someValue' 
+        })
         .end(function(err, res) {
           res.should.have.status(400);
           res.should.be.json;
@@ -141,50 +141,22 @@ describe('Recording', function() {
         });
     });
 
+
     it('should not change anything for a user that does not already exist', function(done) {
-      server.post(baseURL + '/doesNotExist/change/username')
+      server.post(baseURL + '/edit')
         .set('content-type', 'application/json')
-        .send({ username: 'someUsername' })
+        .send({
+          startTime: 'Wed, 20 July 2015 06:00:00 GMT',
+          key: 'description',
+          val: 'not found'
+        })
         .end(function(err, res) {
           res.should.have.status(404);
           res.should.be.json;
-          res.body.err.should.equal('user not found');
+          res.body.err.should.equal('recording not found');
           done();
         });
     });
-
-    let secondUser = {
-      username: 'bobbyS',
-      firstName: 'bob',
-      lastName: 'smith',
-      email: 'email@email.com',
-      password: 'anotherone'
-    };
-
-    it('should not change a user\'s username if the new username is already taken', function(done) {
-      // need to create a second user, changing own usernme to itself does not error
-      server.post(baseURL + '/create')
-        .set('content-type', 'application/json')
-        .send(secondUser)
-        .end(function(err, res) {
-          res.should.have.status(200);
-          res.should.be.json;
-          res.body.username.should.equal(secondUser.username);
-          res.body.firstName.should.equal(secondUser.firstName);
-          res.body.lastName.should.equal(secondUser.lastName);
-          res.body.email.should.equal(secondUser.email);
-
-
-          server.post(baseURL + '/' + userData.username + '/change/username')
-            .set('content-type', 'application/json')
-            .send({ username: secondUser.username })
-            .end(function(err, res) {
-              res.should.have.status(409);
-              res.should.be.json;
-              res.body.err.should.equal('username taken');
-              done();
-            });
-        });
-    });
   });
+  
 });
