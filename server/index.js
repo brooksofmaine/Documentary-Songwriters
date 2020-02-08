@@ -4,7 +4,7 @@ const cors = require('cors');
 const app = express();
 const port = 5000;
 const models = require('./models');
-const passportSetup = require('./config/passport-setup');
+const passportSetup = require('./passport/passport-setup');
 const userRoutes = require('./routes/userRoutes');
 const groupRoutes = require('./routes/groupRoutes');
 let db;
