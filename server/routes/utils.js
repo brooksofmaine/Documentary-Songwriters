@@ -16,3 +16,7 @@ module.exports.groupKeyCheck = (key) => {
           key === 'description' ||
           key === 'visible');
 };
+
+module.exports.recordingKeyCheck = (key) => {
+  return (key == 'description');
+};
