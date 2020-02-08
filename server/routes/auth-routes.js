@@ -28,14 +28,38 @@ router.get('/logout', ensureAuthenticated, (req,res) => {
 });
 
 router.post('/local', passport.authenticate('local'), (req, res) => {
-    res.json({
-        "status": "success",
-        "user": {
-            "username": req.user.username,
-            "email": req.user.email,
-            "firstName": req.user.firstName,
-            "lastName": req.user.lastName
-        }
+    // don't set remember me cookie only when option not selected
+    if (!req.body.remember_me) { 
+        res.json({
+            "status": "success",
+            "user": {
+                "username": req.user.username,
+                "email": req.user.email,
+                "firstName": req.user.firstName,
+                "lastName": req.user.lastName
+            },
+            "remember_me": "false"
+        });
+        return next(); 
+    }
+
+    // set remember me cookie
+    var token = utils.generateToken(64);
+    Token.save(token, { userId: req.user.id }, (err) => {
+        if (err) { return done(err); }
+        res.cookie('remember_me', token, { path: '/', httpOnly: true, maxAge: 31536000000 }); // 365 days
+        
+        res.json({
+            "status": "success",
+            "user": {
+                "username": req.user.username,
+                "email": req.user.email,
+                "firstName": req.user.firstName,
+                "lastName": req.user.lastName
+            },
+            "remember_me": "true"
+        });
+        return next();
     });
 });
 
