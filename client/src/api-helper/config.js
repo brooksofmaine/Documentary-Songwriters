@@ -11,4 +11,3 @@ export const init_params_get = {
     },
     credentials: 'include'
 };
-

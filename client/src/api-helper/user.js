@@ -2,13 +2,14 @@
  * Aux functions for user
  *
  * Usage:
+ *
  * Header Area:
  * import UserFunc from "./api-helper/user";
  *
  * When you use it:
- * let result =
- *
- * TODO: include query domain in a config file.
+ * let result = await UserFunc.getCurrentUser();
+ * or
+ * UserFunc.getCurrentUser().then(<callback function>);
  */
 
 import {server_add, init_params_get} from "./config";

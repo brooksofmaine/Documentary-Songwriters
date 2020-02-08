@@ -13,12 +13,12 @@
 
 import {server_add, init_params_get} from "./config";
 
-export class PitchFunc {
+export class RecordingFunc {
     // Get Recordings of User:
     // To get the recordings of a user between a time range
     // GET /api/user/{username}/recordings?low=<lowBound>&high=<highBound>
     // checked runtime error if user not found, parsing failed etc
-    async getRecordings(username, start_time, end_time){
+    static async getRecordings(username, start_time, end_time){
         const query_url = server_add + "/api/user/" + username +
             "/recordings?low=" + start_time + "&high=" + end_time;
         const response = await fetch(query_url, init_params_get);
@@ -40,7 +40,7 @@ export class PitchFunc {
     // Calls getRecordings.
     // GET /api/user/{username}/recordings?low=<lowBound>&high=<highBound>
     // checked runtime error if user not found, parsing failed etc
-    async getPitchTotalCount(username, start_time, end_time){
+    static async getPitchTotalCount(username, start_time, end_time){
         const recording_list = await this.getRecordings(username, start_time, end_time);
         let pitch_sum = 0;
         // TODO: error handling
@@ -49,6 +49,35 @@ export class PitchFunc {
         }
         return pitch_sum;
     }
+
+    static async newRecording(numPitches, instrument, description, startTime, endTime) {
+        const query_url = server_add + "/api/recording/create";
+        const new_recording = {
+            "numPitches": numPitches,
+            "instrument": instrument,
+            "description": description,
+            "startTime": startTime,
+            "endTime": endTime
+        };
+
+        const post_params = {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include',
+            body: JSON.stringify(new_recording)
+        };
+
+        const response = await fetch(query_url, post_params);
+        if (response.status === 404) {
+            throw Error("Error: User or Group Not Found");
+        } else if (response.status !== 200) {
+            throw Error("Error: Connection Error");
+        }
+
+        return await response.json();
+    }
 }
 
-export default PitchFunc;
+export default RecordingFunc;

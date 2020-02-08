@@ -4,6 +4,8 @@ import WelcomeCounter from "./WelcomeCounter";
 import Button from "./Button"
 
 import UserFunc from "./api-helper/user";
+import RecordingFunc from "./api-helper/recording";
+import GroupFunc from "./api-helper/group";
 
 class WelcomeBoard extends React.Component {
     constructor() {
@@ -16,6 +18,21 @@ class WelcomeBoard extends React.Component {
                 this.setState({"username": user_info.user.firstName + " " + user_info.user.lastName});
             }
         });
+    }
+
+    componentDidMount(): void {
+        console.log("------- BEGIN TESTING --------");
+        UserFunc.getUserInfo("123").then((result, err) => {
+            console.log(result);
+        });
+
+        const old_date = new Date();
+        old_date.setHours(old_date.getHours() - 1);
+        const date2 = new Date();
+        RecordingFunc.newRecording(10, "Piano", "Some description", old_date.toISOString(), date2.toISOString()).then((result) => {
+            console.log("RESULT: ", result);
+        });
+
     }
 
     render() {
