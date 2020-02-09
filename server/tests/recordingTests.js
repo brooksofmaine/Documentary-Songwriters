@@ -92,7 +92,7 @@ describe('Recording', function() {
 
   describe('Get', function() {
     it('should get a user that already exists', function(done) {
-      server.get(baseURL + '/' + userData.username)
+      server.get('/api/user/' +userData.username)
         .end(function(err, res) {
           res.should.have.status(200);
           res.should.be.json;
@@ -105,7 +105,7 @@ describe('Recording', function() {
     });
 
     it('should get a recording that already exists', function(done) {
-      server.get('/api/user/'+recordingData.username+'recordings?')
+      server.get('/api/user/'+recordingData.username+'recordings?low=2016-04-23T18:25:43.511Z&high=2016-04-23T19:25:43.511Z')
         .end(function(err, res) {
           res.should.have.status(200);
           res.should.be.json;
