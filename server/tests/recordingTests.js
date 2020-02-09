@@ -38,10 +38,10 @@ describe('Recording', function() {
     done();
   });
 
-  // after(function(done) {
-  //   server.close();
-  //   done();
-  // });
+  after(function(done) {
+    server.close();
+    done();
+  });
 
   describe('Create', function() {
     it('should create a preliminary user to attach recordings to', function(done) {
@@ -90,9 +90,9 @@ describe('Recording', function() {
   });
 
 
-  describe('Get recording', function() {
+  describe('Get', function() {
     it('should get a recording that already exists', function(done) {
-      server.get('/api/user/'+recordingData.username+'/recordings?')
+      server.get('/api/user/' +recordingData.username+ '/')
         .end(function(err, res) {
           res.should.have.status(200);
           res.should.be.json;
@@ -119,7 +119,7 @@ describe('Recording', function() {
 
 
 
-  // describe('Edit recording', function() {
+  // describe('Edit', function() {
   //   let newRecordingData = {
   //     username: recordingData.username,
   //     startTime: recordingData.startTime,

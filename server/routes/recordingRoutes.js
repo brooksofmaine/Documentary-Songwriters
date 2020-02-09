@@ -7,15 +7,18 @@ let db;
 
 /*
  * TODO: need to standardize timestamp
+ * TODO: can we grab the username from the login session?
+ *       instead of putting it into the body
  *
  * To create a recording, post to the endpoint /api/recording/create
  * with the username, start time, end time, instrument, number of pitches, 
  * and description in the body of the request
  *
- * For example, to create a recording for Bob Smith, who is already logged in:
+ * For example, to create a recording for John Smith, who is already logged in:
  *   Post /api/recording/create
  *   With data:
  *   {
+ *     username:    "johnS",
  *     startTime:   "2016-04-23T18:25:43.511Z",
  *     endTime:     "2016-04-23T19:25:43.511Z",
  *     instrument:  "piano",
