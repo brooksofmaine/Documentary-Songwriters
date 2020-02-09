@@ -164,8 +164,8 @@ router.post('/:username/change/:key', (req, res) => {
  *
  */
 router.get('/:username/recordings', (req, res) => {
-  db.Recording.findByPk(
-    req.params.username,
+  db.Recording.findAll(
+    req.params.username
   ).then((modelInstance) => {
     if (modelInstance === null) {
       res.status(404).json({ err: 'recordings not found' });
