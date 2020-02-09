@@ -164,7 +164,7 @@ router.post('/:username/change/:key', (req, res) => {
  *
  */
 router.get('/:username/recordings', (req, res) => {
-  db.Recording.findAll({
+  db.Recording.findByPk({
     where: {
       username: req.params.username,
       startTime: {
