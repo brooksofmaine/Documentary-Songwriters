@@ -38,10 +38,10 @@ describe('Recording', function() {
     done();
   });
 
-  after(function(done) {
-    server.close();
-    done();
-  });
+  // after(function(done) {
+  //   server.close();
+  //   done();
+  // });
 
   describe('Create', function() {
     it('should create a preliminary user to attach recordings to', function(done) {

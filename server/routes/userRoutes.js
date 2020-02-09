@@ -168,8 +168,8 @@ router.get('/:username/recordings', (req, res) => {
     where: {
       username: req.params.username,
       startTime: {
-        [Op.gte]: req.query.lowRange,
-        [Op.lte]: req.query.highRange
+        [Op.gte]: req.query.low,
+        [Op.lte]: req.query.high
       }
     }
   }).then((modelInstance) => {
