@@ -91,8 +91,21 @@ describe('Recording', function() {
 
 
   describe('Get', function() {
+    it('should get a user that already exists', function(done) {
+      server.get(baseURL + '/' + userData.username)
+        .end(function(err, res) {
+          res.should.have.status(200);
+          res.should.be.json;
+          res.body.username.should.equal(userData.username);
+          res.body.firstName.should.equal(userData.firstName);
+          res.body.lastName.should.equal(userData.lastName);
+          res.body.email.should.equal(userData.email);
+          done();
+        });
+    });
+
     it('should get a recording that already exists', function(done) {
-      server.get('/api/user/johnS')
+      server.get('/api/user/'+recordingData.username+'recordings?')
         .end(function(err, res) {
           res.should.have.status(200);
           res.should.be.json;
