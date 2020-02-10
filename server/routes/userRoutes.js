@@ -163,17 +163,23 @@ router.post('/:username/change/:key', (req, res) => {
  *   GET /api/user/bobbyS/recordings?low="2019-11-01T00:00:00.000Z"&high="2019-11-30T23:59:59.999Z"
  *
  */
-router.get('/:username/recordings', (req, res) => {
+router.get('/:username/recordings?', (req, res) => {
   db.Recording.findAll({
     where: {
-      username: req.params.username
+      username: req.params.username,
+      startTime: {
+        [Sequelize.Op.gte]: req.query.lowRange
+      },
+      startTime: {
+        [Sequelize.Op.lte]: req.query.highRange
+      }
     }
   }).then((modelInstance) => {
     if (modelInstance === null) {
       res.status(404).json({ err: 'recordings not found' });
       return;
     }
-    // res.json(modelInstance.get({ plain: true }));
+    res.json(modelInstance.get({ plain: true }));
     return;
   }).catch((err) => {
     console.log('Error while retrieving recordings.');

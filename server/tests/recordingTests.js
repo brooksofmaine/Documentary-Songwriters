@@ -107,7 +107,7 @@ describe('Recording', function() {
     });
 
     it('should not get a recording that does not already exist', function(done) {
-      server.get('/api/user/'+recordingData.username+'/recordings?low="0"&high="0"')
+      server.get('/api/user/'+recordingData.username+'/recordings?lowRange="0"&highRange="0"')
         .end(function(err, res) {
           res.should.have.status(404);
           res.should.be.json;
