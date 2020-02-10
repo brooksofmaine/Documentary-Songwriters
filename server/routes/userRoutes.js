@@ -163,13 +163,19 @@ router.post('/:username/change/:key', (req, res) => {
  *   GET /api/user/bobbyS/recordings?lowBound="2019-11-01T00:00:00.000Z"&highBound="2019-11-30T23:59:59.999Z"
  *
  */
-router.get('/:username/recordings?', (req, res) => {
+router.get('/:username/recordings', (req, res) => {
   db.Recording.findAll({
     where: {
-      username: req.params.username,
-      startDate: {
-        $between: [req.query.lowBound, req.query.highBound]
-      }
+      [Op.and]: [
+        {
+          username: req.params.username
+        },
+        {
+          startDate: {
+            [Op.between]: [req.query.lowBound, req.query.highBound]
+          }
+        }
+      ]
     }
   }).then((modelInstance) => {
     if (modelInstance === null) {
