@@ -128,12 +128,20 @@ router.post('/edit', (req, res) => {
  *   }
  */
 router.post('/delete', (req, res) => {
-  db.Recording.destroy({
-    where: {
-      username:  req.body.username,
-      startTime: req.body.startTime
-    }
-  }).catch((err) => {
+  let createObj = {
+    username:    req.body.username,
+    startTime:   req.body.startTime,
+    endTime:     req.body.endTime,
+    instrument:  req.body.instrument,
+    numPitches:  req.body.numPitches,
+    description: req.body.description
+  };
+  if (anyValuesUndefined(createObj)) {
+    res.status(400).json({ err: 'undefined fields' });
+    return;
+  }
+  db.Recording.destroy(createObj)
+  .catch((err) => {
     console.log('Error while deleting recording.');
     console.log(err);
     res.status(500).json({ err: err });
