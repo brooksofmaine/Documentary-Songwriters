@@ -153,25 +153,22 @@ router.post('/:username/change/:key', (req, res) => {
 
 /*
  * To get a user's recordings, get the endpoint 
- * /api/user/{username}/recordings?low=<lowBound>&high=<highBound>
+ * /api/user/{username}/recordings?lowBound=<lowBound>&highBound=<highBound>
  *
  * where username is that of the user, and lowBound/highBound indicate the 
  * range for which you're retrieving recordings.
  *
  * For example, to get recordings for user bobbyS for November 2019,
  * 
- *   GET /api/user/bobbyS/recordings?low="2019-11-01T00:00:00.000Z"&high="2019-11-30T23:59:59.999Z"
+ *   GET /api/user/bobbyS/recordings?lowBound="2019-11-01T00:00:00.000Z"&highBound="2019-11-30T23:59:59.999Z"
  *
  */
 router.get('/:username/recordings?', (req, res) => {
   db.Recording.findAll({
     where: {
       username: req.params.username,
-      startTime: {
-        [Sequelize.Op.gte]: req.query.lowRange
-      },
-      startTime: {
-        [Sequelize.Op.lte]: req.query.highRange
+      startDate: {
+        $between: [req.query.lowBound, req.query.highBound]
       }
     }
   }).then((modelInstance) => {
