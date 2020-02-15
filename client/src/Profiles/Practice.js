@@ -56,19 +56,25 @@ class Practice extends React.Component {
             minuteStr = this.props.length.minutes;
         }
 
+        const formattedInstrument = this.props.instrument.charAt(0).toUpperCase() 
+                                    + this.props.instrument.slice(1);
+
         return(
             <div className = "Practice">
-                <div className = "PracticeCol Date PaddedDate">
+                <div className = "PracticeCol PaddedDate">
                     <p>
                         {dateStr + ' ' 
                          + this.props.date.day + ', ' 
                          + this.props.date.year}
                     </p>
                 </div>
-                <div className = "PracticeCol Length">
+                <div className = "PracticeCol PaddedLength">
                     {this.props.length.hours + ':' + minuteStr}
                 </div>
-                <div className = "PracticeCol Pitch PaddedPitch">
+                <div className = "PracticeCol PaddedInstrument">
+                    {formattedInstrument}
+                </div>
+                <div className = "PracticeCol PaddedPitch">
                     {this.props.pitches}
                 </div>
             </div>

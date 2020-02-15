@@ -2,6 +2,19 @@
     text-align: center;
 }
 
+.GreyBackground {
+    background-color: #eee;
+    width: 100%;
+}
+
+.InstrumentLine {
+    font-weight: 200;
+}
+
+.NoProPic {
+    background-color: #ddd;
+}
+
 .ProfilePicture {
     margin: 0 auto;
     margin-top: 5%;
@@ -10,8 +23,9 @@
     border-radius: 100%;
 }
 
-.NoProPic {
-    background-color: #eee;
+.SmallSpacer {
+    height: 10px;
+    margin: 0;
 }
 
 .Spacer {

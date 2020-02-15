@@ -1,6 +1,7 @@
 import React from 'react';
 
-import userData from './userData';  // temporary data
+import userData2 from './userData2';  // temporary data
+import OneOption from './OneOption';
 import PracticeBar from './PracticeBar';
 import './UserProfile.css';
 
@@ -9,46 +10,88 @@ class UserProfile extends React.Component {
         super();
     }
 
+    async componentDidMount() {
+        /*
+        // will have username passed in as props (?)
+
+        // get user
+        await fetch('/api/user/{username}')
+            .then(response => response.json())
+            .then(data => {
+                // get creation date of account
+            })
+
+        await fetch('/api/user/{username}/recordings?low=<lowBound>&high=<highBound>')
+            // from creation date to now
+            // convert times
+            .then(response => response.json())
+            .then(data => {
+                // store these recordings then pass in where userData was
+            })
+        */
+    }
+
+    clickOption(option) {
+        console.log("clicked " + option);
+        if ( option === "all" ) {
+
+        }
+    }
+
     render() {
 
         // profile picture
         let proPic;
-        userData.picture ? 
+        userData2.picture ? 
             proPic = <img 
-                        src = {userData.picture}
+                        src = {userData2.picture}
                         className = "ProfilePicture"
                     /> :
             proPic = <div className = "NoProPic ProfilePicture"></div>;
 
-        // instrument play string
-        let playString = 'Plays ';
-        for ( let i = 0; i < userData.instruments.length - 1; i++ ) {
-            playString += userData.instruments[i].type;
 
-            if ( userData.instruments.length > 2 ) {
-                playString += ', ';
-            }
-            else {
-                playString += ' ';
+
+        // finds unique instruments for string at top
+        let uniqueInstruments = [];
+        let flags             = [];
+        let practices         = userData2.practices;
+        practices.reverse();
+
+        for ( let i = 0; i < practices.length; i++ ) {
+            if ( !flags[practices[i].instrument] ) {
+                flags[practices[i].instrument] = true;
+                uniqueInstruments.push(practices[i].instrument);
             }
         }
-        playString += 'and ' + userData.instruments[userData.instruments.length - 1].type;
 
-        // practice dropdowns
-        const instrumentPractices = userData.instruments.map(instrument =>
-            <PracticeBar 
-                instrument = {instrument}
-                className = "PracticeBar"
-                key = {instrument.key}
-            />);
+        let playString = "Plays ";
+        if ( uniqueInstruments.length == 0 ) {
+            playString += "no instruments yet";
+        }
+        else if ( uniqueInstruments.length == 1 ) {
+            playString += uniqueInstruments[0];
+        }
+        else if ( uniqueInstruments.length == 2 ) {
+            playString += uniqueInstruments[0] + " and " + uniqueInstruments[1];
+        } 
+        else {
+            for ( let i = 0; i < uniqueInstruments.length - 1; i++ ) {
+                playString += uniqueInstruments[i] + ", "
+            }
+            playString += "and " + uniqueInstruments[uniqueInstruments.length - 1];
+        }
+
+
+        
 
         return(
-            <div className = "Center">
+            <div className = "Center GreyBackground">
                 {proPic}
-                <h4>{userData.name}</h4>
-                <p>{playString}</p>
+                <h4>{userData2.name}</h4>
+                <p className = "InstrumentLine">{playString}</p>
                 <div className = "Spacer"></div>
-                {instrumentPractices}
+                <div className = "SmallSpacer"></div>
+                <PracticeBar practices = {practices} instruments = {uniqueInstruments} />
                 <div className = "Spacer"></div>
             </div>
         )
