@@ -168,17 +168,20 @@ router.post('/:username/change/:key', (req, res) => {
  */
 router.get('/:username/recordings', (req, res) => {
   db.Recording.findAll({
+    // where: {
+    //   [Op.and]: [
+    //     {
+    //       username: req.params.username
+    //     },
+    //     {
+    //       startDate: {
+    //         [Op.between]: [req.query.lowBound, req.query.highBound]
+    //       }
+    //     }
+    //   ]
+    // }
     where: {
-      [Op.and]: [
-        {
-          username: req.params.username
-        },
-        {
-          startDate: {
-            [Op.between]: [req.query.lowBound, req.query.highBound]
-          }
-        }
-      ]
+      username: req.params.username
     }
   }).then((modelInstance) => {
     if (modelInstance === null) {
