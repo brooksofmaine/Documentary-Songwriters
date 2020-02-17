@@ -188,7 +188,7 @@ router.get('/:username/recordings', (req, res) => {
       res.status(404).json({ err: 'recordings not found' });
       return;
     }
-    res.json(modelInstance.get({ plain: true }));
+    res.json(modelInstance[0].get({ plain: true }));
     return;
   }).catch((err) => {
     console.log('Error while retrieving recordings.');
