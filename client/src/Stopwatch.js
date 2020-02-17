@@ -25,6 +25,7 @@ class Stopwatch extends React.Component {
 
     // on play
     startTimer = () => {
+        this.props.startFunction();
         if ( ! this.state.timerOn ) {
             // begins timer
             // makes start time consistent even if recording's been paused

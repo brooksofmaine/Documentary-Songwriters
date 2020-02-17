@@ -5,7 +5,47 @@
     justify-content: flex-end;
 }
 
-.NavBar > .Button {
+.NavBar a {
+    color: #000;
+    text-decoration:none;
+    transition-duration: 0.5s;
+    transition-timing-function: ease;
+    margin-left: 45px;
+    /* border: 1px solid blue; */
+}
+
+.NavBar a:hover {
+    color: #555;
+}
+
+.dropdown {
+    display: none;
+    position: absolute;
+    box-shadow: 0 1px 10px 2px rgba(0,0,0,0.10);
+    margin-top: 10px;
+    margin-left: 35px;
+    padding-left: 10px;
+    width: 100px;
+    height: 50px;
+    text-align: left;
+    /* border: 1px solid red; */
+}
+
+.dropdown a {
+    /* padding-top: 50px; */
+    margin: 10px 0 0 0;
+    /* border: 1px solid red; */
+}
+
+.dropdown-menu {
+    /* border: 1px solid purple; */
+    
+    padding-bottom: 20px;
+}
+.dropdown-menu:hover > .dropdown {
+    display: block;
+}
+/* .NavBar > .Button {
     margin: 30px;
 }
 
@@ -19,4 +59,4 @@
     box-shadow: 0 1px 10px 2px rgba(0,0,0,0.10);
     margin-left: 10px;
     text-align: right;
-}
+} */

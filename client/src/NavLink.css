@@ -2,7 +2,7 @@
     display: inline-block;
     margin: 10px;
     color: #555;
-    font-weight: bold;
+    /* font-weight: bold; */
     font-size: large;
 }
 
@@ -11,7 +11,7 @@
 }
 
 .NavLink > a {
-    color: #555;
+    color: #000;
     text-decoration:none;
     transition-duration: 0.5s;
     transition-timing-function: ease;
