@@ -92,10 +92,11 @@ describe('Recording', function() {
 
   describe('Get', function() {
     it('should get a recording that already exists', function(done) {
-      server.get('/api/user/'+userData.username+'/recordings')  // ?lowBound='+lowBound+'&highBound='+highBound
+      server.get('/api/user/'+userData.username+'/recordings')
         .end(function(err, res) {
           res.should.have.status(200);
           res.should.be.json;
+          // these are for the first recording that comes out. TODO: return the list
           res.body.username   .should.equal(recordingData.username);
           res.body.startTime  .should.equal(recordingData.startTime);
           res.body.endTime    .should.equal(recordingData.endTime);

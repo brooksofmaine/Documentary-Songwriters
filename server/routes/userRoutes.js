@@ -173,16 +173,19 @@ router.get('/:username/recordings', (req, res) => {
     }
   }).then((modelInstance) => {
     console.log(modelInstance);
-    if (modelInstance == undefined) {
-      res.status(404).json({ err: 'recordings not found - undefined' });
-      return;
-    } else if (modelInstance == null) {
-      res.status(404).json({ err: 'recordings not found - null' });
-      return;
-    } else {
-      res.json(modelInstance[0].get({ plain: true })); // TODO make this a list
+    if (modelInstance === null) {
+      res.status(404).json({ err: 'recordings not found' });
       return;
     }
+    
+    if (modelInstance[0] == undefined) {
+      res.status(201).json({ message: 'no recordings created for this user'});
+      return;
+    }
+
+    res.json(modelInstance[0].get({ plain: true })); // TODO make this a list
+    return;
+
   }).catch((err) => {
     console.log('Error while retrieving recordings.');
     console.log(err);
