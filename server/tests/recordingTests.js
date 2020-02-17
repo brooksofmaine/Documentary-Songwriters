@@ -110,9 +110,9 @@ describe('Recording', function() {
     it('should not get any recordings for user that does not exist', function(done) {
       server.get('/api/user/notAUser/recordings')
         .end(function(err, res) {
-          res.should.have.status(404);
+          res.should.have.status(201);
           res.should.be.json;
-          res.body.err.should.equal('recordings not found - undefined');
+          res.body.message.should.equal('no recordings created for this user');
           done();
         });
     });
@@ -120,9 +120,9 @@ describe('Recording', function() {
     it('should return no recordings if user has none yet', function(done) {
       server.get('/api/user/bobbyS/recordings')
         .end(function(err, res) {
-          res.should.have.status(404);
+          res.should.have.status(201);
           res.should.be.json;
-          res.body.err.should.equal('recordings not found - null');
+          res.body.message.should.equal('no recordings created for this user');
           done();
         });
     });
