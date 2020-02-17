@@ -173,13 +173,12 @@ router.get('/:username/recordings', (req, res) => {
     }
   }).then((modelInstance) => {
     console.log(modelInstance);
-    if (modelInstance === null) {
+    if (modelInstance === null || modelInstance === undefined) {
       res.status(404).json({ err: 'recordings not found' });
       return;
-    } else {
-      res.json(modelInstance[0].get({ plain: true })); // TODO make this a list
-      return;
     }
+    res.json(modelInstance[0].get({ plain: true })); // TODO make this a list
+    return;
     
   }).catch((err) => {
     console.log('Error while retrieving recordings.');
