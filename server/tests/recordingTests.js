@@ -91,9 +91,6 @@ describe('Recording', function() {
 
 
   describe('Get', function() {
-    let lowBound  = recordingData.startTime;
-    let highBound = recordingData.endTime;
-    
     it('should get a recording that already exists', function(done) {
       server.get('/api/user/'+userData.username+'/recordings')  // ?lowBound='+lowBound+'&highBound='+highBound
         .end(function(err, res) {
@@ -110,7 +107,7 @@ describe('Recording', function() {
     });
 
     it('should not get a recording that does not already exist', function(done) {
-      server.get('/api/user/'+recordingData.username+'/recordings')
+      server.get('/api/user/notAUser/recordings')
         .end(function(err, res) {
           res.should.have.status(404);
           res.should.be.json;

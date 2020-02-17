@@ -37,8 +37,8 @@ router.post('/create', (req, res) => {
     password:  req.body.password // TODO hash password
   };
 
-  console.log(req.body);
-  console.log(createObj);
+  // console.log(req.body);
+  // console.log(createObj);
 
   if (anyValuesUndefined(createObj)) {
     res.status(400).json({ err: 'undefined fields' });
@@ -168,18 +168,6 @@ router.post('/:username/change/:key', (req, res) => {
  */
 router.get('/:username/recordings', (req, res) => {
   db.Recording.findAll({
-    // where: {
-    //   [Op.and]: [
-    //     {
-    //       username: req.params.username
-    //     },
-    //     {
-    //       startDate: {
-    //         [Op.between]: [req.query.lowBound, req.query.highBound]
-    //       }
-    //     }
-    //   ]
-    // }
     where: {
       username: req.params.username
     }
@@ -188,6 +176,8 @@ router.get('/:username/recordings', (req, res) => {
       res.status(404).json({ err: 'recordings not found' });
       return;
     }
+    console.log(modelInstance);
+    console.log(res);
     res.json(modelInstance[0].get({ plain: true }));
     return;
   }).catch((err) => {
