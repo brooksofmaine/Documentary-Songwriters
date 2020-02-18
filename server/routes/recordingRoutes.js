@@ -95,19 +95,10 @@ router.post('/edit', (req, res) => {
   console.log(updateObj);
 
   db.Recording.update(updateObj, {
-
-    where: {
-      { $and: 
-        [
-          { username:  req.body.username }, 
-          { startTime: req.body.startTime }
-        ] 
-      }
+    where: { 
+      username:  req.body.username,
+      startTime: req.body.startTime 
     },
-    // where: { 
-    //   username:  req.body.username,
-    //   startTime: req.body.startTime 
-    // },
     returning: true,
     raw: true
   }).then(([numRows, rowsAffected]) => {
@@ -118,7 +109,7 @@ router.post('/edit', (req, res) => {
     res.json(rowsAffected[0]);
     return;
   }).catch((err) => {
-    console.log(`Error while changing ${key}`);
+    console.log('Error while changing ${key}');
     console.log(err);
     res.status(500).json({ err: err });
     return;
