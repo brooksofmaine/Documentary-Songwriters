@@ -85,9 +85,6 @@ router.post('/edit', (req, res) => {
   let updateObj  = {};
   updateObj[key] = val;
 
-  console.log("Request body:");
-  console.log(req.body);
-
   if (!recordingKeyCheck(key)) {
     res.status(400).json({ err: 'key not recognized' });
     return;
