@@ -69,6 +69,7 @@ router.post('/create', (req, res) => {
  * Post /api/recording/edit
  *   With data:
  *   {
+ *     username:  johnS
  *     startTime: "Wed, 27 July 2016 07:45:00 GMT",
  *     key:       "description" 
  *     val:       "Adagio for Strings - take 2"
@@ -99,7 +100,8 @@ router.post('/edit', (req, res) => {
       startTime: req.body.startTime 
     },
     returning: true,
-    raw: true
+    raw: true,
+    plain: true
   }).then(([numRows, rowsAffected]) => {
     if (numRows === 0) {
       res.status(404).json({ err: 'recording not found' });
