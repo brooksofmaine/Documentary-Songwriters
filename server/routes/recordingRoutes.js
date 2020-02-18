@@ -145,18 +145,44 @@ router.post('/delete', (req, res) => {
     res.status(400).json({ err: 'undefined fields' });
     return;
   }
-  db.Recording.destroy({
+
+  db.Recording.find({
     where: {
       username:    deleteObj.username,
       startTime:   deleteObj.startTime
     }
-  })
-  .catch((err) => {
-    console.log('Error while deleting recording.');
-    console.log(err);
-    res.status(500).json({ err: err });
-    return;
+  }).then((result) => {
+      return Model.destroy({ 
+        where: {
+          username:    deleteObj.username,
+          startTime:   deleteObj.startTime
+        }
+        
+      }).then((u) => { 
+        return result;
+
+      }).catch((err) => {
+          console.log('Error while deleting recording.');
+          console.log(err);
+          res.status(500).json({ err: err });
+          return;
+      });
   });
+
+
+  // db.Recording.destroy({
+  //   where: {
+  //     username:    deleteObj.username,
+  //     startTime:   deleteObj.startTime
+  //   }
+  // }).success(() => {
+  //   // We just deleted all rows that have a name starting with "J"
+  // }).catch((err) => {
+  //   console.log('Error while deleting recording.');
+  //   console.log(err);
+  //   res.status(500).json({ err: err });
+  //   return;
+  // });
 });
 
 
