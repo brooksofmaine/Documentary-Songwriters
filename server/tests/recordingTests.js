@@ -33,6 +33,23 @@ describe('Recording', function() {
     description: 'moonlight sonata'
   };
 
+  let recordingData2 = {
+    username:    userData.username,
+    startTime:   '2016-04-23T20:25:43.511Z',
+    endTime:     '2016-04-23T21:25:43.511Z',
+    instrument:  'violin',
+    numPitches:  200,
+    description: 'fur elise'
+  };
+
+  let userData2 = {
+    username: 'johnCena',
+    firstName: 'john',
+    lastName: 'cena',
+    email: 'johncena@email.com',
+    password: 'foobar'
+  };
+
   before(function(done) {
     server = chai.request(app).keepOpen();
     done();
@@ -72,6 +89,23 @@ describe('Recording', function() {
           res.body.instrument .should.equal(recordingData.instrument);
           res.body.numPitches .should.equal(recordingData.numPitches);
           res.body.description.should.equal(recordingData.description);
+          done();
+        });
+    });
+
+    it('should create a second recording for current user', function(done) {
+      server.post(baseURL + '/create') 
+        .set('content-type', 'application/json')
+        .send(recordingData2)
+        .end(function(err, res) {
+          res.should.have.status(200);
+          res.should.be.json;
+          res.body.username   .should.equal(recordingData2.username);
+          res.body.startTime  .should.equal(recordingData2.startTime);
+          res.body.endTime    .should.equal(recordingData2.endTime);
+          res.body.instrument .should.equal(recordingData2.instrument);
+          res.body.numPitches .should.equal(recordingData2.numPitches);
+          res.body.description.should.equal(recordingData2.description);
           done();
         });
     });
@@ -117,8 +151,22 @@ describe('Recording', function() {
         });
     });
 
+    it('should create a preliminary user to NOT attach recordings to', function(done) {
+      server.post('/api/user/create')
+        .set('content-type', 'application/json')
+        .send(userData2)
+        .end(function(err, res) {
+          res.should.have.status(200);
+          res.should.be.json;
+          res.body.username .should.equal(userData2.username);
+          res.body.firstName.should.equal(userData2.firstName);
+          res.body.lastName .should.equal(userData2.lastName);
+          res.body.email    .should.equal(userData2.email);
+          done();
+        });
+    });
     it('should return no recordings if user has none yet', function(done) {
-      server.get('/api/user/bobbyS/recordings')
+      server.get('/api/user/'+userData2.username+'/recordings')
         .end(function(err, res) {
           res.should.have.status(201);
           res.should.be.json;
