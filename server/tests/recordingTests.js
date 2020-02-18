@@ -76,7 +76,7 @@ describe('Recording', function() {
           res.body.firstName.should.equal(userData.firstName);
           res.body.lastName .should.equal(userData.lastName);
           res.body.email    .should.equal(userData.email);
-          done();
+          //done();
         });
       server.post(baseURL + '/create') 
         .set('content-type', 'application/json')
@@ -163,7 +163,7 @@ describe('Recording', function() {
           res.body.firstName.should.equal(userData2.firstName);
           res.body.lastName .should.equal(userData2.lastName);
           res.body.email    .should.equal(userData2.email);
-          done();
+          //done();
         });
       server.get('/api/user/'+userData2.username+'/recordings')
         .end(function(err, res) {
