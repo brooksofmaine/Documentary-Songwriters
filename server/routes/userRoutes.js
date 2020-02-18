@@ -171,20 +171,23 @@ router.get('/:username/recordings', (req, res) => {
     where: {
       username: req.params.username
     }
-  }).then((modelInstance) => {
-    console.log(modelInstance);
-    
-    if (modelInstance === null) {
+  }).then((recordingArr) => {
+    console.log(recordingArr);
+
+    if (recordingArr === null) {
       res.status(404).json({ err: 'recordings not found' });
       return;
     }
     
-    if (modelInstance[0] == undefined) {
+    if (recordingArr[0] == undefined) {
       res.status(201).json({ message: 'no recordings created for this user'});
       return;
     }
 
-    res.json(modelInstance[0].get({ plain: true })); // TODO make this a list
+    let plainInstances = 
+      recordingArr.map((modelInstance) => { return modelInstance.get({ plain: true }) })
+    
+    res.json(plainInstances);
     return;
 
   }).catch((err) => {
