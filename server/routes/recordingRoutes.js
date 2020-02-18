@@ -152,21 +152,22 @@ router.post('/delete', (req, res) => {
       startTime:   deleteObj.startTime
     }
   }).then((result) => {
+      console.log("Found!")
       return Model.destroy({ 
         where: {
           username:    deleteObj.username,
           startTime:   deleteObj.startTime
         }
-        
       }).then((u) => { 
+        console.log("Destroyed!");
         return result;
-
-      }).catch((err) => {
-          console.log('Error while deleting recording.');
-          console.log(err);
-          res.status(500).json({ err: err });
-          return;
       });
+
+  }).catch((err) => {
+      console.log('Error while deleting recording.');
+      console.log(err);
+      res.status(500).json({ err: err });
+      return;
   });
 
 
