@@ -130,9 +130,13 @@ describe('Recording', function() {
 
           console.log(res.body);
 
-          res.body.should.matchEach(function(rec) { rec.username.should.be.eql(userData.username)});
+          res.body.should.be.an('array').that.is.not.empty;
+
+          // res.body.should.matchEach(function(rec) { rec.username.should.be.eql(userData.username)});
 
           let resUsernames = res.body.map((rec) => rec.username);
+          console.log(resUsernames);
+          resUsernames.every((un) => { un.should.equal(userData.username) });
           // resUsernames.should.matchEach(userData.username);
           // resUsernames.every((un) => { un.should.be.eql(userData.username) });
           done();
