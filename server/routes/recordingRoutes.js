@@ -91,9 +91,6 @@ router.post('/edit', (req, res) => {
     return;
   }
 
-  console.log("The update obj:");
-  console.log(updateObj);
-
   db.Recording.update(updateObj, {
     where: { 
       username:  req.body.username,
