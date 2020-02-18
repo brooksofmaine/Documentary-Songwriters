@@ -82,8 +82,6 @@ router.post('/edit', (req, res) => {
   let updateObj  = {};
   updateObj[key] = val;
 
-  console.log(updateObj);
-
   if (!recordingKeyCheck(key)) {
     res.status(400).json({ err: 'key not recognized' });
     return;
@@ -96,11 +94,11 @@ router.post('/edit', (req, res) => {
 
   db.Recording.update(updateObj, {
     where: { 
-      username:  req.body.username,
-      startTime: req.body.startTime 
+      username:  req.body.username
+      //startTime: req.body.startTime 
     },
     returning: true,
-    raw: true,
+    //raw: true,
     plain: true
   }).then(([numRows, rowsAffected]) => {
     if (numRows === 0) {
