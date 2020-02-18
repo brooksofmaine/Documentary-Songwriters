@@ -91,11 +91,23 @@ router.post('/edit', (req, res) => {
     return;
   }
 
+  console.log("The update obj:");
+  console.log(updateObj);
+
   db.Recording.update(updateObj, {
-    where: { 
-      username:  req.body.username,
-      startTime: req.body.startTime 
+
+    where: {
+      { $and: 
+        [
+          { username:  req.body.username }, 
+          { startTime: req.body.startTime }
+        ] 
+      }
     },
+    // where: { 
+    //   username:  req.body.username,
+    //   startTime: req.body.startTime 
+    // },
     returning: true,
     raw: true
   }).then(([numRows, rowsAffected]) => {

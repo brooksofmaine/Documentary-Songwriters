@@ -184,7 +184,8 @@ describe('Recording', function() {
         .set('content-type', 'application/json')
         .send(newRecordingData)
         .end(function(err, res) {
-          console.log(res.body);
+          console.log("RESULT:");
+          console.log(res);
 
           res.should.have.status(200);
           res.should.be.json;
