@@ -78,6 +78,8 @@ router.post('/create', (req, res) => {
  * 
  */
 router.post('/edit', (req, res) => {
+  let username   = req.body.username;
+  let startTime  = req.body.startTime;
   let key        = req.body.key;
   let val        = req.body.val;
   let updateObj  = {};
@@ -97,11 +99,8 @@ router.post('/edit', (req, res) => {
   }
 
   db.Recording.update(updateObj, {
-    where: { 
-      username:  req.body.username
-    },
-    returning: true,
-    raw: true
+    where: { username: username },
+    returning: true
   }).then(([numRows, rowsAffected]) => {
     if (numRows === 0) {
       res.status(404).json({ err: 'recording not found' });
@@ -110,6 +109,11 @@ router.post('/edit', (req, res) => {
     res.json(rowsAffected[0]);
     return;
   }).catch((err) => {
+    if (err.name === 'SequelizeUniqueConstraintError') {
+      res.status(409).json({ err: 'description taken' });
+      return;
+    }
+
     console.log(`Error while changing ${key}`);
     console.log(err);
     res.status(500).json({ err: err });
