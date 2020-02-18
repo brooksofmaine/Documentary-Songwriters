@@ -230,6 +230,7 @@ describe('Recording', function() {
 
     it('deleted recording should no longer exist', function(done) {
       // TODO: try to get the recording, which should fail
+      done();
     });
   });
 
