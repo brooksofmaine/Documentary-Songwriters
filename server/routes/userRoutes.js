@@ -177,10 +177,10 @@ router.get('/:username/recordings', (req, res) => {
       return;
     }
     
-    if (recordingArr[0] == undefined) {
-      res.status(201).json({ message: 'no recordings created for this user'});
-      return;
-    }
+    // if (recordingArr[0] == undefined) {
+    //   res.status(201).json({ message: 'no recordings created for this user'});
+    //   return;
+    // }
 
     let plainInstances = 
       recordingArr.map((modelInstance) => { return modelInstance.get({ plain: true }) })

@@ -127,18 +127,10 @@ describe('Recording', function() {
         .end(function(err, res) {
           res.should.have.status(200);
           res.should.be.json;
-
-          console.log(res.body);
-
           res.body.should.be.an('array').that.is.not.empty;
-
-          // res.body.should.matchEach(function(rec) { rec.username.should.be.eql(userData.username)});
-
-          let resUsernames = res.body.map((rec) => rec.username);
-          console.log(resUsernames);
-          resUsernames.every((un) => { un.should.equal(userData.username) });
-          // resUsernames.should.matchEach(userData.username);
-          // resUsernames.every((un) => { un.should.be.eql(userData.username) });
+          res.body
+            .map((rec) => rec.username)
+            .every((uname) => { uname.should.equal(userData.username) });
           done();
         });
     });
@@ -148,7 +140,8 @@ describe('Recording', function() {
         .end(function(err, res) {
           res.should.have.status(201);
           res.should.be.json;
-          res.body.message.should.equal('no recordings created for this user');
+          res.body.should.be.an('array').that.is.empty;
+          //res.body.message.should.equal('no recordings created for this user');
           done();
         });
     });
@@ -169,7 +162,8 @@ describe('Recording', function() {
         .end(function(err, res) {
           res.should.have.status(201);
           res.should.be.json;
-          res.body.message.should.equal('no recordings created for this user');
+          res.body.should.be.an('array').that.is.empty;
+          //res.body.message.should.equal('no recordings created for this user');
           done();
         });
     });
