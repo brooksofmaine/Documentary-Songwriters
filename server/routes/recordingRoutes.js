@@ -81,6 +81,8 @@ router.post('/edit', (req, res) => {
   let updateObj  = {};
   updateObj[key] = val;
 
+  console.log(updateObj);
+
   if (!recordingKeyCheck(key)) {
     res.status(400).json({ err: 'key not recognized' });
     return;
@@ -106,7 +108,7 @@ router.post('/edit', (req, res) => {
     res.json(rowsAffected[0]);
     return;
   }).catch((err) => {
-    console.log('Error while changing ${key}');
+    console.log(`Error while changing ${key}`);
     console.log(err);
     res.status(500).json({ err: err });
     return;

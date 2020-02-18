@@ -184,9 +184,6 @@ describe('Recording', function() {
         .set('content-type', 'application/json')
         .send(newRecordingData)
         .end(function(err, res) {
-          
-          console.log(res.body.err);
-
           res.should.have.status(200);
           res.should.be.json;
           res.body.description.should.equal(newRecordingData.val);
@@ -199,36 +196,21 @@ describe('Recording', function() {
         });
     });
 
-    // it('should not change anything for a recording if the attribute is invalid', function(done) {
-    //   server.post(baseURL + '/edit')
-    //     .set('content-type', 'application/json')
-    //     .send({ 
-    //       notAnAttribute: 'someValue' 
-    //     })
-    //     .end(function(err, res) {
-    //       res.should.have.status(400);
-    //       res.should.be.json;
-    //       res.body.err.should.equal('key not recognized');
-    //       done();
-    //     });
-    // });
-
-
-    // it('should not change anything for a recording that does not already exist', function(done) {
-    //   server.post(baseURL + '/edit')
-    //     .set('content-type', 'application/json')
-    //     .send({
-    //       startTime: 'Wed, 20 July 2015 06:00:00 GMT',
-    //       key: 'description',
-    //       val: 'not found'
-    //     })
-    //     .end(function(err, res) {
-    //       res.should.have.status(404);
-    //       res.should.be.json;
-    //       res.body.err.should.equal('recording not found');
-    //       done();
-    //     });
-    // });
+    it('should not change anything for a recording if the attribute is invalid', function(done) {
+      server.post(baseURL + '/edit')
+        .set('content-type', 'application/json')
+        .send({
+          username:  recordingData.username,
+          startTime: recordingData.startTime,
+          key: 'notAValidAttribute',
+          val: 'notAValidAttributeValue'
+        }).end(function(err, res) {
+          res.should.have.status(400);
+          res.should.be.json;
+          res.body.err.should.equal('key not recognized');
+          done();
+        });
+    });
   });
 
 /*****************************************************************************/
