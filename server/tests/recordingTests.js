@@ -138,7 +138,7 @@ describe('Recording', function() {
     it('should not get any recordings for user that does not exist', function(done) {
       server.get('/api/user/notAUser/recordings')
         .end(function(err, res) {
-          res.should.have.status(201);
+          res.should.have.status(200);
           res.should.be.json;
           res.body.should.be.an('array').that.is.empty;
           //res.body.message.should.equal('no recordings created for this user');
@@ -160,7 +160,7 @@ describe('Recording', function() {
         });
       server.get('/api/user/'+userData2.username+'/recordings')
         .end(function(err, res) {
-          res.should.have.status(201);
+          res.should.have.status(200);
           res.should.be.json;
           res.body.should.be.an('array').that.is.empty;
           //res.body.message.should.equal('no recordings created for this user');
