@@ -172,8 +172,6 @@ router.get('/:username/recordings', (req, res) => {
       username: req.params.username
     }
   }).then((recordingArr) => {
-    console.log(recordingArr);
-
     if (recordingArr === null) {
       res.status(404).json({ err: 'recordings not found' });
       return;

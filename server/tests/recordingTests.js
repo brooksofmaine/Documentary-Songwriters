@@ -127,14 +127,12 @@ describe('Recording', function() {
         .end(function(err, res) {
           res.should.have.status(200);
           res.should.be.json;
+
           console.log(res.body);
-          // these are for the first recording that comes out. TODO: return the list
-          // res.body.username   .should.equal(recordingData.username);
-          // res.body.startTime  .should.equal(recordingData.startTime);
-          // res.body.endTime    .should.equal(recordingData.endTime);
-          // res.body.instrument .should.equal(recordingData.instrument);
-          // res.body.numPitches .should.equal(recordingData.numPitches);
-          // res.body.description.should.equal(recordingData.description);
+          res.body.should.be.an.Array();
+
+          let resUsernames = res.body.map((rec) => rec.username);
+          resUsernames.every((un) => { un.should.be.eql(userData.username) });
           done();
         });
     });
