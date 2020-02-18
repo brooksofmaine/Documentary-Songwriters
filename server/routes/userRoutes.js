@@ -173,6 +173,7 @@ router.get('/:username/recordings', (req, res) => {
     }
   }).then((modelInstance) => {
     console.log(modelInstance);
+    
     if (modelInstance === null) {
       res.status(404).json({ err: 'recordings not found' });
       return;

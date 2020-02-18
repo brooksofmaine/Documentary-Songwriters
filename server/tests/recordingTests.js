@@ -61,7 +61,11 @@ describe('Recording', function() {
   });
 
   describe('Create', function() {
-    it('should create a preliminary user to attach recordings to', function(done) {
+    // it('should create a preliminary user to attach recordings to', function(done) {
+      
+    // });
+
+    it('should create a recording for current user', function(done) {
       server.post('/api/user/create')
         .set('content-type', 'application/json')
         .send(userData)
@@ -74,9 +78,6 @@ describe('Recording', function() {
           res.body.email    .should.equal(userData.email);
           done();
         });
-    });
-
-    it('should create a recording for current user', function(done) {
       server.post(baseURL + '/create') 
         .set('content-type', 'application/json')
         .send(recordingData)
@@ -125,7 +126,7 @@ describe('Recording', function() {
 
 
   describe('Get', function() {
-    it('should get a recording that already exists', function(done) {
+    it('should get the recordings that already exist for user', function(done) {
       server.get('/api/user/'+userData.username+'/recordings')
         .end(function(err, res) {
           res.should.have.status(200);
@@ -151,7 +152,7 @@ describe('Recording', function() {
         });
     });
 
-    it('should create a preliminary user to NOT attach recordings to', function(done) {
+    it('should return no recordings if user has none yet', function(done) {
       server.post('/api/user/create')
         .set('content-type', 'application/json')
         .send(userData2)
@@ -164,8 +165,6 @@ describe('Recording', function() {
           res.body.email    .should.equal(userData2.email);
           done();
         });
-    });
-    it('should return no recordings if user has none yet', function(done) {
       server.get('/api/user/'+userData2.username+'/recordings')
         .end(function(err, res) {
           res.should.have.status(201);
