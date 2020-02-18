@@ -60,6 +60,8 @@ describe('Recording', function() {
     done();
   });
 
+/*****************************************************************************/
+
   describe('Create', function() {
 
     it('should create a recording for current user', function(done) {
@@ -120,6 +122,7 @@ describe('Recording', function() {
     });
   });
 
+/*****************************************************************************/
 
   describe('Get', function() {
     it('should get the recordings that already exist for user', function(done) {
@@ -128,10 +131,6 @@ describe('Recording', function() {
           res.should.have.status(200);
           res.should.be.json;
           res.body.should.be.an('array').that.is.not.empty;
-          // res.body
-          //   .map((rec) => rec.username)
-          //   .every((uname) => { uname.should.equal(userData.username) });
-
           res.body.every((rec) => { rec.username.should.equal(userData.username) });
           done();
         });
@@ -169,59 +168,70 @@ describe('Recording', function() {
     });
   });
 
+/*****************************************************************************/
 
 
-  // describe('Edit', function() {
-  //   let newRecordingData = {
-  //     username: recordingData.username,
-  //     startTime: recordingData.startTime,
-  //     key: 'description',
-  //     val: 'this is the new description'
-  //   };
+  describe('Edit', function() {
+    let newRecordingData = {
+      username: recordingData.username,
+      startTime: recordingData.startTime,
+      key: 'description',
+      val: 'this is the new description'
+    };
 
-  //   it('should change a recording\'s description', function(done) {
-  //     server.post(baseURL + '/edit')
-  //       .set('content-type', 'application/json')
-  //       .send(newRecordingData)
-  //       .end(function(err, res) {
-  //         res.should.have.status(200);
-  //         res.should.be.json;
-  //         res.body[newRecordingData.key].should.equal(newRecordingData.val);
-  //         done();
-  //       });
-  //   });
+    it('should change a recording\'s description', function(done) {
+      server.post(baseURL + '/edit')
+        .set('content-type', 'application/json')
+        .send(newRecordingData)
+        .end(function(err, res) {
+          console.log(res.body);
 
-  //   it('should not change anything for a recording if the attribute is invalid', function(done) {
-  //     server.post(baseURL + '/edit')
-  //       .set('content-type', 'application/json')
-  //       .send({ 
-  //         notAnAttribute: 'someValue' 
-  //       })
-  //       .end(function(err, res) {
-  //         res.should.have.status(400);
-  //         res.should.be.json;
-  //         res.body.err.should.equal('key not recognized');
-  //         done();
-  //       });
-  //   });
+          res.should.have.status(200);
+          res.should.be.json;
+          res.body.description.should.equal(newRecordingData.val);
+          res.body.username   .should.equal(recordingData.username);
+          res.body.startTime  .should.equal(recordingData.startTime);
+          res.body.endTime    .should.equal(recordingData.endTime);
+          res.body.instrument .should.equal(recordingData.instrument);
+          res.body.numPitches .should.equal(recordingData.numPitches);
+          done();
+        });
+    });
+
+    // it('should not change anything for a recording if the attribute is invalid', function(done) {
+    //   server.post(baseURL + '/edit')
+    //     .set('content-type', 'application/json')
+    //     .send({ 
+    //       notAnAttribute: 'someValue' 
+    //     })
+    //     .end(function(err, res) {
+    //       res.should.have.status(400);
+    //       res.should.be.json;
+    //       res.body.err.should.equal('key not recognized');
+    //       done();
+    //     });
+    // });
 
 
-  //   it('should not change anything for a recording that does not already exist', function(done) {
-  //     server.post(baseURL + '/edit')
-  //       .set('content-type', 'application/json')
-  //       .send({
-  //         startTime: 'Wed, 20 July 2015 06:00:00 GMT',
-  //         key: 'description',
-  //         val: 'not found'
-  //       })
-  //       .end(function(err, res) {
-  //         res.should.have.status(404);
-  //         res.should.be.json;
-  //         res.body.err.should.equal('recording not found');
-  //         done();
-  //       });
-  //   });
-  // });
+    // it('should not change anything for a recording that does not already exist', function(done) {
+    //   server.post(baseURL + '/edit')
+    //     .set('content-type', 'application/json')
+    //     .send({
+    //       startTime: 'Wed, 20 July 2015 06:00:00 GMT',
+    //       key: 'description',
+    //       val: 'not found'
+    //     })
+    //     .end(function(err, res) {
+    //       res.should.have.status(404);
+    //       res.should.be.json;
+    //       res.body.err.should.equal('recording not found');
+    //       done();
+    //     });
+    // });
+  });
+
+/*****************************************************************************/
+
 
   // describe('Delete', function() {
   //   it('should delete the given recording for current user', function(done) {
