@@ -172,7 +172,7 @@ describe('Recording', function() {
 
 
   describe('Edit', function() {
-    let newRecordingData = {
+    let recordingDataUpdate = {
       username: recordingData.username,
       startTime: recordingData.startTime,
       key: 'description',
@@ -182,11 +182,11 @@ describe('Recording', function() {
     it('should change a recording\'s description', function(done) {
       server.post(baseURL + '/edit')
         .set('content-type', 'application/json')
-        .send(newRecordingData)
+        .send(recordingDataUpdate)
         .end(function(err, res) {
           res.should.have.status(200);
           res.should.be.json;
-          res.body.description.should.equal(newRecordingData.val);
+          res.body.description.should.equal(recordingDataUpdate.val);
           res.body.username   .should.equal(recordingData.username);
           res.body.startTime  .should.equal(recordingData.startTime);
           res.body.endTime    .should.equal(recordingData.endTime);

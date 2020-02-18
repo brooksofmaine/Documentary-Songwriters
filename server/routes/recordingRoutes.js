@@ -41,7 +41,8 @@ router.post('/create', (req, res) => {
     return;
   }
 
-  db.Recording.create(createObj).then((newRecordingInstance) => {
+  db.Recording.create(createObj)
+  .then((newRecordingInstance) => {
     res.json(newRecordingInstance.get({ plain: true }));
     return;
   }).catch((err) => {
@@ -82,6 +83,9 @@ router.post('/edit', (req, res) => {
   let updateObj  = {};
   updateObj[key] = val;
 
+  console.log("Request body:");
+  console.log(req.body);
+
   if (!recordingKeyCheck(key)) {
     res.status(400).json({ err: 'key not recognized' });
     return;
@@ -92,12 +96,9 @@ router.post('/edit', (req, res) => {
     return;
   }
 
-  console.log(req.body);
-
   db.Recording.update(updateObj, {
     where: { 
       username:  req.body.username
-      //startTime: req.body.startTime 
     },
     returning: true,
     raw: true
