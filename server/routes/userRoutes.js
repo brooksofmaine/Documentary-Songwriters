@@ -156,14 +156,13 @@ router.post('/:username/change/:key', (req, res) => {
 
 /*
  * To get a user's recordings, get the endpoint 
- * /api/user/{username}/recordings?lowBound=<lowBound>&highBound=<highBound>
+ * /api/user/{username}/recordings
  *
- * where username is that of the user, and lowBound/highBound indicate the 
- * range for which you're retrieving recordings.
+ * where username is that of the user
  *
- * For example, to get recordings for user bobbyS for November 2019,
+ * For example, to get recordings for user bobbyS,
  * 
- *   GET /api/user/bobbyS/recordings?lowBound="2019-11-01T00:00:00.000Z"&highBound="2019-11-30T23:59:59.999Z"
+ *   GET /api/user/bobbyS/recordings
  *
  */
 router.get('/:username/recordings', (req, res) => {
@@ -176,16 +175,7 @@ router.get('/:username/recordings', (req, res) => {
       res.status(404).json({ err: 'recordings not found' });
       return;
     }
-    
-    // if (recordingArr[0] == undefined) {
-    //   res.status(201).json({ message: 'no recordings created for this user'});
-    //   return;
-    // }
-
-    let plainInstances = 
-      recordingArr.map((modelInstance) => { return modelInstance.get({ plain: true }) })
-    
-    res.json(plainInstances);
+    res.json(recordingArr.map((recording) => { return recording.get({ plain: true }) }));
     return;
 
   }).catch((err) => {

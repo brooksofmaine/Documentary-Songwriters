@@ -128,20 +128,21 @@ describe('Recording', function() {
           res.should.have.status(200);
           res.should.be.json;
           res.body.should.be.an('array').that.is.not.empty;
-          res.body
-            .map((rec) => rec.username)
-            .every((uname) => { uname.should.equal(userData.username) });
+          // res.body
+          //   .map((rec) => rec.username)
+          //   .every((uname) => { uname.should.equal(userData.username) });
+
+          res.body.every((rec) => { rec.username.should.equal(userData.username) });
           done();
         });
     });
 
-    it('should not get any recordings for user that does not exist', function(done) {
+    it('should return no recordings if user does not exist', function(done) {
       server.get('/api/user/notAUser/recordings')
         .end(function(err, res) {
           res.should.have.status(200);
           res.should.be.json;
           res.body.should.be.an('array').that.is.empty;
-          //res.body.message.should.equal('no recordings created for this user');
           done();
         });
     });
@@ -163,7 +164,6 @@ describe('Recording', function() {
           res.should.have.status(200);
           res.should.be.json;
           res.body.should.be.an('array').that.is.empty;
-          //res.body.message.should.equal('no recordings created for this user');
           done();
         });
     });
