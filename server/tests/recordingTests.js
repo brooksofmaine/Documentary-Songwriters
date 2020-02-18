@@ -129,10 +129,12 @@ describe('Recording', function() {
           res.should.be.json;
 
           console.log(res.body);
-          res.body.should.be.an.Array();
+
+          res.body.should.matchEach(function(rec) { rec.username.should.be.eql(userData.username)});
 
           let resUsernames = res.body.map((rec) => rec.username);
-          resUsernames.every((un) => { un.should.be.eql(userData.username) });
+          // resUsernames.should.matchEach(userData.username);
+          // resUsernames.every((un) => { un.should.be.eql(userData.username) });
           done();
         });
     });
