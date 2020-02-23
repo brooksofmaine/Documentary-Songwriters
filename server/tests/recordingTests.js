@@ -132,6 +132,18 @@ describe('Recording', function() {
           res.should.be.json;
           res.body.should.be.an('array').that.is.not.empty;
           res.body.every((rec) => { rec.username.should.equal(userData.username) });
+
+          res.body[0].startTime  .should.equal(recordingData1.startTime);
+          res.body[0].endTime    .should.equal(recordingData1.endTime);
+          res.body[0].instrument .should.equal(recordingData1.instrument);
+          res.body[0].numPitches .should.equal(recordingData1.numPitches);
+          res.body[0].description.should.equal(recordingData1.description);
+
+          res.body[1].startTime  .should.equal(recordingData2.startTime);
+          res.body[1].endTime    .should.equal(recordingData2.endTime);
+          res.body[1].instrument .should.equal(recordingData2.instrument);
+          res.body[1].numPitches .should.equal(recordingData2.numPitches);
+          res.body[1].description.should.equal(recordingData2.description);
           done();
         });
     });
