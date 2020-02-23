@@ -133,6 +133,7 @@ router.post('/edit', (req, res) => {
  *   }
  */
 router.post('/delete', (req, res) => {
+  console.log(req);
   let deleteObj = {
     username:    req.body.username,
     startTime:   req.body.startTime,
@@ -146,6 +147,7 @@ router.post('/delete', (req, res) => {
     return;
   }
 
+  console.log("about to find");
   db.Recording.find({
     where: {
       username:    deleteObj.username,
