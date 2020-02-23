@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const passport = require('passport');
+const token_utils = require('../passport/passport-token-utils');
 let client_add = "http://localhost:3000";
 
 // function ensureAuthenticated
@@ -40,13 +41,18 @@ router.post('/local', passport.authenticate('local'), (req, res) => {
             },
             "remember_me": "false"
         });
-        return next(); 
+        return;
     }
 
     // set remember me cookie
-    var token = utils.generateToken(64);
-    Token.save(token, { userId: req.user.id }, (err) => {
-        if (err) { return done(err); }
+    let token = token_utils.generateToken(64);
+    token_utils.saveRememberMeToken(token, { username: req.user.username }, (err) => {
+        // TODO: error handling
+        /*if (err) {
+            res.status(500);
+            return;
+        }*/
+
         res.cookie('remember_me', token, { path: '/', httpOnly: true, maxAge: 31536000000 }); // 365 days
         
         res.json({
@@ -59,7 +65,6 @@ router.post('/local', passport.authenticate('local'), (req, res) => {
             },
             "remember_me": "true"
         });
-        return next();
     });
 });
 

@@ -27,12 +27,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({
 secret: 'some_secret_key',
     resave: false,
-    saveUninitialized: false,
-    // persisting session: the cookie is valid for a whole year.
-    cookie: {maxAge: 1000 * 60 * 60 * 24 * 365}
+    saveUninitialized: false
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(passport.authenticate('remember-me'));
 
 app.use('/api/auth', authRoutes);
 

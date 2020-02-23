@@ -16,6 +16,25 @@
     width: 30vw;
     /* border: 1px solid blue; */
 }
+
+input[type=checkbox] {
+    padding: 0;
+    margin: 0;
+    vertical-align: middle;
+    overflow: hidden;
+    padding-right: .3rem;
+}
+
+label {
+    display: block;
+    padding-left: 15px;
+    text-indent: -15px;
+    height:100%;
+}
+
+div.login-checkbox{
+    vertical-align: center;
+}
 /* TODO: Find better workaround for this issue with input heights */
 /* .auth-form.registration {
     height: 50vh;

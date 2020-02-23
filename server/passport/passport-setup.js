@@ -3,6 +3,7 @@ const GoogleStrategy = require ('passport-google-oauth20');
 const LocalStrategy = require("passport-local").Strategy;
 const RememberMeStrategy = require("passport-remember-me").Strategy;
 const keys = require('../config/keys');
+const token_util = require('./passport-token-utils');
 
 let db;
 
@@ -60,58 +61,22 @@ function googleLoginDone (accessToken, refreshToken, profile, done) {
 /************************************************************
  *  RememberMe Strategy
  ************************************************************/
-let tokens = {};
-
 passport.use(new RememberMeStrategy(
   (token, done) => {
-      consumeRememberMeToken(token,  (err, user) => {
+      token_util.consumeRememberMeToken(token,  (err, user) => {
           if (err) { return done(err); }
           if (!user) { return done(null, false); }
           return done(null, user);
       });
   },
   (user, done) => {
-      var token = generateToken(64);
-      saveRememberMeToken(token, { userId: user.id }, (err) => {
+      let token = token_util.generateToken(64);
+      token_util.saveRememberMeToken(token, { username: user.username }, (err) => {
           if (err) { return done(err); }
           return done(null, token);
       });
   }
 ));
-
-// function to remove (consume) a token
-// taken from https://github.com/jaredhanson/passport-remember-me/
-function consumeRememberMeToken(token, done) {
-    let uid = tokens[token];
-    // invalidate the single-use token
-    delete tokens[token];
-    return done(null, uid);
-}
-
-// function to save a remember me token
-// taken from https://github.com/jaredhanson/passport-remember-me/
-function saveRememberMeToken(token, uid, done) {
-    tokens[token] = uid;
-    return done();
-}
-
-// function to generate a token
-// taken from https://github.com/jaredhanson/passport-remember-me/
-function generateToken(len) {
-    let buf = [];
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    const charlen = chars.length;
-
-    for (var i = 0; i < len; ++i) {
-        buf.push(chars[getRandomInt(0, charlen - 1)]);
-    }
-    return buf.join('');
-}
-
-//  auxiliary func for the func above
-function getRandomInt(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
 
 /************************************************************
  *  Helper functions
