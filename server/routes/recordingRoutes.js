@@ -133,7 +133,6 @@ router.post('/edit', (req, res) => {
  *   }
  */
 router.post('/delete', (req, res) => {
-  console.log(req);
   let deleteObj = {
     username:    req.body.username,
     startTime:   req.body.startTime,
@@ -155,15 +154,15 @@ router.post('/delete', (req, res) => {
     }
   }).then((result) => {
       console.log("Found!")
-      return Model.destroy({ 
-        where: {
-          username:    deleteObj.username,
-          startTime:   deleteObj.startTime
-        }
-      }).then((u) => { 
-        console.log("Destroyed!");
-        return result;
-      });
+      // return Model.destroy({ 
+      //   where: {
+      //     username:    deleteObj.username,
+      //     startTime:   deleteObj.startTime
+      //   }
+      // }).then((u) => { 
+      //   console.log("Destroyed!");
+      //   return result;
+      // });
 
   }).catch((err) => {
       console.log('Error while deleting recording.');
