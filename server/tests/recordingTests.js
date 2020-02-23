@@ -131,6 +131,7 @@ describe('Recording', function() {
           res.should.have.status(200);
           res.should.be.json;
           res.body.should.be.an('array').that.is.not.empty;
+          res.body.should.be.an('array').that.has.lengthOf(2);
           res.body.every((rec) => { rec.username.should.equal(userData.username) });
           res.body[0].startTime  .should.equal(recordingData.startTime);
           res.body[0].endTime    .should.equal(recordingData.endTime);
@@ -227,16 +228,17 @@ describe('Recording', function() {
 
 
   describe('Delete', function() {
-    // it('should delete the given recording from database', function(done) {
-    //   server.post(baseURL + '/delete') 
-    //     .set('content-type', 'application/json')
-    //     .send(recordingData2)
-    //     .end(function(err, res) {
-    //       res.should.have.status(200);
-    //       res.should.be.json;
-    //       done();
-    //     });
-    // });
+    it('should delete the given recording from database', function(done) {
+      server.post(baseURL + '/delete') 
+        .set('content-type', 'application/json')
+        .send(recordingData2)
+        .end(function(err, res) {
+          console.log(res);
+          res.should.have.status(200);
+          res.should.be.json;
+          done();
+        });
+    });
 
     it('deleted recording should no longer exist', function(done) {
       server.get('/api/user/'+recordingData2.username+'/recordings')
