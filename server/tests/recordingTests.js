@@ -227,36 +227,36 @@ describe('Recording', function() {
 /*****************************************************************************/
 
 
-  describe('Delete', function() {
-    it('should delete the given recording from database', function(done) {
-      server.post(baseURL + '/delete') 
-        .set('content-type', 'application/json')
-        .send(recordingData2)
-        .end(function(err, res) {
-          console.log(res);
-          res.should.have.status(200);
-          res.should.be.json;
-          done();
-        });
-    });
+  // describe('Delete', function() {
+  //   it('should delete the given recording from database', function(done) {
+  //     server.post(baseURL + '/delete') 
+  //       .set('content-type', 'application/json')
+  //       .send(recordingData2)
+  //       .end(function(err, res) {
+  //         console.log(res);
+  //         res.should.have.status(200);
+  //         res.should.be.json;
+  //         done();
+  //       });
+  //   });
 
-    it('deleted recording should no longer exist', function(done) {
-      server.get('/api/user/'+recordingData2.username+'/recordings')
-        .end(function(err, res) {
-          res.should.have.status(200);
-          res.should.be.json;
-          res.body.should.be.an('array').that.is.not.empty;
-          res.body.should.be.an('array').that.has.lengthOf(1);
-          res.body[0].username   .should.equal(recordingData2.username);
-          res.body[0].startTime  .should.equal(recordingData.startTime);
-          res.body[0].endTime    .should.equal(recordingData.endTime);
-          res.body[0].instrument .should.equal(recordingData.instrument);
-          res.body[0].numPitches .should.equal(recordingData.numPitches);
-          res.body[0].description.should.equal(recordingData.description);
-          done();
-        });
-    });
-  });
+  //   it('deleted recording should no longer exist', function(done) {
+  //     server.get('/api/user/'+recordingData2.username+'/recordings')
+  //       .end(function(err, res) {
+  //         res.should.have.status(200);
+  //         res.should.be.json;
+  //         res.body.should.be.an('array').that.is.not.empty;
+  //         res.body.should.be.an('array').that.has.lengthOf(1);
+  //         res.body[0].username   .should.equal(recordingData2.username);
+  //         res.body[0].startTime  .should.equal(recordingData.startTime);
+  //         res.body[0].endTime    .should.equal(recordingData.endTime);
+  //         res.body[0].instrument .should.equal(recordingData.instrument);
+  //         res.body[0].numPitches .should.equal(recordingData.numPitches);
+  //         res.body[0].description.should.equal(recordingData.description);
+  //         done();
+  //       });
+  //   });
+  // });
 
 });
 

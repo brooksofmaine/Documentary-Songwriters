@@ -8,13 +8,13 @@ let db;
 /*
  * TODO: need to standardize timestamp
  * TODO: can we grab the username from the login session?
- *       instead of putting it into the body
+ *       instead of putting it into the body?
  *
  * To create a recording, post to the endpoint /api/recording/create
  * with the username, start time, end time, instrument, number of pitches, 
- * and description in the body of the request
+ * and description in the body of the request.
  *
- * For example, to create a recording for John Smith, who is already logged in:
+ * For example, to create a recording for John Smith:
  *   Post /api/recording/create
  *   With data:
  *   {
@@ -60,7 +60,8 @@ router.post('/create', (req, res) => {
 
 
 
-/*
+/* DO NOT USE!!! NOT YET TESTED!!!!!
+ * 
  * To edit something about a recording as the creator of a recording, 
  * POST to /api/recording/edit. In the body of the request, include 
  * the start time of the recording to edit, the name of the attribute to edit,
@@ -120,7 +121,8 @@ router.post('/edit', (req, res) => {
 
 
 
-/*
+/* DO NOT USE!!! NOT YET TESTED!!!!!
+ * 
  * To delete a recording, post request to the endpoint /api/recording/delete
  * with the start time of the recording to delete, for the logged-in user.
  *

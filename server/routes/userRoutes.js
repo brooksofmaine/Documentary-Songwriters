@@ -155,18 +155,15 @@ router.post('/:username/change/:key', (req, res) => {
 
 
 /*
- * TODO: can we filter by start time in here?
- * it wasn't working so well within the `where` clause, but maybe we can do it 
- * after getting the recordingArr
- * 
  * To get a user's recordings, get the endpoint 
  * /api/user/{username}/recordings
- *
- * where username is that of the user
+ * where username is that of the user. This will return an array of 
+ * Recording objects.
  *
  * For example, to get recordings for user bobbyS,
- * 
  *   GET /api/user/bobbyS/recordings
+ *
+ * TODO: can we filter start times via query parameters?
  *
  */
 router.get('/:username/recordings', (req, res) => {
