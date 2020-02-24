@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const passport = require('passport');
+const token_utils = require('../passport/passport-token-utils');
 let client_add = "http://localhost:3000";
 
 // function ensureAuthenticated
@@ -28,14 +29,42 @@ router.get('/logout', ensureAuthenticated, (req,res) => {
 });
 
 router.post('/local', passport.authenticate('local'), (req, res) => {
-    res.json({
-        "status": "success",
-        "user": {
-            "username": req.user.username,
-            "email": req.user.email,
-            "firstName": req.user.firstName,
-            "lastName": req.user.lastName
-        }
+    // don't set remember me cookie only when option not selected
+    if (!req.body.remember_me) { 
+        res.json({
+            "status": "success",
+            "user": {
+                "username": req.user.username,
+                "email": req.user.email,
+                "firstName": req.user.firstName,
+                "lastName": req.user.lastName
+            },
+            "remember_me": "false"
+        });
+        return;
+    }
+
+    // set remember me cookie
+    let token = token_utils.generateToken(64);
+    token_utils.saveRememberMeToken(token, { username: req.user.username }, (err) => {
+        // TODO: error handling
+        /*if (err) {
+            res.status(500);
+            return;
+        }*/
+
+        res.cookie('remember_me', token, { path: '/', httpOnly: true, maxAge: 31536000000 }); // 365 days
+        
+        res.json({
+            "status": "success",
+            "user": {
+                "username": req.user.username,
+                "email": req.user.email,
+                "firstName": req.user.firstName,
+                "lastName": req.user.lastName
+            },
+            "remember_me": "true"
+        });
     });
 });
 
