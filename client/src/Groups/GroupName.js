@@ -3,9 +3,6 @@ import React from 'react';
 import './GroupName.css';
 
 class GroupName extends React.Component {
-    constructor() {
-        super();
-    }
 
     render() {
         let style;

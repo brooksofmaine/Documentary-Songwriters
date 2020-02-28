@@ -1,16 +1,7 @@
 import React from 'react';
 import './LoginForm.css'
 import Button from "../Button"
-import GoogleImg from './google_signin.png'
-// import InputField from "./InputField";
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,  
-    Link
-
-  } from "react-router-dom";
-
+import GoogleImg from '../assets/google_signin.png'
 
 class LoginForm extends React.Component {
     constructor(props) {
@@ -153,8 +144,7 @@ class LoginForm extends React.Component {
                 <Button id="login" onClick={this.authUser} name="Login"/>
                 <div className={"new_user_prompt login_section"}>
                     <h2>New User?</h2>
-                    <a href={"#"} onClick={() => this.setState({login: 1})} >Click here to register a new account</a>
-
+                    <button className="link-style" onClick={() => this.setState({login: 1})}>Register a new account</button>
                 </div>
             </div>
         )
@@ -180,7 +170,8 @@ class LoginForm extends React.Component {
                 <Button id="register" onClick={this.createUser} name="Register"/>
                 <div className={"new_user_prompt login_section"}>
                     <h2>Already have an account?</h2>
-                    <a href={"#"} onClick={() => this.setState({login: 0})} >Click here to log in</a>
+                    <button className="link-style" onClick={() => this.setState({login: 0})}>Click here to log in</button>
+                    
                 </div>
             </div>
         )
