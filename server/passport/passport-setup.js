@@ -1,7 +1,9 @@
 const passport = require('passport');
 const GoogleStrategy = require ('passport-google-oauth20');
 const LocalStrategy = require("passport-local").Strategy;
-const keys = require('./keys');
+const RememberMeStrategy = require("passport-remember-me").Strategy;
+const keys = require('../config/keys');
+const token_util = require('./passport-token-utils');
 
 let db;
 
@@ -56,6 +58,25 @@ function googleLoginDone (accessToken, refreshToken, profile, done) {
     findUserOrCreate(profile.emails[0].value, profile, done);
 }
 
+/************************************************************
+ *  RememberMe Strategy
+ ************************************************************/
+passport.use(new RememberMeStrategy(
+  (token, done) => {
+      token_util.consumeRememberMeToken(token,  (err, user) => {
+          if (err) { return done(err); }
+          if (!user) { return done(null, false); }
+          return done(null, user);
+      });
+  },
+  (user, done) => {
+      let token = token_util.generateToken(64);
+      token_util.saveRememberMeToken(token, { username: user.username }, (err) => {
+          if (err) { return done(err); }
+          return done(null, token);
+      });
+  }
+));
 
 /************************************************************
  *  Helper functions
