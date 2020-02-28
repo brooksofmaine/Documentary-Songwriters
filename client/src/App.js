@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import LoginForm from './Authentication/LoginForm'
+import LoginForm from './authentication/LoginForm'
 // import WelcomeBoard from './WelcomeBoard'
 // import Record from './Record'
-import PrivateRoute from './Authentication/PrivateRoute'
+import PrivateRoute from './authentication/PrivateRoute'
 import AuthPages from './AuthPages'
 import './App.css'
 import {

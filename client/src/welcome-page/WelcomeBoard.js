@@ -1,11 +1,11 @@
 import React from 'react';
 import './WelcomeBoard.css'
 import WelcomeCounter from "./WelcomeCounter";
-import Button from "./Button"
+import Button from "../Button"
 
-import UserFunc from "./api-helper/user";
-import RecordingFunc from "./api-helper/recording";
-import GroupFunc from "./api-helper/group";
+import UserFunc from "../api-helper/user";
+import RecordingFunc from "../api-helper/recording";
+import GroupFunc from "../api-helper/group";
 
 class WelcomeBoard extends React.Component {
     constructor() {

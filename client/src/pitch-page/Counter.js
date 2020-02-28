@@ -1,8 +1,4 @@
 import React from 'react';
-// import './pitch-counter/d3-peaks.js'
-// import './pitch-counter/tuner.js'
-
-// import { add, multiply } from './pitch-counter/counting.js'
 import './Counter.css';
 
 class Counter extends React.Component {

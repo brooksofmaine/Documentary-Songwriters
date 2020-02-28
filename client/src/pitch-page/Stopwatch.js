@@ -2,10 +2,10 @@ import React from 'react';
 // import Button from './Button';
 
 import './Stopwatch.css';
-import Play from './assets/play.png';
-import Pause from './assets/pause.png';
-import Stop from './assets/stop.png';
-import Share from './assets/share.png';
+import Play from '../assets/play.png';
+import Pause from '../assets/pause.png';
+import Stop from '../assets/stop.png';
+import Share from '../assets/share.png';
 
 class Stopwatch extends React.Component {
     constructor() {
