@@ -74,6 +74,17 @@
     text-align: left;
 }
 
+.InstrumentCross {
+    display: inline-block;
+    width: 10%;
+    margin-right: -50%;
+}
+
+.InstrumentSubOption {
+    display: inline-block;
+    width: 90%;
+}
+
 .Length {
     width: 20%;
     padding: 0 1%;

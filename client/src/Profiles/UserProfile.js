@@ -63,6 +63,7 @@ class UserProfile extends React.Component {
             }
         }
 
+        // sets string of instruments at top
         let playString = "Plays ";
         if ( uniqueInstruments.length == 0 ) {
             playString += "no instruments yet";
@@ -71,17 +72,17 @@ class UserProfile extends React.Component {
             playString += uniqueInstruments[0];
         }
         else if ( uniqueInstruments.length == 2 ) {
-            playString += uniqueInstruments[0] + " and " + uniqueInstruments[1];
+            playString += uniqueInstruments[0] + " and " 
+                          + uniqueInstruments[1];
         } 
         else {
             for ( let i = 0; i < uniqueInstruments.length - 1; i++ ) {
                 playString += uniqueInstruments[i] + ", "
             }
-            playString += "and " + uniqueInstruments[uniqueInstruments.length - 1];
+            playString += "and " 
+                          + uniqueInstruments[uniqueInstruments.length - 1];
         }
 
-
-        
 
         return(
             <div className = "Center GreyBackground">
@@ -90,7 +91,10 @@ class UserProfile extends React.Component {
                 <p className = "InstrumentLine">{playString}</p>
                 <div className = "Spacer"></div>
                 <div className = "SmallSpacer"></div>
-                <PracticeBar practices = {practices} instruments = {uniqueInstruments} />
+                <PracticeBar 
+                    practices = {practices} 
+                    instruments = {uniqueInstruments} 
+                />
                 <div className = "Spacer"></div>
             </div>
         )

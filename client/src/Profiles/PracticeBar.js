@@ -3,20 +3,15 @@ import React from 'react';
 import './PracticeBar.css';
 import Practice from './Practice';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMinus, faAngleDown, faAngleRight, faTimes } from '@fortawesome/free-solid-svg-icons';
-// import { makeStyles } from '@material-ui/core/styles';
-// import Typography from '@material-ui/core/Typography';
-// import Slider from '@material-ui/core/Slider';
+import { faMinus, faAngleDown, faAngleRight, faTimes } 
+        from '@fortawesome/free-solid-svg-icons';
 import ReactSlider from 'react-slider';
-
-
 
 class PracticeBar extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             open : false,
-            // style : { overflowY : 'hidden' }
             style : { overflowY : 'auto' },
             overlay : { 
                 width: 0, 
@@ -34,20 +29,14 @@ class PracticeBar extends React.Component {
             display : this.props.practices
         }
 
-        this.toggle           = this.toggle.bind(this);
-        this.toggleInstrument = this.toggleInstrument.bind(this);
-        this.toggleDate       = this.toggleDate.bind(this);
-        this.togglePitch      = this.togglePitch.bind(this);
-        this.selectInstrument = this.selectInstrument.bind(this);
+        this.toggleFilter     = this.toggleFilter.bind(this);
+        this.toggleSubfilter  = this.toggleSubfilter.bind(this);
         this.changeDateOrder  = this.changeDateOrder.bind(this);
-        this.updateSlider     = this.updateSlider.bind(this);
+        this.updateDisplayed  = this.updateDisplayed.bind(this);
     }
 
-    componentDidMount() {
-        
-    }
-
-    toggle() {
+    // toggles if main filter is open
+    toggleFilter() {
 
         if ( this.state.open ) {
             this.setState({
@@ -70,89 +59,26 @@ class PracticeBar extends React.Component {
                 }
             
         }));
-
-
     }
 
-    toggleInstrument() {
-        this.setState(prevState => ({
-            instrumentFilterOpen : ! prevState.instrumentFilterOpen
-        }));
-    }
-
-    toggleDate() {
-        this.setState(prevState => ({
-            dateFilterOpen : ! prevState.dateFilterOpen
-        }));
-    }
-
-    togglePitch() {
-        this.setState(prevState => ({
-            pitchFilterOpen : ! prevState.pitchFilterOpen
-        }));
-    }
-
-    selectInstrument(instrument) {
-
-        const index = this.state.instrument.indexOf(instrument);
-
-        // selected all, deselect everything else to avoid redundancy
-        if ( instrument === "all" ) {
-            this.setState({
-                instrument : ["all"]
-            })
+    // toggles if instrument, date, and pitch subfilters are open
+    toggleSubfilter(subfilter) {
+        if ( subfilter === "instrument" ) {
+            this.setState(prevState => ({
+                instrumentFilterOpen : ! prevState.instrumentFilterOpen
+            }));
         }
-        // selected actual instrument that is already selected, hence deselecting
-        else if ( index > -1 ) { 
-            let instruments = this.state.instrument;
-            instruments.splice(index, 1);
-            if ( instruments.length === 0 ) {
-                instruments = ["all"];
-            }
-            console.log(instruments)
-            this.setState({
-                instrument : instruments
-            });
-            console.log(this.state.instrument)
+        else if ( subfilter === "date" ) {
+            this.setState(prevState => ({
+                dateFilterOpen : ! prevState.dateFilterOpen
+            }));
         }
-        // selected actual instrument that is not already selected
-        else /*if ( instrument !== "noChange" )*/ {
-            let allIndex = this.state.instrument.indexOf("all");
-            console.log(this.state.instrument)
-            let instruments = this.state.instrument;
-            if ( allIndex > -1 ) {
-                instruments.splice(allIndex, 1);
-            }
-            instruments.push(instrument);
-
-            this.setState({
-                instrument : instruments
-            });
-            console.log(this.state.instrument)
+        else {
+            this.setState(prevState => ({
+                pitchFilterOpen : ! prevState.pitchFilterOpen
+            }));
         }
-        const displayedPractices = this.props.practices.filter(practice => {
-            if ( this.state.instrument[0] === "all" ) {
-                return true;
-            }
-            else {
-                for ( let i = 0; i < this.state.instrument.length; i++ ) {
-                    if ( practice.instrument === this.state.instrument[i] ) {
-                        return true;
-                    } 
-                }
-                return false;
-            }
-        });
-
-        this.setState({
-            display : displayedPractices
-        });
-
-        // if ( instrument !== "noChange" ) {
-        //     const values = [this.state.minPitch, this.state.maxPitch];
-        //     this.updateSlider(values);
-        // }
-    }
+    }  
 
     changeDateOrder(order) {
         if ( this.state.order !== order ) {
@@ -166,40 +92,100 @@ class PracticeBar extends React.Component {
         })
     }
 
-    updateSlider(values) {
-        if ( this.state.minPitch !== values[0] && this.state.maxPitch !== values[1] ) {
-            this.selectInstrument("noChange");    
+    updateDisplayed(arg) {
+        let lowPitch, highPitch;
+        let instruments = this.state.instrument.slice();
+
+        if ( typeof arg === "string" ) { // instrument 
+            
+            lowPitch  = this.state.minPitch;
+            highPitch = this.state.maxPitch;
+            const index = this.state.instrument.indexOf(arg);
+
+            // selected all, deselect everything else to avoid redundancy
+            if ( arg === "all" && this.state.instrument[0] !== "all" ) {
+                instruments = ["all"];
+            }
+            // selected actual instrument that is already selected, hence deselecting
+            else if ( index > -1 ) { 
+                instruments.splice(index, 1);
+            }
+            // selected actual instrument that is not already selected
+            else {
+                let allIndex = this.state.instrument.indexOf("all");
+
+                if ( allIndex > -1 ) {
+                    instruments.splice(allIndex, 1);
+                }
+                instruments.push(arg);
+            }
+
+            this.setState({
+                instrument : instruments
+            });
+            
         }
-        console.log(values)
-        const displayedPractices = this.state.display.filter(practice => {
-            console.log(practice.pitches >= values[0] && practice.pitches <= values[1])
-            return practice.pitches >= values[0] && practice.pitches <= values[1];
-        })
-        console.log(displayedPractices)
+        else { // pitch
+
+            lowPitch = arg[0];
+            highPitch = arg[1];
+
+            this.setState({
+                minPitch : lowPitch,
+                maxPitch : highPitch
+            })
+        }
+        const displayedPractices = this.props.practices.filter(practice => {
+                
+            if ( practice.pitches >= lowPitch && practice.pitches <= highPitch ) {
+                if ( instruments[0] === "all" ) {
+                    return true;
+                }
+                else {
+                    for ( let i = 0; i < instruments.length; i++ ) {
+                        if ( practice.instrument === instruments[i] ) {
+                            return true;
+                        } 
+                    }
+                    return false;
+                }
+            }
+            else {
+                return false;
+            }
+        });
+
         this.setState({
-            minPitch : values[0],
-            maxPitch : values[1],
-            display  : displayedPractices
-        })
+            display : displayedPractices
+        });
     }
 
     render() {
 
+        console.log("AT RENDER: " + this.state.instrument)
         // filters by instrument
         const options = this.props.instruments.map(instrument => {                                  
             const formattedInstrument = instrument.charAt(0).toUpperCase() 
                                         + instrument.slice(1);
 
             const instrumentClass = this.state.instrument.indexOf(instrument) > -1 ? "FilterSubOption SelectedFilterSubOption" : "FilterSubOption";
+            const instrumentCrossStyle = this.state.instrument.indexOf(instrument) > -1 ? {} : {color: "#fff !important"};
             return (
-                <div className = {instrumentClass} onClick = {() => this.selectInstrument(instrument)} >{formattedInstrument}</div>
+                <div className = {instrumentClass} onClick = {() => this.updateDisplayed(instrument)}> 
+                    <div className = "InstrumentSubOption" >{formattedInstrument}</div>
+                    <FontAwesomeIcon icon = {faTimes} style = {instrumentCrossStyle} className = "InstrumentCross" />
+                </div>
             )
         });
 
         const instrumentClassAll = this.state.instrument[0] === "all" ? "FilterSubOption SelectedFilterSubOption" : "FilterSubOption";
+        const instrumentCrossStyleAll = this.state.instrument[0] === "all" ? {} : {color: "#fff !important"};
         options.unshift(
             
-            <div className = {instrumentClassAll} onClick = {() => this.selectInstrument("all")}>All</div>
+            <div className = {instrumentClassAll} onClick = {() => this.updateDisplayed("all")}>
+                <div className = "InstrumentSubOption" >All</div>
+                <FontAwesomeIcon icon = {faTimes} style = {instrumentCrossStyleAll} className = "InstrumentCross" />
+            </div>
         );
 
 
@@ -259,6 +245,9 @@ class PracticeBar extends React.Component {
                 activeFilterString = activeFilterString.slice(0, 8) + formattedInstrument + ", " + activeFilterString.slice(8);
             }
         }
+        else {
+            activeFilterString = activeFilterString.slice(0, 8) + "All Instruments, " + activeFilterString.slice(8);
+        }
 
 
 
@@ -277,20 +266,18 @@ class PracticeBar extends React.Component {
                 key        = {practice.key}
             />);
 
-        const tempStyle = {height: 100};
-
         return(
             <div className = "Container">
 
                 <div className = "PracticeBar">
                     <div>
-                        <p onClick = {this.toggle} className = "InstrTitle">{activeFilterString}</p>
+                        <p onClick = {this.toggleFilter} className = "InstrTitle">{activeFilterString}</p>
                         <span><FontAwesomeIcon icon = {topIcon} className = "Icon" /></span>
                     </div>
                     <div className = {sliderClass}>
                         <div className = "Filter">
                             <div className = "FilterOption">
-                                <p onClick = {this.toggleInstrument} className = "Inline FilterName">Instrument</p>
+                                <p onClick = {() => this.toggleSubfilter("instrument")} className = "Inline FilterName">Instrument</p>
                                 <div className = "Inline FilterIcon"><FontAwesomeIcon icon = {instrumentIcon} /></div>
                             </div>
                             <div style = {instrumentSliderStyle}>
@@ -298,7 +285,7 @@ class PracticeBar extends React.Component {
                             </div>
 
                             <div className = "FilterOption">
-                                <p onClick = {this.toggleDate} className = "Inline FilterName">Date</p>
+                                <p onClick = {() => this.toggleSubfilter("date")} className = "Inline FilterName">Date</p>
                                 <div className = "Inline FilterIcon"><FontAwesomeIcon icon = {dateIcon} /></div>
                             </div>
                             <div style = {dateSliderStyle}>
@@ -307,7 +294,7 @@ class PracticeBar extends React.Component {
                             </div>
 
                             <div className = "FilterOption">
-                                <p onClick = {this.togglePitch} className = "Inline FilterName">Pitches</p>
+                                <p onClick = {() => this.toggleSubfilter("pitch")} className = "Inline FilterName">Pitches</p>
                                 <div className = "Inline FilterIcon"><FontAwesomeIcon icon = {pitchIcon} /></div>
                             </div>
                             <div style = {pitchSliderStyle}>
@@ -319,7 +306,7 @@ class PracticeBar extends React.Component {
                                         defaultValue={[0, 500]}
                                         renderThumb={(props, state) => <div {...props}>{state.valueNow}</div>}
                                         minDistance={10}
-                                        onAfterChange={this.updateSlider}
+                                        onAfterChange={this.updateDisplayed}
                                         min={0}
                                         max={500}
                                     />
