@@ -4,9 +4,10 @@ const cors = require('cors');
 const app = express();
 const port = 5000;
 const models = require('./models');
-const passportSetup = require('./config/passport-setup');
+const passportSetup = require('./passport/passport-setup');
 const userRoutes = require('./routes/userRoutes');
 const groupRoutes = require('./routes/groupRoutes');
+const recordingRoutes = require('./routes/recordingRoutes');
 let db;
 
 const corsOptions = {
@@ -27,17 +28,17 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({
 secret: 'some_secret_key',
     resave: false,
-    saveUninitialized: false,
-    // persisting session: the cookie is valid for a whole year.
-    cookie: {maxAge: 1000 * 60 * 60 * 24 * 365}
+    saveUninitialized: false
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(passport.authenticate('remember-me'));
 
 app.use('/api/auth', authRoutes);
 
 app.use('/api/user', userRoutes);
 app.use('/api/group', groupRoutes);
+app.use('/api/recording', recordingRoutes);
 
 app.get('/api', function (req, res) {
   res.json({express: 'Hello world!'});
@@ -47,6 +48,7 @@ const startDB = (done) => {
   models.init((database) => {
     userRoutes.init(database);
     groupRoutes.init(database);
+    recordingRoutes.init(database);
     passportSetup.init(database);
     db = database;
     db.sequelize.sync({force: true}).then(() => {

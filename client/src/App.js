@@ -1,18 +1,14 @@
 import React, { Component } from "react";
-import LoginForm from './Authentication/LoginForm'
-import WelcomeBoard from './WelcomeBoard'
-import Record from './Record'
-import PrivateRoute from './Authentication/PrivateRoute'
+import LoginForm from './authentication/LoginForm'
+// import WelcomeBoard from './WelcomeBoard'
+// import Record from './Record'
+import PrivateRoute from './authentication/PrivateRoute'
 import AuthPages from './AuthPages'
 import './App.css'
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Link,
-  Redirect,
-  useHistory,
-  useLocation
+  Route
 } from "react-router-dom";
 
 
@@ -25,13 +21,14 @@ class App extends Component {
       data: null
     }
   }
-  //TODO: Fetch in react component tree
+  // Code used to call backend API:
+
   componentDidMount() {
-    this.callBackendAPI()
-    .then(res => {
-      this.setState({ data: res.express })
-    })
-    .catch(err => console.log(err));
+    // this.callBackendAPI()
+    // .then(res => {
+    //   this.setState({ data: res.express })
+    // })
+    // .catch(err => console.log(err));
 
   }
 

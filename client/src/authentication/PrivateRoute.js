@@ -1,12 +1,7 @@
 import React from "react"
 import {
-    BrowserRouter as Router,
-    Switch,
     Route,
-    Link,
-    Redirect,
-    useHistory,
-    useLocation
+    Redirect
   } from "react-router-dom";
 
 function PrivateRoute({ children, ...rest }) {

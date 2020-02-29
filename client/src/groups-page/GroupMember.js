@@ -1,9 +1,6 @@
 import React from 'react';
 
 class GroupMember extends React.Component {
-    constructor() {
-        super();
-    };
 
     render() {
         return(

@@ -37,14 +37,16 @@ class UserProfile extends React.Component {
         }
     }
 
+
     render() {
 
         // profile picture
         let proPic;
         userData2.picture ? 
             proPic = <img 
-                        src = {userData2.picture}
-                        className = "ProfilePicture"
+                        src={userData2.picture}
+                        className="ProfilePicture"
+                        alt="Profile avatar for user"
                     /> :
             proPic = <div className = "NoProPic ProfilePicture"></div>;
 

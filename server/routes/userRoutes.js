@@ -30,15 +30,15 @@ let db;
  */
 router.post('/create', (req, res) => {
   let createObj = {
-    username: req.body.username,
+    username:  req.body.username,
     firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    email: req.body.email,
-    password: req.body.password // TODO hash password
+    lastName:  req.body.lastName,
+    email:     req.body.email,
+    password:  req.body.password // TODO hash password
   };
 
-  console.log(req.body);
-  console.log(createObj);
+  // console.log(req.body);
+  // console.log(createObj);
 
   if (anyValuesUndefined(createObj)) {
     res.status(400).json({ err: 'undefined fields' });
@@ -151,6 +151,43 @@ router.post('/:username/change/:key', (req, res) => {
     return;
   });
 });
+
+
+
+/*
+ * To get a user's recordings, get the endpoint 
+ * /api/user/{username}/recordings
+ * where username is that of the user. This will return an array of 
+ * Recording objects.
+ *
+ * For example, to get recordings for user bobbyS,
+ *   GET /api/user/bobbyS/recordings
+ *
+ * TODO: can we filter start times via query parameters?
+ *
+ */
+router.get('/:username/recordings', (req, res) => {
+  db.Recording.findAll({
+    where: {
+      username: req.params.username
+    }
+  }).then((recordingArr) => {
+    if (recordingArr === null) {
+      res.status(404).json({ err: 'recordings not found' });
+      return;
+    }
+    res.json(recordingArr.map((recording) => { return recording.get({ plain: true }) }));
+    return;
+
+  }).catch((err) => {
+    console.log('Error while retrieving recordings.');
+    console.log(err);
+    res.status(500).json({ err: err });
+    return;
+  });
+});
+
+
 
 module.exports = router;
 module.exports.init = (database) => { db = database; };

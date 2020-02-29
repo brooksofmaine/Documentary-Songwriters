@@ -1,22 +1,14 @@
 import React from 'react';
 import './LoginForm.css'
 import Button from "../Button"
-import GoogleImg from './google_signin.png'
-// import InputField from "./InputField";
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,  
-    Link
-
-  } from "react-router-dom";
-
+import GoogleImg from '../assets/google_signin.png'
 
 class LoginForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            login: 0
+            login: 0,
+            remember_me: false
         };
 
         // Function bindings
@@ -28,6 +20,7 @@ class LoginForm extends React.Component {
         this.authUser = this.authUser.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.openGoogleLogin = this.openGoogleLogin.bind(this);
+        this.handleCheckBoxChange = this.handleCheckBoxChange.bind(this);
     }
 
     loginState() {
@@ -106,7 +99,8 @@ class LoginForm extends React.Component {
         /* Construct JSON with user info*/
         const userInfo = {
             "username": this.state.username,
-            "password": this.state.password
+            "password": this.state.password,
+            "remember_me": this.state.remember_me
         };
 
         console.log(userInfo);
@@ -140,6 +134,12 @@ class LoginForm extends React.Component {
         this.setState(json);
     };
 
+    handleCheckBoxChange(e){
+        let json = {};
+        json['remember_me'] = e.target.checked;
+        this.setState(json);
+    };
+
     Login() {
         return (
             <div>
@@ -148,13 +148,16 @@ class LoginForm extends React.Component {
                            name="username" onChange={this.handleChange}/>
                     <input className="login-input" type="password" placeholder="Password"
                            name="password" onChange={this.handleChange}/>
-
+                    <label htmlFor="remember_me">
+                        <input id="remember_me" type="checkbox" name="remember_me"
+                               onChange={this.handleCheckBoxChange}/>
+                        <span>Remember Me</span>
+                    </label>
                 </form>
                 <Button id="login" onClick={this.authUser} name="Login"/>
                 <div className={"new_user_prompt login_section"}>
                     <h2>New User?</h2>
-                    <a href={"#"} onClick={() => this.setState({login: 1})} >Click here to register a new account</a>
-
+                    <button className="link-style" onClick={() => this.setState({login: 1})}>Register a new account</button>
                 </div>
             </div>
         )
@@ -180,7 +183,8 @@ class LoginForm extends React.Component {
                 <Button id="register" onClick={this.createUser} name="Register"/>
                 <div className={"new_user_prompt login_section"}>
                     <h2>Already have an account?</h2>
-                    <a href={"#"} onClick={() => this.setState({login: 0})} >Click here to log in</a>
+                    <button className="link-style" onClick={() => this.setState({login: 0})}>Click here to log in</button>
+                    
                 </div>
             </div>
         )
@@ -191,9 +195,6 @@ class LoginForm extends React.Component {
             <div className="loginform">
                 <h1 className={"Title"}>Documentary Songwriters</h1>
                 <div className="login_area flex_container">
-                    <button className="google-button" onClick={() => this.openGoogleLogin()}>
-                        <img src={GoogleImg} alt="Google Login Button" />
-                    </button>
                     <div className={"user_login login_section"}>
                     <button className="google-button" onClick={() => this.openGoogleLogin()}>
                         <img src={GoogleImg} alt="Google Login Button" />
