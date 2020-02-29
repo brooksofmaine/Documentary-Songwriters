@@ -1,7 +1,6 @@
 import React from 'react';
 
 import userData2 from './userData2';  // temporary data
-import OneOption from './OneOption';
 import PracticeBar from './PracticeBar';
 import './UserProfile.css';
 
