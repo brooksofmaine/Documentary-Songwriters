@@ -16,6 +16,9 @@ class WelcomeBoard extends React.Component {
             weekCount: 0,
             monthCount: 0
         };
+    }
+
+    componentDidMount() {
         UserFunc.getCurrentUser().then((user_info) => {
             console.log(user_info);
             console.log(user_info.status);
@@ -25,25 +28,20 @@ class WelcomeBoard extends React.Component {
         }).catch((err) => {
             console.log(err);
         });
-    }
 
-    componentDidMount() {
-        UserFunc.getUserInfo("123").then((result, err) => {
-            console.log(result);
-        });
-        RecordingFunc.getPitchTotalCount(null, new Date(), RecordingFunc.nthDayAgo(7)).then(result => {
+        RecordingFunc.getPitchTotalCount(null, RecordingFunc.nthDayAgo(7), new Date()).then(result => {
             console.log("got week");
             this.setState({
                 weekCount: result
             });
         });
-        RecordingFunc.getPitchTotalCount(null, new Date(), RecordingFunc.nthDayAgo(1)).then(result => {
+        RecordingFunc.getPitchTotalCount(null, RecordingFunc.nthDayAgo(1), new Date()).then(result => {
             console.log("got day");
             this.setState({
                 dayCount: result
             });
         });
-        RecordingFunc.getPitchTotalCount(null, new Date(), RecordingFunc.nthDayAgo(30)).then(result => {
+        RecordingFunc.getPitchTotalCount(null, RecordingFunc.nthDayAgo(30), new Date()).then(result => {
             console.log("got month");
             this.setState({
                 monthCount: result
