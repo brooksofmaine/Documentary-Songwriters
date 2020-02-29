@@ -33,7 +33,7 @@ export default class UserFunc {
     static async getCurrentUsername() {
         const userinfo = await this.getCurrentUser();
         if (userinfo['status'] !== "logged_in") {
-            throw Error("Trying to add new recording while not logged in");
+            throw Error("Trying to get username while user is not logged in");
         }
         return userinfo["user"]["username"];
     }
