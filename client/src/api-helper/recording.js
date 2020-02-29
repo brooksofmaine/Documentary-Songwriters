@@ -12,6 +12,7 @@
  */
 
 import {server_add, init_params_get} from "./config";
+import UserFunc from "./user";
 
 export class RecordingFunc {
     // Get Recordings of User:
@@ -19,6 +20,9 @@ export class RecordingFunc {
     // GET /api/user/{username}/recordings
     // checked runtime error if user not found, parsing failed etc
     static async getRecordings(username, start_time, end_time){
+        if (username === null) {
+            username = await UserFunc.getCurrentUsername();
+        }
         const query_url = server_add + "/api/user/" + username + "/recordings";
         const response = await fetch(query_url, init_params_get);
 
@@ -77,9 +81,23 @@ export class RecordingFunc {
         return pitch_sum;
     }
 
+    /*
+    {
+        "username": foobar,
+        "numPitches": 125,
+        "instrument": "guitar",
+        "description": "First round of practice!",
+        "startTime": "2019-11-21T02:25:42.123Z",
+        "endTime": "2019-11-21T02:29:15.396Z",
+        "createdAt": "2019-11-21T02:29:16.025Z",
+        "updatedAt": "2019-11-21T02:29:16.025Z"
+    }
+     */
     static async newRecording(numPitches, instrument, description, startTime, endTime) {
+        const currentUserName = await UserFunc.getCurrentUsername();
         const query_url = server_add + "/api/recording/create";
         const new_recording = {
+            "username": currentUserName,
             "numPitches": numPitches,
             "instrument": instrument,
             "description": description,

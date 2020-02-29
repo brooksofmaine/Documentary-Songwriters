@@ -31,9 +31,11 @@ class WelcomeBoard extends React.Component {
         const old_date = new Date();
         old_date.setHours(old_date.getHours() - 1);
         const date2 = new Date();
-        RecordingFunc.newRecording(10, "Piano", "Some description", old_date.toISOString(), date2.toISOString()).then((result) => {
+        RecordingFunc.newRecording(10, "Piano", "Some description", old_date.toISOString(), old_date.toISOString()).then((result) => {
             console.log("RESULT: ", result);
         });
+
+        RecordingFunc.getRecordings(null, old_date.toISOString(), old_date.toISOString())
 
     }
 
