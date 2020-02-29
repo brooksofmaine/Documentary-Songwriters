@@ -30,15 +30,15 @@ let db;
  */
 router.post('/create', (req, res) => {
   let createObj = {
-    username: req.body.username,
+    username:  req.body.username,
     firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    email: req.body.email,
-    password: req.body.password // TODO hash password
+    lastName:  req.body.lastName,
+    email:     req.body.email,
+    password:  req.body.password // TODO hash password
   };
 
-  console.log(req.body);
-  console.log(createObj);
+  // console.log(req.body);
+  // console.log(createObj);
 
   if (anyValuesUndefined(createObj)) {
     res.status(400).json({ err: 'undefined fields' });
@@ -156,32 +156,29 @@ router.post('/:username/change/:key', (req, res) => {
 
 /*
  * To get a user's recordings, get the endpoint 
- * /api/user/{username}/recordings?low=<lowBound>&high=<highBound>
+ * /api/user/{username}/recordings
+ * where username is that of the user. This will return an array of 
+ * Recording objects.
  *
- * where username is that of the user, and lowBound/highBound indicate the 
- * range for which you're retrieving recordings.
+ * For example, to get recordings for user bobbyS,
+ *   GET /api/user/bobbyS/recordings
  *
- * For example, to get recordings for user bobbyS for November 2019,
- * 
- *   GET /api/user/bobbyS/recordings?low="2019-11-01T00:00:00.000Z"&high="2019-11-30T23:59:59.999Z"
+ * TODO: can we filter start times via query parameters?
  *
  */
 router.get('/:username/recordings', (req, res) => {
   db.Recording.findAll({
     where: {
-      username: req.params.username,
-      start: {
-        [Op.gte]: req.query.lowRange,
-        [Op.lte]: req.query.highRange
-      }
+      username: req.params.username
     }
-  }).then((modelInstance) => {
-    if (modelInstance === null) {
+  }).then((recordingArr) => {
+    if (recordingArr === null) {
       res.status(404).json({ err: 'recordings not found' });
       return;
     }
-    res.json(modelInstance.get({ plain: true }));
+    res.json(recordingArr.map((recording) => { return recording.get({ plain: true }) }));
     return;
+
   }).catch((err) => {
     console.log('Error while retrieving recordings.');
     console.log(err);
