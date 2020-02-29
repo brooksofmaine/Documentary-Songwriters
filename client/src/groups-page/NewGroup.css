@@ -127,6 +127,7 @@
     font-weight: 200;
     outline: none;
     transition: 0.4s;
+    margin: 0;
 }
 
 .GroupButton:hover {
