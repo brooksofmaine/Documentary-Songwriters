@@ -48,4 +48,20 @@ export default class UserFunc {
         }
         return await response.json();
     }
+
+    static async logUserOut() {
+        const loginstatus = await this.getCurrentUser();
+        if (loginstatus.status !== "logged_in") {
+            throw Error("User is not logged in");
+        }
+
+        const query_url = server_add + "/api/auth/logout";
+        const response = await fetch(query_url, init_params_get);
+        if (response.status === 404) {
+            throw Error("Error: User Not Found");
+        } else if (response.status !== 200) {
+            throw Error("Error: Connection Error");
+        }
+        return response;
+    }
 }
