@@ -2,10 +2,10 @@ import React from 'react';
 
 import './PracticeBar.css';
 import Practice from './Practice';
+import ProfileFilter from './ProfileFilter';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMinus, faAngleDown, faAngleRight, faTimes } 
         from '@fortawesome/free-solid-svg-icons';
-import ReactSlider from 'react-slider';
 
 class PracticeBar extends React.Component {
     constructor(props) {
@@ -96,7 +96,8 @@ class PracticeBar extends React.Component {
         let lowPitch, highPitch;
         let instruments = this.state.instrument.slice();
 
-        if ( typeof arg === "string" ) { // instrument 
+        // change instrument filter, leave pitch the same
+        if ( typeof arg === "string" ) { 
             
             lowPitch  = this.state.minPitch;
             highPitch = this.state.maxPitch;
@@ -125,7 +126,8 @@ class PracticeBar extends React.Component {
             });
             
         }
-        else { // pitch
+        // change pitch filter, leave instrument the same
+        else {
 
             lowPitch = arg[0];
             highPitch = arg[1];
@@ -162,7 +164,6 @@ class PracticeBar extends React.Component {
 
     render() {
 
-        console.log("AT RENDER: " + this.state.instrument)
         // filters by instrument
         const options = this.props.instruments.map(instrument => {                                  
             const formattedInstrument = instrument.charAt(0).toUpperCase() 
@@ -217,13 +218,13 @@ class PracticeBar extends React.Component {
                 overflow: "hidden",
                 height: 0
             }
-
+        const sliderStyles = [instrumentSliderStyle, dateSliderStyle, pitchSliderStyle];
 
 
 
         const newToOldClass = this.state.order == "newFirst" ? "FilterSubOption SelectedFilterSubOption" : "FilterSubOption";
         const oldToNewClass = this.state.order == "oldFirst" ? "FilterSubOption SelectedFilterSubOption" : "FilterSubOption";    
-
+        const dateClasses   = {newToOldClass, oldToNewClass};
 
 
         // controls filter string
@@ -256,6 +257,7 @@ class PracticeBar extends React.Component {
         const instrumentIcon = this.state.instrumentFilterOpen ? faAngleDown : faAngleRight ;
         const dateIcon       = this.state.dateFilterOpen ? faAngleDown : faAngleRight ;
         const pitchIcon      = this.state.pitchFilterOpen ? faAngleDown : faAngleRight ;
+        const subIcons       = [instrumentIcon, dateIcon, pitchIcon];
 
         const practiceRows = this.state.display.map(practice =>
             <Practice 
@@ -268,52 +270,23 @@ class PracticeBar extends React.Component {
 
         return(
             <div className = "Container">
-
                 <div className = "PracticeBar">
                     <div>
                         <p onClick = {this.toggleFilter} className = "InstrTitle">{activeFilterString}</p>
                         <span><FontAwesomeIcon icon = {topIcon} className = "Icon" /></span>
                     </div>
-                    <div className = {sliderClass}>
-                        <div className = "Filter">
-                            <div className = "FilterOption">
-                                <p onClick = {() => this.toggleSubfilter("instrument")} className = "Inline FilterName">Instrument</p>
-                                <div className = "Inline FilterIcon"><FontAwesomeIcon icon = {instrumentIcon} /></div>
-                            </div>
-                            <div style = {instrumentSliderStyle}>
-                                {options}
-                            </div>
+                    <ProfileFilter 
+                        slide             = {this.toggleSubfilter}
+                        updateOrder       = {this.changeDateOrder}
+                        updateDisplay     = {this.updateDisplayed}
 
-                            <div className = "FilterOption">
-                                <p onClick = {() => this.toggleSubfilter("date")} className = "Inline FilterName">Date</p>
-                                <div className = "Inline FilterIcon"><FontAwesomeIcon icon = {dateIcon} /></div>
-                            </div>
-                            <div style = {dateSliderStyle}>
-                                <div className = {newToOldClass} onClick = {() => this.changeDateOrder("newFirst")} >Newest to Oldest</div>
-                                <div className = {oldToNewClass} onClick = {() => this.changeDateOrder("oldFirst")} >Oldest to Newest</div>
-                            </div>
+                        instrumentOptions = {options}
 
-                            <div className = "FilterOption">
-                                <p onClick = {() => this.toggleSubfilter("pitch")} className = "Inline FilterName">Pitches</p>
-                                <div className = "Inline FilterIcon"><FontAwesomeIcon icon = {pitchIcon} /></div>
-                            </div>
-                            <div style = {pitchSliderStyle}>
-                                <div className = "SliderBox">    
-                                    <ReactSlider
-                                        className="horizontal-slider SliderMain"
-                                        thumbClassName="SliderThumb"
-                                        trackClassName="SliderTrack"
-                                        defaultValue={[0, 500]}
-                                        renderThumb={(props, state) => <div {...props}>{state.valueNow}</div>}
-                                        minDistance={10}
-                                        onAfterChange={this.updateDisplayed}
-                                        min={0}
-                                        max={500}
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                        icons             = {subIcons}
+                        sliderStyles      = {sliderStyles}  
+                        dateClasses       = {dateClasses}
+                        sliderClass       = {sliderClass}
+                    />
                     <div className = "PracticeContainer">
                         <div className = "PracticeOverlay" style = {this.state.overlay}></div>
                         <div className = "PracticeHeader">

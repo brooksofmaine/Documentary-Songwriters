@@ -1,0 +1,17 @@
+.SlideOut {
+    max-height: 0 !important;
+    margin-bottom: 0;
+}
+
+.Slider {
+    min-width: 16%;
+    max-height: 300px;
+    overflow-y: scroll;
+    position: absolute;
+    border-radius: 10px;
+    z-index: 100;
+    -webkit-transition: all 0.2s ease-in-out;
+    -moz-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+}

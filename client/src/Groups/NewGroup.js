@@ -59,7 +59,13 @@ class NewGroup extends React.Component {
     }
 
     render() {
-        const newMembers = this.state.members.map(member => <NewMember deleteMe = {this.clickToDelete} key = {member.id} id = {member.id} name = {member.name} />);
+        const newMembers = this.state.members.map(member => 
+            <NewMember 
+                deleteMe = {this.clickToDelete} 
+                key      = {member.id} 
+                id       = {member.id} 
+                name = {member.name} 
+            />);
 
         const privateStyle = this.state.publicity === 'private' ? { fontWeight : 400 } : { fontWeight : 200 };
         const publicStyle  = this.state.publicity === 'public'  ? { fontWeight : 400 } : { fontWeight : 200 };
