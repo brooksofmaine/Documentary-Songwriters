@@ -10,7 +10,12 @@ import GroupFunc from "../api-helper/group";
 class WelcomeBoard extends React.Component {
     constructor() {
         super();
-        this.state = {"username": ""};
+        this.state = {
+            username: "",
+            dayCount: 0,
+            weekCount: 0,
+            monthCount: 0
+        };
         UserFunc.getCurrentUser().then((user_info) => {
             console.log(user_info);
             console.log(user_info.status);
@@ -22,20 +27,29 @@ class WelcomeBoard extends React.Component {
         });
     }
 
-    // componentDidMount(): void {
-    //     console.log("------- BEGIN TESTING --------");
-    //     UserFunc.getUserInfo("123").then((result, err) => {
-    //         console.log(result);
-    //     });
-
-    //     const old_date = new Date();
-    //     old_date.setHours(old_date.getHours() - 1);
-    //     const date2 = new Date();
-    //     RecordingFunc.newRecording(10, "Piano", "Some description", old_date.toISOString(), date2.toISOString()).then((result) => {
-    //         console.log("RESULT: ", result);
-    //     });
-
-    // }
+    componentDidMount() {
+        UserFunc.getUserInfo("123").then((result, err) => {
+            console.log(result);
+        });
+        RecordingFunc.getPitchTotalCount(null, new Date(), RecordingFunc.nthDayAgo(7)).then(result => {
+            console.log("got week");
+            this.setState({
+                weekCount: result
+            });
+        });
+        RecordingFunc.getPitchTotalCount(null, new Date(), RecordingFunc.nthDayAgo(1)).then(result => {
+            console.log("got day");
+            this.setState({
+                dayCount: result
+            });
+        });
+        RecordingFunc.getPitchTotalCount(null, new Date(), RecordingFunc.nthDayAgo(30)).then(result => {
+            console.log("got month");
+            this.setState({
+                monthCount: result
+            });
+        });
+    }
 
     render() {
         return (
@@ -43,9 +57,9 @@ class WelcomeBoard extends React.Component {
             <p className="welcome_back">Welcome Back, {this.state.username}</p>
                 <h1 className="pitch_progress">Your Pitch Progress</h1>
                 <div>
-                    <WelcomeCounter count="32" name="today"/>
-                    <WelcomeCounter count="50" name="this week"/>
-                    <WelcomeCounter count="106" name="this month"/>
+                    <WelcomeCounter count={this.state.dayCount} name="today"/>
+                    <WelcomeCounter count={this.state.weekCount} name="this week"/>
+                    <WelcomeCounter count={this.state.monthCount} name="this month"/>
                 </div>
                 <Button url="/api/record" name="Record" id="record-btn"/>
             </div>

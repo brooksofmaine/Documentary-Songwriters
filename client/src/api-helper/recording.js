@@ -15,6 +15,11 @@ import {server_add, init_params_get} from "./config";
 import UserFunc from "./user";
 
 export class RecordingFunc {
+    static nthDayAgo(days) {
+        let date_old = new Date();
+        date_old.setDate(date_old.getDate() - days);
+        return date_old;
+    }
 
     // Get Recordings of User:
     // To get the recordings of a user between a time range
