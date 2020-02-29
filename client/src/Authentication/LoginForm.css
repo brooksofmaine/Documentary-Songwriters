@@ -17,48 +17,19 @@
     /* border: 1px solid blue; */
 }
 
-input[type=checkbox] {
+
+.link-style {
+    background: none;
+    border: none;
     padding: 0;
-    margin: 0;
-    vertical-align: middle;
-    overflow: hidden;
-    padding-right: .3rem;
-}
-
-label {
-    display: block;
-    padding-left: 15px;
-    text-indent: -15px;
-    height:100%;
-}
-
-div.login-checkbox{
-    vertical-align: center;
-}
-/* TODO: Find better workaround for this issue with input heights */
-/* .auth-form.registration {
-    height: 50vh;
-    justify-content: space-around;
-}
-.auth-form.registration input {
-    height: 2.5em;
+    font-family: 'Raleway', sans-serif;
+    font-size: 16px;
+    text-decoration: underline;
+    cursor: pointer;
 }
 
 
-.auth-form input:focus {
-    outline: none;
-    -webkit-box-shadow: 0px 0px 7px 0px rgba(19,83,245,1);
-    -moz-box-shadow: 0px 0px 7px 0px rgba(19,83,245,1);
-    box-shadow: 0px 0px 7px 0px rgba(19,83,245,1);
-} */
 
-/* .auth-form {
-    width: 40vw;
-    height: 70vh;
-    display: flex; 
-    flex-direction: column;
-    justify-content: space-between;  
-} */
 .login-area {
     margin-top: 5vh;
     display: flex;

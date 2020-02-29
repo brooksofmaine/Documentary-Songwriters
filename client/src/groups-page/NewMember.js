@@ -6,10 +6,6 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import './NewMember.css';
 
 class NewMember extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         return(
             <div className = "NewMember" onClick = {() => this.props.deleteMe(this.props.id)}>

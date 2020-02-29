@@ -1,6 +1,5 @@
 import React from 'react';
 import './NavBar.css';
-import NavLink from './NavLink.js';
 
 class NavBar extends React.Component {
     constructor() {
@@ -27,17 +26,6 @@ class NavBar extends React.Component {
                        <a href="/">Log out</a>
                     </span>
                 </div>
-                
-
-
-                {/* <NavLink url="/api/home" status="selected" value="Home"/>
-                <NavLink url="#" value="Progress"/>
-                <NavLink url="/api/groups" value="Groups"/>
-                <div className="added-item">
-                    <NavLink url="/api/profile" value="My Profile"/>
-                    
-                </div> */}
-                
             </nav>
         );
     }
