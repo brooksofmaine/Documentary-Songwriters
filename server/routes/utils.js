@@ -18,5 +18,5 @@ module.exports.groupKeyCheck = (key) => {
 };
 
 module.exports.recordingKeyCheck = (key) => {
-  return (key == 'description');
+  return (key === 'description');
 };

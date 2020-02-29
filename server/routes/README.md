@@ -85,14 +85,9 @@ To get a user
 404 - user not found
 
 ### Get Recordings of User:
-To get the recordings of a user between a time range
+To get the recordings of a user
 
-    GET /api/user/{username}/recordings?low=<lowBound>&high=<highBound>
-
-**Query Parameters**
-
-* lowBound - the lower bound of the time range to get recordings from (by start time)
-* highBound - the higher bound
+    GET /api/user/{username}/recordings
 
 **Response**
 ```
@@ -312,6 +307,7 @@ To create a recording as the current user
 
 **Body Parameters**
 
+* username - a string
 * numPitches - an integer
 * instrument - a string
 * description - a string
@@ -366,7 +362,8 @@ To delete a recording as the creator of the recording
 
 **Body Parameters**
 
-* start - the start time of the recording
+* username - the username for creator of the recording
+* startTime - the start time of the recording
 
 **Response**
 
