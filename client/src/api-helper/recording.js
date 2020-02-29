@@ -88,10 +88,10 @@ export class RecordingFunc {
     static async getPitchTotalCount(username, start_time, end_time){
         const recording_list = await this.getRecordings(username, start_time, end_time);
         let pitch_sum = 0;
+
         // TODO: error handling
         //recording_list.forEach(recording => pitch_sum += recording.numPitches);
         for (const recording of recording_list) {
-            console.log(recording);
             pitch_sum += recording.numPitches;
         }
         return pitch_sum;
