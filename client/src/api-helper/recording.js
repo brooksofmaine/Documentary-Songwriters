@@ -35,13 +35,16 @@ export class RecordingFunc {
         }
 
         // Json Parsing
-        const result = await response.json();
-        return await this.filterRecordings(result, start_time, end_time);
+        const recordings = await response.json();
+        recordings.forEach(element => {
+            element['startTime'] = Date.parse(element['startTime']);
+            element['endTime'] = Date.parse(element['endTime']);
+        });
+        return await this.filterRecordings(recordings, start_time, end_time);
     }
 
     static async filterRecordings(result, start_time, end_time) {
-        console.log(result);
-        return result;
+        return result.filter(one_item => one_item["startTime"] > start_time && one_item["endTime"] < end_time);
     }
 
 
@@ -51,7 +54,7 @@ export class RecordingFunc {
     // checked runtime error if user not found, parsing failed etc
     static async getRecordings_new(username, start_time, end_time){
         const query_url = server_add + "/api/user/" + username +
-            "/recordings?low=" + start_time + "&high=" + end_time;
+            "/recordings?low=" + start_time.toISOString() + "&high=" + end_time.toISOString();
         const response = await fetch(query_url, init_params_get);
 
         // Error Handling
@@ -63,7 +66,12 @@ export class RecordingFunc {
         }
 
         // Json Parsing
-        return await response.json();
+        const recordings = await response.json();
+        recordings.forEach(element => {
+            element['startTime'] = Date.parse(element['startTime']);
+            element['endTime'] = Date.parse(element['endTime']);
+        });
+        return recordings;
     }
 
     // getPitchTotalCount:
@@ -101,8 +109,8 @@ export class RecordingFunc {
             "numPitches": numPitches,
             "instrument": instrument,
             "description": description,
-            "startTime": startTime,
-            "endTime": endTime
+            "startTime": startTime.toISOString(),
+            "endTime": endTime.toISOString()
         };
 
         const post_params = {

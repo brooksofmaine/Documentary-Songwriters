@@ -28,15 +28,31 @@ class WelcomeBoard extends React.Component {
             console.log(result);
         });
 
+        /* Testing below */
         const old_date = new Date();
         old_date.setHours(old_date.getHours() - 1);
+        const oldolddate = new Date();
+        oldolddate.setHours(old_date.getHours() - 1);
         const date2 = new Date();
-        RecordingFunc.newRecording(10, "Piano", "Some description", old_date.toISOString(), old_date.toISOString()).then((result) => {
+        RecordingFunc.newRecording(10, "Piano", "Some description",
+            old_date, old_date).then((result) => {
             console.log("RESULT: ", result);
         });
 
-        RecordingFunc.getRecordings(null, old_date.toISOString(), old_date.toISOString())
+        RecordingFunc.newRecording(10, "Piano", "Some description",
+            date2, date2).then((result) => {
+            console.log("RESULT: ", result);
+        });
 
+        RecordingFunc.getRecordings(null, old_date, date2).then((result) => {
+            console.log("LIST1: ", result);
+        });
+
+        RecordingFunc.getRecordings(null, oldolddate, date2).then((result) => {
+            console.log("LIST2: ", result);
+        });
+
+        /* Testing above */
     }
 
     render() {
