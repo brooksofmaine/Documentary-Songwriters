@@ -17,6 +17,8 @@ class WelcomeBoard extends React.Component {
             if (user_info.status === "logged_in") {
                 this.setState({"username": user_info.user.firstName + " " + user_info.user.lastName});
             }
+        }).catch((err) => {
+            console.log(err);
         });
     }
 
