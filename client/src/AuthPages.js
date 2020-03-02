@@ -1,11 +1,11 @@
-import React from "react"
+import React from 'react'
 import NavBar from './NavBar'
-import LoginForm from './Authentication/LoginForm'
-import WelcomeBoard from './WelcomeBoard'
-import Record from './Record'
-import Group from './Groups/Group'
-import UserProfile from './Profiles/UserProfile.js'
-import NewGroup from './Groups/NewGroup'
+import LoginForm from './authentication/LoginForm'
+import WelcomeBoard from './welcome-page/WelcomeBoard'
+import Record from './pitch-page/Record'
+import Group from './groups-page/Group'
+import UserProfile from './profiles/UserProfile.js'
+import NewGroup from './groups-page/NewGroup'
 import {
     BrowserRouter as Router,
     Switch,

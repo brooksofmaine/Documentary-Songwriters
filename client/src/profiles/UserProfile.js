@@ -5,18 +5,15 @@ import PracticeBar from './PracticeBar';
 import './UserProfile.css';
 
 class UserProfile extends React.Component {
-    constructor() {
-        super();
-    }
-
     render() {
 
         // profile picture
         let proPic;
         userData.picture ? 
             proPic = <img 
-                        src = {userData.picture}
-                        className = "ProfilePicture"
+                        src={userData.picture}
+                        className="ProfilePicture"
+                        alt="Profile avatar for user"
                     /> :
             proPic = <div className = "NoProPic ProfilePicture"></div>;
 

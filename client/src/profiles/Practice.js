@@ -1,12 +1,8 @@
-import React from 'react';
+import React from "react";
 
 import './Practice.css';
 
 class Practice extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         let dateStr;
         switch(this.props.date.month) {
@@ -45,6 +41,9 @@ class Practice extends React.Component {
                 break;
             case 12:
                 dateStr = 'December';
+                break
+            default: 
+                dateStr = ''; 
                 break
         }
 

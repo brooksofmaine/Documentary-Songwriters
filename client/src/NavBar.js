@@ -1,20 +1,29 @@
 import React from 'react';
 import './NavBar.css';
-import NavLink from './NavLink.js';
+import UserFunc from "./api-helper/user";
 
 class NavBar extends React.Component {
     constructor() {
-        super()
+        super();
         this.state = {
             highlighted: 0
-        }
+        };
     }
 
+    async log_out() {
+        const result = await UserFunc.logUserOut();
+        if (result === "Success") {
+                window.location = "/";
+        } else {
+            console.log("error: log out not success");
+            window.location = "/";
+        }
+    }
 
     render() {
         const style = {
             "fontWeight": 800
-        }
+        };
         return (
             <nav className="NavBar">
                 <a style={style}
@@ -24,20 +33,9 @@ class NavBar extends React.Component {
                 <div className="dropdown-menu">
                     <a className="nav-link" href="/api/profile">My Progress</a>
                     <span className="dropdown">
-                       <a href="/">Log out</a>
+                       <button onClick={this.log_out}>Log out</button>
                     </span>
                 </div>
-                
-
-
-                {/* <NavLink url="/api/home" status="selected" value="Home"/>
-                <NavLink url="#" value="Progress"/>
-                <NavLink url="/api/groups" value="Groups"/>
-                <div className="added-item">
-                    <NavLink url="/api/profile" value="My Profile"/>
-                    
-                </div> */}
-                
             </nav>
         );
     }

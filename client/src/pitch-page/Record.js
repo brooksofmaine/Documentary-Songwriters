@@ -2,7 +2,7 @@ import React from "react"
 import Counter from './Counter'
 import Stopwatch from './Stopwatch'
 import './Record.css';
-import app from './pitch-counter/app.js'
+import app from '../pitch-counter/app.js'
 
 // Function to pause: change_state
 
