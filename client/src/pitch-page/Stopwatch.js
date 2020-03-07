@@ -84,17 +84,17 @@ class Stopwatch extends React.Component {
         return (
             <div className = "Stopwatch">
                 <div className="ButtonRow">
-                    <div className="ButtonBox">
+                    <div>
                         <button className="Button" onClick={this.playPause}>
                             <img alt="Play and pause icon" className={ this.state.timerOn ? "Pause" : "Play" } src={ this.state.timerOn ? Pause : Play } />
                         </button>
                     </div>
-                    <div className="ButtonBox">
+                    <div>
                         <button className="Button" onClick={this.stop}>
                             <img alt="Stop icon" className="Stop" src={ Stop } />
                         </button>
                     </div>
-                    <div className="ButtonBox">
+                    <div>
                         <button className="Button">
                             <img alt="Arrow icon for sharing" className="Share" src={ Share } />
                         </button>

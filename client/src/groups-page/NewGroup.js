@@ -14,21 +14,27 @@ class NewGroup extends React.Component {
         super();
         this.state = {
             groupName : "",
+            description : "",
             currMember : "",
             publicity : "",
             members : [],
-            lastKey : -1
+            lastKey : -1,
+            badUser : false,
+            errorMessage : ""
         };
 
         this.handleChange  = this.handleChange.bind(this);
+        this.handleClick   = this.handleClick.bind(this);
+        this.addMember     = this.addMember.bind(this);
         this.clickToDelete = this.clickToDelete.bind(this);
-        this.createGroup = this.createGroup.bind(this)
+        this.createGroup   = this.createGroup.bind(this)
     }
 
     async createGroup() {
+        //  TODO: handle if group name is taken so doesn't fail
         const groupInfo = {
             groupName: this.state.groupName,
-            description: "TODO: Add description to front-end groups.",
+            description: this.state.description,
             visible: this.state.publicity === 'public' ? true : false
         }
         const query_url = server_add + '/api/group/create'
@@ -43,9 +49,16 @@ class NewGroup extends React.Component {
         const response = await fetch(query_url, post_params);
         const body = await response.json();
         console.log("Response body: ", body)
+        // instead of this...
         if (response.status !== 200) {
           throw Error(body.message) 
         }
+
+        // ...use this? so no error?
+        // if ( body.err ) {
+            // TODO: display error message that group already exists
+        // }
+
         return body;
     }
 
@@ -55,22 +68,67 @@ class NewGroup extends React.Component {
             [name] : value
         });
 
-        // update list of members if necessary and clears current field
-        if ( name === 'currMember' && value.substr(value.length - 1) === ',' ) {
-            this.setState(prevState => {
-                const nameNoComma = value.substr(0, value.length - 1);
-                prevState.members.push({
-                    id : prevState.lastKey + 1,
-                    name : nameNoComma
-                });
+        if ( name === 'currMember' ) {
+            console.log('good')
+            this.setState({
+                badUser : false
+            });
+        }
+    }
 
-                return {
-                    currMember : "",
-                    members : prevState.members,
-                    lastKey : prevState.lastKey + 1
+    handleClick(event) {
+        // checks for pressing enter
+        // TODO: fix this
+        if ( event.key === 'Enter' ) {
+            this.addMember();
+        }
+    }
+
+    async addMember() {
+        await fetch('/api/user/' + this.state.currMember)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+
+                let alreadyAdded = false;
+
+                for ( let i = 0; i < this.state.members.length; i++ ) {
+                    console.log(this.state.members[i])
+                    if ( this.state.members[i].name === this.state.currMember ) {
+                        alreadyAdded = true;
+                        break;
+                    }
                 }
-            })
-        } 
+
+                if ( data.err ) {
+                    this.setState({
+                        badUser : true,
+                        errorMessage : 'No user with this username exists'
+                    });
+                }
+                else if ( alreadyAdded ) {
+                    this.setState({
+                        badUser : true,
+                        errorMessage : 'This user has already been added'
+                    }); 
+                }
+                else {
+                    this.setState(prevState => {
+                        prevState.members.push({
+                            id : prevState.lastKey + 1,
+                            name : this.state.currMember
+                        });
+
+                        return {
+                            currMember : "",
+                            members    : prevState.members,
+                            lastKey    : prevState.lastKey + 1,
+                            badUser    : false
+                        }
+                    });
+                }
+            });
+        
     }
 
     clickToDelete(key) {
@@ -87,6 +145,11 @@ class NewGroup extends React.Component {
     }
 
     render() {
+        
+        const userStyle = this.state.badUser ? { color: '#f00' } : { color: '#000' };
+
+        const errorStyle = this.state.badUser ? { display : 'block' } : { display : 'none' };
+
         const newMembers = this.state.members.map(member => 
             <NewMember 
                 deleteMe = {this.clickToDelete} 
@@ -99,7 +162,7 @@ class NewGroup extends React.Component {
         const publicStyle  = this.state.publicity === 'public'  ? { fontWeight : 400 } : { fontWeight : 200 };
 
         return(
-            <div>
+            <div className="NewGroup">
                 <h2 className = "GroupHeading">Create a Group</h2>
                 <div className = "GroupBox">
                     <form>
@@ -115,18 +178,35 @@ class NewGroup extends React.Component {
                         </div>
                         <br />
 
+                        <div className="InputWrapper">  
+                            <input 
+                                type="text" 
+                                name="description"
+                                onChange={this.handleChange}
+                                value={this.state.description}
+                                placeholder="Group Description"
+                                className="GroupFormText"
+                            />
+                        </div>
+                        <br />
+
                         <div className="InputWrapper">
                             <input 
                                 type="text" 
                                 name="currMember"
                                 onChange={this.handleChange}
                                 value={this.state.currMember}
-                                placeholder="Search members to invite"
+                                onKeyPress={this.handleClick}
+                                placeholder="Enter username of member to invite"
                                 className="GroupFormText"
+                                style={userStyle}
                             />
-                            <span><FontAwesomeIcon icon={faSearch} className="SearchIcon"/></span>
+                            <span><FontAwesomeIcon icon={faSearch} className="SearchIcon" onClick={this.addMember}/></span>
                         </div>
                         <br />
+                        <div className="ErrorMessage" style={errorStyle}>
+                            {this.state.errorMessage}
+                        </div>
 
                         <div className="NewGroupMemberBox">
                             {newMembers}
