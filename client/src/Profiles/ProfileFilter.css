@@ -25,11 +25,31 @@
     font-size: 80%;
 }
 
+.FilterSubOptionInstrument {
+    padding: 5% 5% 5% 12%;
+    font-size: 80%;
+}
+
+.HiddenIcon {
+    visibility: hidden;
+}
+
 .Inline {
     display: inline-block;
     margin: 0;
     padding: 0;
     position: relative;
+}
+
+.InstrumentCross {
+    display: inline-block;
+    width: 10%;
+    margin-right: -50%;
+}
+
+.InstrumentSubOption {
+    display: inline-block;
+    width: 90%;
 }
 
 .SelectedFilterSubOption {

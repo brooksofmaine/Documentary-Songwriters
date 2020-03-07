@@ -30,14 +30,6 @@ class UserProfile extends React.Component {
         */
     }
 
-    clickOption(option) {
-        console.log("clicked " + option);
-        if ( option === "all" ) {
-
-        }
-    }
-
-
     render() {
 
         // profile picture
