@@ -24,7 +24,7 @@ class Group extends React.Component {
     }
 
     componentDidMount() {
-        this.getGroups();
+        // this.getGroups();
     }
 
     // This isn't returning groups that the user is currently in

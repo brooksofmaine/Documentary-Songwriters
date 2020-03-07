@@ -6,6 +6,8 @@ import NewMember from './NewMember';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 
+import {getGroup} from '../api-helper/group.js'
+
 import {server_add} from "../api-helper/config";
 
 
@@ -24,6 +26,9 @@ class NewGroup extends React.Component {
         this.clickToDelete = this.clickToDelete.bind(this);
         this.createGroup = this.createGroup.bind(this)
     }
+
+    
+
 
     async createGroup() {
         const groupInfo = {
