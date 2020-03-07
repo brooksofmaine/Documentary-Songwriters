@@ -3,6 +3,8 @@ import React from 'react';
 import userData from './userData';  // temporary data
 import PracticeBar from './PracticeBar';
 import './UserProfile.css';
+import { FacebookProvider, Share } from 'react-facebook';
+import FbImg from './fbshare.png'
 
 class UserProfile extends React.Component {
     constructor() {
@@ -50,6 +52,14 @@ class UserProfile extends React.Component {
                 <div className = "Spacer"></div>
                 {instrumentPractices}
                 <div className = "Spacer"></div>
+
+                <FacebookProvider appId="645530066201100">
+                    <Share href="http://www.nba.com">
+                        {({ handleClick, loading }) => (
+                            <img src={FbImg} alt="fb share button" onClick={handleClick}></img>
+                    )}
+                    </Share>
+                </FacebookProvider>
             </div>
         )
     }

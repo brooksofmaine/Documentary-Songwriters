@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/JumboCode/Documentary-Songwriters#readme",
   "dependencies": {
-    "concurrently": "^5.0.0"
+    "concurrently": "^5.0.0",
+    "react-facebook": "^8.1.4"
   }
 }
