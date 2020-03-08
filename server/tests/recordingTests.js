@@ -232,9 +232,7 @@ describe('Recording', function() {
         .set('content-type', 'application/json')
         .send(recordingData2)
         .end(function(err, res) {
-          console.log(res);
           res.should.have.status(200);
-          res.should.be.json;
           done();
         });
     });
