@@ -33,6 +33,15 @@ describe('Recording', function() {
     description: 'moonlight sonata'
   };
 
+  let recordingDataNewDescription = {
+    username:    recordingData.username,
+    startTime:   recordingData.startTime,
+    endTime:     recordingData.endTime,
+    instrument:  recordingData.instrument,
+    numPitches:  recordingData.numPitches,
+    description: 'this is the new description'
+  }
+
   let recordingData2 = {
     username:    userData.username,
     startTime:   '2016-04-23T20:25:43.511Z',
@@ -181,50 +190,6 @@ describe('Recording', function() {
 
 /*****************************************************************************/
 
-
-  describe('Edit', function() {
-
-    it('should change a recording\'s description', function(done) {
-      server.post(baseURL + '/edit')
-        .set('content-type', 'application/json')
-        .send({
-          username: recordingData.username,
-          startTime: recordingData.startTime,
-          key: 'description',
-          val: 'this is the new description'
-        }).end(function(err, res) {
-          res.should.have.status(200);
-          res.should.be.json;
-          res.body.description.should.equal('this is the new description');
-          res.body.username   .should.equal(recordingData.username);
-          res.body.startTime  .should.equal(recordingData.startTime);
-          res.body.endTime    .should.equal(recordingData.endTime);
-          res.body.instrument .should.equal(recordingData.instrument);
-          res.body.numPitches .should.equal(recordingData.numPitches);
-          done();
-        });
-    });
-
-    it('should not change anything for a recording if the attribute is invalid', function(done) {
-      server.post(baseURL + '/edit')
-        .set('content-type', 'application/json')
-        .send({
-          username:  recordingData.username,
-          startTime: recordingData.startTime,
-          key: 'notAValidAttribute',
-          val: 'notAValidAttributeValue'
-        }).end(function(err, res) {
-          res.should.have.status(400);
-          res.should.be.json;
-          res.body.err.should.equal('key not recognized');
-          done();
-        });
-    });
-  });
-
-/*****************************************************************************/
-
-
   describe('Delete', function() {
 
     it('should delete the given recording from database', function(done) {
@@ -245,16 +210,62 @@ describe('Recording', function() {
           res.should.be.json;
           res.body.should.be.an('array').that.is.not.empty;
           res.body.should.be.an('array').that.has.lengthOf(1);
-          res.body[0].username   .should.equal(recordingData2.username);
+          // Remaining recording should be recordingData
+          res.body[0].username   .should.equal(recordingData.username);
           res.body[0].startTime  .should.equal(recordingData.startTime);
           res.body[0].endTime    .should.equal(recordingData.endTime);
           res.body[0].instrument .should.equal(recordingData.instrument);
           res.body[0].numPitches .should.equal(recordingData.numPitches);
-          res.body[0].description.should.equal(recordingData.description);
+          res.body[0].description.should.equal(recordingData.description;
           done();
         });
     });
   });
+
+
+  /*****************************************************************************/
+
+
+  describe('Edit', function() {
+
+    it('should change a recording\'s description', function(done) {
+      server.post(baseURL + '/edit')
+        .set('content-type', 'application/json')
+        .send({
+          username: recordingDataNewDescription.username,
+          startTime: recordingDataNewDescription.startTime,
+          key: 'description',
+          val: 'this is the new description'
+        }).end(function(err, res) {
+          res.should.have.status(200);
+          res.should.be.json;
+          res.body.description.should.equal(recordingDataNewDescription.description);
+          res.body.username   .should.equal(recordingDataNewDescription.username);
+          res.body.startTime  .should.equal(recordingDataNewDescription.startTime);
+          res.body.endTime    .should.equal(recordingDataNewDescription.endTime);
+          res.body.instrument .should.equal(recordingDataNewDescription.instrument);
+          res.body.numPitches .should.equal(recordingDataNewDescription.numPitches);
+          done();
+        });
+    });
+
+    it('should not change anything for a recording if the attribute is invalid', function(done) {
+      server.post(baseURL + '/edit')
+        .set('content-type', 'application/json')
+        .send({
+          username:  recordingData.username,
+          startTime: recordingData.startTime,
+          key: 'notAValidAttribute',
+          val: 'notAValidAttributeValue'
+        }).end(function(err, res) {
+          res.should.have.status(400);
+          res.should.be.json;
+          res.body.err.should.equal('key not recognized');
+          done();
+        });
+    });
+  });
+  
 
 });
 
