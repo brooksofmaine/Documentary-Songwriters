@@ -98,12 +98,13 @@ router.post('/edit', (req, res) => {
     return;
   }
 
-  db.Recording.update(
-    { description: req.body.val }, 
-    {
-      where: { username: username },
-      returning: true,
-      raw: true
+  db.Recording.update(updateObj, { 
+    where: {
+      username: username,
+      startTime: startTime 
+    },
+    returning: true,
+    raw: true
   }).then(([numRows, rowsAffected]) => {
     console.log(numRows);
     if (numRows === 0) {

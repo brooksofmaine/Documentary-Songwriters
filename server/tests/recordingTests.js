@@ -183,29 +183,34 @@ describe('Recording', function() {
 
 
   describe('Edit', function() {
-    let recordingDataUpdate = {
-      username: recordingData.username,
-      startTime: recordingData.startTime,
-      key: 'description',
-      val: 'this is the new description'
+
+    let newRecordingData = {
+      description: 'this is the new recording description',
     };
 
-    it('should change a recording\'s description', function(done) {
-      server.post(baseURL + '/edit')
-        .set('content-type', 'application/json')
-        .send(recordingDataUpdate)
-        .end(function(err, res) {
-          res.should.have.status(200);
-          res.should.be.json;
-          res.body.description.should.equal(recordingDataUpdate.val);
-          res.body.username   .should.equal(recordingData.username);
-          res.body.startTime  .should.equal(recordingData.startTime);
-          res.body.endTime    .should.equal(recordingData.endTime);
-          res.body.instrument .should.equal(recordingData.instrument);
-          res.body.numPitches .should.equal(recordingData.numPitches);
-          done();
-        });
-    });
+    for (let [key, value] of Object.entries(newRecordingData)) {
+      let data = {};
+      data[key] = value;
+      data[username] = userData.username;
+      data[startTime] = recordingData.startTime;
+
+      it('should change a recording\'s description', function(done) {
+        server.post(baseURL + '/edit')
+          .set('content-type', 'application/json')
+          .send(data)
+          .end(function(err, res) {
+            res.should.have.status(200);
+            res.should.be.json;
+            res.body.description.should.equal(data.val);
+            res.body.username   .should.equal(recordingData.username);
+            res.body.startTime  .should.equal(recordingData.startTime);
+            res.body.endTime    .should.equal(recordingData.endTime);
+            res.body.instrument .should.equal(recordingData.instrument);
+            res.body.numPitches .should.equal(recordingData.numPitches);
+            done();
+          });
+      });
+    };
 
     it('should not change anything for a recording if the attribute is invalid', function(done) {
       server.post(baseURL + '/edit')
