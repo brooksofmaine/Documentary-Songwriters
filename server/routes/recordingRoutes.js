@@ -79,6 +79,8 @@ router.post('/create', (req, res) => {
  * 
  */
 router.post('/edit', (req, res) => {
+  console.log(req.body);
+
   let username   = req.body.username;
   let startTime  = req.body.startTime;
   let key        = req.body.key;
@@ -96,14 +98,11 @@ router.post('/edit', (req, res) => {
     return;
   }
 
-  db.Recording.update(updateObj, {
-    where: { 
-      username: username,
-      startTime: startTime
-    },
-    returning: true
+  db.User.update(updateObj, {
+    where: { username: username },
+    returning: true,
+    raw: true
   }).then(([numRows, rowsAffected]) => {
-    console.log(numRows);
     if (numRows === 0) {
       res.status(404).json({ err: 'recording not found' });
       return;
@@ -115,7 +114,6 @@ router.post('/edit', (req, res) => {
       res.status(409).json({ err: 'description taken' });
       return;
     }
-
     console.log(`Error while changing ${key}`);
     console.log(err);
     res.status(500).json({ err: err });
