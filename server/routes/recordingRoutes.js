@@ -99,7 +99,7 @@ router.post('/edit', (req, res) => {
     return;
   }
 
-  db.User.update(updateObj, {
+  db.Recording.update(updateObj, {
     where: { username: username },
     returning: true,
     raw: true
