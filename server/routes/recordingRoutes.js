@@ -161,7 +161,6 @@ router.post('/delete', (req, res) => {
       startTime:   deleteObj.startTime
     }
   }).then((n) => {
-    console.log("Got back " + n);
     res.status(200).json({ 'numRowsDeleted': n });
     return;
   }).catch((err) => {
