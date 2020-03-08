@@ -79,8 +79,6 @@ router.post('/create', (req, res) => {
  * 
  */
 router.post('/edit', (req, res) => {
-  console.log(req.body);
-
   let username   = req.body.username;
   let startTime  = req.body.startTime;
   let key        = req.body.key;
@@ -98,11 +96,16 @@ router.post('/edit', (req, res) => {
     return;
   }
 
+  console.log(username);
+  console.log(startTime);
+  console.log(updateObj);
+
   db.User.update(updateObj, {
     where: { username: username },
     returning: true,
     raw: true
   }).then(([numRows, rowsAffected]) => {
+    console.log(numRows);
     if (numRows === 0) {
       res.status(404).json({ err: 'recording not found' });
       return;
@@ -110,6 +113,7 @@ router.post('/edit', (req, res) => {
     res.json(rowsAffected[0]);
     return;
   }).catch((err) => {
+    console.log(err);
     if (err.name === 'SequelizeUniqueConstraintError') {
       res.status(409).json({ err: 'description taken' });
       return;
