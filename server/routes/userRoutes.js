@@ -35,8 +35,7 @@ router.post('/create', (req, res) => {
     lastName:  req.body.lastName,
     email:     req.body.email,
     password:  req.body.password, // TODO hash password
-    weeklyAchievement: req.body.weeklyAchievement,
-    groups:    req.body.groups
+    weeklyAchievement: req.body.weeklyAchievement
   };
 
   // console.log(req.body);

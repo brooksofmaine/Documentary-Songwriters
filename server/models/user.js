@@ -9,7 +9,6 @@ module.exports = (sequelize, DataTypes) => {
     lastName: DataTypes.STRING,
     password: DataTypes.STRING,
     weeklyAchievement: DataTypes.INTEGER,
-    groups: DataTypes.ARRAY(DataTypes.STRING)
     //to do: profilePicture?
   });
 
