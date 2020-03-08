@@ -163,7 +163,8 @@ router.post('/delete', (req, res) => {
       username:    deleteObj.username,
       startTime:   deleteObj.startTime
     }
-  }).success(() => {
+  }).then((n) => {
+    console.log(n);
     console.log("Success!!");
     return;
   }).catch((err) => {

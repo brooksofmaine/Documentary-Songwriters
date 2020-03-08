@@ -232,6 +232,8 @@ describe('Recording', function() {
         .set('content-type', 'application/json')
         .send(recordingData2)
         .end(function(err, res) {
+          console.log(err);
+          console.log(res);
           res.should.have.status(200);
           done();
         });
