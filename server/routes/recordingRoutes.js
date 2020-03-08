@@ -89,8 +89,6 @@ router.post('/edit', (req, res) => {
   let updateObj  = {};
   updateObj[key] = val;
 
-  console.log(updateObj);
-
   if (!recordingKeyCheck(key)) {
     res.status(400).json({ err: 'key not recognized' });
     return;
@@ -109,15 +107,13 @@ router.post('/edit', (req, res) => {
     returning: true,
     raw: true
   }).then(([numRows, rowsAffected]) => {
-    console.log(numRows);
     if (numRows === 0) {
       res.status(404).json({ err: 'recording not found' });
       return;
     }
-    res.json(rowsAffected[0]);
+    res.json({ numRows: numRows, rowsAffected[0]);
     return;
   }).catch((err) => {
-    console.log("Oh no!");
     if (err.name === 'SequelizeUniqueConstraintError') {
       res.status(409).json({ err: 'description taken' });
       return;
