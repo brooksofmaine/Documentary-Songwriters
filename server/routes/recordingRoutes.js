@@ -61,9 +61,7 @@ router.post('/create', (req, res) => {
 
 
 
-/* DO NOT USE!!! NOT YET TESTED!!!!!
- * 
- * To edit something about a recording as the creator of a recording, 
+/* To edit something about a recording as the creator of a recording, 
  * POST to /api/recording/edit. In the body of the request, include 
  * the start time of the recording to edit, the name of the attribute to edit,
  * and the new value for that attribute.
@@ -73,7 +71,7 @@ router.post('/create', (req, res) => {
  *   With data:
  *   {
  *     username:  johnS
- *     startTime: "Wed, 27 July 2016 07:45:00 GMT",
+ *     startTime: "2016-04-23T18:25:43.511Z",
  *     key:       "description" 
  *     val:       "Adagio for Strings - take 2"
  *   }
