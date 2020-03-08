@@ -185,7 +185,7 @@ describe('Recording', function() {
   describe('Edit', function() {
 
     let newRecordingData = {
-      description: 'this is the new recording description',
+      description: 'this is the new recording description'
     };
 
     for (let [key, value] of Object.entries(newRecordingData)) {
@@ -193,6 +193,7 @@ describe('Recording', function() {
       data[key] = value;
       data[username] = recordingData.username;
       data[startTime] = recordingData.startTime;
+      console.log(data);
 
       it('should change a recording\'s description', function(done) {
         server.post(baseURL + '/edit')
