@@ -188,7 +188,7 @@ router.post('/delete', (req, res) => {
       username:    deleteObj.username,
       startTime:   deleteObj.startTime
     }
-  }).success(() => {
+  }).then(() => {
     console.log("Success!!");
     return;
   }).catch((err) => {
@@ -198,7 +198,6 @@ router.post('/delete', (req, res) => {
     return;
   });
 });
-
 
 
 
