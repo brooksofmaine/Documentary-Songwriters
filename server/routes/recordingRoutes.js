@@ -80,11 +80,14 @@ router.post('/create', (req, res) => {
  */
 router.post('/edit', (req, res) => {
   let username   = req.body.username;
+  console.log(username);
   let startTime  = req.body.startTime;
+  console.log(startTime);
   let key        = req.body.key;
   let val        = req.body.val;
   let updateObj  = {};
   updateObj[key] = val;
+  console.log(updateObj);
 
   if (!recordingKeyCheck(key)) {
     res.status(400).json({ err: 'key not recognized' });
@@ -95,10 +98,6 @@ router.post('/edit', (req, res) => {
     res.status(400).json({ err: 'undefined fields' });
     return;
   }
-
-  console.log(username);
-  console.log(startTime);
-  console.log(updateObj);
 
   db.User.update(updateObj, {
     where: { username: username },
