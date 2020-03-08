@@ -33,15 +33,6 @@ describe('Recording', function() {
     description: 'moonlight sonata'
   };
 
-  let recordingDataNewDescription = {
-    username:    recordingData.username,
-    startTime:   recordingData.startTime,
-    endTime:     recordingData.endTime,
-    instrument:  recordingData.instrument,
-    numPitches:  recordingData.numPitches,
-    description: 'this is the new description'
-  }
-
   let recordingData2 = {
     username:    userData.username,
     startTime:   '2016-04-23T20:25:43.511Z',
@@ -195,8 +186,10 @@ describe('Recording', function() {
     it('should delete the given recording from database', function(done) {
       server.post(baseURL + '/delete') 
         .set('content-type', 'application/json')
-        .send(recordingData2)
-        .end(function(err, res) {
+        .send({
+          username: recordingData2.username,
+          startTime: recordingData2.startTime
+        }).end(function(err, res) {
           res.should.have.status(200);
           res.body.numRowsDeleted.should.equal(1);
           done();
@@ -229,22 +222,26 @@ describe('Recording', function() {
   describe('Edit', function() {
 
     it('should change a recording\'s description', function(done) {
+
+      let updateObj = {
+        username: recordingData.username,
+        startTime: recordingData.startTime,
+        key: 'description',
+        val: 'this is the new description'
+      }
+
       server.post(baseURL + '/edit')
         .set('content-type', 'application/json')
-        .send({
-          username: recordingDataNewDescription.username,
-          startTime: recordingDataNewDescription.startTime,
-          key: 'description',
-          val: 'this is the new description'
-        }).end(function(err, res) {
+        .send(updateObj)
+        .end(function(err, res) {
           res.should.have.status(200);
           res.should.be.json;
-          res.body.description.should.equal(recordingDataNewDescription.description);
-          res.body.username   .should.equal(recordingDataNewDescription.username);
-          res.body.startTime  .should.equal(recordingDataNewDescription.startTime);
-          res.body.endTime    .should.equal(recordingDataNewDescription.endTime);
-          res.body.instrument .should.equal(recordingDataNewDescription.instrument);
-          res.body.numPitches .should.equal(recordingDataNewDescription.numPitches);
+          res.body.description.should.equal('this is the new description');
+          res.body.username   .should.equal(recordingData.username);
+          res.body.startTime  .should.equal(recordingData.startTime);
+          res.body.endTime    .should.equal(recordingData.endTime);
+          res.body.instrument .should.equal(recordingData.instrument);
+          res.body.numPitches .should.equal(recordingData.numPitches);
           done();
         });
     });

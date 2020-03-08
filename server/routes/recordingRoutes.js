@@ -128,28 +128,23 @@ router.post('/edit', (req, res) => {
 
 
 
-/* DO NOT USE!!! NOT YET TESTED!!!!!
- * 
- * To delete a recording, post request to the endpoint /api/recording/delete
+/* To delete a recording, post request to the endpoint /api/recording/delete
  * with the start time of the recording to delete, for the logged-in user.
  *
- * For example, to delete logged-in user Bobby Smith's recording at 
- * 9:45am October 20, 2019:
+ * For example, to delete:
  * Delete /api/recording/delete
  *   With data:
  *   {
- *     startTime:  "Sun, 20 October 2019 09:45:00 GMT"
+ *     username:    "johnS",
+ *     startTime:   "2016-04-23T18:25:43.511Z",
  *   }
  */
 router.post('/delete', (req, res) => {
   let deleteObj = {
     username:    req.body.username,
     startTime:   req.body.startTime,
-    endTime:     req.body.endTime,
-    instrument:  req.body.instrument,
-    numPitches:  req.body.numPitches,
-    description: req.body.description
   };
+
   if (anyValuesUndefined(deleteObj)) {
     res.status(400).json({ err: 'undefined fields' });
     return;
