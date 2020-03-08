@@ -78,16 +78,15 @@ router.post('/create', (req, res) => {
  *   }
  * 
  */
+
+
 router.post('/edit', (req, res) => {
   let username   = req.body.username;
-  console.log(username);
   let startTime  = req.body.startTime;
-  console.log(startTime);
   let key        = req.body.key;
   let val        = req.body.val;
   let updateObj  = {};
   updateObj[key] = val;
-  console.log(updateObj);
 
   if (!recordingKeyCheck(key)) {
     res.status(400).json({ err: 'key not recognized' });
@@ -99,10 +98,12 @@ router.post('/edit', (req, res) => {
     return;
   }
 
-  db.Recording.update(updateObj, {
-    where: { username: username },
-    returning: true,
-    raw: true
+  db.Recording.update(
+    { description: req.body.val }, 
+    {
+      where: { username: username },
+      returning: true,
+      raw: true
   }).then(([numRows, rowsAffected]) => {
     console.log(numRows);
     if (numRows === 0) {
@@ -112,7 +113,7 @@ router.post('/edit', (req, res) => {
     res.json(rowsAffected[0]);
     return;
   }).catch((err) => {
-    console.log(err);
+    console.log("Oh no!");
     if (err.name === 'SequelizeUniqueConstraintError') {
       res.status(409).json({ err: 'description taken' });
       return;
