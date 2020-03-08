@@ -234,6 +234,8 @@ describe('Recording', function() {
         .set('content-type', 'application/json')
         .send(updateObj)
         .end(function(err, res) {
+          console.log("Response 1:");
+          console.log(res);
           res.should.have.status(200);
           res.should.be.json;
           res.body.description.should.equal('this is the new description');
@@ -255,6 +257,8 @@ describe('Recording', function() {
           key: 'notAValidAttribute',
           val: 'notAValidAttributeValue'
         }).end(function(err, res) {
+          console.log("Response 2:");
+          console.log(res);
           res.should.have.status(400);
           res.should.be.json;
           res.body.err.should.equal('key not recognized');
