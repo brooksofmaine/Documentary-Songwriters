@@ -21,7 +21,9 @@ describe('User', function() {
     firstName: 'bob',
     lastName: 'smith',
     email: 'email@email.com',
-    password: 'foobar'
+    password: 'foobar',
+    weeklyAchievement: 1,
+    groups: ['group1', 'group2']
   };
 
   before(function(done) {
@@ -46,6 +48,8 @@ describe('User', function() {
           res.body.firstName.should.equal(userData.firstName);
           res.body.lastName.should.equal(userData.lastName);
           res.body.email.should.equal(userData.email);
+          res.body.weeklyAchievement.should.equal(userData.weeklyAchievement);
+          res.body.groups[0].should.equal(userData.groups[0]);
           done();
         });
     });
@@ -73,6 +77,8 @@ describe('User', function() {
           res.body.firstName.should.equal(userData.firstName);
           res.body.lastName.should.equal(userData.lastName);
           res.body.email.should.equal(userData.email);
+          res.body.weeklyAchievement.should.equal(userData.weeklyAchievement);
+          res.body.groups[0].should.equal(userData.groups[0]);
           done();
         });
     });
@@ -98,13 +104,16 @@ describe('User', function() {
       firstName: 'robert',
       lastName: 'smithson',
       email: 'new@email.com',
-      password: 'password'
+      password: 'password',
+      weeklyAchievement: 2,
+      groups: ['group3', 'group4']
     };
 
     for (let [key, value] of Object.entries(newUser)) {
       let data = {};
       data[key] = value;
 
+      // THE PROBLEM IS HERE?!?!?!?!?
       it('should change a user\'s ' + key + ' to a new ' + key, function(done) {
         server.post(baseURL + '/' + userData.username + '/change/' + key)
           .set('content-type', 'application/json')
@@ -113,6 +122,7 @@ describe('User', function() {
             res.should.have.status(200);
             res.should.be.json;
             res.body[key].should.equal(newUser[key]);
+            //console.log(res.body)
             userData[key] = res.body[key];
             done();
           });
@@ -150,7 +160,9 @@ describe('User', function() {
       firstName: 'bob',
       lastName: 'smith',
       email: 'email@email.com',
-      password: 'anotherone'
+      password: 'anotherone',
+      weeklyAchievement: 1,
+      groups: ['group1', 'group2']
     };
 
     it('should not change a user\'s username if the new username is already taken', function(done) {
@@ -165,6 +177,8 @@ describe('User', function() {
           res.body.firstName.should.equal(secondUser.firstName);
           res.body.lastName.should.equal(secondUser.lastName);
           res.body.email.should.equal(secondUser.email);
+          res.body.weeklyAchievement.should.equal(userData.weeklyAchievement);
+          res.body.groups[0].should.equal(userData.groups[0]);
 
 
           server.post(baseURL + '/' + userData.username + '/change/username')
