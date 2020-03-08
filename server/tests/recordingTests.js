@@ -232,9 +232,11 @@ describe('Recording', function() {
         .set('content-type', 'application/json')
         .send(recordingData2)
         .end(function(err, res) {
-          console.log("Response: " + res);
+          console.log("Response");
+          console.log(res);
+          console.log(err);
           res.should.have.status(200);
-          res.n.should.equal(1);
+          res.body.numRowsDeleted.should.equal(1);
           done();
         });
     });

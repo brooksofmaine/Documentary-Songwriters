@@ -162,7 +162,7 @@ router.post('/delete', (req, res) => {
     }
   }).then((n) => {
     console.log("Got back " + n);
-    res.status(200).json({ n: n });
+    res.status(200).json({ 'numRowsDeleted': n });
     return;
   }).catch((err) => {
     console.log('Error while deleting recording.');
