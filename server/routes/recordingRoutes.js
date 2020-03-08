@@ -165,7 +165,6 @@ router.post('/delete', (req, res) => {
     }
   }).then((n) => {
     console.log(n);
-    console.log("Success!!");
     return;
   }).catch((err) => {
     console.log('Error while deleting recording.');
