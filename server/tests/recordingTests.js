@@ -231,9 +231,10 @@ describe('Recording', function() {
       server.post(baseURL + '/delete') 
         .set('content-type', 'application/json')
         .send(recordingData2)
-        .end(function(res) {
-          console.log(res);
-          res.should.equal(1);
+        .end(function(err, res) {
+          console.log("Response: " + res);
+          res.should.have.status(200);
+          res.n.should.equal(1);
           done();
         });
     });

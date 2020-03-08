@@ -87,9 +87,6 @@ router.post('/edit', (req, res) => {
   let val        = req.body.val;
   let updateObj  = {};
   updateObj[key] = val;
-  console.log(username);
-  console.log(startTime);
-  console.log(updateObj);
 
   if (!recordingKeyCheck(key)) {
     res.status(400).json({ err: 'key not recognized' });
@@ -164,7 +161,8 @@ router.post('/delete', (req, res) => {
       startTime:   deleteObj.startTime
     }
   }).then((n) => {
-    console.log(n);
+    console.log("Got back " + n);
+    res.status(200).json({ n: n });
     return;
   }).catch((err) => {
     console.log('Error while deleting recording.');
