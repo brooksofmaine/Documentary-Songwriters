@@ -111,7 +111,7 @@ router.post('/edit', (req, res) => {
       res.status(404).json({ err: 'recording not found' });
       return;
     }
-    res.json({ numRows: numRows, rowsAffected[0]);
+    res.json({ numRows: numRows, rowsAffected: rowsAffected });
     return;
   }).catch((err) => {
     if (err.name === 'SequelizeUniqueConstraintError') {

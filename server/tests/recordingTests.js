@@ -237,18 +237,15 @@ describe('Recording', function() {
         .set('content-type', 'application/json')
         .send(updateObj)
         .end(function(err, res) {
-          console.log("Response body: ");
-          console.log(res.body);
           res.should.have.status(200);
           res.should.be.json;
           res.body.numRows       .should.equal(1);
-          
-          res.body[key]          .should.equal(updateObj[key]);
-          res.body.username      .should.equal(recordingData.username);
-          res.body.startTime     .should.equal(recordingData.startTime);
-          res.body.endTime       .should.equal(recordingData.endTime);
-          res.body.instrument    .should.equal(recordingData.instrument);
-          res.body.numPitches    .should.equal(recordingData.numPitches);
+          res.body.rowsAffected[0][key]          .should.equal(updateObj[key]);
+          res.body.rowsAffected[0].username      .should.equal(recordingData.username);
+          res.body.rowsAffected[0].startTime     .should.equal(recordingData.startTime);
+          res.body.rowsAffected[0].endTime       .should.equal(recordingData.endTime);
+          res.body.rowsAffected[0].instrument    .should.equal(recordingData.instrument);
+          res.body.rowsAffected[0].numPitches    .should.equal(recordingData.numPitches);
           done();
         });
     });
