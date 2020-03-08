@@ -104,16 +104,13 @@ describe('User', function() {
       firstName: 'robert',
       lastName: 'smithson',
       email: 'new@email.com',
-      password: 'password',
-      weeklyAchievement: 2,
-      groups: ['group3', 'group4']
+      password: 'password'
     };
 
     for (let [key, value] of Object.entries(newUser)) {
       let data = {};
       data[key] = value;
 
-      // THE PROBLEM IS HERE?!?!?!?!?
       it('should change a user\'s ' + key + ' to a new ' + key, function(done) {
         server.post(baseURL + '/' + userData.username + '/change/' + key)
           .set('content-type', 'application/json')
