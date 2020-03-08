@@ -1,6 +1,7 @@
 const express = require('express');
 const utils = require('./utils');
 const anyValuesUndefined = utils.anyValuesUndefined;
+const recordingKeyCheck = utils.recordingKeyCheck;
 let router = express.Router();
 let db;
 
@@ -87,6 +88,8 @@ router.post('/edit', (req, res) => {
   let val        = req.body.val;
   let updateObj  = {};
   updateObj[key] = val;
+
+  console.log(updateObj);
 
   if (!recordingKeyCheck(key)) {
     res.status(400).json({ err: 'key not recognized' });

@@ -221,49 +221,50 @@ describe('Recording', function() {
 
   describe('Edit', function() {
 
-    it('should change a recording\'s description', function(done) {
+    // it('should change a recording\'s description', function(done) {
 
-      let updateObj = {
-        username: recordingData.username,
-        startTime: recordingData.startTime,
-        key: 'description',
-        val: 'this is the new description'
-      }
+    //   let updateObj = {
+    //     username: recordingData.username,
+    //     startTime: recordingData.startTime,
+    //     key: 'description',
+    //     val: 'this is the new description'
+    //   }
 
-      server.post(baseURL + '/edit')
-        .set('content-type', 'application/json')
-        .send(updateObj)
-        .end(function(err, res) {
-          console.log(res);
-          res.should.have.status(200);
-          res.should.be.json;
-          res.body.updateObj[key].should.equal(updateObj.val);
-          res.body.username      .should.equal(recordingData.username);
-          res.body.startTime     .should.equal(recordingData.startTime);
-          res.body.endTime       .should.equal(recordingData.endTime);
-          res.body.instrument    .should.equal(recordingData.instrument);
-          res.body.numPitches    .should.equal(recordingData.numPitches);
-          done();
-        });
-    });
-
-    // it('should not change anything for a recording if the attribute is invalid', function(done) {
     //   server.post(baseURL + '/edit')
     //     .set('content-type', 'application/json')
-    //     .send({
-    //       username:  recordingData.username,
-    //       startTime: recordingData.startTime,
-    //       key: 'notAValidAttribute',
-    //       val: 'notAValidAttributeValue'
-    //     }).end(function(err, res) {
-    //       console.log("Response 2:");
-    //       console.log(res);
-    //       res.should.have.status(400);
+    //     .send(updateObj)
+    //     .end(function(err, res) {
+    //       console.log("Response body: ");
+    //       console.log(res.body);
+    //       res.should.have.status(200);
     //       res.should.be.json;
-    //       res.body.err.should.equal('key not recognized');
+    //       res.body.updateObj[key].should.equal(updateObj.val);
+    //       res.body.username      .should.equal(recordingData.username);
+    //       res.body.startTime     .should.equal(recordingData.startTime);
+    //       res.body.endTime       .should.equal(recordingData.endTime);
+    //       res.body.instrument    .should.equal(recordingData.instrument);
+    //       res.body.numPitches    .should.equal(recordingData.numPitches);
     //       done();
     //     });
     // });
+
+    it('should not change anything for a recording if the attribute is invalid', function(done) {
+      server.post(baseURL + '/edit')
+        .set('content-type', 'application/json')
+        .send({
+          username:  recordingData.username,
+          startTime: recordingData.startTime,
+          key: 'notAValidAttribute',
+          val: 'notAValidAttributeValue'
+        }).end(function(err, res) {
+          console.log("Response body:");
+          console.log(res.body);
+          res.should.have.status(400);
+          res.should.be.json;
+          res.body.err.should.equal('key not recognized');
+          done();
+        });
+    });
   });
   
 
