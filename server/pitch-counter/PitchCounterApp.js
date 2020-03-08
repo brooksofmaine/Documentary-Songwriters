@@ -7,31 +7,27 @@ class PitchCounterApp {
         };
     }
 
-    //Start the EventListener
-    //Note: Cannot start on opening of the WebPage
+    // Start the EventListener
+    // Note: Cannot start on opening of the WebPage
     start() {
         this.instrument.startListener();
     }
 
-    //completely stop the event EventListener
+    // Completely stop the event EventListener
     stop() {
         this.instrument.stopListener();
     }
 
-    //pauses the EventListener and returns the current pitch_counter
+    // Pauses the EventListener and returns the current pitch_counter
     change_state() {
         return this.instrument.changeListenerState();
     }
 }
 
-const app = new PitchCounterApp("default");
+const app = new PitchCounterApp("voice");
 
 function Begin() {
     app.start();
-}
-
-function newNote() {
-    console.log("0000000000000000000000000000000000000000");
 }
 
 function Stop() {
@@ -42,4 +38,4 @@ function ChangeState() {
     app.change_state();
 }
 
-// module.exports = app
+module.exports = app;
