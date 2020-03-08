@@ -191,7 +191,7 @@ describe('Recording', function() {
     for (let [key, value] of Object.entries(newRecordingData)) {
       let data = {};
       data[key] = value;
-      data[username] = userData.username;
+      data[username] = recordingData.username;
       data[startTime] = recordingData.startTime;
 
       it('should change a recording\'s description', function(done) {
