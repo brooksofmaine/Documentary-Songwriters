@@ -20,6 +20,7 @@ class NewGroup extends React.Component {
             members : [],
             lastKey : -1,
             badUser : false,
+            badGroup : false,
             errorMessage : ""
         };
 
@@ -30,8 +31,9 @@ class NewGroup extends React.Component {
         this.createGroup   = this.createGroup.bind(this)
     }
 
-    async createGroup() {
-        //  TODO: handle if group name is taken so doesn't fail
+    async createGroup(event) {
+        event.preventDefault();
+
         const groupInfo = {
             groupName: this.state.groupName,
             description: this.state.description,
@@ -49,15 +51,19 @@ class NewGroup extends React.Component {
         const response = await fetch(query_url, post_params);
         const body = await response.json();
         console.log("Response body: ", body)
-        // instead of this...
-        if (response.status !== 200) {
-          throw Error(body.message) 
-        }
 
-        // ...use this? so no error?
-        // if ( body.err ) {
-            // TODO: display error message that group already exists
+        // if (response.status !== 200) {
+        //   throw Error(body.message) 
         // }
+
+        if ( body.err ) {
+            this.setState({
+                badGroup : true
+            });
+        }
+        else {
+            this.props.history.push("/api/groups");
+        }
 
         return body;
     }
@@ -69,17 +75,20 @@ class NewGroup extends React.Component {
         });
 
         if ( name === 'currMember' ) {
-            console.log('good')
             this.setState({
                 badUser : false
+            });
+        }
+        if ( name === 'groupName' ) {
+            this.setState({
+                badGroup : false
             });
         }
     }
 
     handleClick(event) {
-        // checks for pressing enter
-        // TODO: fix this
         if ( event.key === 'Enter' ) {
+            event.preventDefault();
             this.addMember();
         }
     }
@@ -146,9 +155,10 @@ class NewGroup extends React.Component {
 
     render() {
         
-        const userStyle = this.state.badUser ? { color: '#f00' } : { color: '#000' };
+        const userStyle  = this.state.badUser ? { color: '#f00' } : { color: '#000' };
 
-        const errorStyle = this.state.badUser ? { display : 'block' } : { display : 'none' };
+        const userErrorStyle = this.state.badUser ? { display : 'block' } : { display : 'none' };
+        const groupErrorStyle = this.state.badGroup ? { display : 'block' } : { display : 'none' };
 
         const newMembers = this.state.members.map(member => 
             <NewMember 
@@ -177,6 +187,9 @@ class NewGroup extends React.Component {
                             />
                         </div>
                         <br />
+                        <div className="ErrorMessage" style={groupErrorStyle}>
+                            A group with this name already exists
+                        </div>
 
                         <div className="InputWrapper">  
                             <input 
@@ -204,7 +217,7 @@ class NewGroup extends React.Component {
                             <span><FontAwesomeIcon icon={faSearch} className="SearchIcon" onClick={this.addMember}/></span>
                         </div>
                         <br />
-                        <div className="ErrorMessage" style={errorStyle}>
+                        <div className="ErrorMessage" style={userErrorStyle}>
                             {this.state.errorMessage}
                         </div>
 
@@ -244,10 +257,7 @@ class NewGroup extends React.Component {
                         <div className="ButtonBox">
                             <button 
                                 className="GroupButton" 
-                                onClick={() =>  {
-                                    this.createGroup();
-                                    this.props.history.push("/api/groups");
-                                }}>Create Group</button>
+                                onClick={this.createGroup}>Create Group</button>
                         </div>
                     </form>
                 </div>
