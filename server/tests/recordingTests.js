@@ -240,7 +240,7 @@ describe('Recording', function() {
           res.should.have.status(200);
           res.should.be.json;
           res.body.numRows       .should.equal(1);
-          res.body.rowsAffected[0][key]          .should.equal(updateObj[key]);
+          res.body.rowsAffected[0][key]          .should.equal(updateObj.val);
           res.body.rowsAffected[0].username      .should.equal(recordingData.username);
           res.body.rowsAffected[0].startTime     .should.equal(recordingData.startTime);
           res.body.rowsAffected[0].endTime       .should.equal(recordingData.endTime);
