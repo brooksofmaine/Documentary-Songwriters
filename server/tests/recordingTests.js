@@ -216,7 +216,7 @@ describe('Recording', function() {
           res.body[0].endTime    .should.equal(recordingData.endTime);
           res.body[0].instrument .should.equal(recordingData.instrument);
           res.body[0].numPitches .should.equal(recordingData.numPitches);
-          res.body[0].description.should.equal(recordingData.description;
+          res.body[0].description.should.equal(recordingData.description);
           done();
         });
     });
