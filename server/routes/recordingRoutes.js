@@ -97,9 +97,13 @@ router.post('/edit', (req, res) => {
   }
 
   db.Recording.update(updateObj, {
-    where: { username: username },
+    where: { 
+      username: username,
+      startTime: startTime
+    },
     returning: true
   }).then(([numRows, rowsAffected]) => {
+    console.log(numRows);
     if (numRows === 0) {
       res.status(404).json({ err: 'recording not found' });
       return;
