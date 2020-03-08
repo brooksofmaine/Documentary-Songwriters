@@ -184,34 +184,26 @@ describe('Recording', function() {
 
   describe('Edit', function() {
 
-    let newRecordingData = {
-      description: 'this is the new recording description'
-    };
-
-    for (let [key, value] of Object.entries(newRecordingData)) {
-      let data = {};
-      data[key] = value;
-      data['username'] = recordingData.username;
-      data['startTime'] = recordingData.startTime;
-      console.log(data);
-
-      it('should change a recording\'s description', function(done) {
-        server.post(baseURL + '/edit')
-          .set('content-type', 'application/json')
-          .send(data)
-          .end(function(err, res) {
-            res.should.have.status(200);
-            res.should.be.json;
-            res.body.description.should.equal(data.val);
-            res.body.username   .should.equal(recordingData.username);
-            res.body.startTime  .should.equal(recordingData.startTime);
-            res.body.endTime    .should.equal(recordingData.endTime);
-            res.body.instrument .should.equal(recordingData.instrument);
-            res.body.numPitches .should.equal(recordingData.numPitches);
-            done();
-          });
-      });
-    };
+    it('should change a recording\'s description', function(done) {
+      server.post(baseURL + '/edit')
+        .set('content-type', 'application/json')
+        .send({
+          username: recordingData.username,
+          startTime: recordingData.startTime,
+          key: 'description',
+          val: 'this is the new description'
+        }).end(function(err, res) {
+          res.should.have.status(200);
+          res.should.be.json;
+          res.body.description.should.equal('this is the new description');
+          res.body.username   .should.equal(recordingData.username);
+          res.body.startTime  .should.equal(recordingData.startTime);
+          res.body.endTime    .should.equal(recordingData.endTime);
+          res.body.instrument .should.equal(recordingData.instrument);
+          res.body.numPitches .should.equal(recordingData.numPitches);
+          done();
+        });
+    });
 
     it('should not change anything for a recording if the attribute is invalid', function(done) {
       server.post(baseURL + '/edit')
@@ -234,6 +226,7 @@ describe('Recording', function() {
 
 
   describe('Delete', function() {
+
     it('should delete the given recording from database', function(done) {
       server.post(baseURL + '/delete') 
         .set('content-type', 'application/json')
