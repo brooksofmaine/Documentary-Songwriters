@@ -7,20 +7,21 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 
 import {server_add} from "../api-helper/config";
+import UserFunc from "../api-helper/user";
 
 
 class NewGroup extends React.Component {
     constructor() {
         super();
         this.state = {
-            groupName : "",
-            description : "",
-            currMember : "",
-            publicity : "",
-            members : [],
-            lastKey : -1,
-            badUser : false,
-            badGroup : false,
+            groupName    : "",
+            description  : "",
+            currMember   : "",
+            publicity    : "",
+            members      : [],
+            lastKey      : -1,
+            badUser      : false,
+            badGroup     : false,
             errorMessage : ""
         };
 
@@ -34,10 +35,17 @@ class NewGroup extends React.Component {
     async createGroup(event) {
         event.preventDefault();
 
+        let adminUsername;
+
+        UserFunc.getCurrentUsername().then(username => {
+            adminUsername = username;
+        });
+
         const groupInfo = {
             groupName: this.state.groupName,
             description: this.state.description,
-            visible: this.state.publicity === 'public' ? true : false
+            visible: this.state.publicity === 'public' ? true : false,
+            adminUsername: adminUsername
         }
         const query_url = server_add + '/api/group/create'
         const post_params = {
@@ -52,15 +60,12 @@ class NewGroup extends React.Component {
         const body = await response.json();
         console.log("Response body: ", body)
 
-        // if (response.status !== 200) {
-        //   throw Error(body.message) 
-        // }
-
         if ( body.err ) {
             this.setState({
                 badGroup : true
             });
         }
+        // redirect to groups page if successfully created group
         else {
             this.props.history.push("/api/groups");
         }

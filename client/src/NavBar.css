@@ -1,6 +1,7 @@
 .NavBar {
     text-align: right;
     margin: 10px;
+    background-color: #eee;
     display: flex;
     justify-content: flex-end;
 }
