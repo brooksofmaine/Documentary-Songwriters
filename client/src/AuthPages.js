@@ -6,6 +6,7 @@ import Record from './pitch-page/Record'
 import Group from './groups-page/Group'
 import UserProfile from './profiles/UserProfile.js'
 import NewGroup from './groups-page/NewGroup'
+import SummaryPage from './profiles/SummaryPage'
 import {
     BrowserRouter as Router,
     Switch,
@@ -27,8 +28,8 @@ import {
                     <Route path="/api/record" component={Record} />
                     <Route path="/api/groups" exact component={Group} />
                     <Route path="/api/groups/new" component={NewGroup} />
-                    <Route path="/api/profile" component={UserProfile} />
-
+                    {/* <Route path="/api/profile" component={UserProfile} /> */}
+                    <Route path="/api/profile" component={SummaryPage} />
                     </Switch>
                 </Router>
             </div>

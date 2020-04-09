@@ -1,15 +1,18 @@
+
+const d3_peaks = require('./d3-peaks.js');
+
 class PitchCounter {
     constructor() {
         this.counter = 0;
         this.prev_peaks = [];
         this.final_peaks = [];
         this.peaksInNote = [];
-        this.frequencyData;
+        this.frequencyData = new Float32Array();
         this.prev_time = 0;
         this.curFrame = 0;
         this.framesSinceQuiet = 0;
         this.framesOfQuiet = 0;
-        this.lastPeakInNote;
+        this.lastPeakInNote = 0;
         this.prevAverageDecibels = -100;
 
         //instrument dependent fields
@@ -20,12 +23,12 @@ class PitchCounter {
                                     // considered a note
         this.simNoteThreshold = 0;  // Determines how many notes must be different
                                     // in order for a frame to contain a new note
-        this.instrument;            // Name of current instrument
-        this.decibalConstant;       // Determines how much louder a frame must be
+        this.instrument = "";            // Name of current instrument
+        this.decibalConstant = 0;       // Determines how much louder a frame must be
                                     // for it to be considered a new note
-        this.peakRequirement;       // Required height for it to be considered
+        this.peakRequirement = null;       // Required height for it to be considered
                                     // a note
-        this.silenceBuffer;         // Number of frames until a note can be
+        this.silenceBuffer = 0;         // Number of frames until a note can be
     }
 
     initD3Peaks() {
@@ -115,7 +118,7 @@ class PitchCounter {
     //pause pitch counting
     changeState() {
         if (this.audioContext === null)
-            initPitchCounting();
+            this.initPitchCounting();
         else if(this.audioContext.state === 'running')
             this.audioContext.suspend();
         else if(this.audioContext.state === 'suspended')

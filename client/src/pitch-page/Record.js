@@ -2,7 +2,9 @@ import React from "react"
 import Counter from './Counter'
 import Stopwatch from './Stopwatch'
 import './Record.css';
-import app from '../pitch-counter/app.js'
+import InstrumentListener from '../pitch-counter/InstrumentListener.js'
+import PitchCounter from '../pitch-counter/PitchCounter.js'
+import app from '../pitch-counter/PitchCounterApp.js'
 
 // Function to pause: change_state
 
@@ -12,6 +14,10 @@ import app from '../pitch-counter/app.js'
 class Record extends React.Component {
     constructor() {
         super()
+
+        this.selectedInstrument = "voice";
+        app.change_instrument(this.selectedInstrument)
+        
         this.state = {
             count: 0
         }
@@ -20,7 +26,10 @@ class Record extends React.Component {
     }
 
     componentDidMount() {
-        this.interval = setInterval(() => this.setState({ count: app.get_pitch_count() }), 500);
+        this.interval = setInterval(() => {
+            this.setState({ count: app.get_pitch_count() });
+            console.log("Pitch count: " + this.state.count)
+        }, 500);
 
     }
 

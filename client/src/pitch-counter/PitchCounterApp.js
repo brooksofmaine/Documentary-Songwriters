@@ -1,12 +1,19 @@
-var InstrumentListener = require('./InstrumentListener.js')
+
 
 class PitchCounterApp {
 
     constructor(instr) {
-        this.instrument = new InstrumentListener(instr);
+        this.instrument = require('./InstrumentListener.js')
+        this.instrument.changeInstrument(instr)
+        // this.instrument = this.InstrumentListener.changeInstrument(instr)
+
         this.get_pitch_count = function () {
-            return this.instrument.getPitchCount;
+            return this.instrument.get_pitch_count();
         };
+    }
+
+    change_instrument(instr) {
+        this.instrument.changeInstrument(instr)
     }
 
     // Start the EventListener

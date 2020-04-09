@@ -1,8 +1,8 @@
-import PitchCounter from './PitchCounter.js'
+const PitchCounter = require('./PitchCounter.js');
 
 class InstrumentListener {
     constructor(instrument) {
-        this.pitchCounter = new PitchCounter();
+        this.pitchCounter = PitchCounter;
         this.get_pitch_count = function () {
             return this.pitchCounter.counter; };
         this.changeInstrument(instrument);
@@ -123,6 +123,5 @@ class InstrumentListener {
         this.initVoice();
     }
 }
-
-const InstrumentListener = new InstrumentListener("default");
-module.exports = InstrumentListener;
+const instrumentListener = new InstrumentListener("default");
+module.exports = instrumentListener;

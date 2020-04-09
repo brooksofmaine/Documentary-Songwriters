@@ -19,6 +19,8 @@
   },
   "homepage": "https://github.com/JumboCode/Documentary-Songwriters#readme",
   "dependencies": {
-    "concurrently": "^5.0.0"
+    "concurrently": "^5.0.0",
+    "react-bar-chart": "^0.1.2",
+    "react-circular-progressbar": "^2.0.3"
   }
 }
