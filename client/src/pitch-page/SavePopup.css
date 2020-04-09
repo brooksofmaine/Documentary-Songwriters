@@ -1,0 +1,70 @@
+.SavePopup {
+    width: 40%;
+    height: 250px;
+    position: absolute;
+    margin: 0 auto;
+    top: 25%;
+    left: 26%;
+    padding: 4%;
+    border-radius: 10px;
+    z-index: 1000;
+    background-color: #fff;
+    color: #000;
+    font-weight: 200;
+    text-align: center;
+}
+
+.OptionButton {
+    display: inline-block;
+    width: 8em;
+    height: 2.5em;
+    padding: 2% 4%;
+    margin: 4%;
+    border-radius: 10px;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+.DarkButton {
+    background-color: #40719c;
+    color: #fff;
+    transition: 0.4s;
+}
+
+.DarkButton:hover {
+    background-color: #6094c2;
+}
+
+.CornerX {
+    position: absolute;
+    color: #888;
+    left: 10px;
+    top: 10px;
+    transition: 0.2s;
+}
+
+.CornerX:hover {
+    color: #222;
+}
+
+.SaveInline {
+    display: inline-block;
+    width: 50%;
+}
+
+.SaveInput {
+    position: relative;
+    width: 60%;
+    padding: 1%;
+    margin: 3% 0;
+    border-color: transparent;
+    border-radius: 5px;
+    font-size: 1em;
+    font-weight: 200;
+    box-shadow: -1px 1px 2px 1px #ccc;
+}
+
+.SaveInput:focus {
+    box-shadow: 0 0 5px #888;
+    outline: none;
+}

@@ -1,11 +1,12 @@
 import React from 'react';
-// import Button from './Button';
 
 import './Stopwatch.css';
-import Play from '../assets/play.png';
-import Pause from '../assets/pause.png';
-import Stop from '../assets/stop.png';
-import Share from '../assets/share.png';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faDownload, faPause, faPlay, faStop } 
+    from '@fortawesome/free-solid-svg-icons';
+
+import ReactTooltip from 'react-tooltip';
 
 class Stopwatch extends React.Component {
     constructor() {
@@ -84,19 +85,22 @@ class Stopwatch extends React.Component {
         return (
             <div className = "Stopwatch">
                 <div className="ButtonRow">
-                    <div className="ButtonBox">
-                        <button className="Button" onClick={this.playPause}>
-                            <img alt="Play and pause icon" className={ this.state.timerOn ? "Pause" : "Play" } src={ this.state.timerOn ? Pause : Play } />
+                    <div>
+                        <button className="Button RecordButton" onClick={this.playPause}>
+                            <FontAwesomeIcon icon={ this.state.timerOn ? faPause : faPlay } className="RecordIcon"/>
                         </button>
                     </div>
-                    <div className="ButtonBox">
-                        <button className="Button" onClick={this.stop}>
-                            <img alt="Stop icon" className="Stop" src={ Stop } />
+                    <div>
+                        <button className="Button RecordButton" onClick={this.stop}>
+                            <FontAwesomeIcon icon={faStop} className="RecordIcon" />
                         </button>
                     </div>
-                    <div className="ButtonBox">
-                        <button className="Button">
-                            <img alt="Arrow icon for sharing" className="Share" src={ Share } />
+                    <div>
+                        <button className="Button RecordButton" onClick={() => this.props.save("save")} data-tip="React-tooltip" >
+                            <FontAwesomeIcon icon={faDownload} className="RecordIcon" />
+                            <ReactTooltip className="Tooltip" effect="solid">
+                                <span>Save Recording</span>
+                            </ReactTooltip>
                         </button>
                     </div>
                 </div>

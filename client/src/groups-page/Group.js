@@ -17,14 +17,18 @@ class Group extends React.Component {
         }
         this.showGroup = this.showGroup.bind(this);
         this.getGroups = this.getGroups.bind(this);
-    };
+    }
 
     showGroup(key) {
         this.setState({currGroup : key - 1});
     }
 
     componentDidMount() {
-        // this.getGroups();
+        //this.getGroups();
+        
+        // TODO: get people in each group
+        // TODO: get weekly pitches for people in each group
+        // TODO: render only one group at a time
     }
 
     // This isn't returning groups that the user is currently in

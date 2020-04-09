@@ -7,27 +7,30 @@ let db;
 
 /*
  * TODO: need to standardize timestamp
+ * TODO: can we grab the username from the login session?
+ *       instead of putting it into the body?
  *
  * To create a recording, post to the endpoint /api/recording/create
  * with the username, start time, end time, instrument, number of pitches, 
- * and description in the body of the request
+ * and description in the body of the request.
  *
- * For example, to create a recording for Bob Smith, who is already logged in:
+ * For example, to create a recording for John Smith:
  *   Post /api/recording/create
  *   With data:
  *   {
- *     startTime:   "Wed, 27 July 2016 07:45:00 GMT",
- *     endTime:     "Wed, 27 July 2016 07:51:00 GMT",
+ *     username:    "johnS",
+ *     startTime:   "2016-04-23T18:25:43.511Z",
+ *     endTime:     "2016-04-23T19:25:43.511Z",
  *     instrument:  "piano",
- *     numPitches:  "100",
+ *     numPitches:  100,
  *     description: "Moonlight Sonata"
  *   }
  */
 router.post('/create', (req, res) => {
   let createObj = {
-    username:    req.user.username,
-    start:       req.body.startTime,
-    end:         req.body.endTime,
+    username:    req.body.username,
+    startTime:   req.body.startTime,
+    endTime:     req.body.endTime,
     instrument:  req.body.instrument,
     numPitches:  req.body.numPitches,
     description: req.body.description
@@ -38,10 +41,16 @@ router.post('/create', (req, res) => {
     return;
   }
 
-  db.Recording.create(createObj).then((newRecordingInstance) => {
+  db.Recording.create(createObj)
+  .then((newRecordingInstance) => {
     res.json(newRecordingInstance.get({ plain: true }));
     return;
   }).catch((err) => {
+    if (err.name === 'SequelizeUniqueConstraintError') {
+      res.status(409).json({ err: 'already recorded' });
+      return;
+    }
+
     console.log('Error while creating recording.');
     console.log(err);
     res.status(500).json({ err: err });
@@ -51,7 +60,8 @@ router.post('/create', (req, res) => {
 
 
 
-/*
+/* DO NOT USE!!! NOT YET TESTED!!!!!
+ * 
  * To edit something about a recording as the creator of a recording, 
  * POST to /api/recording/edit. In the body of the request, include 
  * the start time of the recording to edit, the name of the attribute to edit,
@@ -61,6 +71,7 @@ router.post('/create', (req, res) => {
  * Post /api/recording/edit
  *   With data:
  *   {
+ *     username:  johnS
  *     startTime: "Wed, 27 July 2016 07:45:00 GMT",
  *     key:       "description" 
  *     val:       "Adagio for Strings - take 2"
@@ -68,6 +79,8 @@ router.post('/create', (req, res) => {
  * 
  */
 router.post('/edit', (req, res) => {
+  let username   = req.body.username;
+  let startTime  = req.body.startTime;
   let key        = req.body.key;
   let val        = req.body.val;
   let updateObj  = {};
@@ -84,12 +97,8 @@ router.post('/edit', (req, res) => {
   }
 
   db.Recording.update(updateObj, {
-    where: { 
-      username: req.user.username,
-      start:    req.body.startTime 
-    },
-    returning: true,
-    raw: true
+    where: { username: username },
+    returning: true
   }).then(([numRows, rowsAffected]) => {
     if (numRows === 0) {
       res.status(404).json({ err: 'recording not found' });
@@ -98,6 +107,11 @@ router.post('/edit', (req, res) => {
     res.json(rowsAffected[0]);
     return;
   }).catch((err) => {
+    if (err.name === 'SequelizeUniqueConstraintError') {
+      res.status(409).json({ err: 'description taken' });
+      return;
+    }
+
     console.log(`Error while changing ${key}`);
     console.log(err);
     res.status(500).json({ err: err });
@@ -107,7 +121,8 @@ router.post('/edit', (req, res) => {
 
 
 
-/*
+/* DO NOT USE!!! NOT YET TESTED!!!!!
+ * 
  * To delete a recording, post request to the endpoint /api/recording/delete
  * with the start time of the recording to delete, for the logged-in user.
  *
@@ -120,11 +135,52 @@ router.post('/edit', (req, res) => {
  *   }
  */
 router.post('/delete', (req, res) => {
+  let deleteObj = {
+    username:    req.body.username,
+    startTime:   req.body.startTime,
+    endTime:     req.body.endTime,
+    instrument:  req.body.instrument,
+    numPitches:  req.body.numPitches,
+    description: req.body.description
+  };
+  if (anyValuesUndefined(deleteObj)) {
+    res.status(400).json({ err: 'undefined fields' });
+    return;
+  }
+
+  // console.log("about to find");
+  // db.Recording.find({
+  //   where: {
+  //     username:    deleteObj.username,
+  //     startTime:   deleteObj.startTime
+  //   }
+  // }).then((result) => {
+  //     console.log("Found!")
+  //     return Model.destroy({ 
+  //       where: {
+  //         username:    deleteObj.username,
+  //         startTime:   deleteObj.startTime
+  //       }
+  //     }).then((u) => { 
+  //       console.log("Destroyed!");
+  //       return result;
+  //     });
+
+  // }).catch((err) => {
+  //     console.log('Error while deleting recording.');
+  //     console.log(err);
+  //     res.status(500).json({ err: err });
+  //     return;
+  // });
+
   db.Recording.destroy({
     where: {
-      username:  req.user.username,
-      start:     req.body.startTime
+      username:    deleteObj.username,
+      startTime:   deleteObj.startTime
     }
+  }).success(() => {
+    console.log("Success!!");
+    return;
   }).catch((err) => {
     console.log('Error while deleting recording.');
     console.log(err);

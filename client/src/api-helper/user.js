@@ -15,6 +15,12 @@
 import {server_add, init_params_get} from "./config";
 
 export default class UserFunc {
+    /*
+    {
+        "status":"logged_in",
+        "user":{"username":"123","email":"123","firstName":"123","lastName":"123"}
+    }
+     */
     static async getCurrentUser () {
         const query_url = server_add + "/api/auth/loginstatus";
         const response = await fetch(query_url, init_params_get);
@@ -22,6 +28,14 @@ export default class UserFunc {
             throw Error("Error: Connection Error");
         }
         return await response.json();
+    }
+
+    static async getCurrentUsername() {
+        const userinfo = await this.getCurrentUser();
+        if (userinfo['status'] !== "logged_in") {
+            throw Error("Trying to get username while user is not logged in");
+        }
+        return userinfo["user"]["username"];
     }
 
     static async getUserInfo (username) {
