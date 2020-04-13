@@ -13,6 +13,7 @@
  */
 
 import {server_add, init_params_get} from "./config";
+import {RecordingFunc} from "./recording";
 
 export default class UserFunc {
     /*
@@ -47,6 +48,21 @@ export default class UserFunc {
             throw Error("Error: Connection Error");
         }
         return await response.json();
+    }
+
+    // function lastPlayedInstrument
+    // input: username
+    // output: the last played Instrument (if any)
+    //         if no recent Instrument, return null.
+    // note: assumes the list from the server is sorted by startDate or endDate, and decreasing.
+    static async lastPlayedInstrument (username) {
+        // TODO: server side should be able to return a limited amount of results for better performance.
+        const all_recordings = await RecordingFunc.getAllRecording(username);
+        if (all_recordings.length < 1) {
+            return null;
+        } else {
+            return all_recordings[0].instrument;
+        }
     }
 
     static async logUserOut() {
