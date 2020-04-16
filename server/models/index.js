@@ -47,120 +47,13 @@ module.exports.init = (done) => {
     db.Sequelize = Sequelize;
 
     db.User.hasMany(db.Recording, {as: 'recordings', foreignKey: 'username'});
-    db.User.belongsToMany(db.Group, {through: 'GroupUser'});
+    // db.User.belongsToMany(db.Group, {through: 'GroupUser'});
     db.Group.belongsTo(db.User, {as: 'admin'});
 
+    db.User.belongsToMany(db.Group, {through: 'User_Groups'});
+    db.Group.belongsToMany(db.User, {through: 'User_Groups'});
+
     done(db);
-  });
-};
-
-/*******************************************************************
-    RECORDINGS
-*******************************************************************/
-
-
-module.exports.createRecording = (username, start, end, numPitches, instrument, description) => {
-  return db.Recording.create({
-    username: username,
-    start: start,
-    end: end,
-    instrument: instrument,
-    numPitches: numPitches,
-    description: description
-  }).then((modelInstance) => {
-    return modelInstance.get({plain: true});
-  });
-};
-
-module.exports.getRecording = (username, lowRange, highRange) => {
-  return db.Recording.findAll({
-    where: {
-      username: username, 
-      start: {
-        [Op.gte]: lowRange,
-        [Op.lte]: highRange
-      }
-    }
-  }).then((modelInstance) => {
-    return modelInstance.get({plain: true});
-  });
-};
-
-
-module.exports.changeRecordingDescription = (username, start, description) => {
-  return db.Recording.update({
-    description: description
-  }, {
-    where: {
-      username: username,
-      start: start
-    },
-    returning: true,
-    raw: true
-  }).then(([numRows, [recording]]) => {
-    return recording;
-  });
-};
-
-
-module.exports.deleteRecording = (username, start) => {
-  return db.Recording.destroy({
-    where: {
-      username: username,
-      start: start
-    }
-  });
-};
-
-/*******************************************************************
-    GROUPS
-*******************************************************************/
-
-module.exports.changeGroupName = (oldGroupName, newGroupName) => {
-  return db.Group.update({
-    groupName: newGroupName
-  }, {
-    where: {groupName: oldGroupName},
-    returning: true,
-    raw: true
-  }).then(([numRows, [group]]) => {
-    return group;
-  });
-};
-
-module.exports.changeGroupDescription = (groupName, description) => {
-  return db.Recording.update({
-    description: description
-  }, {
-    where: {
-      groupName: groupName
-    },
-    returning: true,
-    raw: true
-  }).then(([numRows, [group]]) => {
-    return group;
-  });
-};
-
-module.exports.changeGroupPrivacy = (groupName, public) => {
-  return db.Recording.update({
-    public: public
-  }, {
-    where: {
-      groupName: groupName
-    },
-    returning: true,
-    raw: true
-  }).then(([numRows, [group]]) => {
-    return group;
-  });
-};
-
-module.exports.deleteGroup = (groupName) => {
-  return db.Recording.destroy({
-    where: {
-      groupName: groupName
-    }
   });
 };
 

@@ -238,5 +238,95 @@ router.post('/:groupName/remove', (req, res) => {
   });
 });
 
+/*
+ * To add a group's users, get the endpoint 
+ * /api/group/{groupName}/addUsers
+ * where groupName is that of the group. 
+ *
+ */
+router.post('/:groupName/addUsers', (req, res) => {
+  let groupName = req.params.groupName;
+  let users = db.User.findAll({
+    where: {
+      groupId: groupName
+    }
+  }).then((modelInstance) => {
+    if (modelInstance === null) {
+      res.status(404).json({ err: 'users not found' });
+      return;
+    }
+    res.json(modelInstance.map((group) => { return group.get({ plain: true }) }));
+    return;
+
+  }).catch((err) => {
+    console.log('Error while retrieving users.');
+    console.log(err);
+    res.status(500).json({ err: err });
+    return;
+  });
+
+  db.Group.addUsers(users, {
+    where: {
+      groupName: groupName
+    }
+  }).then(([numRows, rowsAffected]) => {
+    if (numRows === 0) {
+      res.status(404).json({ err: 'group not found' });
+      return;
+    }
+  }).catch((err) => {
+    console.log('Error while retrieving group.');
+    console.log(err);
+    res.status(500).json({ err: err });
+    return;
+  });
+
+});
+
+/*
+ * To get a group's users, get the endpoint 
+ * /api/group/{groupName}/getUsers
+ * where groupName is that of the group. 
+ *
+ */
+router.get('/:groupName/getUsers', (req, res) => {
+  let groupName = req.params.groupName;
+
+  // check that group exists first 
+  let group = db.Group.findByPk(req.params.groupName).then((modelInstance) => {
+    if (modelInstance === null) {
+      res.status(404).json({ err: 'group not found' });
+      return;
+    }
+    res.json(modelInstance.get({ plain: true }));
+    return;
+  }).catch((err) => {
+    console.log('Error while retrieving group.');
+    console.log(err);
+    res.status(500).json({ err: err });
+    return;
+  });
+
+  db.User.findAll({
+    where: {
+      groupId: groupName
+    }
+  }).then((modelInstance) => {
+    if (modelInstance === null) {
+      res.status(404).json({ err: 'users not found' });
+      return;
+    }
+    res.json(modelInstance.map((user) => { return user.get({ plain: true }) }));
+    return;
+
+  }).catch((err) => {
+    console.log('Error while retrieving users.');
+    console.log(err);
+    res.status(500).json({ err: err });
+    return;
+  });
+
+});
+
 module.exports = router;
 module.exports.init = (database) => { db = database; };
