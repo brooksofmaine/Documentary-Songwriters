@@ -11,7 +11,7 @@ class WelcomeBoard extends React.Component {
     constructor() {
         super();
         this.state = {
-            username: "",
+            user: null,
             dayCount: 0,
             weekCount: 0,
             monthCount: 0
@@ -20,39 +20,50 @@ class WelcomeBoard extends React.Component {
 
     componentDidMount() {
         UserFunc.getCurrentUser().then((user_info) => {
-            console.log(user_info);
-            console.log(user_info.status);
             if (user_info.status === "logged_in") {
-                this.setState({"username": user_info.user.firstName + " " + user_info.user.lastName});
+                this.setState({"user": user_info.user});
+
+                RecordingFunc.getPitchTotalCount(this.state.user.username,
+                    RecordingFunc.nthDayAgo(7),
+                    new Date()).then(
+                    result => {
+                        this.setState({
+                            weekCount: result
+                        });
+                    }
+                );
+
+                RecordingFunc.getPitchTotalCount(this.state.user.username,
+                    RecordingFunc.nthDayAgo(1),
+                    new Date()).then(
+                    result => {
+                        this.setState({
+                            dayCount: result
+                        });
+                    }
+                );
+
+                RecordingFunc.getPitchTotalCount(this.state.user.username,
+                    RecordingFunc.nthDayAgo(30),
+                    new Date()).then(
+                    result => {
+                        this.setState({
+                            monthCount: result
+                        });
+                    }
+                );
+            } else {
+                window.location = "/";
             }
         }).catch((err) => {
             console.log(err);
-        });
-
-        RecordingFunc.getPitchTotalCount(null, RecordingFunc.nthDayAgo(7), new Date()).then(result => {
-            console.log("got week");
-            this.setState({
-                weekCount: result
-            });
-        });
-        RecordingFunc.getPitchTotalCount(null, RecordingFunc.nthDayAgo(1), new Date()).then(result => {
-            console.log("got day");
-            this.setState({
-                dayCount: result
-            });
-        });
-        RecordingFunc.getPitchTotalCount(null, RecordingFunc.nthDayAgo(30), new Date()).then(result => {
-            console.log("got month");
-            this.setState({
-                monthCount: result
-            });
         });
     }
 
     render() {
         return (
             <div className="WelcomeBoard">
-            <p className="welcome_back">Welcome Back, {this.state.username}</p>
+            <p className="welcome_back">Welcome Back, {this.state.user_fullname}</p>
                 <h1 className="pitch_progress">Your Pitch Progress</h1>
                 <div>
                     <WelcomeCounter count={this.state.dayCount} name="today"/>

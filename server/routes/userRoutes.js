@@ -170,7 +170,10 @@ router.get('/:username/recordings', (req, res) => {
   db.Recording.findAll({
     where: {
       username: req.params.username
-    }
+    },
+    order: [
+      ['startTime', 'DESC'],
+    ]
   }).then((recordingArr) => {
     if (recordingArr === null) {
       res.status(404).json({ err: 'recordings not found' });
