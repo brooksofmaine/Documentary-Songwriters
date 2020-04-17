@@ -3,56 +3,49 @@ import React from "react";
 import './Practice.css';
 
 class Practice extends React.Component {
+    // TODO: deal with descriptions on hover?
     render() {
         let dateStr;
         switch(this.props.date.month) {
-            case 1:
+            case 0:
                 dateStr = 'January';
                 break;
-            case 2:
+            case 1:
                 dateStr = 'February';
                 break;
-            case 3:
+            case 2:
                 dateStr = 'March';
                 break;
-            case 4:
+            case 3:
                 dateStr = 'April';
                 break;
-            case 5:
+            case 4:
                 dateStr = 'May';
                 break;
-            case 6:
+            case 5:
                 dateStr = 'June';
                 break;
-            case 7:
+            case 6:
                 dateStr = 'July';
                 break;
-            case 8:
+            case 7:
                 dateStr = 'August';
                 break;
-            case 9:
+            case 8:
                 dateStr = 'September';
                 break;
-            case 10:
+            case 9:
                 dateStr = 'October';
                 break;
-            case 11:
+            case 10:
                 dateStr = 'November';
                 break;
-            case 12:
+            case 11:
                 dateStr = 'December';
                 break
             default: 
                 dateStr = ''; 
                 break
-        }
-
-        let minuteStr;
-        if ( this.props.length.minutes < 10 ) {
-            minuteStr = '0' + this.props.length.minutes;
-        }
-        else {
-            minuteStr = this.props.length.minutes;
         }
 
         const formattedInstrument = this.props.instrument.charAt(0).toUpperCase() 
@@ -68,13 +61,16 @@ class Practice extends React.Component {
                     </p>
                 </div>
                 <div className = "PracticeCol PaddedLength">
-                    {this.props.length.hours + ':' + minuteStr}
+                    {this.props.length.hours + ':' + this.props.length.minutes + ':' + this.props.length.seconds}
                 </div>
                 <div className = "PracticeCol PaddedInstrument">
                     {formattedInstrument}
                 </div>
                 <div className = "PracticeCol PaddedPitch">
                     {this.props.pitches}
+                </div>
+                <div className = "PracticeDescription">
+                    Description: {this.props.description}
                 </div>
             </div>
         )

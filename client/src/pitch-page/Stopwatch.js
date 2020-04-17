@@ -72,8 +72,8 @@ class Stopwatch extends React.Component {
 
     // on stop
     stop = () => {
+        this.props.reset("stop", "stop");
         this.stopTimer();
-        this.resetTimer();
     };
 
     render() {
@@ -99,7 +99,7 @@ class Stopwatch extends React.Component {
                         <button className="Button RecordButton" onClick={() => this.props.save("save")} data-tip="React-tooltip" >
                             <FontAwesomeIcon icon={faDownload} className="RecordIcon" />
                             <ReactTooltip className="Tooltip" effect="solid">
-                                <span>Save Recording</span>
+                                <span>Save Practice</span>
                             </ReactTooltip>
                         </button>
                     </div>

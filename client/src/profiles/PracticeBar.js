@@ -25,13 +25,27 @@ class PracticeBar extends React.Component {
             minPitch   : 0,                // controls min pitch
             maxPitch   : 500,              // controls max pitch
 
-            display : this.props.practices // controls displayed practices
+            display : this.props.practices, // controls displayed practices,
+
+            default : true
         };
 
         this.toggleFilter     = this.toggleFilter.bind(this);
         this.toggleSubfilter  = this.toggleSubfilter.bind(this);
         this.changeDateOrder  = this.changeDateOrder.bind(this);
         this.updateDisplayed  = this.updateDisplayed.bind(this);
+    }
+
+    componentDidMount() {
+        // if filters default and should be displaying but not, display
+        // counteracts await delay to make sure practices are rendered
+        this.interval = setInterval(() => {
+            if ( this.state.default ) {
+                this.setState({
+                    display : this.props.practices
+                })
+             }
+        }, 500); 
     }
 
     // toggles if main filter is open
@@ -58,7 +72,6 @@ class PracticeBar extends React.Component {
                     width  : "100%",
                     height : "310px" 
                 }
-            
         }));
     }
 
@@ -99,10 +112,12 @@ class PracticeBar extends React.Component {
     updateDisplayed(arg) {
         let lowPitch, highPitch;
         let instruments = this.state.instrument.slice();
+        this.setState({
+            default : false
+        });
 
         // change instrument filter, leave pitch the same
         if ( typeof arg === "string" ) { 
-            
             lowPitch    = this.state.minPitch;
             highPitch   = this.state.maxPitch;
             const index = this.state.instrument.indexOf(arg);
@@ -134,7 +149,6 @@ class PracticeBar extends React.Component {
         }
         // change pitch filter, leave instrument the same
         else {
-
             lowPitch  = arg[0];
             highPitch = arg[1];
 
@@ -147,7 +161,7 @@ class PracticeBar extends React.Component {
         // control actual display
         const displayedPractices = this.props.practices.filter(practice => {
             // include in display if matches pitch filter  
-            if ( practice.pitches >= lowPitch && practice.pitches <= highPitch ) {
+            if ( practice.numPitches >= lowPitch && practice.numPitches <= highPitch ) {
                 // include in display if matches instrument filter
                 if ( instruments[0] === "all" ) {
                     return true;
@@ -307,15 +321,33 @@ class PracticeBar extends React.Component {
         const pitchIcon      = this.state.pitchFilterOpen ? faAngleDown : faAngleRight ;
         const subIcons       = [instrumentIcon, dateIcon, pitchIcon];
 
+        
         // creates which practices are displayed
-        const practiceRows = this.state.display.map(practice =>
-            <Practice 
-                date       = {practice.date}
-                length     = {practice.length}
-                pitches    = {practice.pitches}
-                instrument = {practice.instrument}
-                key        = {practice.key}
-            />);
+        const practiceRows = this.state.display.map(practice => {
+            let date = new Date(practice.endTime);
+            let dateObject = {
+                "month" : date.getMonth(),
+                "day" : date.getDate(),
+                "year" : date.getFullYear()
+            }
+
+            let length = practice.endTime - practice.startTime;
+            let lengthObject = {
+                "hours" : ("0" + Math.floor(length / 3600000)).slice(-2),
+                "minutes" : ("0" + (Math.floor(length / 60000) % 60)).slice(-2),
+                "seconds" : ("0" + (Math.floor(length / 1000) % 60)).slice(-2)
+            }
+            return (
+                <Practice 
+                    date        = {dateObject}
+                    length      = {lengthObject}
+                    pitches     = {practice.numPitches}
+                    instrument  = {practice.instrument}
+                    key         = {practice.createdAt}
+                    description = {practice.description}
+                />
+            )
+        });
 
         return(
             <div className = "Container">

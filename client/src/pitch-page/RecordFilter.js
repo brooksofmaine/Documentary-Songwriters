@@ -5,15 +5,26 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMinus, faAngleDown } from '@fortawesome/free-solid-svg-icons';
 
 class RecordFilter extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.state = {
-            instrument: "Piano",
+            instrument: this.props.defaultInstrument,
             open: false,
+            altered : false
         }
 
         this.toggleFilter = this.toggleFilter.bind(this);
+    }
+
+    componentDidMount() {
+        this.interval = setInterval(() => {
+            if ( !this.state.altered ) {
+                this.setState({ 
+                    instrument: this.props.defaultInstrument
+                })
+            }
+        }, 500); 
     }
 
     // toggles if filter is open
@@ -27,15 +38,17 @@ class RecordFilter extends React.Component {
     setInstrument(instrument) {
         
         if ( instrument !== this.state.instrument ) {
-            this.props.changeInstrument("stop");
+            this.props.changeInstrument("stop", "instrument");
 
             this.setState({
-                instrument : instrument
+                instrument : instrument,
+                altered : true
             });
         }
     }
 
     render() {
+
         const pianoStyle      = this.state.instrument === "Piano" ? { fontWeight : 400 } : { fontWeight : 200 };
         const guitarStyle     = this.state.instrument === "Guitar" ? { fontWeight : 400 } : { fontWeight : 200 };
         const stringsStyle    = this.state.instrument === "Strings" ? { fontWeight : 400 } : { fontWeight : 200 };
