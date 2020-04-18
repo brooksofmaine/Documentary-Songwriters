@@ -49,10 +49,12 @@ function InstrumentPage(props) {
                             <p>Today</p>
                             <h3>{todayPitches}</h3>
                         </div>
+                        <hr/>
                         <div className="row">
                             <p>This Week</p>
                             <h3>{weekPitches}</h3>
                         </div>
+                        <hr/>
                         <div className="row">
                             <p>This Month</p>
                             <h3>{monthPitches}</h3>
@@ -62,8 +64,8 @@ function InstrumentPage(props) {
                 </div>
                 <div className="achievements section">
                     <h3 className="heading">Your Achievements</h3>
-                        <ProgressCircle />
-                        {/* <p>You've practiced {value} out of 7 days this week! {messages[value]}</p> */}
+                        <ProgressCircle percentage={66}/>
+                        <p>You've played {} pitches this week. You have {} until you reach your weekly goal!</p>
                     
                 </div>
             </div>

@@ -1,11 +1,29 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
+
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
+import './ProgressCircle.css'
 
 function ProgressCircle(props) {
-    const percentage = 66;
-    const value = 0.33;
-    return(
-        <CircularProgressbar value={percentage}/>
+    // var percentage = 0;
+    // const value = 0.33;
+
+    const [percentage, setPercentage] = React.useState(0);
+    // Animate bar
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setPercentage(props.percentage);
+        }, 20);
+        return () => clearTimeout(timer);
+    }, []);
+    return (
+        <div className="ProgressCircle">
+            <CircularProgressbar
+                value={percentage}
+                text={`${percentage}%`}
+                strokeWidth={2.5}
+            />
+        </div>
     )
 }
 
