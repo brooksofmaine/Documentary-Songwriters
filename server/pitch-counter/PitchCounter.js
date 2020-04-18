@@ -1,6 +1,9 @@
+const d3_peaks = require('./d3-peaks.js');
+
 class PitchCounter {
     constructor() {
-        this.counter = 0;
+        this.frequencyBars = new FrequencyBars();
+        this.counter = 0; //total pitches counted
         this.prev_peaks = [];
         this.final_peaks = [];
         this.peaksInNote = [];
@@ -25,7 +28,8 @@ class PitchCounter {
                                     // for it to be considered a new note
         this.peakRequirement;       // Required height for it to be considered
                                     // a note
-        this.silenceBuffer;         // Number of frames until a note can be
+        this.silenceBuffer;       // Number of frames until a note can be
+
     }
 
     initD3Peaks() {
@@ -93,6 +97,7 @@ class PitchCounter {
             self.scriptProcessor
                 .addEventListener('audioprocess', function(event) {
                     self.detectPitches(); //process frequencies
+                    // self.updateBiquad();
             })
         })
         .catch(function(error) {
@@ -144,11 +149,47 @@ class PitchCounter {
         this.startRecord();
     }
 
+    plotOutput() {
+        document.getElementById('counter').innerHTML = "Current Pitch count: " + this.counter; //?
+
+        var peakHeights = [];
+        //find height of the peaks
+        for(var i = 0; i < this.final_peaks.length; i ++) {
+            peakHeights.push(this.frequencyData[this.final_peaks[i]]);
+        }
+        //trace of peaks
+        var trace1 = {
+            y: this.frequencyData,
+            type: 'scatter',
+        };
+        //trace of all frequencies
+        var trace2 = {
+            x: this.final_peaks,
+            y: peakHeights,
+            mode: 'markers',
+            marker: {
+                color: 'rgb(219, 64, 82)',
+                size: 6
+            }
+        };
+
+        var trace3 = {
+            x: [0, 200],
+            y: [this.peakRequirement(0), this.peakRequirement(200)],
+            type: 'scatter'
+        };
+
+        Plotly.newPlot('myDiv', [trace1, trace2, trace3], {}, {showSendToCloud:true});
+    }
+
     //increase Pitch counter and reset list of peaks
     //Assumes that a new note has been found
     startNewNote() {
+        // if (this.framesOfQuiet > 0)
+        //     this.framesSinceQuiet = 0;
         this.framesOfQuiet = 0;
         this.counter++;
+        // console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
         this.peaksInNote = []; //clear peaksInNote
         this.curFrame = 0;
         if (this.rememberedFrames != 1)
@@ -161,7 +202,6 @@ class PitchCounter {
         this.peaksInNote[this.curFrame] = this.final_peaks;
         this.curFrame = (this.curFrame + 1) % numFrames;
     }
-
 
     findSimilarNotes(oneDArr, twoDArr) {
         var similarNotes = 0;
@@ -200,6 +240,7 @@ class PitchCounter {
     analyzeVoice() {
         var similarNotes = 0;
         //Return if no notes are found
+        // console.log(this.getAverageDecibals());
         if (this.final_peaks.length==0) {
             this.framesSinceQuiet = 0;
             this.recordPeaks(this.rememberedFrames);
@@ -207,15 +248,24 @@ class PitchCounter {
             return;
         }
         this.framesSinceQuiet ++
-
         //increase found notes if no peaks were found previously but
         //peaks have now been found
+        // if (this.prev_peaks.length == 0 && this.final_peaks.length!=0 && this.framesOfQuiet > this.silenceBuffer) {
+        //     console.log("Was Empty!!!!");
+        //     this.startNewNote();
+        //     return;
+        // }
+
+        //was 4 for piano
+        //2 for violin / singing?
+        //
         if (this.framesSinceQuiet == 3 && this.framesOfQuiet > this.silenceBuffer) {
+                // console.log("Was Empty!!!!");
                 this.startNewNote();
                 return;
         }
 
-        // Count similar notes  between array
+        //count similar notes  between array
         var similarNewNotes = this.findSimilarNotes(this.final_peaks,
             this.peaksInNote);
         var similarOldNotes = this.findSimilarNotes(this.prev_peaks,
@@ -223,10 +273,19 @@ class PitchCounter {
 
         var requiredNew = Math.floor(this.final_peaks.length / this.simNoteThreshold);
         var requiredOld = Math.floor(this.prev_peaks.length / this.simNoteThreshold);
+        // if (requiredNew == 0) requiredNew ++;
+        // if (requiredOld == 0) requiredOld ++;
 
-        // Determine if 2d array of peaks is full.
-        // In order to compare peaks, there must be atleast rememberedFrames
-        // number of recorded frames with peaks
+        // console.log("------")
+        // console.log("Curr: " + this.final_peaks);
+        // for(var i = 0; i < this.peaksInNote.length; i ++){
+        //     console.log("Prev: " + this.peaksInNote[i]);
+        // }
+        // console.log("SimilarNewNotes: " + similarNewNotes + ": " + requiredNew)
+        // console.log("SimilarOldNotes: " + similarNewNotes + ": " + requiredOld)
+        // // console.log(this.framesSinceQuiet + "   :   " + this.framesOfQuiet)
+        // console.log("------")
+
         var allFullPeaks = true;
         var framesOfNoise = this.peaksInNote.length;
         for(var i = 0; i < framesOfNoise; i ++) {
@@ -241,6 +300,7 @@ class PitchCounter {
             if (similarNewNotes <= requiredNew && requiredNew > 0) {
                 if (similarOldNotes <= requiredOld) {
                     this.startNewNote();
+                    console.log("JDLSLlak;sdfnueoijgewojidslkv");
                 }
                 //if only new notes are different do not record them,
                 //ensuring that two frames of peaks need to be different
@@ -271,6 +331,7 @@ class PitchCounter {
             // in real life) that it does not hop above and below the threshold
             // triggering new notes.
             if (!(this.lastPeakInNote == this.final_peaks[0] || this.framesOfQuiet <= 2)) {
+                // console.log("Was Empty!!!!");
                 this.startNewNote();
                 return;
             }
@@ -288,7 +349,23 @@ class PitchCounter {
                 Math.floor(this.final_peaks.length / this.simNoteThreshold);
         if (requiredNotes == 0)
             requiredNotes = 1;
+        //if two times ago wasn't
+        // console.log("------")
+        // console.log("Curr: " + this.final_peaks);
+        // console.log("Prev: " + this.prev_peaks);
+        // console.log("SimilarNotes: " + similarNotes)
+        // console.log("RequiredNew: " + requiredNotes)
+        // console.log("Curr dec: " + currAverageDeciabls);
+        // console.log("Prev dec: " + this.prevAverageDecibels);
+        // console.log("since" + this.framesSinceQuiet)
+        // console.log("of" + this.framesOfQuiet)
+        // console.log("Quiet: " + this.framesOfQuiet)
 
+        // First, only consider a note to be new if it has been atleast three
+        // frames since the last empty array of peaks.
+        // This condition ensures that you only measure against a note after
+        // its frequencies have reached their peaks.
+        //
         if (this.framesSinceQuiet > 8) {
             // Three cases define a new note:
             // Case 1:  There is a large increase in the number of peaks found
@@ -299,6 +376,7 @@ class PitchCounter {
             else if (currAverageDeciabls > this.prevAverageDecibels + this.decibalConstant
                         && this.final_peaks.length > 4) {
                 this.startNewNote();
+                // console.log("----------------------------------------------");
             }
             // Case 3:  The previous peaks and the new peaks are different by
             //          atleast a factor of simNoteThreshold.
@@ -309,16 +387,21 @@ class PitchCounter {
     }
 
     updateBiquad() {
+        // TODO: fix later
         var d = new Date();
         var deltaTime = Math.abs(this.prev_time - d.getTime()) / 1000;
         this.prev_time = d.getTime();
+        // console.log(deltaTime);
+        //Let frequency coefficient in the biquad filter match
+        //the update frequency
+        // this.biquad.frequency.value = 1/deltaTime;
     }
 
     detectPitches() {
         this.updateBiquad();
         //retrieve new freqeuency data
         this.analyser.getFloatFrequencyData(this.frequencyData);
-        //find peaks in first 200 frequency bins
+        //find peaks in first 250 frequency bins
         var peaks = this.findPeaks(this.frequencyData.slice(1, 200));
         this.final_peaks = [];
         var noisy = true;
@@ -340,8 +423,30 @@ class PitchCounter {
                 this.analyzeVoice();
         }
         this.prev_peaks = this.final_peaks;
+        document.getElementById('counter').innerHTML = "Current Pitch count: " + this.counter; //?
+
+        // this.updateTimeBars();
+        // this.plotOutput();
+        if (!/Android/i.test(navigator.userAgent)) {
+          this.updateFrequencyBars();
+        }
     }
+
+    updateTimeBars() {
+        var timeData = new Uint8Array(
+            this.analyser.frequencyBinCount);
+        this.analyser.getByteTimeDomainData(timeData);
+        this.frequencyBars.updateTime(timeData);
+        requestAnimationFrame(this.updateTimeBars.bind(this));
+      }
+
+    updateFrequencyBars() {
+        var timeData = new Uint8Array(
+            this.analyser.frequencyBinCount);
+        this.analyser.getByteTimeDomainData(timeData);
+        this.frequencyBars.updateFrequencyBars(this.frequencyData);
+      }
 }
 
 const pitchCounter = new PitchCounter();
-// module.exports = pitchCounter;
+module.exports = pitchCounter;
