@@ -3,12 +3,11 @@ import './InstrumentPage.css'
 
 
 // Progress Bar
-import { CircularProgressbar } from 'react-circular-progressbar';
-import 'react-circular-progressbar/dist/styles.css';
+// import 'react-circular-progressbar/dist/styles.css';
 
 import BarChart from 'react-bar-chart';
  
-
+import ProgressCircle from "./ProgressCircle"
 
 
 function InstrumentPage(props) {
@@ -36,6 +35,8 @@ function InstrumentPage(props) {
         {text: 'Sat', value: 0},
       ];
 
+    const percentage = 66;
+
     const margin = {top: 20, right: 20, bottom: 30, left: 40};
 
     return(
@@ -44,24 +45,26 @@ function InstrumentPage(props) {
                 <div className="pitch-progress section">
                     <h3 className="heading">Pitch Progress</h3>
                     <div className="data">
-                        <p>Today</p>
-                        <h3>{todayPitches}</h3>
+                        <div className="row">
+                            <p>Today</p>
+                            <h3>{todayPitches}</h3>
+                        </div>
+                        <div className="row">
+                            <p>This Week</p>
+                            <h3>{weekPitches}</h3>
+                        </div>
+                        <div className="row">
+                            <p>This Month</p>
+                            <h3>{monthPitches}</h3>
+                        </div>
                     </div>
-                    <div className="data">
-                        <p>This Week</p>
-                        <h3>{weekPitches}</h3>
-                    </div>
-                    <div className="data">
-                        <p>This Month</p>
-                        <h3>{monthPitches}</h3>
-                    </div>
+                    
                 </div>
                 <div className="achievements section">
                     <h3 className="heading">Your Achievements</h3>
-                    <div className="row">
-                        <CircularProgressbar className="progress-bar" maxValue={7} value={value} />
-                        <p>You've practiced {value} out of 7 days this week! {messages[value]}</p>
-                    </div>
+                        <ProgressCircle />
+                        {/* <p>You've practiced {value} out of 7 days this week! {messages[value]}</p> */}
+                    
                 </div>
             </div>
             <div className="progress-report section">
