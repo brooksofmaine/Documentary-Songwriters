@@ -3,6 +3,7 @@ import Counter from './Counter';
 import Stopwatch from './Stopwatch';
 import './Record.css';
 
+import UserFunc from "../api-helper/user";
 import InstrumentListener from '../pitch-counter/InstrumentListener.js'
 import PitchCounter from '../pitch-counter/PitchCounter.js'
 import app from '../pitch-counter/PitchCounterApp.js'
@@ -33,7 +34,10 @@ class Record extends React.Component {
             saving : false,
             instrument : "Piano",
             length : 0,
-            pitches : 250
+            pitches : 0,
+
+            removeMessage : "",
+            lastPlayedInstrument : ""
         }
 
         this.handleClick = this.handleClick.bind(this);
@@ -44,13 +48,50 @@ class Record extends React.Component {
         this.prettyTime = this.prettyTime.bind(this);
     }
 
-    componentDidMount() {
-        this.interval = setInterval(() => this.setState({ 
-            count: app.get_pitch_count(),
-            instrument : this.filter.state.instrument,
-            length : this.prettyTime(this.stopwatch.state.timerTime)
-            // TODO: update pitches
-        }), 500); 
+    async componentDidMount() {
+        
+        let username;
+        let instrument;
+
+        await UserFunc.getCurrentUsername()
+            .then(name => username = name);
+        await UserFunc.lastPlayedInstrument(username)
+            .then(instr => instrument = instr);
+
+        if ( instrument !== null ) {
+            this.setState({
+                lastPlayedInstrument : instrument
+            });
+        }
+        else {
+            this.setState({
+                lastPlayedInstrument : "Piano"
+            })
+        }
+        
+        this.interval = setInterval(() => {
+            let instr, time;
+
+            if ( this.stopwatch ) {
+                time = this.stopwatch.state.timerTime;
+            }
+            else {
+                time = null;
+            }
+            
+            if ( this.filter ) {
+                instr = this.filter.state.instrument;
+            }
+            else {
+                instr = null;
+            }
+            
+            this.setState({ 
+                count: app.get_pitch_count(),
+                instrument : instr,
+                length : this.prettyTime(time)
+                // TODO: update pitches
+        })}, 500); 
     }
 
     // Temporary function--only used to demonstrate counter 
@@ -67,7 +108,7 @@ class Record extends React.Component {
         this.stopwatch.resetTimer("stop");
     }
 
-    showPopup(popup) {
+    showPopup(popup, reason) {
         this.stopwatch.stopTimer();
         
         if ( popup === "stop" ) {
@@ -81,6 +122,17 @@ class Record extends React.Component {
                         height : "110vh" 
                     }
                 });  
+
+                if ( reason === "instrument" ) {
+                    this.setState({
+                        removeMessage : "Changing instruments in the middle of the recording"
+                    });
+                }
+                else {
+                    this.setState({
+                        removeMessage : "Stopping your recording"
+                    });
+                }
             }  
         }
         else { // save
@@ -115,17 +167,24 @@ class Record extends React.Component {
     }
     
     saveRecording(description) {
-        // TODO: integrate actual recording into post to database -- how does this work? will they be able to replay it?
         // TODO: fix start and end times
         // TODO: fix connection error? (recording.js:137)
-        const temp = new Date();
+        const now = Date.now();
+        const endTime = new Date(now);
+        const startTime = new Date(now - this.stopwatch.state.timerTime);
+        console.log(startTime)
+        console.log(this.stopwatch.state.timerTime)
         RecordingFunc.newRecording(
             this.state.count,     // pitches
             this.state.instrument,  // instrument
             description,            // description
-            temp,                   // start time
-            temp                    // end time
+            startTime,              // start time
+            endTime                 // end time
             );
+        
+        // TODO: handle errors somehow
+        // TODO: make this link to progress page when it exists
+        this.props.history.push("/api/progress");
 
 
     }
@@ -140,19 +199,19 @@ class Record extends React.Component {
     }
 
     render() {
-
+        
         return(
             <div className="Record">
                 <div className="RecordOverlay" style={this.state.overlayStyle}></div>
                 <div style = {this.state.stopping ? {} : {display: "none"}}>
-                    <StopPopup reset = {this.restart} noReset = {this.removePopup}/>
+                    <StopPopup reset = {this.restart} noReset = {this.removePopup} message = {this.state.removeMessage} />
                 </div>
                 <div style = {this.state.saving ? {} : {display : "none"}} ref = {filterContainer => this.filterContainer = filterContainer}>
                     <SavePopup exit = {this.removePopup} save = {this.saveRecording} instrument = {this.state.instrument} length = {this.state.length} pitches = {this.state.pitches}/>
                 </div>
-                <RecordFilter changeInstrument={() => this.showPopup("stop")} ref = {filter => this.filter = filter}/>
+                <RecordFilter defaultInstrument = {this.state.lastPlayedInstrument} changeInstrument={() => this.showPopup("stop", "instrument")} ref = {filter => this.filter = filter}/>
                 <Counter handleClick={this.handleClick} countNum={this.state.count} />
-                <Stopwatch startFunction={() => app.start()} stopFunction={() => app.stop()} save={this.showPopup} ref={stopwatch => this.stopwatch = stopwatch}/>
+                <Stopwatch startFunction={() => app.start()} stopFunction={() => app.stop()} reset={() => this.showPopup("stop", "stop")} save={this.showPopup} ref={stopwatch => this.stopwatch = stopwatch}/>
             </div>
         )
     }

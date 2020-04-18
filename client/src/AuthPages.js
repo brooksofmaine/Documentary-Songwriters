@@ -25,11 +25,13 @@ import {
                     <Route path="/api/home">
                         <WelcomeBoard />
                     </Route>
-                    <Route path="/api/record" component={Record} />
+                    <Route path="/api/practice" component={Record} />
                     <Route path="/api/groups" exact component={Group} />
                     <Route path="/api/groups/new" component={NewGroup} />
-                    {/* <Route path="/api/profile" component={UserProfile} /> */}
+                    
                     <Route path="/api/profile" component={SummaryPage} />
+                    <Route path="/api/profile/:username" component={UserProfile}/>
+                    <Route path="/api/progress" />
                     </Switch>
                 </Router>
             </div>

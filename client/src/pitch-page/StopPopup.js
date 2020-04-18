@@ -10,7 +10,7 @@ class StopPopup extends React.Component {
         return(
             <div className = "StopPopup">
                 <FontAwesomeIcon icon = {faTimes} onClick = {() => this.props.noReset("stop")} className = "CornerX" />
-                <p>Changing instruments in the middle of the recording will restart your recording without saving.</p>
+                <p>{this.props.message} will restart your recording without saving.</p>
                 <p className = "Boldish">Are you sure you want to delete your recording?</p>
                 <div onClick = {this.props.reset} className = "LightButton OptionButton">Yes</div>
                 <div onClick = {() => this.props.noReset("stop")} className = "DarkButton OptionButton">No</div>
