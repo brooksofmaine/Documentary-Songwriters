@@ -2,10 +2,12 @@ import React from "react";
 import Counter from './Counter';
 import Stopwatch from './Stopwatch';
 import './Record.css';
-import app from '../pitch-counter/app.js';
-import RecordingFunc from "../api-helper/recording";
-import UserFunc from "../api-helper/user";
 
+import UserFunc from "../api-helper/user";
+import InstrumentListener from '../pitch-counter/InstrumentListener.js'
+import PitchCounter from '../pitch-counter/PitchCounter.js'
+import app from '../pitch-counter/PitchCounterApp.js'
+import RecordingFunc from "../api-helper/recording";
 import RecordFilter from './RecordFilter';
 import StopPopup from './StopPopup';
 import SavePopup from './SavePopup';
@@ -18,6 +20,10 @@ import SavePopup from './SavePopup';
 class Record extends React.Component {
     constructor() {
         super()
+
+        this.selectedInstrument = "voice";
+        app.change_instrument(this.selectedInstrument)
+        
         this.state = {
             count: 0,
             overlayStyle : {                 
@@ -169,7 +175,7 @@ class Record extends React.Component {
         console.log(startTime)
         console.log(this.stopwatch.state.timerTime)
         RecordingFunc.newRecording(
-            this.state.pitches,     // pitches
+            this.state.count,     // pitches
             this.state.instrument,  // instrument
             description,            // description
             startTime,              // start time

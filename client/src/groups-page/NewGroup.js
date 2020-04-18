@@ -6,6 +6,8 @@ import NewMember from './NewMember';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 
+import {getGroup} from '../api-helper/group.js'
+
 import {server_add} from "../api-helper/config";
 import UserFunc from "../api-helper/user";
 

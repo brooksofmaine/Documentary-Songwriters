@@ -1,0 +1,64 @@
+.pitch-progress {
+    max-width: 25%;
+}
+
+.pitch-progress .heading {
+    font-weight: 500;
+}
+
+.InstrumentPage .pitch-progress .data {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* margin: 10px 0; */
+}
+
+
+.data p {
+    margin: 0;
+    padding: 0;
+    font-family: 'Avenir', sans-serif;
+    font-weight: normal;
+    font-size: 17px;
+}
+
+.data h3 {
+    font-family: 'Avenir', sans-serif;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 34px;
+}
+
+.InstrumentPage .section {
+    background-color: #EBEBEB;
+    border-radius: 5px;
+    padding: 20px 40px;
+    margin: 20px;
+}
+
+.InstrumentPage .top-bar {
+    display: flex;
+}
+
+.progress-bar {
+    max-width: 180px;
+}
+
+.InstrumentPage .row {
+    display: flex;
+    align-items: center;
+}
+
+.achievements p {
+    max-width: 150px;
+    margin-left: 40px;
+    font-family: 'Avenir', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 29px;
+}
+
+.progress-report {
+    max-width: 61%;
+}
