@@ -52,7 +52,7 @@ class RecordFilter extends React.Component {
         const pianoStyle      = this.state.instrument === "Piano" ? { fontWeight : 400 } : { fontWeight : 200 };
         const guitarStyle     = this.state.instrument === "Guitar" ? { fontWeight : 400 } : { fontWeight : 200 };
         const stringsStyle    = this.state.instrument === "Strings" ? { fontWeight : 400 } : { fontWeight : 200 };
-        const woodwindStyle   = this.state.instrument === "Woodwind" ? { fontWeight : 400 } : { fontWeight : 200 };
+        const woodwindStyle   = this.state.instrument === "Woodwinds" ? { fontWeight : 400 } : { fontWeight : 200 };
         const brassStyle      = this.state.instrument === "Brass" ? { fontWeight : 400 } : { fontWeight : 200 };
         const percussionStyle = this.state.instrument === "Percussion" ? { fontWeight : 400 } : { fontWeight : 200 };
 
@@ -65,7 +65,7 @@ class RecordFilter extends React.Component {
                         <div className = "RecordFilterOption" style={pianoStyle} onClick={() => this.setInstrument("Piano")}>Piano</div>
                         <div className = "RecordFilterOption" style={guitarStyle} onClick={() => this.setInstrument("Guitar")}>Guitar</div>
                         <div className = "RecordFilterOption" style={stringsStyle} onClick={() => this.setInstrument("Strings")}>Strings</div>
-                        <div className = "RecordFilterOption" style={woodwindStyle} onClick={() => this.setInstrument("Woodwind")}>Woodwind</div>
+                        <div className = "RecordFilterOption" style={woodwindStyle} onClick={() => this.setInstrument("Woodwinds")}>Woodwinds</div>
                         <div className = "RecordFilterOption" style={brassStyle} onClick={() => this.setInstrument("Brass")}>Brass</div>
                         <div className = "RecordFilterOption" style={percussionStyle} onClick={() => this.setInstrument("Percussion")}>Percussion</div>
                     </div>

@@ -1,9 +1,9 @@
-// import frequencyBars from '../pitch-page/FrequencyBars';
+import React from 'react';
+import FrequencyBars from '../pitch-page/FrequencyBars';
 const d3_peaks = require('./d3-peaks.js');
-const FrequencyBars = require('../pitch-page/FrequencyBars');
 
 
-class PitchCounter {
+class PitchCounter extends React.Component {
     constructor() {
         this.counter = 0;
         this.prev_peaks = [];
@@ -345,7 +345,7 @@ class PitchCounter {
                 this.analyzeVoice();
         }
         this.prev_peaks = this.final_peaks;
-        // this.updateFrequencyBars();
+        this.updateFrequencyBars();
     }
 
     updateTimeBars() {
@@ -362,12 +362,9 @@ class PitchCounter {
             this.analyser.frequencyBinCount);
         this.analyser.getByteTimeDomainData(timeData);
         this.frequencyBars.updateFrequencyBars(this.frequencyData);
-    }
-
-    // getFrequencyData() {
-    //     return this.frequencyData;
-    // }
+      }
 }
 
-const pitchCounter = new PitchCounter();
-module.exports = pitchCounter;
+// const pitchCounter = new PitchCounter();
+// module.exports = pitchCounter;
+export default PitchCounter;

@@ -31,7 +31,6 @@ import {
                     
                     <Route path="/api/profile" exact component={SummaryPage} />
                     <Route path="/api/profile/:username" component={UserProfile}/>
-                    <Route path="/api/progress" />
                     </Switch>
                 </Router>
             </div>
