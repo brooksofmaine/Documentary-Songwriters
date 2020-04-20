@@ -1,39 +1,80 @@
-import React from "react"
+import React, {useState} from "react"
 import './InstrumentPage.css'
 
-
-// Progress Bar
-// import 'react-circular-progressbar/dist/styles.css';
+import UserFunc from "../api-helper/user";
+import RecordingFunc from "../api-helper/recording";
 
 import BarChart from 'react-bar-chart';
- 
 import ProgressCircle from "./ProgressCircle"
+import ProgressGraph from "./ProgressGraph"
 
 
+
+{/* <BarChart ylabel='Pitches'
+                    width={600}
+                    height={400}
+                    margin={margin}
+                    data={data}
+                    onBarClick={handleBarClick}/> */}
 function InstrumentPage(props) {
-    const todayPitches = 0;
-    const weekPitches = 0;
-    const monthPitches = 0;
+    const [username, setUsername] = useState("");
+    const [todayPitches, setTodayPitches] = useState(0);
+    const [weekPitches, setWeekPitches] = useState(0);
+    const [monthPitches, setMonthPitches] = useState(0);
+    
+    UserFunc.getCurrentUser().then((user_info) => {
+        if (user_info.status === "logged_in") {
+            setUsername(user_info.user);
+            
+            RecordingFunc.getPitchTotalCount("peter",
+                RecordingFunc.nthDayAgo(1),
+                new Date()).then(
+                result => {
+                    setTodayPitches(result);
+                }
+            );
 
-    var value = 5;
+            RecordingFunc.getPitchTotalCount("peter",
+                RecordingFunc.nthDayAgo(7),
+                new Date()).then(
+                result => {
+                    setWeekPitches(result);
+                }
+            );
 
-    const messages = ['Great start!', 'Keep it up!', 'Keep it up!', 'Keep it up!', 'Nearly a perfect week!', 'Nearly a perfect week!', 'A perfect week!']
+            
+
+            RecordingFunc.getPitchTotalCount("peter",
+                RecordingFunc.nthDayAgo(30),
+                new Date()).then(
+                result => {
+                    setMonthPitches(result);
+                }
+            );
+        } 
+    }).catch((err) => {
+        console.log(err);
+    });
+
+    // var value = 5;
+
+    // const messages = ['Great start!', 'Keep it up!', 'Keep it up!', 'Keep it up!', 'Nearly a perfect week!', 'Nearly a perfect week!', 'A perfect week!']
 
 
     // Bar chart data
-    function handleBarClick(element, id){ 
-        console.log(`The bin ${element.text} with id ${id} was clicked`);
-    }
+    // function handleBarClick(element, id){ 
+    //     console.log(`The bin ${element.text} with id ${id} was clicked`);
+    // }
 
-    const data = [
-        {text: 'Sun', value: 50}, 
-        {text: 'Mon', value: 150}, 
-        {text: 'Tues', value: 75}, 
-        {text: 'Weds', value: 0},
-        {text: 'Thurs', value: 0},
-        {text: 'Fri', value: 0},
-        {text: 'Sat', value: 0},
-      ];
+    // const data = [
+    //     {text: 'Sun', value: 50}, 
+    //     {text: 'Mon', value: 150}, 
+    //     {text: 'Tues', value: 75}, 
+    //     {text: 'Weds', value: 0},
+    //     {text: 'Thurs', value: 0},
+    //     {text: 'Fri', value: 0},
+    //     {text: 'Sat', value: 0},
+    //   ];
 
     const percentage = 66;
 
@@ -64,18 +105,19 @@ function InstrumentPage(props) {
                 </div>
                 <div className="achievements section">
                     <h3 className="heading">Your Achievements</h3>
+                    <div className="row">
                         <ProgressCircle percentage={66}/>
                         <p>You've played {} pitches this week. You have {} until you reach your weekly goal!</p>
+                    </div>
+                    
                     
                 </div>
             </div>
             <div className="progress-report section">
-                    <BarChart ylabel='Pitches'
-                    width={600}
-                    height={400}
-                    margin={margin}
-                    data={data}
-                    onBarClick={handleBarClick}/>
+                    
+                    <ProgressGraph />
+                    
+                    
                 </div>
            
         </div>

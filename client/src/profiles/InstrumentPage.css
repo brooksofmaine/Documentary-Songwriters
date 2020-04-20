@@ -3,7 +3,7 @@
     background-color: #FFF;
     border-radius: 5px;
     padding: 5px 30px;
-    margin: 20px;
+    margin: 1vw;
 }
 
 
@@ -13,7 +13,10 @@
 
 .pitch-progress.section, .achievements.section {
     width: 25vw;
-    /* height: 235px; */
+}
+
+.progress-report.section {
+    width: 57vw;
 }
 
 .InstrumentPage hr {
@@ -47,9 +50,6 @@
     display: flex;
 }
 
-
-
-
 .InstrumentPage .top-bar {
     display: flex;
 }
@@ -68,6 +68,3 @@
     line-height: 29px;
 }
 
-.progress-report {
-    max-width: 61%;
-}
