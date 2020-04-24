@@ -16,7 +16,7 @@ class Counter extends React.Component {
         
         return(
             <div className = "counterContainer">
-                <div onClick={this.props.handleClick} className="counterBox">
+                <div className="counterBox">
                     <p className="pitchCounter">{this.props.countNum}</p>
                 </div>
             </div>

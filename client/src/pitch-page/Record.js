@@ -41,7 +41,6 @@ class Record extends React.Component {
             lastPlayedInstrument : ""
         }
 
-        this.handleClick = this.handleClick.bind(this);
         this.restart = this.restart.bind(this);
         this.removePopup = this.removePopup.bind(this);
         this.showPopup = this.showPopup.bind(this);
@@ -88,7 +87,6 @@ class Record extends React.Component {
             }
             
             this.setState({ 
-                count: app.get_pitch_count(),
                 instrument : instr,
                 length : this.prettyTime(time)
             });
@@ -98,16 +96,10 @@ class Record extends React.Component {
 
         this.frequency = setInterval(() => {
             this.frequencyBars.updateFrequencyBars(app.instrument.pitchCounter.frequencyData);
+            this.setState({
+                count: app.get_pitch_count()
+            });
         }, frequency);
-    }
-
-    // Temporary function--only used to demonstrate counter 
-    // component
-    handleClick() {
-        // console.log(app.get_pitch_count())
-        // this.setState((state, props) => ({
-        //     count: app.get_pitch_count()
-        // }))
     }
 
     restart() {
@@ -217,7 +209,7 @@ class Record extends React.Component {
                     <SavePopup exit = {this.removePopup} save = {this.saveRecording} instrument = {this.state.instrument} length = {this.state.length} pitches = {this.state.pitches}/>
                 </div>
                 <RecordFilter defaultInstrument = {this.state.lastPlayedInstrument} changeInstrument={() => this.showPopup("stop", "instrument")} ref = {filter => this.filter = filter}/>
-                <Counter handleClick={this.handleClick} countNum={this.state.count} />
+                <Counter countNum={this.state.count} />
                 <Stopwatch 
                     startFunction={() => app.start()} 
                     stopFunction={() => app.stop()} 
