@@ -8,14 +8,14 @@ function ProgressCircle(props) {
     // var percentage = 0;
     // const value = 0.33;
 
-    const [percentage, setPercentage] = React.useState(0);
+    const [percentage, setPercentage] = useState(0);
     // Animate bar
     useEffect(() => {
         const timer = setTimeout(() => {
             setPercentage(props.percentage);
         }, 20);
         return () => clearTimeout(timer);
-    }, []);
+    }, [props.percentage]);
     return (
         <div className="ProgressCircle">
             <CircularProgressbar
