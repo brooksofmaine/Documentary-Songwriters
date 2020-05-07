@@ -118,7 +118,8 @@ router.post('/:username/change/:key', (req, res) => {
   let updateObj = {};
   updateObj[key] = val;
 
-  if (!userKeyCheck(key)) {
+  // username cannot be changed for now.
+  if (!userKeyCheck(key) || key === "username") {
     res.status(400).json({ err: 'key not recognized' });
     return;
   }
