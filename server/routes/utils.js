@@ -8,7 +8,8 @@ module.exports.userKeyCheck = (key) => {
           key === 'email' ||
           key === 'firstName' || 
           key === 'lastName' ||
-          key === 'password');
+          key === 'password' ||
+          key === 'weeklyAchievement');
 };
 
 module.exports.groupKeyCheck = (key) => {
