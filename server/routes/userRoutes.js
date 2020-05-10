@@ -111,7 +111,7 @@ router.post('/create', (req, res) => {
     lastName:  req.body.lastName,
     email:     req.body.email,
     password:  req.body.password, // TODO hash password
-    weeklyAchievement: req.body.weeklyAchievement
+    weeklyAchievement: req.body.weeklyAchievement,
     LastPlayedInstrument: req.body.LastPlayedInstrument // TODO hash password
   };
 
