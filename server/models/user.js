@@ -9,6 +9,7 @@ module.exports = (sequelize, DataTypes) => {
     lastName: DataTypes.STRING,
     password: DataTypes.STRING,
     weeklyAchievement: DataTypes.INTEGER,
+    LastPlayedInstrument: DataTypes.STRING
     //to do: profilePicture?
   });
 

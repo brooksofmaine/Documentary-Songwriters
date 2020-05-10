@@ -9,6 +9,7 @@ module.exports.userKeyCheck = (key) => {
           key === 'firstName' || 
           key === 'lastName' ||
           key === 'password' ||
+          key === 'LastPlayedInstrument' ||
           key === 'weeklyAchievement');
 };
 

@@ -11,6 +11,82 @@ let db;
  * TODO: Get recording of user - GET  /api/user/{username}/?...
  */
 
+
+router.get('/:userName/getGroups', (req, res) => {
+   let userName = req.params.userName;
+   console.log("in getGroups!");
+
+   // check that user exists first
+   let user = db.User.findByPk(userName).then((modelInstance) => {
+     if (modelInstance === null) {
+        console.log("Did not find any users")
+       res.status(404).json({ err: 'user not found' });
+       return;
+     }
+
+     db.User.findOne({
+        where: {username : userName},
+        include: db.Group
+     }).then((result) => {
+        res.json(result.get({plain: true}))
+     });
+     return;
+   }).catch((err) => {
+     console.log('Error while retrieving user.');
+     console.log(err);
+     res.status(500).json({ err: err });
+     return;
+   });
+
+ });
+
+
+
+router.post('/:userName/addGroups', (req, res) =>{
+  console.log("in addGroups!");
+  let userName = req.params.userName;
+  let groupObj = {
+    groupName: req.body.groupName,
+    description: req.body.description,
+    visible: req.body.visible
+  }
+
+  if (anyValuesUndefined(groupObj)) {
+    res.status(400).json({ err: 'undefined fields' });
+    return;
+  }
+  db.User.findByPk(userName).then((UserInstance) => {
+      db.Group.findByPk(req.body.groupName).then((newGroupInstance) => {
+        if (newGroupInstance == null) {
+          console.log('Group name not found');
+          res.status(404).json({err: 'Group name not found'});
+          return
+        }
+
+        UserInstance.addGroup(newGroupInstance, {}).then((x) => {
+        res.json(newGroupInstance.get({ plain: true }));
+        return;
+        })
+
+      }).catch((err) => {
+        if (err.name === 'SequelizeUniqueConstraintError') {
+          res.status(409).json({ err: 'group name taken' });
+          return;
+        }
+
+        console.log('Error while creating group.');
+        console.log(err);
+        res.status(500).json({ err: err });
+        return;
+      });
+  }).catch((err) => {
+     console.log('Error while retrieving user.');
+     console.log(err);
+     res.status(500).json({ err: err });
+     return;
+  });
+});
+
 /*
  * TODO: Make sure not already logged in
  * TODO: hash password
@@ -36,6 +112,7 @@ router.post('/create', (req, res) => {
     email:     req.body.email,
     password:  req.body.password, // TODO hash password
     weeklyAchievement: req.body.weeklyAchievement
+    LastPlayedInstrument: req.body.LastPlayedInstrument // TODO hash password
   };
 
   // console.log(req.body);
