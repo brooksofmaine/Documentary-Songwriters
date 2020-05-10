@@ -89,6 +89,7 @@ export default class UserFunc {
      * - firstName
      * - lastName
      * - weeklyAchievement
+     * - LastPlayedInstrument
      */
     static async changeInfo(key, value) {
         const userinfo = await this.getCurrentUser();
@@ -117,5 +118,16 @@ export default class UserFunc {
             throw Error("Error: Connection Error");
         }
         return response;
+    }
+
+    static async getGroups(username) {
+        const query_url = server_add + "/api/user/"+ username + "/getGroups";
+        const response = await fetch(query_url, init_params_get);
+        if (response.status === 404) {
+            throw Error("Error: User Not Found");
+        } else if (response.status !== 200) {
+            throw Error("Error: Connection Error");
+        }
+        return await response.json();
     }
 }
