@@ -21,11 +21,7 @@ export class RecordingFunc {
         return date_old;
     }
 
-    // Get Recordings of User:
-    // To get the recordings of a user between a time range
-    // GET /api/user/{username}/recordings
-    // checked runtime error if user not found, parsing failed etc
-    static async getRecordings(username, start_time, end_time){
+    static async getAllRecording(username) {
         if (username === null) {
             username = await UserFunc.getCurrentUsername();
         }
@@ -40,19 +36,25 @@ export class RecordingFunc {
             throw Error("Error: Connection Error");
         }
 
-        // Json Parsing
         const recordings = await response.json();
         recordings.forEach(element => {
             element['startTime'] = Date.parse(element['startTime']);
             element['endTime'] = Date.parse(element['endTime']);
         });
-        return await this.filterRecordings(recordings, start_time, end_time);
+        return recordings;
+    }
+
+    // Get Recordings of User:
+    // To get the recordings of a user between a time range
+    // GET /api/user/{username}/recordings
+    // checked runtime error if user not found, parsing failed etc
+    static async getRecordings(username, start_time, end_time){
+        return await this.filterRecordings(await this.getAllRecording(username), start_time, end_time);
     }
 
     static async filterRecordings(result, start_time, end_time) {
         return result.filter(one_item => one_item["startTime"] > start_time && one_item["endTime"] < end_time);
     }
-
 
     // Get Recordings of User:
     // To get the recordings of a user between a time range
