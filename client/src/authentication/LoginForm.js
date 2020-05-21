@@ -55,12 +55,14 @@ class LoginForm extends React.Component {
         }
 
         /* Construct JSON object */
+        // Weekly achievement is 0 by default.
         const userInfo = {
             "username": this.state.username,
             "password": this.state.password,
             "firstName": this.state.firstName,
             "lastName": this.state.lastName,
-            "email": this.state.email
+            "email": this.state.email,
+            "weeklyAchievement": 0
         };
 
         console.log(userInfo);

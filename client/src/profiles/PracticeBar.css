@@ -8,6 +8,10 @@
     text-align: left;
 }
 
+.FilterTopper {
+    cursor: pointer;
+}
+
 .HeaderRow {
     padding: 0;
 }

@@ -1,329 +1,57 @@
-import React from 'react';
-
+import React, { useState, useEffect } from 'react';
+import { capFirstLetter } from './capitalization';
 import './PracticeBar.css';
-import Practice from './Practice';
 import ProfileFilter from './ProfileFilter';
+import Practice from './Practice';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMinus, faAngleDown, faAngleRight, faTimes } 
         from '@fortawesome/free-solid-svg-icons';
 
-class PracticeBar extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            open : false,                  // controls entire filter slider
-            overlay : {                     
-                width: 0,                  // shows + hides grey overlay
-                height: 0 
-            },
-            instrumentFilterOpen : false,  // controls instrument filter slider
-            dateFilterOpen       : false,  // controls date filter slider
-            pitchFilterOpen      : false,  // controls pitch filter slider
+function PracticeBar(props) {
+    const [mainFilterOpen, setMainFilterOpen] = useState(false); // bool if main filter open
+    const [overlay, setOverlay] = useState({                     // style of grey overlay
+        width: 0,
+        height: 0
+    });
+    const [instrumentFilterOpen, setInstrumentFilterOpen] = useState(false);      // bool if instrument subfilter open
+    const [dateFilterOpen, setDateFilterOpen]             = useState(false);      // bool if date subfilter open
+    const [pitchFilterOpen, setPitchFilterOpen]           = useState(false);      // bool if pitch subfilter open
+    const [activeFilterString, setActiveFilterString]     = useState("Filter");   // string of curr active filters
 
-            instrument : ["all"],          // controls selected instrument(s)
-            order      : "newFirst",       // controls date order of practices
-            minPitch   : 0,                // controls min pitch
-            maxPitch   : 500,              // controls max pitch
+    const [instrument, setInstrument] = useState(["all"]);    // array of curr selected instruments
+    const [order, setOrder]           = useState("newFirst"); // string rep order of practices
+    const [minPitch, setMinPitch]     = useState(0);          // min pitch to display
+    const [maxPitch, setMaxPitch]     = useState(500);        // max pitch to display
 
-            display : this.props.practices, // controls displayed practices,
+    const [instrumentOptions, setInstrumentOptions] = useState(["all"]);
+    const [display, setDisplay]         = useState([]);         // array of practices curr displayed
+    const [rows, setRows]               = useState([]);
+    
+    const [sliderClass, setSliderClass]   = useState('Slider SlideOut'); // controls appearance of main filter  
+    const [sliderStyles, setSliderStyles] = useState([                   // controls appearance of three subfilters
+        { overflow: "hidden", height: 0 }, 
+        { overflow: "hidden", height: 0 }, 
+        { overflow: "hidden", height: 0 }
+    ]);
+    const [dateClasses, setDateClasses] = useState([      // controls appearance of date subfilters
+        "FilterSubOption SelectedFilterSubOption", 
+        "FilterSubOption"
+    ]);
+    const [topIcon, setTopIcon]   = useState(faAngleDown); // controls icon at main filter
+    const [subIcons, setSubIcons] = useState([             // controls icons in 3 subfilters
+        faAngleRight, 
+        faAngleRight, 
+        faAngleRight
+    ]);
 
-            default : true
-        };
-
-        this.toggleFilter     = this.toggleFilter.bind(this);
-        this.toggleSubfilter  = this.toggleSubfilter.bind(this);
-        this.changeDateOrder  = this.changeDateOrder.bind(this);
-        this.updateDisplayed  = this.updateDisplayed.bind(this);
-    }
-
-    componentDidMount() {
-        // if filters default and should be displaying but not, display
-        // counteracts await delay to make sure practices are rendered
-        this.interval = setInterval(() => {
-            if ( this.state.default ) {
-                this.setState({
-                    display : this.props.practices
-                })
-             }
-        }, 500); 
-    }
-
-    // toggles if main filter is open
-    toggleFilter() {
-
-        // closes subfilters if necessary
-        if ( this.state.open ) {
-            this.setState({
-                instrumentFilterOpen : false,
-                dateFilterOpen       : false,
-                pitchFilterOpen      : false
-            });
-        }
-
-        // opens/closes main filter and toggles overlay
-        this.setState(prevState => ({
-            open  : ! prevState.open,
-            overlay : prevState.open ? 
-                { 
-                    width  : 0,
-                    height : 0
-                } : 
-                { 
-                    width  : "100%",
-                    height : "310px" 
-                }
-        }));
-    }
-
-    // toggles if instrument, date, and pitch subfilters are open
-    toggleSubfilter(subfilter) {
-        if ( subfilter === "instrument" ) {
-            this.setState(prevState => ({
-                instrumentFilterOpen : ! prevState.instrumentFilterOpen
-            }));
-        }
-        else if ( subfilter === "date" ) {
-            this.setState(prevState => ({
-                dateFilterOpen : ! prevState.dateFilterOpen
-            }));
-        }
-        else {
-            this.setState(prevState => ({
-                pitchFilterOpen : ! prevState.pitchFilterOpen
-            }));
-        }
-    }  
-
-    // control order of displayed practices by date; can change one at a time
-    changeDateOrder(order) {
-        // only reverse if actually changing direction
-        if ( this.state.order !== order ) {
-            this.setState(prevState => ({
-                display : prevState.display.reverse()
-            }));
-        }
-
-        this.setState({
-            order : order
-        });
-    }
-
-    // update displayed practices based on instrument(s) and pitch
-    updateDisplayed(arg) {
-        let lowPitch, highPitch;
-        let instruments = this.state.instrument.slice();
-        this.setState({
-            default : false
-        });
-
-        // change instrument filter, leave pitch the same
-        if ( typeof arg === "string" ) { 
-            lowPitch    = this.state.minPitch;
-            highPitch   = this.state.maxPitch;
-            const index = this.state.instrument.indexOf(arg);
-
-            // selected all, deselect everything else to avoid redundancy
-            if ( arg === "all" && this.state.instrument[0] !== "all" ) {
-                instruments = ["all"];
-            }
-            // selected instrument that's already selected so deselects
-            else if ( index > -1 ) { 
-                instruments.splice(index, 1);
-            }
-            // selected actual instrument that is not already selected
-            else {
-                // deselects all if necessary to avoid redundancy
-                let allIndex = this.state.instrument.indexOf("all");
-
-                if ( allIndex > -1 ) {
-                    instruments.splice(allIndex, 1);
-                }
-
-                instruments.push(arg);
-            }
-
-            this.setState({
-                instrument : instruments
-            });
-            
-        }
-        // change pitch filter, leave instrument the same
-        else {
-            lowPitch  = arg[0];
-            highPitch = arg[1];
-
-            this.setState({
-                minPitch : lowPitch,
-                maxPitch : highPitch
-            });
-        }
-
-        // control actual display
-        const displayedPractices = this.props.practices.filter(practice => {
-            // include in display if matches pitch filter  
-            if ( practice.numPitches >= lowPitch && practice.numPitches <= highPitch ) {
-                // include in display if matches instrument filter
-                if ( instruments[0] === "all" ) {
-                    return true;
-                }
-                else {
-                    for ( let i = 0; i < instruments.length; i++ ) {
-                        if ( practice.instrument === instruments[i] ) {
-                            return true;
-                        } 
-                    }
-                    return false;
-                }
-            }
-            else {
-                return false;
-            }
-        });
-
-        this.setState({
-            display : displayedPractices
-        });
-    }
-
-    render() {
-
-        // creates necessary instrument filters and selects correct ones
-        // normal instruments
-        const options = this.props.instruments.map(instrument => {                                  
-            const formattedInstrument = instrument.charAt(0).toUpperCase() 
-                                        + instrument.slice(1);
-
-            const instrumentClass = this.state.instrument.indexOf(instrument) > -1 
-                                    ? "FilterSubOptionInstrument SelectedFilterSubOption" 
-                                    : "FilterSubOptionInstrument";
-            const iconClass = this.state.instrument.indexOf(instrument) > -1 
-                              ? "InstrumentCross" 
-                              : "InstrumentCross HiddenIcon";
-            const instrumentCrossStyle = this.state.instrument.indexOf(instrument) > -1 
-                                          ? {} 
-                                          : {color: "#fff !important"};
-            return (
-                <div 
-                    className = {instrumentClass} 
-                    onClick = {() => this.updateDisplayed(instrument)}
-                > 
-                    <div className = "InstrumentSubOption" >
-                        {formattedInstrument}
-                    </div>
-                    <FontAwesomeIcon 
-                        icon = {faTimes} 
-                        style = {instrumentCrossStyle} 
-                        className = {iconClass} 
-                    />
-                </div>
-            )
-        });
-        // all option for instrument
-        const instrumentClassAll = this.state.instrument[0] === "all" 
-                                   ? "FilterSubOptionInstrument SelectedFilterSubOption" 
-                                   : "FilterSubOptionInstrument";
-        const iconClass = this.state.instrument[0] === "all" 
-                          ? "InstrumentCross" 
-                          : "InstrumentCross HiddenIcon";
-        const instrumentCrossStyleAll = this.state.instrument[0] === "all" 
-                                        ? {} 
-                                        : {color: "#fff !important"};
-        options.unshift(
-            
-            <div 
-                className = {instrumentClassAll} 
-                onClick = {() => this.updateDisplayed("all")}
-            >
-                <div className = "InstrumentSubOption" >
-                    All
-                </div>
-                <FontAwesomeIcon 
-                    icon = {faTimes} 
-                    style = {instrumentCrossStyleAll} 
-                    className = {iconClass} 
-                />
-            </div>
-        );
-
-        // controls which filters are showing
-        const sliderClass = this.state.open ? 'Slider' : 'Slider SlideOut';
-        const instrumentSliderStyle = this.state.instrumentFilterOpen ? 
-            {
-                overflow: "hidden"
-            } : 
-            {
-                overflow: "hidden",
-                height: 0
-            }
-        const dateSliderStyle = this.state.dateFilterOpen ? 
-            {
-                overflow: "hidden"
-            } : 
-            {
-                overflow: "hidden",
-                height: 0
-            }
-        const pitchSliderStyle = this.state.pitchFilterOpen ? 
-            {
-                overflow: "hidden"
-            } : 
-            {
-                overflow: "hidden",
-                height: 0
-            }
-        const sliderStyles = [
-                                instrumentSliderStyle, 
-                                dateSliderStyle, 
-                                pitchSliderStyle
-                             ];
-
-        // controls how date filters look
-        const newToOldClass = this.state.order == "newFirst" 
-                              ? "FilterSubOption SelectedFilterSubOption" 
-                              : "FilterSubOption";
-        const oldToNewClass = this.state.order == "oldFirst" 
-                              ? "FilterSubOption SelectedFilterSubOption" 
-                              : "FilterSubOption";    
-        const dateClasses   = [newToOldClass, oldToNewClass];
-
-
-        // controls filter string
-        let activeFilterString = "Filter";
-        if ( this.state.order === "newFirst" ) {
-            activeFilterString = activeFilterString + " (Newest to Oldest)";
-        }
-        else {
-            activeFilterString = activeFilterString + " (Oldest to Newest)";   
-        }
-        activeFilterString = activeFilterString.slice(0, 8) 
-                             + this.state.minPitch + " to " 
-                             + this.state.maxPitch + " Pitches, " 
-                             + activeFilterString.slice(8); 
-        if ( this.state.instrument[0] !== "all" ) {
-            for ( let i = 0; i < this.state.instrument.length; i++ ) {
-                const formattedInstrument = this.state.instrument[i].charAt(0).toUpperCase() 
-                                            + this.state.instrument[i].slice(1);
-                activeFilterString = activeFilterString.slice(0, 8) 
-                                     + formattedInstrument + ", " 
-                                     + activeFilterString.slice(8);
-            }
-        }
-        else {
-            activeFilterString = activeFilterString.slice(0, 8) 
-                                 + "All Instruments, " 
-                                 + activeFilterString.slice(8);
-        }
-
-        // controls icons
-        const topIcon        = this.state.open ? faMinus : faAngleDown ;
-        const instrumentIcon = this.state.instrumentFilterOpen ? faAngleDown : faAngleRight ;
-        const dateIcon       = this.state.dateFilterOpen ? faAngleDown : faAngleRight ;
-        const pitchIcon      = this.state.pitchFilterOpen ? faAngleDown : faAngleRight ;
-        const subIcons       = [instrumentIcon, dateIcon, pitchIcon];
-
-        
-        // creates which practices are displayed
-        const practiceRows = this.state.display.map(practice => {
+    useEffect(() => {
+        setDisplay(props.practices);
+    }, [props.practices])
+    
+    useEffect(() => {
+        // creates list of all possible renderable practices
+        let practiceRows;
+        practiceRows = display.map(practice => {
             let date = new Date(practice.endTime);
             let dateObject = {
                 "month" : date.getMonth(),
@@ -349,47 +77,286 @@ class PracticeBar extends React.Component {
             )
         });
 
-        return(
-            <div className = "Container">
-                <div className = "PracticeBar">
-                    <div>
-                        <p onClick = {this.toggleFilter} className = "InstrTitle">
-                            {activeFilterString}
-                        </p>
-                        <span>
-                            <FontAwesomeIcon icon = {topIcon} className = "Icon" />
-                        </span>
-                    </div>
-                    <ProfileFilter 
-                        slide             = {this.toggleSubfilter}
-                        updateOrder       = {this.changeDateOrder}
-                        updateDisplay     = {this.updateDisplayed}
+        setRows(practiceRows);
+    }, [display])
 
-                        instrumentOptions = {options}
+    // creates necessary instrument filters
+    // updates once on first render
+    useEffect(() => {
+        const options = props.instruments.map(instr => {
+            const formattedInstrument = capFirstLetter(instr);
 
-                        icons             = {subIcons}
-                        sliderStyles      = {sliderStyles}  
-                        dateClasses       = {dateClasses}
-                        sliderClass       = {sliderClass}
+            return (
+                <div className = {"FilterSubOptionInstrument"} onClick = {() => changeSelectedInstruments(instr)}> 
+                    <div className = "InstrumentSubOption">{formattedInstrument}</div>
+                    <FontAwesomeIcon 
+                        icon = {faTimes} 
+                        style = {{color: "#fff !important"}} 
+                        className = {"InstrumentCross HiddenIcon"} 
                     />
-                    <div className = "PracticeContainer">
-                        <div className = "PracticeOverlay" style = {this.state.overlay}></div>
-                        <div className = "PracticeHeader">
-                            <div className = "HeaderRow">   
-                                <div className = "HeaderColumn Date">Date</div>
-                                <div className = "HeaderColumn Length">Length</div>
-                                <div className = "HeaderColumn Instrument">Instrument</div>
-                                <div className = "HeaderColumn Pitch">Pitches</div>
-                            </div>
+                </div>
+            )
+        })
+        options.unshift(
+            <div className = {"FilterSubOptionInstrument SelectedFilterSubOption"} onClick = {() => changeSelectedInstruments("all")}> 
+                <div className = "InstrumentSubOption">All</div>
+                <FontAwesomeIcon 
+                    icon = {faTimes} 
+                    style = {{}} 
+                    className = {"InstrumentCross"} 
+                />
+            </div>
+        );
+        setInstrumentOptions(options);
+    }, [props.instruments])
+
+    useEffect(() => {
+        // normal instruments
+        let options;
+        options = props.instruments.map(instr => {                                  
+            
+            const formattedInstrument = capFirstLetter(instr);
+            const alreadySelected = instrument.indexOf(instr) > -1;
+            const instrumentClass = alreadySelected ? 
+                "FilterSubOptionInstrument SelectedFilterSubOption" : "FilterSubOptionInstrument";
+            const iconClass = alreadySelected ? 
+                "InstrumentCross" : "InstrumentCross HiddenIcon";
+            const instrumentCrossStyle = alreadySelected ? 
+                {} : {color: "#fff !important"};
+            return (
+                <div className = {instrumentClass} onClick = {() => changeSelectedInstruments(instr)}> 
+                    <div className = "InstrumentSubOption">{formattedInstrument}</div>
+                    <FontAwesomeIcon 
+                        icon = {faTimes} 
+                        style = {instrumentCrossStyle} 
+                        className = {iconClass} 
+                    />
+                </div>
+            )
+        })
+
+        // all option for instrument
+        const instrumentClassAll = instrument[0] === "all" ? 
+            "FilterSubOptionInstrument SelectedFilterSubOption" : "FilterSubOptionInstrument";
+        const iconClass = instrument[0] === "all" ? 
+            "InstrumentCross" : "InstrumentCross HiddenIcon";
+        const instrumentCrossStyleAll = instrument[0] === "all" ? 
+            {} : {color: "#fff !important"};
+        options.unshift(
+            <div className={instrumentClassAll} onClick = {() => changeSelectedInstruments("all")}>
+                <div className="InstrumentSubOption">All</div>
+                <FontAwesomeIcon 
+                    icon      = {faTimes} 
+                    style     = {instrumentCrossStyleAll} 
+                    className = {iconClass} 
+                />
+            </div>
+        );
+        setInstrumentOptions(options);
+    }, [instrument])
+
+    // controls how date filters look and condenses into array
+    useEffect(() => {
+        const newToOldClass = order === "newFirst" ? 
+            "FilterSubOption SelectedFilterSubOption" : "FilterSubOption";
+        const oldToNewClass = order === "oldFirst" ? 
+            "FilterSubOption SelectedFilterSubOption" : "FilterSubOption";    
+        setDateClasses([newToOldClass, oldToNewClass]);
+    }, [order])
+
+    // controls which filters are showing and condenses info into array
+    useEffect(() => {
+        setSliderClass(mainFilterOpen ? 'Slider' : 'Slider SlideOut');
+        
+        const instrumentSliderStyle = instrumentFilterOpen ? 
+            { overflow: "hidden" } : { overflow: "hidden", height: 0 };
+        const dateSliderStyle = dateFilterOpen ? 
+            { overflow: "hidden" } : { overflow: "hidden", height: 0 };
+        const pitchSliderStyle = pitchFilterOpen ? 
+            { overflow: "hidden" } : { overflow: "hidden", height: 0 };
+
+        setSliderStyles([instrumentSliderStyle, dateSliderStyle, pitchSliderStyle]);
+
+        const instrumentIcon = instrumentFilterOpen ? faAngleDown : faAngleRight ;
+        const dateIcon       = dateFilterOpen ? faAngleDown : faAngleRight ;
+        const pitchIcon      = pitchFilterOpen ? faAngleDown : faAngleRight ;
+        setSubIcons([instrumentIcon, dateIcon, pitchIcon]);
+    }, [mainFilterOpen, instrumentFilterOpen, dateFilterOpen, pitchFilterOpen])
+
+    // updates active filter string based on active filters
+    useEffect(() => {
+        let tempFilterString = "Filter";
+        console.log(order)
+        if ( order === "newFirst" ) {
+            tempFilterString += " (Newest to Oldest)";
+        }
+        else {
+            tempFilterString += " (Oldest to Newest)";   
+        }
+        tempFilterString = tempFilterString.slice(0, 8) 
+                            + minPitch + " to " 
+                            + maxPitch + " Pitches, " 
+                            + tempFilterString.slice(8); 
+        if ( instrument[0] !== "all" ) {
+            for ( let i = 0; i < instrument.length; i++ ) {
+                const formattedInstrument = instrument[i].charAt(0).toUpperCase() 
+                                            + instrument[i].slice(1);
+                tempFilterString = tempFilterString.slice(0, 8) 
+                                    + formattedInstrument + ", " 
+                                    + tempFilterString.slice(8);
+            }
+        }
+        else {
+            tempFilterString = tempFilterString.slice(0, 8) 
+                                + "All Instruments, " 
+                                + tempFilterString.slice(8);
+        }
+        setActiveFilterString(tempFilterString);
+        
+    }, [instrument, minPitch, maxPitch, order])
+
+    // updates which practices display and which don't
+    useEffect(() => {
+        // control actual display
+        const displayedPractices = props.practices.filter(practice => {
+            // include in display if matches pitch filter  
+            if ( practice.numPitches >= minPitch && practice.numPitches <= maxPitch ) {
+                // include in display if matches instrument filter
+                if ( instrument[0] === "all" ) {
+                    return true;
+                }
+                else {
+                    for ( let i = 0; i < instrument.length; i++ ) {
+                        if ( practice.instrument === instrument[i] ) {
+                            return true;
+                        } 
+                    }
+                    return false;
+                }
+            }
+            else {
+                return false;
+            }
+        });
+        setDisplay(displayedPractices);
+    }, [instrument, minPitch, maxPitch])
+
+    // toggles if main filter is open, triggered on click
+    function toggleFilter() {
+        // closes subfilters if necessary
+        if ( mainFilterOpen ) {
+            setInstrumentFilterOpen(false);
+            setDateFilterOpen(false);
+            setPitchFilterOpen(false);
+        }
+
+        // opens/closes main filter and toggles overlay
+        const nowOpen = !mainFilterOpen;
+        setMainFilterOpen(nowOpen);
+        setOverlay(nowOpen ? { width : "100%", height : "310px" } : { width : 0, height : 0});
+        setSliderClass(nowOpen ? 'Slider' : 'Slider SlideOut');
+        setTopIcon(nowOpen ? faMinus : faAngleDown);
+    }
+
+    // toggles if instrument, date, and pitch subfilters are open, triggers on click
+    function toggleSubfilter(subfilter) {
+        if ( subfilter === "instrument" ) {
+            setInstrumentFilterOpen(!instrumentFilterOpen);
+        }
+        else if ( subfilter === "date" ) {
+            setDateFilterOpen(!dateFilterOpen);
+        }
+        else {
+            setPitchFilterOpen(!pitchFilterOpen);
+        }
+    }  
+
+    // control order of displayed practices by date; can change one at a time
+    // triggers on click from ProfileFilter props
+    function changeDateOrder(newOrder) {
+        // only reverse if actually changing direction
+        if ( newOrder !== order ) {
+            setOrder(newOrder);
+            const newDisplay = display.slice().reverse();
+            setDisplay(newDisplay);
+        }
+    }
+
+    // control which instruments should be shown
+    // triggers on click from ProfileFilter props
+    function changeSelectedInstruments(newInstrument) {
+        const index = instrument.indexOf(newInstrument);
+        let instruments = instrument;
+
+        // selected all, deselect everything else to avoid redundancy
+        if ( newInstrument === "all" && instrument[0] !== "all" ) {
+            instruments = ["all"];
+        }
+        // selected instrument that's already selected so deselects
+        else if ( index > -1 ) { 
+            instruments.splice(index, 1);
+        }
+        // selected actual instrument that is not already selected
+        else {
+            // deselects all if necessary to avoid redundancy
+            let allIndex = instrument.indexOf("all");
+            if ( allIndex > -1 ) {
+                instruments.splice(allIndex, 1);
+            }
+
+            instruments.push(newInstrument);
+        }
+        setInstrument(instruments.slice());
+    }
+
+    // controls which pitch range should be shown
+    // triggers on click from ProfileFilter props
+    function changeSelectedPitches(pitches) {
+        setMinPitch(pitches[0]);
+        setMaxPitch(pitches[1]);
+    }
+
+    return(
+        <div className = "Container">
+            <div className = "PracticeBar">
+                <div onClick={toggleFilter} className="FilterTopper">
+                    <p className="InstrTitle">
+                        {activeFilterString}
+                    </p>
+                    <span>
+                        <FontAwesomeIcon icon = {topIcon} className = "Icon" />
+                    </span>
+                </div>
+                <ProfileFilter 
+                    slide             = {toggleSubfilter}
+                    updateOrder       = {changeDateOrder}
+                    updatePitch       = {changeSelectedPitches}
+                    updateInstrument  = {changeSelectedInstruments}
+
+                    instrumentOptions = {instrumentOptions}
+
+                    icons             = {subIcons}
+                    sliderStyles      = {sliderStyles}  
+                    dateClasses       = {dateClasses}
+                    sliderClass       = {sliderClass}
+                />
+                <div className = "PracticeContainer">
+                    <div className = "PracticeOverlay" style = {overlay}></div>
+                    <div className = "PracticeHeader">
+                        <div className = "HeaderRow">   
+                            <div className = "HeaderColumn Date">Date</div>
+                            <div className = "HeaderColumn Length">Length</div>
+                            <div className = "HeaderColumn Instrument">Instrument</div>
+                            <div className = "HeaderColumn Pitch">Pitches</div>
                         </div>
-                        <div className = "PracticeBox">
-                            {practiceRows}
-                        </div>
+                    </div>
+                    <div className = "PracticeBox">
+                        {rows}
                     </div>
                 </div>
             </div>
-        )
-    }
+        </div>
+    )
 }
 
 export default PracticeBar;

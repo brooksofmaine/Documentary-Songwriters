@@ -1,124 +1,134 @@
-import React from 'react';
-
-import userData2 from './userData2';  // temporary data
+import React, { useState, useEffect } from 'react';
 import PracticeBar from './PracticeBar';
 import './UserProfile.css';
-
 import UserFunc from "../api-helper/user";
 import RecordingFunc from "../api-helper/recording";
+import { lowerFirstLetter } from './capitalization';
+import userData2 from './userData2';  // temporary data
 
-// TODO: profile landing page for no user?
+function UserProfile(props) {
 
-class UserProfile extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            username : this.props.match.params.username,
-            firstName : "",
-            lastName : "",
-            createdAt : "",
-            recordings : [],
-        }
-    }
-
-    async componentDidMount() {
-
-        await UserFunc.getUserInfo(this.state.username)
-            .then(userInfo => {
-                
-                this.setState({
-                    firstName : userInfo.firstName,
-                    lastName : userInfo.lastName,
-                    createdAt : userInfo.createdAt
-                })
-            })
-
-        const msOfStartDate = Date.parse(this.state.createdAt);
-        const startDate = new Date(msOfStartDate);
-        const endDate = new Date();
+    const [username]                    = useState(props.match.params.username); // from query string
+    const [firstName, setFirstName]     = useState("");      // first name of curr user
+    const [lastName, setLastName]       = useState("");      // last name of curr user
+    const [createdAt, setCreatedAt]     = useState("");      // date curr user account created
+    const [recordings, setRecordings]   = useState([]);      // array of all user's practices
+    const [proPic, setProPic]           = useState(null);    // src of user profile pic
+    const [instruments, setInstruments] = useState([]);      // array of unique instruments
+    const [playString, setPlayString]   = useState("");      // string of what instruments played
+    const [initialized, setInitialized] = useState(false);   // bool if data done initializing
+    
+    // initializes user data once
+    useEffect(() => {
         
-        await RecordingFunc.getRecordings(
-            null, 
-            startDate,
-            endDate
-            )
-            .then(recordings => {
-                console.log(recordings)
-                this.setState({
-                    recordings : recordings
-                })
-            });
-    }
+        // helper function to get user info from database
+        async function getUserInfo() {
+            await UserFunc.getUserInfo(username)
+                .then(userInfo => {
+                    setFirstName(userInfo.firstName);
+                    setLastName(userInfo.lastName);
+                    setCreatedAt(userInfo.createdAt);
+                });
+        }
 
-    render() {
+        // helper function to get recordings of user
+        async function getRecordings() {
+            const msOfStartDate = Date.parse(createdAt);
+            const startDate     = new Date(msOfStartDate);
+            const endDate       = new Date();
+            
+            await RecordingFunc.getRecordings(
+                null, 
+                startDate,
+                endDate
+                )
+                .then(practices => {
+                    setRecordings(practices);
+                    setInitialized(true);
+                });   
+        }
+        
 
-        // profile picture
-        let proPic;
-        userData2.picture ? 
-            proPic = <img 
+        // call above functions
+        if ( !initialized ) {
+            getUserInfo();
+            getRecordings();
+        } 
+    }, [username, createdAt, recordings, initialized])
+    
+    // initializes secondary user characteristics once
+    useEffect(() => {
+        
+        // helper function to set profile picture
+        function setProfilePic() {
+            let pic; // TEMPORARY
+            userData2.picture ? 
+                pic = <img 
                         src={userData2.picture}
                         className="ProfilePicture"
                         alt="Profile avatar for user"
                     /> :
-            proPic = <div className = "NoProPic ProfilePicture"></div>;
+                pic = <div className = "NoProPic ProfilePicture"></div>;
+                setProPic(pic);
+        }
 
-
-
-        // finds unique instruments for string at top
-        let uniqueInstruments = [];
-        let flags             = [];
-        let practices         = this.state.recordings;
-
-        for ( let i = 0; i < practices.length; i++ ) {
-            if ( !flags[practices[i].instrument] ) {
-                flags[practices[i].instrument] = true;
-                uniqueInstruments.push(practices[i].instrument);
+        // helper function to identify played instruments
+        function setUniqueInstruments() {
+            let uniqueInstruments = [];
+            let flags             = [];
+    
+            for ( let i = 0; i < recordings.length; i++ ) {
+                if ( !flags[recordings[i].instrument] ) {
+                    flags[recordings[i].instrument] = true;
+                    uniqueInstruments.push(recordings[i].instrument);
+                }
             }
+            setInstruments(uniqueInstruments);
         }
 
-        console.log(uniqueInstruments);
-
-        // sets string of instruments at top
-        let playString = "Plays ";
-        if ( uniqueInstruments.length == 0 ) {
-            playString += "no instruments yet";
-        }
-        else if ( uniqueInstruments.length == 1 ) {
-            playString = playString + uniqueInstruments[0].charAt(0).toLowerCase() 
-                         + uniqueInstruments[0].slice(1);
-        }
-        else if ( uniqueInstruments.length == 2 ) {
-            playString = playString + uniqueInstruments[0].charAt(0).toLowerCase() 
-                         + uniqueInstruments[0].slice(1) + " and " 
-                         + uniqueInstruments[1].charAt(0).toLowerCase()
-                         + uniqueInstruments[1].slice(1);
-        } 
-        else {
-            for ( let i = 0; i < uniqueInstruments.length - 1; i++ ) {
-                playString = playString + uniqueInstruments[i].charAt(0).toLowerCase()
-                             + uniqueInstruments[i].slice(1) + ", ";
+        // helper function to create "plays" string
+        function setInstrumentString() {
+            let plays = "Plays ";
+            if ( instruments.length === 0 ) {
+                plays += "no instruments yet";
             }
-            playString = playString + "and " 
-                         + uniqueInstruments[uniqueInstruments.length - 1].charAt(0).toLowerCase()
-                         + uniqueInstruments[uniqueInstruments.length - 1].slice(1);
+            else if ( instruments.length === 1 ) {
+                plays += lowerFirstLetter(instruments[0]);
+            }
+            else if ( instruments.length === 2 ) {
+                plays += lowerFirstLetter(instruments[0]) + " and " 
+                            lowerFirstLetter(instruments[1]);
+            } 
+            else {
+                for ( let i = 0; i < instruments.length - 1; i++ ) {
+                    plays += lowerFirstLetter(instruments[i]) + ", ";
+                }
+                plays += "and " + lowerFirstLetter(instruments[instruments.length - 1]);
+            }
+    
+            setPlayString(plays);
         }
-
-
-        return(
-            <div className = "Center GreyBackground">
-                {proPic}
-                <h4>{this.state.firstName} {this.state.lastName}</h4>
-                <p className = "InstrumentLine">{playString}</p>
-                <div className = "Spacer"></div>
-                <div className = "SmallSpacer"></div>
-                <PracticeBar 
-                    practices = {practices} 
-                    instruments = {uniqueInstruments} 
-                />
-                <div className = "Spacer"></div>
-            </div>
-        )
-    }
+        
+        // sets data using above functions
+        setProfilePic();
+        setUniqueInstruments();
+        setInstrumentString();
+    }, [recordings])
+    
+    return(
+        <div className = "Center GreyBackground">
+            {proPic}
+            <h4>{firstName} {lastName}</h4>
+            <p className = "InstrumentLine">{playString}</p>
+            <div className = "Spacer"></div>
+            <div className = "SmallSpacer"></div>
+            <PracticeBar
+                practices = {recordings} 
+                instruments = {instruments} 
+            />
+            <div className = "Spacer"></div>
+        </div>
+    )
 }
 
 export default UserProfile;

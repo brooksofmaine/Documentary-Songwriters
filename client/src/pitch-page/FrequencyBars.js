@@ -20,8 +20,9 @@ class FrequencyBars extends React.Component {
 
     componentDidMount() {
         const canvas = this.canvasRef.current;
-        const context = canvas.getContext('2d');
-        // context.fillStyle = '#d9d9d9';
+        if ( canvas !== null ) {
+            const context = canvas.getContext('2d');
+        }
     }
     
     newNote() {
@@ -111,28 +112,40 @@ class FrequencyBars extends React.Component {
 
     update4(data) {
         const canvas = this.canvasRef.current;
-        const context = canvas.getContext('2d');
+        let context;
+        if ( canvas !== null ) {
+            context = canvas.getContext('2d');
+        }
         
         const length = 100 // low frequency only
-        var width = canvas.width / length;
+        let width;
+        if ( canvas !== null ) {
+            width = canvas.width / length;
+        }
+        
         var buffer = width / 2;
         width -= buffer;
 
         for (var i = 0; i < length; i += 1) {
-            var rectHeight = Math.floor((361 + data[i] * 3) / (361 / canvas.height));
+            let rectHeight;
+            if ( canvas !== null ) {
+                rectHeight = Math.floor((361 + data[i] * 3) / (361 / canvas.height));
+            }
             var greyScale = rectHeight / 2;
     
-            context.fillStyle =
-                'rgb(' + (152 - greyScale) + ', ' +
-                (182 - greyScale) + ',' +
-                (215 - greyScale) +')';
-    
-            context.fillRect(
-                i * (width + buffer) + buffer / 2 + 0.5,
-                canvas.height / 2 - (rectHeight) / 2,
-                width,
-                rectHeight
-            )
+            if ( context !== undefined ) {
+                context.fillStyle =
+                    'rgb(' + (152 - greyScale) + ', ' +
+                    (182 - greyScale) + ',' +
+                    (215 - greyScale) +')';
+        
+                context.fillRect(
+                    i * (width + buffer) + buffer / 2 + 0.5,
+                    canvas.height / 2 - (rectHeight) / 2,
+                    width,
+                    rectHeight
+                )
+            }
         }
         this.setState({
             timer : requestAnimationFrame(this.update4)

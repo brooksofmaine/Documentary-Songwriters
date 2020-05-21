@@ -47,8 +47,11 @@ module.exports.init = (done) => {
     db.Sequelize = Sequelize;
 
     db.User.hasMany(db.Recording, {as: 'recordings', foreignKey: 'username'});
-    db.User.belongsToMany(db.Group, {through: 'GroupUser'});
+    //db.User.belongsToMany(db.Group, {through: 'GroupUser'});
     db.Group.belongsTo(db.User, {as: 'admin'});
+
+    db.User.belongsToMany(db.Group, {through: 'User_Groups'});
+    db.Group.belongsToMany(db.User, { through: 'User_Groups' })
 
     done(db);
   });

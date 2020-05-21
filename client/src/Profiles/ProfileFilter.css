@@ -18,16 +18,19 @@
 
 .FilterOption {
     padding: 5%;
+    cursor: pointer;
 }
 
 .FilterSubOption {
     padding: 5% 12%;
     font-size: 80%;
+    cursor: pointer;
 }
 
 .FilterSubOptionInstrument {
     padding: 5% 5% 5% 12%;
     font-size: 80%;
+    cursor: pointer;
 }
 
 .HiddenIcon {

@@ -65,4 +65,30 @@ export default class GroupFunc {
 
         return await response.json();
     }
+
+    static async changeGroup(group_name, key, content) {
+        const query_url = server_add + "/api/group/"+ group_name + "/change/" + key;
+        let req_body_dict = {};
+        req_body_dict[key] = content;
+        const post_params = {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include',
+            body: JSON.stringify(req_body_dict)
+        };
+
+        const response = await fetch(query_url, post_params);
+        if (response.status === 404) {
+            throw Error("Error: Group Not Found");
+        } else if (response.status === 409) {
+            throw Error("Error: Group Name taken");
+        } else if (response.status !== 200) {
+            throw Error("Error: " + await response.text());
+        }
+
+        return await response.json();
+    }
+
 }

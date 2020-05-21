@@ -17,7 +17,7 @@ const corsOptions = {
 };
 
 const passport = require('passport');
-const authRoutes = require('./routes/auth-routes');
+const authRoutes = require('./routes/authRoutes');
 const session = require('express-session');
 
 app.use(cors(corsOptions));

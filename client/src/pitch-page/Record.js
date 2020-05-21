@@ -35,7 +35,6 @@ class Record extends React.Component {
             saving : false,
             instrument : "Piano",
             length : 0,
-            pitches : 0,
 
             removeMessage : "",
             lastPlayedInstrument : ""
@@ -95,10 +94,12 @@ class Record extends React.Component {
         let frequency = 16; // TEMPORARY
 
         this.frequency = setInterval(() => {
-            this.frequencyBars.updateFrequencyBars(app.instrument.pitchCounter.frequencyData);
-            this.setState({
-                count: app.get_pitch_count()
-            });
+            if ( this.frequencyBars !== null ) {
+                this.frequencyBars.updateFrequencyBars(app.instrument.pitchCounter.frequencyData);
+                this.setState({
+                    count: app.get_pitch_count()
+                });
+            }
         }, frequency);
     }
 
@@ -206,7 +207,7 @@ class Record extends React.Component {
                     <StopPopup reset = {this.restart} noReset = {this.removePopup} message = {this.state.removeMessage} />
                 </div>
                 <div style = {this.state.saving ? {} : {display : "none"}} ref = {filterContainer => this.filterContainer = filterContainer}>
-                    <SavePopup exit = {this.removePopup} save = {this.saveRecording} instrument = {this.state.instrument} length = {this.state.length} pitches = {this.state.pitches}/>
+                    <SavePopup exit = {this.removePopup} save = {this.saveRecording} instrument = {this.state.instrument} length = {this.state.length} pitches = {this.state.count}/>
                 </div>
                 <RecordFilter defaultInstrument = {this.state.lastPlayedInstrument} changeInstrument={() => this.showPopup("stop", "instrument")} ref = {filter => this.filter = filter}/>
                 <Counter countNum={this.state.count} />
