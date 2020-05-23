@@ -1,39 +1,53 @@
-.pitch-progress {
-    max-width: 25%;
+
+.InstrumentPage .section {
+    background-color: #FFF;
+    border-radius: 5px;
+    padding: 5px 30px;
+    margin: 1vw;
 }
 
-.pitch-progress .heading {
+
+.heading {
     font-weight: 500;
 }
 
-.InstrumentPage .pitch-progress .data {
+.pitch-progress.section, .achievements.section {
+    width: 25vw;
+}
+
+.progress-report.section {
+    width: 57vw;
+}
+
+.InstrumentPage hr {
+    border-top: 1px solid #f0f0f0;
+    width: 100%;
+}
+
+.data {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    width: 80%;
+    align-items: flex-end;
+    justify-content: flex-start;
+    height: 60%;
+    margin-left: 2vw;
+}
+
+.data .row {
+    display: flex;
     justify-content: space-between;
-    /* margin: 10px 0; */
+    width: 100%;
+    height: 40px;
 }
 
 
-.data p {
+.data p, .data h3 {
     margin: 0;
-    padding: 0;
-    font-family: 'Avenir', sans-serif;
-    font-weight: normal;
-    font-size: 17px;
 }
 
-.data h3 {
-    font-family: 'Avenir', sans-serif;
-    font-weight: 600;
-    font-size: 20px;
-    line-height: 34px;
-}
-
-.InstrumentPage .section {
-    background-color: #EBEBEB;
-    border-radius: 5px;
-    padding: 20px 40px;
-    margin: 20px;
+.InstrumentPage .row {
+    display: flex;
 }
 
 .InstrumentPage .top-bar {
@@ -42,11 +56,6 @@
 
 .progress-bar {
     max-width: 180px;
-}
-
-.InstrumentPage .row {
-    display: flex;
-    align-items: center;
 }
 
 .achievements p {
@@ -59,6 +68,3 @@
     line-height: 29px;
 }
 
-.progress-report {
-    max-width: 61%;
-}

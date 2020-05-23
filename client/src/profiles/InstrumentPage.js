@@ -1,78 +1,124 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import './InstrumentPage.css'
 
+import UserFunc from "../api-helper/user";
+import RecordingFunc from "../api-helper/recording";
 
-// Progress Bar
-import { CircularProgressbar } from 'react-circular-progressbar';
-import 'react-circular-progressbar/dist/styles.css';
-
-import BarChart from 'react-bar-chart';
- 
+import ProgressCircle from "./ProgressCircle"
+import ProgressGraph from "./ProgressGraph"
 
 
 
+{/* <BarChart ylabel='Pitches'
+                    width={600}
+                    height={400}
+                    margin={margin}
+                    data={data}
+                    onBarClick={handleBarClick}/> */}
 function InstrumentPage(props) {
-    const todayPitches = 0;
-    const weekPitches = 0;
-    const monthPitches = 0;
+    const [username, setUsername] = useState("");
+    const [todayPitches, setTodayPitches] = useState(0);
+    const [weekPitches, setWeekPitches] = useState(0);
+    const [monthPitches, setMonthPitches] = useState(0);
 
-    var value = 5;
+    // Change to be zero once API call exists to get recordingGoal
+    const [recordingGoal, setRecordingGoal] = useState(100);
+    const [percentage, setPercentage] = useState(0);
 
-    const messages = ['Great start!', 'Keep it up!', 'Keep it up!', 'Keep it up!', 'Nearly a perfect week!', 'Nearly a perfect week!', 'A perfect week!']
 
 
-    // Bar chart data
-    function handleBarClick(element, id){ 
-        console.log(`The bin ${element.text} with id ${id} was clicked`);
-    }
+    useEffect(() => {
+        UserFunc.getCurrentUser().then((user_info) => {
+            if (user_info.status === "logged_in") {
+                setUsername(user_info.user.username);
+            }
 
-    const data = [
-        {text: 'Sun', value: 50}, 
-        {text: 'Mon', value: 150}, 
-        {text: 'Tues', value: 75}, 
-        {text: 'Weds', value: 0},
-        {text: 'Thurs', value: 0},
-        {text: 'Fri', value: 0},
-        {text: 'Sat', value: 0},
-      ];
+        }).catch((err) => {
+            console.log(err);
+        });
+        
+}, [])
 
-    const margin = {top: 20, right: 20, bottom: 30, left: 40};
+    useEffect(() => {
+        if (username != "") {
+            RecordingFunc.getPitchTotalCount(username,
+                RecordingFunc.nthDayAgo(1),
+                new Date()).then(
+                    result => {
+                        setTodayPitches(result);
+                    }
+                );
+            RecordingFunc.getPitchTotalCount(username,
+                RecordingFunc.nthDayAgo(7),
+                new Date()).then(
+                result => {
+                    setWeekPitches(result);
+                }
+            );
+            RecordingFunc.getPitchTotalCount(username,
+                RecordingFunc.nthDayAgo(30),
+                new Date()).then(
+                result => {
+                    setMonthPitches(result);
+                }
+            );
+            // TODO: Set recording goal here
+            
+        }
+    }, [username])
 
-    return(
+
+    useEffect(() => {
+        if (recordingGoal != 0) {
+            setPercentage((weekPitches / recordingGoal).toFixed(2) * 100);
+        }
+        
+    }, [recordingGoal, weekPitches])
+
+
+    const margin = { top: 20, right: 20, bottom: 30, left: 40 };
+
+
+    return (
         <div className="InstrumentPage">
             <div className="top-bar">
                 <div className="pitch-progress section">
                     <h3 className="heading">Pitch Progress</h3>
                     <div className="data">
-                        <p>Today</p>
-                        <h3>{todayPitches}</h3>
+                        <div className="row">
+                            <p>Today</p>
+                            <h3>{todayPitches}</h3>
+                        </div>
+                        <hr />
+                        <div className="row">
+                            <p>This Week</p>
+                            <h3>{weekPitches}</h3>
+                        </div>
+                        <hr />
+                        <div className="row">
+                            <p>This Month</p>
+                            <h3>{monthPitches}</h3>
+                        </div>
                     </div>
-                    <div className="data">
-                        <p>This Week</p>
-                        <h3>{weekPitches}</h3>
-                    </div>
-                    <div className="data">
-                        <p>This Month</p>
-                        <h3>{monthPitches}</h3>
-                    </div>
+
                 </div>
                 <div className="achievements section">
                     <h3 className="heading">Your Achievements</h3>
                     <div className="row">
-                        <CircularProgressbar className="progress-bar" maxValue={7} value={value} />
-                        <p>You've practiced {value} out of 7 days this week! {messages[value]}</p>
+                        <ProgressCircle percentage={percentage} /> 
+                        <p>You've played {weekPitches} pitches this week. You have {recordingGoal - weekPitches} pitches until you reach your weekly goal!</p>
                     </div>
+
+
                 </div>
             </div>
             <div className="progress-report section">
-                    <BarChart ylabel='Pitches'
-                    width={600}
-                    height={400}
-                    margin={margin}
-                    data={data}
-                    onBarClick={handleBarClick}/>
-                </div>
-           
+
+                <ProgressGraph username={username}/>
+
+
+            </div>
+
         </div>
     )
 }
