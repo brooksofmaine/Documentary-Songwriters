@@ -22,6 +22,15 @@ describe('Group', function() {
     visible: true
   };
 
+  // to test add user endpoint
+  let userData = {
+    username: 'bobbyS',
+    firstName: 'bob',
+    lastName: 'smith',
+    email: 'email@email.com',
+    password: 'foobar'
+  };
+
   before(function(done) {
     server = chai.request(app).keepOpen();
     done();
@@ -169,5 +178,50 @@ describe('Group', function() {
             });
         });
     });
+  });
+
+  describe('Add', function() {
+    it('should add a user that already exists to a group that already exists', function(done) {
+      server.get(baseURL + '/' + groupData.groupName + '/add')
+        .set('content-type', 'application/json')
+        .send(userData)
+        .end(function(err, res) {
+          res.should.have.status(200);
+          res.should.be.json;
+          res.body.groupName.should.equal(groupData.groupName);
+          res.body.description.should.equal(groupData.description);
+          res.body.visible.should.equal(groupData.visible);
+          res.body.username.should.equal(userData.username);
+          res.body.firstName.should.equal(userData.firstName);
+          res.body.lastName.should.equal(userData.lastName);
+          res.body.email.should.equal(userData.email);
+          done();
+        });
+    });
+
+    it('should not add a user that already exists to a group that does not already exist', function(done) {
+      server.get(baseURL + '/doesNotExist/add')
+        .set('content-type', 'application/json')
+        .send(userData)
+        .end(function(err, res) {
+          res.should.have.status(404);
+          res.should.be.json;
+          res.body.err.should.equal('group not found');
+          done();
+        });
+    });
+
+    it('should not add a user that does not already exist to a group that already exists', function(done) {
+      server.get(baseURL + '/' + groupData.groupName + '/add')
+        .set('content-type', 'application/json')
+        .send({ username: 'someUsername' })
+        .end(function(err, res) {
+          res.should.have.status(404);
+          res.should.be.json;
+          res.body.err.should.equal('user not found');
+          done();
+        });
+    });
+
   });
 });
