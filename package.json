@@ -6,7 +6,8 @@
   "scripts": {
     "postinstall": "concurrently \"cd server && npm ci\" \"cd client && npm ci\"",
     "start": "concurrently \"cd server && npm start\" \"cd client && npm start\"",
-    "test": "cd server && npm test"
+    "test": "cd server && npm test",
+  "heroku-postbuild": "npm install && cd client && npm install --only-dev && npm install && npm run build"
   },
   "repository": {
     "type": "git",
