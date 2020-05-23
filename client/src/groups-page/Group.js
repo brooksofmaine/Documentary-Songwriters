@@ -35,15 +35,6 @@ class Group extends React.Component {
     // This isn't returning groups that the user is currently in
     async getGroups() {
         
-        // const username = "peter" 
-        // const query_url = server_add + '/api/user/' + username
-        // const response = await fetch(query_url);
-        // const body = await response.json();
-        // console.log("User response body: ", body)
-        // if (response.status !== 200) {
-        //   throw Error(body.message) 
-        // }
-        // return body;
         let username, groups, data;
         username = await UserFunc.getCurrentUsername()
         console.log(username)
