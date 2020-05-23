@@ -10,6 +10,7 @@ import {getGroup} from '../api-helper/group.js'
 
 import {server_add} from "../api-helper/config";
 import UserFunc from "../api-helper/user";
+import GroupFunc from '../api-helper/group';
 
 
 class NewGroup extends React.Component {
@@ -39,6 +40,7 @@ class NewGroup extends React.Component {
 
         let adminUsername;
 
+        // admin username currently does nothing, but should in the future
         UserFunc.getCurrentUsername().then(username => {
             adminUsername = username;
         });
@@ -69,6 +71,16 @@ class NewGroup extends React.Component {
         }
         // redirect to groups page if successfully created group
         else {
+            // automatically adds self
+            const username = await UserFunc.getCurrentUsername();
+            GroupFunc.addMember(this.state.groupName, username);
+
+            // for (let i = 0; i < this.state.members.length; i++) {
+            //     const response = GroupFunc.addMember(this.state.groupName, this.state.members[i]);
+            //     if (response.err) {
+            //         console.log(response.err)
+            //     }
+            // }
             this.props.history.push("/api/groups");
         }
 
@@ -101,6 +113,8 @@ class NewGroup extends React.Component {
     }
 
     async addMember() {
+        const username = await UserFunc.getCurrentUsername();
+
         await fetch('/api/user/' + this.state.currMember)
             .then(response => response.json())
             .then(data => {
@@ -127,6 +141,12 @@ class NewGroup extends React.Component {
                         badUser : true,
                         errorMessage : 'This user has already been added'
                     }); 
+                }
+                else if (this.state.currMember === username) {
+                    this.setState({
+                        badUser : true,
+                        errorMessage : 'You are already in this group. There\'s no need to add yourself'
+                    })
                 }
                 else {
                     this.setState(prevState => {
@@ -217,7 +237,7 @@ class NewGroup extends React.Component {
                                 onChange={this.handleChange}
                                 value={this.state.currMember}
                                 onKeyPress={this.handleClick}
-                                placeholder="Enter username of member to invite"
+                                placeholder="Enter username of member to invite then click search"
                                 className="GroupFormText"
                                 style={userStyle}
                             />
@@ -232,34 +252,7 @@ class NewGroup extends React.Component {
                             {newMembers}
                         </div>
 
-                        <div className="RadioBox">
-                            <label className="RadioLabel" style={privateStyle}>
-                                <input 
-                                    type="radio" 
-                                    name="publicity"
-                                    value="private"
-                                    onChange={this.handleChange}
-                                    className="RadioButton"
-                                />
-                                <div className="NoCheckButton"></div>
-                                <FontAwesomeIcon icon={faCheckCircle} className="CheckButton"/>
-                                Private
-                            </label>
-
-                            <label className="RadioLabel" style={publicStyle}>
-                                <input 
-                                    type="radio" 
-                                    name="publicity"
-                                    value="public"
-                                    onChange={this.handleChange}
-                                    className="RadioButton"
-                                />
-                                <div className="NoCheckButton"></div>
-                                <FontAwesomeIcon icon={faCheckCircle} className="CheckButton"/>
-                                Public
-                            </label>
-                        </div>
-                        <br />
+                        
 
                         <div className="ButtonBox">
                             <button 
@@ -271,6 +264,38 @@ class NewGroup extends React.Component {
             </div>
         )
     }
+    /* public/private not currentl implemented
+     * add this back in if they ever are 
+     */
+
+    //                      <div className="RadioBox">
+    //                         <label className="RadioLabel" style={privateStyle}>
+    //                             <input 
+    //                                 type="radio" 
+    //                                 name="publicity"
+    //                                 value="private"
+    //                                 onChange={this.handleChange}
+    //                                 className="RadioButton"
+    //                             />
+    //                             <div className="NoCheckButton"></div>
+    //                             <FontAwesomeIcon icon={faCheckCircle} className="CheckButton"/>
+    //                             Private
+    //                         </label>
+
+    //                         <label className="RadioLabel" style={publicStyle}>
+    //                             <input 
+    //                                 type="radio" 
+    //                                 name="publicity"
+    //                                 value="public"
+    //                                 onChange={this.handleChange}
+    //                                 className="RadioButton"
+    //                             />
+    //                             <div className="NoCheckButton"></div>
+    //                             <FontAwesomeIcon icon={faCheckCircle} className="CheckButton"/>
+    //                             Public
+    //                         </label>
+    //                     </div>
+    //                     <br />
 }
 
 export default NewGroup;
