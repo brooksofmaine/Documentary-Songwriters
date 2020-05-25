@@ -113,10 +113,7 @@ function InstrumentPage(props) {
                 </div>
             </div>
             <div className="progress-report section">
-
                 <ProgressGraph username={username}/>
-
-
             </div>
 
         </div>
