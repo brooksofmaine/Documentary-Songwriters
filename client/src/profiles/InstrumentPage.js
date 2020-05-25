@@ -8,20 +8,13 @@ import ProgressCircle from "./ProgressCircle"
 import ProgressGraph from "./ProgressGraph"
 
 
-
-{/* <BarChart ylabel='Pitches'
-                    width={600}
-                    height={400}
-                    margin={margin}
-                    data={data}
-                    onBarClick={handleBarClick}/> */}
 function InstrumentPage(props) {
     const [username, setUsername] = useState("");
     const [todayPitches, setTodayPitches] = useState(0);
     const [weekPitches, setWeekPitches] = useState(0);
     const [monthPitches, setMonthPitches] = useState(0);
 
-    // Change to be zero once API call exists to get recordingGoal
+    // TODO: Change to be zero once API call exists to get recordingGoal
     const [recordingGoal, setRecordingGoal] = useState(100);
     const [percentage, setPercentage] = useState(0);
 
@@ -32,12 +25,13 @@ function InstrumentPage(props) {
             if (user_info.status === "logged_in") {
                 setUsername(user_info.user.username);
             }
+            // Set recording goal here
 
         }).catch((err) => {
             console.log(err);
         });
         
-}, [])
+    }, [])
 
     useEffect(() => {
         if (username != "") {

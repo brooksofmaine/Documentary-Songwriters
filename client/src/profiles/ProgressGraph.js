@@ -7,7 +7,6 @@ import RecordingFunc from "../api-helper/recording";
 import UserFunc from "../api-helper/user";
 
 function ProgressGraph(props) {
-
     const [isBarChart, setIsBarChart] = useState(false);
     const [curr, setCurr] = useState(new Date())
     const [data, setData] = useState([
@@ -32,6 +31,7 @@ function ProgressGraph(props) {
         ]
 
         const userInfo = await UserFunc.getCurrentUser()
+        console.log("User Info:", userInfo)
         var d = new Date()
         const dayOfWeek = d.getDay()
         const daysFromCurrent = Math.round((d.getTime() - curr.getTime()) / (1000 * 3600 * 24))
@@ -43,7 +43,6 @@ function ProgressGraph(props) {
                 } else {
                     data[dayOfWeek-i].pitches = dayPitches
                 }
-                
             }
             return data
         } else if (daysFromCurrent > 0) {
@@ -57,23 +56,12 @@ function ProgressGraph(props) {
         }
     }
 
-    const returnBars = data.map((day) => <Bar dataKey="pitches" />)
-
     useEffect(() => {
         const setChartData = async () => {
             const renderingData = await renderLineChart();
-            console.log("Data:", renderingData)
             setData(renderingData);
         }
         setChartData()
-    }, [curr])
-
-    // Temp, delete:
-    useEffect(() => {
-        const d = new Date()
-        const daysFromCurr = Math.round((d.getTime() - curr.getTime()) / (1000 * 3600 * 24))
-        console.log("daysFromCurr:", daysFromCurr)
-        
     }, [curr])
 
     const buttonStyle = (buttonNum) => {
@@ -105,14 +93,10 @@ function ProgressGraph(props) {
             const start = addDays(curr, (0 - currDay))
             const end = addDays(curr, (7 - currDay))
             return ( `${start.toLocaleString('default', {month: 'short'})} ${start.getDate()} - ${end.toLocaleString('default', {month: 'short'})} ${end.getDate()}`)
-            
         } else {
             return ""
         }
-        
     }
-
-    
 
     return (
         <div className="ProgressGraph">
@@ -120,12 +104,12 @@ function ProgressGraph(props) {
                 <div className="row">
                     <h3 className="heading">Progress Report</h3>
                     <button className="graph-button" onClick={() => {setIsBarChart(false)}}>
-                        <span className="btn-content" tabindex="-1" style={buttonStyle(0)} >
+                        <span className="btn-content" tabIndex="-1" style={buttonStyle(0)} >
                             <FontAwesomeIcon icon={faChartBar} />
                         </span>
                     </button>
                     <button className="graph-button" onClick={() => {setIsBarChart(true)}}>
-                        <span tabindex="-1" className="btn-content" style={buttonStyle(1)} >
+                        <span tabIndex="-1" className="btn-content" style={buttonStyle(1)} >
                             <FontAwesomeIcon icon={faChartLine} />
                         </span>
                     </button>

@@ -19,11 +19,6 @@ function SummaryPage() {
 
     return(
         <div className="SummaryPage">
-            <select>
-                <option value="piano">Piano</option>
-                <option value="clarinet">Clarinet</option>
-                <option value="voice">Voice</option>
-            </select>
             <InstrumentPage />
         </div>
 
