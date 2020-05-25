@@ -165,39 +165,44 @@ router.post('/:groupName/delete', (req, res) => {
 
 //add a user to a group
 //TODO: make sure only admin of group can add user to a group
-router.post('/:groupName/add', (req, res) => {
-  let groupName = req.params.groupName;
-  let username = req.body.username;
-  let group = db.Group.findByPk(req.params.groupName).then((modelInstance) => {
-    if (modelInstance === null) {
-      res.status(404).json({ err: 'group not found' });
+/*
+ * To add a group's users, get the endpoint
+ * /api/group/{groupName}/addUsers
+ * where groupName is that of the group.
+ *
+ */
+router.post('/:groupName/addUser', async (req, res, next) => {
+  try {
+    let groupName = req.params.groupName;
+    let username = req.body.username;
+
+    let groupInstance = await db.Group.findByPk(groupName);
+    let userInstance = await db.User.findByPk(username);
+    if (groupInstance === null) {
+      res.status(404).json({err: 'group not found'});
+      return;
+    }
+    if (userInstance === null) {
+      res.status(404).json({err: 'user not found'});
       return;
     }
 
-    res.json(modelInstance.get({ plain: true }));
-    return;
-  }).catch((err) => {
-    console.log('Error while retrieving group.');
-    console.log(err);
-    res.status(500).json({ err: err });
-    return;
-  });
-
-  db.User.addGroup(group, {
-    where: {
-      username: username
-    }
-  }).then(([numRows, rowsAffected]) => {
+    let numRows = await userInstance.addGroup(groupInstance);
     if (numRows === 0) {
-      res.status(404).json({ err: 'user not found' });
+      res.status(404).json({err: 'group not found'});
       return;
     }
-  }).catch((err) => {
-    console.log('Error while retrieving user.');
-    console.log(err);
-    res.status(500).json({ err: err });
-    return;
-  });
+
+    numRows = await groupInstance.addUser(userInstance);
+    if (numRows === 0) {
+      res.status(404).json({err: 'user not found'});
+    }
+
+    res.json(groupInstance.get({ plain: true }));
+  } catch (e) {
+    // ref: https://expressjs.com/en/guide/error-handling.html
+    next(e);
+  }
 });
 
 
@@ -238,50 +243,6 @@ router.post('/:groupName/remove', (req, res) => {
   });
 });
 
-/*
- * To add a group's users, get the endpoint 
- * /api/group/{groupName}/addUsers
- * where groupName is that of the group. 
- *
- */
-router.post('/:groupName/addUsers', (req, res) => {
-  let groupName = req.params.groupName;
-  let users = db.User.findAll({
-    where: {
-      groupId: groupName
-    }
-  }).then((modelInstance) => {
-    if (modelInstance === null) {
-      res.status(404).json({ err: 'users not found' });
-      return;
-    }
-    res.json(modelInstance.map((group) => { return group.get({ plain: true }) }));
-    return;
-
-  }).catch((err) => {
-    console.log('Error while retrieving users.');
-    console.log(err);
-    res.status(500).json({ err: err });
-    return;
-  });
-
-  db.Group.addUsers(users, {
-    where: {
-      groupName: groupName
-    }
-  }).then(([numRows, rowsAffected]) => {
-    if (numRows === 0) {
-      res.status(404).json({ err: 'group not found' });
-      return;
-    }
-  }).catch((err) => {
-    console.log('Error while retrieving group.');
-    console.log(err);
-    res.status(500).json({ err: err });
-    return;
-  });
-
-});
 
 /*
  * To get a group's users, get the endpoint 

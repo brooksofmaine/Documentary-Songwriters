@@ -45,7 +45,7 @@ export default class GroupFunc {
 
     // TODO: distinguish group and user not found
     static async addMember(group_name, member) {
-        const query_url = server_add + "/api/group/"+ group_name + "/add";
+        const query_url = server_add + "/api/group/"+ group_name + "/addUser";
         const new_user_name = {
             "username": member
         };
