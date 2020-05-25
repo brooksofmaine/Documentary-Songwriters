@@ -45,13 +45,15 @@ module.exports.init = (done) => {
 
     db.sequelize = sequelize;
     db.Sequelize = Sequelize;
-
-    let UserGroups = sequelize.define("user_groups");
-
     db.User.hasMany(db.Recording, {as: 'recordings', foreignKey: 'username'});
-    // db.User.belongsToMany(db.Group, {through: 'GroupUser'});
-    db.Group.belongsTo(db.User, {as: 'admin'});
 
+
+    let UserGroups = sequelize.define("user_groups", {
+      role: Sequelize.STRING
+    });
+
+    // db.User.belongsToMany(db.Group, {through: 'GroupUser'});
+    // db.Group.belongsTo(db.User, {as: 'admin'});
     db.User.belongsToMany(db.Group, {through: UserGroups});
     db.Group.belongsToMany(db.User, {through: UserGroups});
 
