@@ -68,3 +68,10 @@
     line-height: 29px;
 }
 
+
+.Progress {
+    display: inline-block;
+    position: relative;
+    width: 80%;
+    float: right;
+}

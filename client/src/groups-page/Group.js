@@ -6,7 +6,7 @@ import GroupName from './GroupName';
 import './Group.css';
 
 import groupData from './groupData'; // this is temporary data
-import { getGroup } from '../api-helper/group.js'
+import GroupFunc, { getGroup } from '../api-helper/group.js'
 import UserFunc from '../api-helper/user.js';
 import {server_add} from "../api-helper/config";
 // button at bottom should link to make a group page
@@ -40,10 +40,14 @@ class Group extends React.Component {
         console.log(username)
         data  = await UserFunc.getGroups(username)
         groups = data.Groups;
-        console.log(data)
-        console.log(groups)
-        
-        // console.log(groups);
+        console.log(groups);
+
+        let currGroup;
+        for (let i = 0; i < groups.length; i++) {
+            currGroup = await GroupFunc.getGroup(groups[i].groupName);
+            console.log(currGroup)
+        }
+
     }
 
     render() {
