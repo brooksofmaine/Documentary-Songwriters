@@ -208,7 +208,7 @@ router.post('/:groupName/addUser', async (req, res, next) => {
 
 //delete a user from a group
 //TODO: make sure only admin of group can delete user from a group
-router.post('/:groupName/remove', async (req, res, next) => {
+router.post('/:groupName/removeUser', async (req, res, next) => {
   try {
     const groupName = req.params.groupName;
     const username = req.body.username;
@@ -257,7 +257,7 @@ router.get('/:groupName/getUsers', async (req, res, next) => {
       res.status(404).json({ err: 'group not found' });
       return;
     }
-    let users = await groupInstance.getUsers();
+    let users = await groupInstance.getUsers({attributes: ['username', 'email', 'firstName', 'lastName']});
 
     let json = users.map(user => user.get({plain: true}));
     res.json(json);
