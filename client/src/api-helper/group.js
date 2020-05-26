@@ -93,6 +93,19 @@ export default class GroupFunc {
         return await response.json();
     }
 
+    // Returns an array of members.
+    static async getMembers(group_name) {
+        const query_url = server_add + "/api/group/" + group_name + "/getUsers";
+        const response = await fetch(query_url, init_params_get);
+        if (response.status === 404) {
+            throw Error("Error: User or Group not found");
+        } else if (response.status !== 200) {
+            throw Error("Error: Connection error");
+        }
+
+        return await response.json();
+    }
+
     static async changeGroup(group_name, key, content) {
         const query_url = server_add + "/api/group/"+ group_name + "/change/" + key;
         let req_body_dict = {};

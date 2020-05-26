@@ -208,39 +208,37 @@ router.post('/:groupName/addUser', async (req, res, next) => {
 
 //delete a user from a group
 //TODO: make sure only admin of group can delete user from a group
-router.post('/:groupName/remove', (req, res) => {
-  let groupName = req.params.groupName;
-  let username = req.body.username;
-  let group = db.Group.findByPk(req.params.groupName).then((modelInstance) => {
-    if (modelInstance === null) {
+router.post('/:groupName/remove', async (req, res, next) => {
+  try {
+    const groupName = req.params.groupName;
+    const username = req.body.username;
+
+    let groupInstance = await db.Group.findByPk(groupName);
+    if (groupInstance === null) {
       res.status(404).json({ err: 'group not found' });
       return;
     }
 
-    res.json(modelInstance.get({ plain: true }));
-    return;
-  }).catch((err) => {
-    console.log('Error while retrieving group.');
-    console.log(err);
-    res.status(500).json({ err: err });
-    return;
-  });
-
-  db.User.removeGroup(group, {
-    where: {
-      username: username
-    }
-  }).then(([numRows, rowsAffected]) => {
-    if (numRows === 0) {
+    let userInstance = await db.User.findByPk(username);
+    if (userInstance === null) {
       res.status(404).json({ err: 'user not found' });
       return;
     }
-  }).catch((err) => {
-    console.log('Error while retrieving user.');
-    console.log(err);
-    res.status(500).json({ err: err });
-    return;
-  });
+
+    if (!(await groupInstance.hasUser(userInstance))) {
+      res.status(404).json({ err: 'user does not belong to the group' });
+      return;
+    }
+
+    const numRows = groupInstance.removeUser(userInstance);
+    if (numRows === 0) {
+      res.status(404).json({ err: 'error when deleting' });
+      return;
+    }
+  } catch (e) {
+    next(e);
+  }
+
 });
 
 
@@ -250,43 +248,22 @@ router.post('/:groupName/remove', (req, res) => {
  * where groupName is that of the group. 
  *
  */
-router.get('/:groupName/getUsers', (req, res) => {
-  let groupName = req.params.groupName;
+router.get('/:groupName/getUsers', async (req, res, next) => {
+  try {
+    let groupName = req.params.groupName;
 
-  // check that group exists first 
-  let group = db.Group.findByPk(req.params.groupName).then((modelInstance) => {
-    if (modelInstance === null) {
+    let groupInstance = await db.Group.findByPk(groupName);
+    if (groupInstance === null) {
       res.status(404).json({ err: 'group not found' });
       return;
     }
-    res.json(modelInstance.get({ plain: true }));
-    return;
-  }).catch((err) => {
-    console.log('Error while retrieving group.');
-    console.log(err);
-    res.status(500).json({ err: err });
-    return;
-  });
+    let users = await groupInstance.getUsers();
 
-  db.User.findAll({
-    where: {
-      groupId: groupName
-    }
-  }).then((modelInstance) => {
-    if (modelInstance === null) {
-      res.status(404).json({ err: 'users not found' });
-      return;
-    }
-    res.json(modelInstance.map((user) => { return user.get({ plain: true }) }));
-    return;
-
-  }).catch((err) => {
-    console.log('Error while retrieving users.');
-    console.log(err);
-    res.status(500).json({ err: err });
-    return;
-  });
-
+    let json = users.map(user => user.get({plain: true}));
+    res.json(json);
+  } catch(e) {
+    next(e);
+  }
 });
 
 module.exports = router;
