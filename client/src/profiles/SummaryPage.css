@@ -8,3 +8,6 @@
     position: relative;
 }
 
+.SummaryPage {
+    display: flex;
+}

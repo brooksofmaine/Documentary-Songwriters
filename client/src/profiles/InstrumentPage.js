@@ -6,7 +6,7 @@ import RecordingFunc from "../api-helper/recording";
 
 import ProgressCircle from "./ProgressCircle"
 import ProgressGraph from "./ProgressGraph"
-import ProfileSidebar from './ProfileSidebar';
+// import ProfileSidebar from './ProfileSidebar';
 
 
 function InstrumentPage(props) {
@@ -76,7 +76,6 @@ function InstrumentPage(props) {
 
     return (
         <div className="InstrumentPage">
-            <ProfileSidebar />
             <div className="Progress">
                 <div className="top-bar">
                     <div className="pitch-progress section">

@@ -3,6 +3,8 @@ import './ProfileSidebar.css';
 import UserFunc from '../api-helper/user.js';
 
 function ProfileSidebar() {
+    // TODO: Centralize
+
     const normalContainer = {backgroundColor: "#EEE", fontWeight: 200};
     const hoverContainer = {backgroundColor: "#8EACCD", fontWeight: 700};
     const selectedContainer = {backgroundColor: "#0A1658", fontWeight: 700};
@@ -96,7 +98,6 @@ function ProfileSidebar() {
 
     return(
         <div className="ProfileSidebar">
-            <padding className="Padding"></padding>
             <a className={progressText} href="/api/profile">
                 <p onMouseEnter={() => setHoveringProgress(true)} 
                    onMouseLeave={() => setHoveringProgress(false)} 
@@ -113,7 +114,7 @@ function ProfileSidebar() {
                     Profile
                 </p>
             </a>
-            <a className={settingsText} href="/api/settings">
+            <a className={settingsText} href="/api/profile/settings">
                 <p onMouseEnter={() => setHoveringSettings(true)} 
                    onMouseLeave={() => setHoveringSettings(false)} 
                    className="SidebarLink"

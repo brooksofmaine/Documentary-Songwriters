@@ -70,8 +70,8 @@
 
 
 .Progress {
-    display: inline-block;
-    position: relative;
+    /* display: inline-block; */
+    /* position: relative; */
     width: 80%;
-    float: right;
+    /* float: right; */
 }

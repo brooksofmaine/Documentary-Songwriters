@@ -4,8 +4,8 @@
 }
 
 .ProfileSidebar {
-    position: relative;
-    display: inline-block;
+    /* position: relative; */
+    /* display: inline-block; */
     text-align: center;
     width: 20%;
 }
