@@ -42,10 +42,13 @@ class Group extends React.Component {
         groups = data.Groups;
         console.log(groups);
 
-        let currGroup;
+        let groupInfo = new Array();
+        let currGroupInfo;
         for (let i = 0; i < groups.length; i++) {
-            currGroup = await GroupFunc.getGroup(groups[i].groupName);
-            console.log(currGroup)
+        
+            currGroupInfo = await GroupFunc.getGroup(groups[i].groupName);
+            console.log(currGroupInfo)
+            // currGroupInfo = 
         }
 
     }

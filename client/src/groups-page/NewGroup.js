@@ -75,12 +75,12 @@ class NewGroup extends React.Component {
             const username = await UserFunc.getCurrentUsername();
             GroupFunc.addMember(this.state.groupName, username);
 
-            // for (let i = 0; i < this.state.members.length; i++) {
-            //     const response = GroupFunc.addMember(this.state.groupName, this.state.members[i]);
-            //     if (response.err) {
-            //         console.log(response.err)
-            //     }
-            // }
+            for (let i = 0; i < this.state.members.length; i++) {
+                const response = GroupFunc.addMember(this.state.groupName, this.state.members[i]);
+                if (response.err) {
+                    console.log(response.err)
+                }
+            }
             this.props.history.push("/api/groups");
         }
 
