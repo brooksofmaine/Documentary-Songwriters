@@ -115,6 +115,10 @@ router.post('/create', (req, res) => {
     LastPlayedInstrument: req.body.LastPlayedInstrument // TODO hash password
   };
 
+  if (createObj.LastPlayedInstrument === undefined) {
+    createObj.LastPlayedInstrument = "";
+  }
+
   // console.log(req.body);
   // console.log(createObj);
 
@@ -139,10 +143,6 @@ router.post('/create', (req, res) => {
   });
 });
 
-// TODO implement me
-router.post('/login', (req, res) => {
-  res.redirect('/' + req.body.username);
-});
 
 /*
  * TODO: Show list of groups user is in or is admin of only if user is viewing themselves

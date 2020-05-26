@@ -6,6 +6,7 @@ import RecordingFunc from "../api-helper/recording";
 
 import ProgressCircle from "./ProgressCircle"
 import ProgressGraph from "./ProgressGraph"
+import ProfileSidebar from './ProfileSidebar';
 
 
 function InstrumentPage(props) {
@@ -75,35 +76,38 @@ function InstrumentPage(props) {
 
     return (
         <div className="InstrumentPage">
-            <div className="top-bar">
-                <div className="pitch-progress section">
-                    <h3 className="heading">Pitch Progress</h3>
-                    <div className="data">
-                        <div className="row">
-                            <p>Today</p>
-                            <h3>{todayPitches}</h3>
+            <ProfileSidebar />
+            <div className="Progress">
+                <div className="top-bar">
+                    <div className="pitch-progress section">
+                        <h3 className="heading">Pitch Progress</h3>
+                        <div className="data">
+                            <div className="row">
+                                <p>Today</p>
+                                <h3>{todayPitches}</h3>
+                            </div>
+                            <hr />
+                            <div className="row">
+                                <p>This Week</p>
+                                <h3>{weekPitches}</h3>
+                            </div>
+                            <hr />
+                            <div className="row">
+                                <p>This Month</p>
+                                <h3>{monthPitches}</h3>
+                            </div>
                         </div>
-                        <hr />
-                        <div className="row">
-                            <p>This Week</p>
-                            <h3>{weekPitches}</h3>
-                        </div>
-                        <hr />
-                        <div className="row">
-                            <p>This Month</p>
-                            <h3>{monthPitches}</h3>
-                        </div>
+
                     </div>
+                    <div className="achievements section">
+                        <h3 className="heading">Your Achievements</h3>
+                        <div className="row">
+                            <ProgressCircle percentage={percentage} /> 
+                            <p>You've played {weekPitches} pitches this week. You have {recordingGoal - weekPitches} pitches until you reach your weekly goal!</p>
+                        </div>
 
-                </div>
-                <div className="achievements section">
-                    <h3 className="heading">Your Achievements</h3>
-                    <div className="row">
-                        <ProgressCircle percentage={percentage} /> 
-                        <p>You've played {weekPitches} pitches this week. You have {recordingGoal - weekPitches} pitches until you reach your weekly goal!</p>
+
                     </div>
-
-
                 </div>
             </div>
             <div className="progress-report section">
