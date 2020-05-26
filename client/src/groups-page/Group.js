@@ -8,6 +8,7 @@ import './Group.css';
 import groupData from './groupData'; // this is temporary data
 import GroupFunc, { getGroup } from '../api-helper/group.js'
 import UserFunc from '../api-helper/user.js';
+import RecordingFunc from '../api-helper/recording.js';
 import {server_add} from "../api-helper/config";
 // button at bottom should link to make a group page
 class Group extends React.Component {
@@ -26,9 +27,6 @@ class Group extends React.Component {
 
     componentDidMount() {
         this.getGroups();
-        
-        // TODO: get people in each group
-        // TODO: get weekly pitches for people in each group
         // TODO: render only one group at a time
     }
 
@@ -42,13 +40,22 @@ class Group extends React.Component {
         groups = data.Groups;
         console.log(groups);
 
-        let groupInfo = new Array();
-        let currGroupInfo;
+        let tempGroupsInfo = new Array();
+        let memberUsername, memberPitches;
+
         for (let i = 0; i < groups.length; i++) {
         
-            currGroupInfo = await GroupFunc.getGroup(groups[i].groupName);
-            console.log(currGroupInfo)
-            // currGroupInfo = 
+            tempGroupsInfo[i] = await GroupFunc.getMembers(groups[i].groupName);
+            console.log(tempGroupsInfo[i]);
+
+            for (let j = 0; j < tempGroupsInfo[i].length; j++) {
+                memberUsername = tempGroupsInfo[i][j].username;
+                RecordingFunc.getPitchTotalCount(memberUsername,
+                    RecordingFunc.nthDayAgo(7),
+                    new Date()).then(
+                    result => memberPitches = result
+                );
+            }
         }
 
     }

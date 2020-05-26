@@ -9,9 +9,6 @@ class GroupMember extends React.Component {
             <div className = "GroupMember">
                 <p>
                     <span className = "MemberName">
-                        <span style = {{display: this.props.creator ? 'inline' : 'none'}}>
-                            Group Creator / 
-                        </span>
                         <a href="/api/profile">
                             {this.props.name}
                         </a>

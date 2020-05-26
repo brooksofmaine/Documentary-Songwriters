@@ -76,7 +76,7 @@ class NewGroup extends React.Component {
             GroupFunc.addMember(this.state.groupName, username);
 
             for (let i = 0; i < this.state.members.length; i++) {
-                const response = GroupFunc.addMember(this.state.groupName, this.state.members[i]);
+                const response = GroupFunc.addMember(this.state.groupName, this.state.members[i].username);
                 if (response.err) {
                     console.log(response.err)
                 }
