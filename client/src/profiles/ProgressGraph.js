@@ -31,18 +31,19 @@ function ProgressGraph(props) {
         ]
 
         const userInfo = await UserFunc.getCurrentUser()
-        console.log("User Info:", userInfo)
+        // console.log("User Info:", userInfo)
         var d = new Date()
         const dayOfWeek = d.getDay()
         const daysFromCurrent = Math.round((d.getTime() - curr.getTime()) / (1000 * 3600 * 24))
         if (daysFromCurrent === 0) {
             for (var i = 0; i <= d.getDay(); i++) {
                 const dayPitches = await RecordingFunc.getPitchTotalCount(userInfo.user.username, RecordingFunc.nthDayAgo(i+1), RecordingFunc.nthDayAgo(i))
-                if (!dayPitches) {
-                    data[dayOfWeek-i].pitches = 0
-                } else {
+                // if (!dayPitches) {
+                //     data[dayOfWeek-i].pitches = 0
+                // } else {
+                    // console.log(`dayPitches for ${i} is ${dayPitches}`)
                     data[dayOfWeek-i].pitches = dayPitches
-                }
+                // }
             }
             return data
         } else if (daysFromCurrent > 0) {

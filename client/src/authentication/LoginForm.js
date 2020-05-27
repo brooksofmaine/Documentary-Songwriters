@@ -49,7 +49,7 @@ class LoginForm extends React.Component {
             }
         }
         if (this.state.password !== this.state.password_confirm) {
-            alert("password don't match");
+            alert("The passwords don't match");
             console.log(this.state);
             return;
         }
@@ -62,7 +62,8 @@ class LoginForm extends React.Component {
             "firstName": this.state.firstName,
             "lastName": this.state.lastName,
             "email": this.state.email,
-            "weeklyAchievement": 0
+            "weeklyAchievement": this.state.weeklyAchievement,
+            "LastPlayedInstrument": ""
         };
 
         console.log(userInfo);
@@ -181,6 +182,8 @@ class LoginForm extends React.Component {
                        placeholder="Password" name="password" onChange={this.handleChange}/>
                 <input className="login-input" type="password"
                        placeholder="Confirm Password" name="password_confirm" onChange={this.handleChange}/>
+                <input className="login-input" type="number" 
+                       placeholder="Weekly Pitch Goal" name="weeklyAchievement" onChange={this.handleChange} />
             </form>
                 <Button id="register" onClick={this.createUser} name="Register"/>
                 <div className={"new_user_prompt login_section"}>
