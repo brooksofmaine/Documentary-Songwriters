@@ -106,6 +106,7 @@ class PitchCounter {
     stop() {
         this.audioContext.close();
         this.audioContext = null;
+        this.counter = 0;
     }
 
     initPitchCounting() {

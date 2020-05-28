@@ -11,6 +11,7 @@ import RecordingFunc from "../api-helper/recording";
 import RecordFilter from './RecordFilter';
 import StopPopup from './StopPopup';
 import SavePopup from './SavePopup';
+import FrequencyBars from './FrequencyBars';
 
 // Function to pause: change_state
 
@@ -87,11 +88,20 @@ class Record extends React.Component {
             }
 
             this.setState({
-                count: app.get_pitch_count(),
                 instrument : instr,
                 length : this.prettyTime(time)
-                // TODO: update pitches
-        })}, 500);
+        })}, 1000);
+
+        let frequency = 16; // TEMPORARY
+
+        this.frequency = setInterval(() => {
+            if ( this.frequencyBars !== null ) {
+                this.frequencyBars.updateFrequencyBars(app.instrument.pitchCounter.frequencyData);
+                this.setState({
+                    count: app.get_pitch_count()
+                });
+            }
+        }, frequency);
     }
 
     // Temporary function--only used to demonstrate counter
@@ -212,6 +222,7 @@ class Record extends React.Component {
                 <RecordFilter defaultInstrument = {this.state.lastPlayedInstrument} changeInstrument={() => this.showPopup("stop", "instrument")} ref = {filter => this.filter = filter}/>
                 <Counter handleClick={this.handleClick} countNum={this.state.count} />
                 <Stopwatch startFunction={() => app.start()} stopFunction={() => app.stop()} pauseFunction={() => app.changeState()} reset={() => this.showPopup("stop", "stop")} save={this.showPopup} ref={stopwatch => this.stopwatch = stopwatch}/>
+                <FrequencyBars ref = {frequencyBars => {this.frequencyBars = frequencyBars}} />
             </div>
         )
     }
