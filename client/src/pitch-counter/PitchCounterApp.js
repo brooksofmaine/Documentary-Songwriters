@@ -1,11 +1,10 @@
-// var InstrumentListener = require('./InstrumentListener.js')
+
 
 class PitchCounterApp {
 
     constructor(instr) {
-        // this.instrument = require('./InstrumentListener.js')
-        // this.instrument.changeInstrument(instr)
-        this.instrument = new InstrumentListener(instr);
+        this.instrument = require('./InstrumentListener.js')
+        this.instrument.changeInstrument(instr)
         // this.instrument = this.InstrumentListener.changeInstrument(instr)
 
         this.get_pitch_count = function () {
@@ -13,28 +12,28 @@ class PitchCounterApp {
         };
     }
 
-    //Start the EventListener
-    //Note: Cannot start on opening of the WebPage
-    start() {
-        this.instrument.startListener();
-    }
-
     change_instrument(instr) {
         this.instrument.changeInstrument(instr)
     }
 
-    //completely stop the event EventListener
+    // Start the EventListener
+    // Note: Cannot start on opening of the WebPage
+    start() {
+        this.instrument.startListener();
+    }
+
+    // Completely stop the event EventListener
     stop() {
         this.instrument.stopListener();
     }
 
-    //pauses the EventListener and returns the current pitch_counter
-    change_state() {
+    // Pauses the EventListener and returns the current pitch_counter
+    changeState() {
         return this.instrument.changeListenerState();
     }
 }
 
-const app = new PitchCounterApp("strings");
+const app = new PitchCounterApp("voice");
 
 function Begin() {
     app.start();
@@ -45,7 +44,7 @@ function Stop() {
 }
 
 function ChangeState() {
-    app.change_state();
+    app.changeState();
 }
-//
-// module.exports = app;
+
+module.exports = app;
