@@ -1,4 +1,6 @@
-
+.login-input {
+    background-color: #fff !important;
+}
 
 .form input {
     height: 35px;
