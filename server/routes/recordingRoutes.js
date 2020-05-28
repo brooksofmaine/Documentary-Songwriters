@@ -1,6 +1,7 @@
 const express = require('express');
 const utils = require('./utils');
 const anyValuesUndefined = utils.anyValuesUndefined;
+const recordingKeyCheck = utils.recordingKeyCheck;
 let router = express.Router();
 let db;
 
@@ -60,9 +61,7 @@ router.post('/create', (req, res) => {
 
 
 
-/* DO NOT USE!!! NOT YET TESTED!!!!!
- * 
- * To edit something about a recording as the creator of a recording, 
+/* To edit something about a recording as the creator of a recording, 
  * POST to /api/recording/edit. In the body of the request, include 
  * the start time of the recording to edit, the name of the attribute to edit,
  * and the new value for that attribute.
@@ -72,12 +71,14 @@ router.post('/create', (req, res) => {
  *   With data:
  *   {
  *     username:  johnS
- *     startTime: "Wed, 27 July 2016 07:45:00 GMT",
+ *     startTime: "2016-04-23T18:25:43.511Z",
  *     key:       "description" 
  *     val:       "Adagio for Strings - take 2"
  *   }
  * 
  */
+
+
 router.post('/edit', (req, res) => {
   let username   = req.body.username;
   let startTime  = req.body.startTime;
@@ -96,22 +97,25 @@ router.post('/edit', (req, res) => {
     return;
   }
 
-  db.Recording.update(updateObj, {
-    where: { username: username },
-    returning: true
+  db.Recording.update(updateObj, { 
+    where: {
+      username: username,
+      startTime: startTime 
+    },
+    returning: true,
+    raw: true
   }).then(([numRows, rowsAffected]) => {
     if (numRows === 0) {
       res.status(404).json({ err: 'recording not found' });
       return;
     }
-    res.json(rowsAffected[0]);
+    res.json({ numRows: numRows, rowsAffected: rowsAffected });
     return;
   }).catch((err) => {
     if (err.name === 'SequelizeUniqueConstraintError') {
       res.status(409).json({ err: 'description taken' });
       return;
     }
-
     console.log(`Error while changing ${key}`);
     console.log(err);
     res.status(500).json({ err: err });
@@ -121,65 +125,35 @@ router.post('/edit', (req, res) => {
 
 
 
-/* DO NOT USE!!! NOT YET TESTED!!!!!
- * 
- * To delete a recording, post request to the endpoint /api/recording/delete
+/* To delete a recording, post request to the endpoint /api/recording/delete
  * with the start time of the recording to delete, for the logged-in user.
  *
- * For example, to delete logged-in user Bobby Smith's recording at 
- * 9:45am October 20, 2019:
+ * For example, to delete:
  * Delete /api/recording/delete
  *   With data:
  *   {
- *     startTime:  "Sun, 20 October 2019 09:45:00 GMT"
+ *     username:    "johnS",
+ *     startTime:   "2016-04-23T18:25:43.511Z",
  *   }
  */
 router.post('/delete', (req, res) => {
   let deleteObj = {
     username:    req.body.username,
     startTime:   req.body.startTime,
-    endTime:     req.body.endTime,
-    instrument:  req.body.instrument,
-    numPitches:  req.body.numPitches,
-    description: req.body.description
   };
+
   if (anyValuesUndefined(deleteObj)) {
     res.status(400).json({ err: 'undefined fields' });
     return;
   }
-
-  // console.log("about to find");
-  // db.Recording.find({
-  //   where: {
-  //     username:    deleteObj.username,
-  //     startTime:   deleteObj.startTime
-  //   }
-  // }).then((result) => {
-  //     console.log("Found!")
-  //     return Model.destroy({ 
-  //       where: {
-  //         username:    deleteObj.username,
-  //         startTime:   deleteObj.startTime
-  //       }
-  //     }).then((u) => { 
-  //       console.log("Destroyed!");
-  //       return result;
-  //     });
-
-  // }).catch((err) => {
-  //     console.log('Error while deleting recording.');
-  //     console.log(err);
-  //     res.status(500).json({ err: err });
-  //     return;
-  // });
 
   db.Recording.destroy({
     where: {
       username:    deleteObj.username,
       startTime:   deleteObj.startTime
     }
-  }).success(() => {
-    console.log("Success!!");
+  }).then((n) => {
+    res.status(200).json({ 'numRowsDeleted': n });
     return;
   }).catch((err) => {
     console.log('Error while deleting recording.');
@@ -188,8 +162,6 @@ router.post('/delete', (req, res) => {
     return;
   });
 });
-
-
 
 
 

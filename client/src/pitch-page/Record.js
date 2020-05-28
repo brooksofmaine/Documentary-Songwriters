@@ -79,14 +79,23 @@ class Record extends React.Component {
             else {
                 instr = null;
             }
-            
-            this.setState({ 
+
+            this.setState({
                 instrument : instr,
                 length : this.prettyTime(time)
-            });
-        }, 1000); 
+        })}, 1000);
 
         let frequency = 16; // TEMPORARY
+
+        this.frequency = setInterval(() => {
+            if ( this.frequencyBars !== null ) {
+                this.frequencyBars.updateFrequencyBars(app.instrument.pitchCounter.frequencyData);
+                this.setState({
+                    count: app.get_pitch_count()
+                });
+            }
+        }, frequency);
+    }
 
         this.frequency = setInterval(() => {
             if ( this.frequencyBars !== null ) {

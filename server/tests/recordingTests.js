@@ -181,82 +181,92 @@ describe('Recording', function() {
 
 /*****************************************************************************/
 
+  describe('Delete', function() {
 
-  // describe('Edit', function() {
-  //   let recordingDataUpdate = {
-  //     username: recordingData.username,
-  //     startTime: recordingData.startTime,
-  //     key: 'description',
-  //     val: 'this is the new description'
-  //   };
+    it('should delete the given recording from database', function(done) {
+      server.post(baseURL + '/delete') 
+        .set('content-type', 'application/json')
+        .send({
+          username: recordingData2.username,
+          startTime: recordingData2.startTime
+        }).end(function(err, res) {
+          res.should.have.status(200);
+          res.body.numRowsDeleted.should.equal(1);
+          done();
+        });
+    });
 
-  //   it('should change a recording\'s description', function(done) {
-  //     server.post(baseURL + '/edit')
-  //       .set('content-type', 'application/json')
-  //       .send(recordingDataUpdate)
-  //       .end(function(err, res) {
-  //         res.should.have.status(200);
-  //         res.should.be.json;
-  //         res.body.description.should.equal(recordingDataUpdate.val);
-  //         res.body.username   .should.equal(recordingData.username);
-  //         res.body.startTime  .should.equal(recordingData.startTime);
-  //         res.body.endTime    .should.equal(recordingData.endTime);
-  //         res.body.instrument .should.equal(recordingData.instrument);
-  //         res.body.numPitches .should.equal(recordingData.numPitches);
-  //         done();
-  //       });
-  //   });
-
-  //   it('should not change anything for a recording if the attribute is invalid', function(done) {
-  //     server.post(baseURL + '/edit')
-  //       .set('content-type', 'application/json')
-  //       .send({
-  //         username:  recordingData.username,
-  //         startTime: recordingData.startTime,
-  //         key: 'notAValidAttribute',
-  //         val: 'notAValidAttributeValue'
-  //       }).end(function(err, res) {
-  //         res.should.have.status(400);
-  //         res.should.be.json;
-  //         res.body.err.should.equal('key not recognized');
-  //         done();
-  //       });
-  //   });
-  // });
-
-/*****************************************************************************/
+    it('deleted recording should no longer exist', function(done) {
+      server.get('/api/user/'+recordingData2.username+'/recordings')
+        .end(function(err, res) {
+          res.should.have.status(200);
+          res.should.be.json;
+          res.body.should.be.an('array').that.is.not.empty;
+          res.body.should.be.an('array').that.has.lengthOf(1);
+          // Remaining recording should be recordingData
+          res.body[0].username   .should.equal(recordingData.username);
+          res.body[0].startTime  .should.equal(recordingData.startTime);
+          res.body[0].endTime    .should.equal(recordingData.endTime);
+          res.body[0].instrument .should.equal(recordingData.instrument);
+          res.body[0].numPitches .should.equal(recordingData.numPitches);
+          res.body[0].description.should.equal(recordingData.description);
+          done();
+        });
+    });
+  });
 
 
-  // describe('Delete', function() {
-  //   it('should delete the given recording from database', function(done) {
-  //     server.post(baseURL + '/delete') 
-  //       .set('content-type', 'application/json')
-  //       .send(recordingData2)
-  //       .end(function(err, res) {
-  //         console.log(res);
-  //         res.should.have.status(200);
-  //         res.should.be.json;
-  //         done();
-  //       });
-  //   });
+  /*****************************************************************************/
 
-  //   it('deleted recording should no longer exist', function(done) {
-  //     server.get('/api/user/'+recordingData2.username+'/recordings')
-  //       .end(function(err, res) {
-  //         res.should.have.status(200);
-  //         res.should.be.json;
-  //         res.body.should.be.an('array').that.is.not.empty;
-  //         res.body.should.be.an('array').that.has.lengthOf(1);
-  //         res.body[0].username   .should.equal(recordingData2.username);
-  //         res.body[0].startTime  .should.equal(recordingData.startTime);
-  //         res.body[0].endTime    .should.equal(recordingData.endTime);
-  //         res.body[0].instrument .should.equal(recordingData.instrument);
-  //         res.body[0].numPitches .should.equal(recordingData.numPitches);
-  //         res.body[0].description.should.equal(recordingData.description);
-  //         done();
-  //       });
-  //   });
-  // });
+
+  describe('Edit', function() {
+
+    it('should change a recording\'s description', function(done) {
+
+      let key = 'description';
+      let val = 'this is the new description';
+
+      let updateObj = {
+        username: recordingData.username,
+        startTime: recordingData.startTime,
+        key: key,
+        val: val
+      }
+
+      server.post(baseURL + '/edit')
+        .set('content-type', 'application/json')
+        .send(updateObj)
+        .end(function(err, res) {
+          res.should.have.status(200);
+          res.should.be.json;
+          res.body.numRows                       .should.equal(1);
+          res.body.rowsAffected[0][key]          .should.equal(updateObj.val);
+          res.body.rowsAffected[0].username      .should.equal(recordingData.username);
+          res.body.rowsAffected[0].startTime     .should.equal(recordingData.startTime);
+          res.body.rowsAffected[0].endTime       .should.equal(recordingData.endTime);
+          res.body.rowsAffected[0].instrument    .should.equal(recordingData.instrument);
+          res.body.rowsAffected[0].numPitches    .should.equal(recordingData.numPitches);
+          done();
+        });
+    });
+
+    it('should not change anything for a recording if the attribute is invalid', function(done) {
+      server.post(baseURL + '/edit')
+        .set('content-type', 'application/json')
+        .send({
+          username:  recordingData.username,
+          startTime: recordingData.startTime,
+          key: 'notAValidAttribute',
+          val: 'notAValidAttributeValue'
+        }).end(function(err, res) {
+          res.should.have.status(400);
+          res.should.be.json;
+          res.body.err.should.equal('key not recognized');
+          done();
+        });
+    });
+  });
+  
 
 });
 
