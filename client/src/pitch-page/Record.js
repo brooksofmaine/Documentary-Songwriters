@@ -27,9 +27,9 @@ class Record extends React.Component {
         
         this.state = {
             count: 0,
-            overlayStyle : {                 
-                width: 0,                  
-                height: 0 
+            overlayStyle : {
+                width: 0,
+                height: 0
             },
             stopping : false,
             saving : false,
@@ -48,7 +48,7 @@ class Record extends React.Component {
     }
 
     async componentDidMount() {
-        
+
         let username;
         let instrument;
 
@@ -67,7 +67,7 @@ class Record extends React.Component {
                 lastPlayedInstrument : "Piano"
             })
         }
-        
+
         this.interval = setInterval(() => {
             let instr, time;
 
@@ -77,7 +77,7 @@ class Record extends React.Component {
             else {
                 time = null;
             }
-            
+
             if ( this.filter ) {
                 instr = this.filter.state.instrument;
             }
@@ -110,18 +110,18 @@ class Record extends React.Component {
 
     showPopup(popup, reason) {
         this.stopwatch.stopTimer();
-        
+
         if ( popup === "stop" ) {
 
             // only ask about restart if actually recorded anything or changed instrument
             if ( this.stopwatch.state.timerTime > 0 ) {
                 this.setState({
                     stopping : true,
-                    overlayStyle: { 
+                    overlayStyle: {
                         width  : "105%",
-                        height : "110vh" 
+                        height : "110vh"
                     }
-                });  
+                });
 
                 if ( reason === "instrument" ) {
                     this.setState({
@@ -133,14 +133,14 @@ class Record extends React.Component {
                         removeMessage : "Stopping your recording"
                     });
                 }
-            }  
+            }
         }
         else { // save
             this.setState({
                 saving : true,
-                overlayStyle: { 
+                overlayStyle: {
                     width  : "105%",
-                    height : "110vh" 
+                    height : "110vh"
                 }
             })
         }
@@ -159,13 +159,13 @@ class Record extends React.Component {
         }
 
         this.setState({
-            overlayStyle : {                 
-                width: 0,                  
-                height: 0 
+            overlayStyle : {
+                width: 0,
+                height: 0
             }
         });
     }
-    
+
     saveRecording(description) {
         // TODO: fix start and end times
         // TODO: fix connection error? (recording.js:137)
@@ -181,7 +181,7 @@ class Record extends React.Component {
             startTime,              // start time
             endTime                 // end time
             );
-        
+
         // TODO: handle errors somehow
         // TODO: make this link to progress page when it exists
         this.props.history.push("/api/profile");
@@ -199,7 +199,7 @@ class Record extends React.Component {
     }
 
     render() {
-        
+
         return(
             <div className="Record">
                 <div className="RecordOverlay" style={this.state.overlayStyle}></div>
@@ -214,6 +214,7 @@ class Record extends React.Component {
                 <Stopwatch 
                     startFunction={() => app.start()} 
                     stopFunction={() => app.stop()} 
+                    pauseFunction={() => app.changeState()}
                     reset={() => this.showPopup("stop", "stop")} 
                     save={this.showPopup} 
                     ref={stopwatch => this.stopwatch = stopwatch}
@@ -244,4 +245,3 @@ class Record extends React.Component {
 }
 
 export default Record;
-// width="1440" height="670"
