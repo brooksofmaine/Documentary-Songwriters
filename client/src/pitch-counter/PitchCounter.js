@@ -117,7 +117,7 @@ class PitchCounter {
 
     //pause pitch counting
     changeState() {
-        if (this.audioContext === null)
+        if (this.audioContext === null || this.audioContext === undefined)
             this.initPitchCounting();
         else {
             this.audioContext.close();

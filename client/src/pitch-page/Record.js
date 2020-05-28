@@ -211,7 +211,7 @@ class Record extends React.Component {
                 </div>
                 <RecordFilter defaultInstrument = {this.state.lastPlayedInstrument} changeInstrument={() => this.showPopup("stop", "instrument")} ref = {filter => this.filter = filter}/>
                 <Counter handleClick={this.handleClick} countNum={this.state.count} />
-                <Stopwatch startFunction={() => app.start()} stopFunction={() => app.stop()} pauseFunction={() => app.change_state()} reset={() => this.showPopup("stop", "stop")} save={this.showPopup} ref={stopwatch => this.stopwatch = stopwatch}/>
+                <Stopwatch startFunction={() => app.start()} stopFunction={() => app.stop()} pauseFunction={() => app.changeState()} reset={() => this.showPopup("stop", "stop")} save={this.showPopup} ref={stopwatch => this.stopwatch = stopwatch}/>
             </div>
         )
     }
