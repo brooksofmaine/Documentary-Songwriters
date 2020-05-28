@@ -1,6 +1,6 @@
 .Record {
     text-align: center;
-    background-color: #eee;
+    position: relative;
 }
 
 .RecordOverlay {
@@ -11,4 +11,11 @@
     border-radius: 10px;
     background-color: #444;
     z-index: 100;
+}
+
+.RecordImages {
+    position: absolute;
+    top: -10%;
+    left: -20%;
+    z-index: 1;
 }

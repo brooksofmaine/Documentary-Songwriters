@@ -2,6 +2,7 @@ import React from 'react';
 import './LoginForm.css'
 import Button from "../Button"
 import GoogleImg from '../assets/google_signin.png'
+import LoginImages from './LoginImages';
 
 class LoginForm extends React.Component {
     constructor(props) {
@@ -156,7 +157,7 @@ class LoginForm extends React.Component {
                         <span>Remember Me</span>
                     </label>
                 </form>
-                <Button id="login" onClick={this.authUser} name="Login"/>
+                <Button style={{zIndex: 100}} id="login" onClick={this.authUser} name="Login"/>
                 <div className={"new_user_prompt login_section"}>
                     <h2>New User?</h2>
                     <button className="link-style" onClick={() => this.setState({login: 1})}>Register a new account</button>
@@ -198,11 +199,12 @@ class LoginForm extends React.Component {
                 <h1 className={"Title"}>Documentary Songwriters</h1>
                 <div className="login_area flex_container">
                     <div className={"user_login login_section"}>
-                    <button className="google-button" onClick={() => this.openGoogleLogin()}>
-                        <img src={GoogleImg} alt="Google Login Button" />
-                    </button>
+                        <button className="google-button" onClick={() => this.openGoogleLogin()}>
+                            <img src={GoogleImg} alt="Google Login Button" />
+                        </button>
                         {this.loginState()}
                     </div>
+                    <LoginImages />
                 </div>
             </div>
         );
