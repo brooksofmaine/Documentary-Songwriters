@@ -233,7 +233,7 @@ class Record extends React.Component {
                         <path d="M58.2991 2.71286C58.2991 2.71286 41.5832 122.046 38.9334 144.259C36.2835 166.471 7.69449 150.377 7.26973 144.874" stroke="#303D8B" stroke-width="5"/>
                     </svg>
                 </div>
-                <FrequencyBars ref = {frequencyBars => {this.frequencyBars = frequencyBars}} />
+                <FrequencyBars ref={frequencyBars => {this.frequencyBars = frequencyBars}} />
             </div>
         )
     }
