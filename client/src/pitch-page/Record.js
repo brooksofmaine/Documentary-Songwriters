@@ -13,11 +13,6 @@ import StopPopup from './StopPopup';
 import SavePopup from './SavePopup';
 import FrequencyBars from './FrequencyBars';
 
-// Function to pause: change_state
-
-// import PitchCounter  from '../../server/pitch-counter/pitch_counter'
-
-
 class Record extends React.Component {
     constructor() {
         super()
