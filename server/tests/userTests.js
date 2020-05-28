@@ -7,6 +7,7 @@ const chaiHttp = require('chai-http');
 const app = require('../index');
 const should = chai.should();
 const baseURL = '/api/user';
+const baseURLGroup = '/api/group';
 
 chai.use(chaiHttp);
 
@@ -21,7 +22,29 @@ describe('User', function() {
     firstName: 'bob',
     lastName: 'smith',
     email: 'email@email.com',
-    password: 'foobar'
+    password: 'foobar',
+    weeklyAchievement: 1,
+    LastPlayedInstrument: 'guitar'
+  };
+
+  let harshData = {
+    username: 'timmy',
+    firstName: 'tim',
+    lastName: 'smith',
+    email: 'email@email.com',
+    password: 'foobar',
+    LastPlayedInstrument: 'guitar'
+  };
+
+  let groupData = {
+    groupName: 'group1',
+    description: 'this is the group1 description',
+    visible: true
+  };
+  let groupData2 = {
+    groupName: 'group2',
+    description: 'this is the group2 description',
+    visible: true
   };
 
   before(function(done) {
@@ -33,6 +56,76 @@ describe('User', function() {
     server.close();
     done();
   });
+
+  // Adding group(s) to a user
+  describe('AddGroups', function() {
+    it('should create a user that does not already exist', function(done) {
+      server.post(baseURL + '/create')
+        .set('content-type', 'application/json')
+        .send(harshData)
+        .end(function(err, res) {
+          res.should.have.status(200);
+          res.should.be.json;
+          res.body.username.should.equal(harshData.username);
+          res.body.firstName.should.equal(harshData.firstName);
+          res.body.lastName.should.equal(harshData.lastName);
+          res.body.email.should.equal(harshData.email);
+          res.body.LastPlayedInstrument.should.equal(harshData.LastPlayedInstrument);
+          done();
+        });
+    });
+
+    it('should create a group that does not already exist', function(done) {
+      server.post(baseURLGroup + '/create')
+        .set('content-type', 'application/json')
+        .send(groupData)
+        .end(function(err, res) {
+          res.should.have.status(200);
+          res.should.be.json;
+          res.body.groupName.should.equal(groupData.groupName);
+          res.body.description.should.equal(groupData.description);
+          res.body.visible.should.equal(groupData.visible);
+          done();
+        });
+    });
+
+    it('should add groups to users', function(done) {
+      server.post(baseURL + '/' + harshData.username + '/addGroups')
+        .set('content-type', 'application/json')
+        .send(groupData)
+        .end(function(err, res) {
+          res.should.have.status(200);
+          console.log("added group to timmy!")
+          done();
+        });
+    });
+  });
+
+  // Getting group(s) a user is in
+  describe('GetGroups', function() {
+    it('should add groups to users', function(done) {
+      server.post(baseURL + '/' + harshData.username + '/addGroups')
+        .set('content-type', 'application/json')
+        .send(groupData2)
+        .end(function(err, res) {
+          console.log("trying to add group2 to timmy!")
+          res.should.have.status(200);
+          console.log("added group2 to timmy!")
+          done();
+        });
+    });
+
+    it('should get groups from user', function(done) {
+      server.get(baseURL + '/' + harshData.username + '/getGroups')
+        .set('content-type', 'application/json')
+        .end(function(err, res) {
+          console.log(res.body.Groups);
+          res.should.have.status(200);
+          done();
+        });
+    });
+  });
+
 
   describe('Create', function() {
     it('should create a user that does not already exist', function(done) {
@@ -46,6 +139,8 @@ describe('User', function() {
           res.body.firstName.should.equal(userData.firstName);
           res.body.lastName.should.equal(userData.lastName);
           res.body.email.should.equal(userData.email);
+          res.body.LastPlayedInstrument.should.equal(userData.LastPlayedInstrument);
+          res.body.weeklyAchievement.should.equal(userData.weeklyAchievement);
           done();
         });
     });
@@ -73,6 +168,8 @@ describe('User', function() {
           res.body.firstName.should.equal(userData.firstName);
           res.body.lastName.should.equal(userData.lastName);
           res.body.email.should.equal(userData.email);
+          res.body.weeklyAchievement.should.equal(userData.weeklyAchievement);
+          res.body.LastPlayedInstrument.should.equal(userData.LastPlayedInstrument);
           done();
         });
     });
@@ -98,7 +195,9 @@ describe('User', function() {
       firstName: 'robert',
       lastName: 'smithson',
       email: 'new@email.com',
-      password: 'password'
+      password: 'password',
+      weeklyAchievement: 2,
+      LastPlayedInstrument: 'piano'
     };
 
     for (let [key, value] of Object.entries(newUser)) {
@@ -113,6 +212,7 @@ describe('User', function() {
             res.should.have.status(200);
             res.should.be.json;
             res.body[key].should.equal(newUser[key]);
+            //console.log(res.body)
             userData[key] = res.body[key];
             done();
           });
@@ -150,7 +250,9 @@ describe('User', function() {
       firstName: 'bob',
       lastName: 'smith',
       email: 'email@email.com',
-      password: 'anotherone'
+      password: 'anotherone',
+      LastPlayedInstrument: 'piano',
+      weeklyAchievement: 2
     };
 
     it('should not change a user\'s username if the new username is already taken', function(done) {
@@ -165,6 +267,8 @@ describe('User', function() {
           res.body.firstName.should.equal(secondUser.firstName);
           res.body.lastName.should.equal(secondUser.lastName);
           res.body.email.should.equal(secondUser.email);
+          res.body.LastPlayedInstrument.should.equal(userData.LastPlayedInstrument);
+          res.body.weeklyAchievement.should.equal(userData.weeklyAchievement);
 
 
           server.post(baseURL + '/' + userData.username + '/change/username')
@@ -180,3 +284,19 @@ describe('User', function() {
     });
   });
 });
+
+
+  // describe('AddGroups', function() {
+  //   it('should add groups to users', function(done) {
+  //     server.post(baseURL + '/addGroups')
+  //       .set('content-type', 'application/json')
+  //       .send(groupData)
+  //       .end(function(err, res) {
+  //         console.log('hopefully this worked:)');
+  //         console.log(err);
+  //         res.should.have.status(200);
+  //         console.log(res.body)
+  //         done();
+  //       });
+  //   });
+  // });
