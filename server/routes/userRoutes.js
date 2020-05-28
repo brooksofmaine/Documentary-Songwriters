@@ -154,7 +154,9 @@ router.post('/create', (req, res) => {
  *   Get /api/user/bobbyS
  */
 router.get('/:username', (req, res) => {
-  db.User.findByPk(req.params.username).then((modelInstance) => {
+  db.User.findByPk(req.params.username, {
+    attributes: {exclude: ['password']}
+  }).then((modelInstance) => {
     if (modelInstance === null) {
       res.status(404).json({ err: 'user not found' });
       return;
