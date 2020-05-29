@@ -79,6 +79,7 @@ class PitchCounter {
 
 
     startRecord() {
+        console.log('start record')
         const self = this;
         navigator.mediaDevices.getUserMedia({ audio: true })
         .then(function(stream) {
@@ -109,6 +110,7 @@ class PitchCounter {
     }
 
     initPitchCounting() {
+        console.log("init pitch counting")
         this.initListener();
         this.frequencyData = new Float32Array(
             this.analyser.frequencyBinCount);
@@ -386,6 +388,7 @@ class PitchCounter {
     }
 
     detectPitches() {
+        console.log('detect pitches')
         this.updateBiquad();
         //retrieve new freqeuency data
         this.analyser.getFloatFrequencyData(this.frequencyData);
