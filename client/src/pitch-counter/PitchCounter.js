@@ -130,6 +130,7 @@ class PitchCounter {
 
     //initialize EventListener
     initListener() {
+        console.log('init listener')
         this.findPeaks = this.initD3Peaks();
         this.initGetUserMedia();
         this.audioContext = new window.AudioContext();
@@ -153,12 +154,12 @@ class PitchCounter {
     // Completely start pitch counter by initializing the listener and
     // by creating the starting Float32Array of frequencies
     initPitchCounting() {
-        if (this.audioContext === null) {
+        console.log('init pitching counting')
+        console.log(this.audioContext)
             this.initListener();
             this.frequencyData = new Float32Array(
                 this.analyser.frequencyBinCount);
             this.audioContext.resume();
-        }
     }
 
     //Stop Listening
