@@ -13,6 +13,7 @@ import StopPopup from './StopPopup';
 import SavePopup from './SavePopup';
 import FrequencyBars from './FrequencyBars';
 
+
 class Record extends React.Component {
     constructor() {
         super()
@@ -85,17 +86,7 @@ class Record extends React.Component {
                 length : this.prettyTime(time)
         })}, 1000);
 
-        let frequency = 16; // TEMPORARY
-
-        this.frequency = setInterval(() => {
-            if ( this.frequencyBars !== null ) {
-                this.frequencyBars.updateFrequencyBars(app.instrument.pitchCounter.frequencyData);
-                this.setState({
-                    count: app.get_pitch_count()
-                });
-            }
-        }, frequency);
-    }
+        let frequency = 16;
 
         this.frequency = setInterval(() => {
             if ( this.frequencyBars !== null ) {
@@ -216,7 +207,7 @@ class Record extends React.Component {
                 <RecordFilter defaultInstrument = {this.state.lastPlayedInstrument} changeInstrument={() => this.showPopup("stop", "instrument")} ref = {filter => this.filter = filter}/>
                 <Counter countNum={this.state.count} />
                 <Stopwatch 
-                    startFunction={() => app.start()} 
+                    startFunction={() => app.start()}
                     stopFunction={() => app.stop()} 
                     pauseFunction={() => app.changeState()}
                     reset={() => this.showPopup("stop", "stop")} 

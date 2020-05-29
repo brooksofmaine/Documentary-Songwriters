@@ -3,6 +3,7 @@ import './LoginForm.css'
 import Button from "../Button"
 import GoogleImg from '../assets/google_signin.png'
 import LoginImages from './LoginImages';
+import loginImage from './login-form.png';
 
 class LoginForm extends React.Component {
     constructor(props) {
@@ -204,7 +205,6 @@ class LoginForm extends React.Component {
                         </button>
                         {this.loginState()}
                     </div>
-                    <LoginImages />
                 </div>
             </div>
         );

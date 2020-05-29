@@ -62,7 +62,9 @@ class Stopwatch extends React.Component {
 
     // controls play and pause
     playPause = () => {
-        this.props.pauseFunction()
+        console.log("playpause")
+        // this.props.pauseFunction()
+        this.props.startFunction();
         if ( this.state.timerOn ) {
             this.stopTimer();
         }

@@ -4,7 +4,6 @@ import './UserProfile.css';
 import UserFunc from "../api-helper/user";
 import RecordingFunc from "../api-helper/recording";
 import { lowerFirstLetter } from './capitalization';
-import userData2 from './userData2';  // temporary data
 
 function UserProfile(props) {
 

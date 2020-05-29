@@ -118,3 +118,11 @@
     margin-bottom: 15px;
     max-width: 200px;
 }
+
+.LoginImage {
+    position: absolute;
+    top: -10%;
+    left: 0;
+    width: 100%;
+    z-index: 0;
+}
