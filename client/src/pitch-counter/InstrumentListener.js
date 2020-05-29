@@ -9,7 +9,6 @@ class InstrumentListener {
     }
 
     startListener() {
-        console.log("starting")
         this.pitchCounter.initPitchCounting();
         // this.pitchCounter.frequencyData = new Float32Array(
         //     512);

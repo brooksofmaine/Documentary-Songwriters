@@ -62,7 +62,6 @@ class Stopwatch extends React.Component {
 
     // controls play and pause
     playPause = () => {
-        console.log("playpause")
         this.props.pauseFunction()
         if ( this.state.timerOn ) {
             this.stopTimer();
@@ -74,6 +73,7 @@ class Stopwatch extends React.Component {
 
     // on stop
     stop = () => {
+        this.props.stopFunction();
         this.props.reset("stop", "stop");
         this.stopTimer();
     };
