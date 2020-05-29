@@ -81,7 +81,7 @@ function InstrumentPage(props) {
 
     useEffect(() => {
         if (recordingGoal != 0) {
-            setPercentage((weekPitches / recordingGoal).toFixed(2) * 100);
+            setPercentage(((weekPitches / recordingGoal)*100).toFixed(0));
         }
         
     }, [recordingGoal, weekPitches])

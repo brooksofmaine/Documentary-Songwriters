@@ -1,8 +1,3 @@
-.Padding {
-    display: block;
-    height: 9em;
-}
-
 .ProfileSidebar {
     /* position: relative; */
     /* display: inline-block; */
@@ -38,7 +33,7 @@
     color: white;
 }
 
-.SidebarLink {
+/* .SidebarLink {
     text-align: center;
     cursor: pointer;
     position: relative;
@@ -56,4 +51,4 @@
 
 .HoverText, .SelectedText {
     color: #fff !important;
-}
+} */
