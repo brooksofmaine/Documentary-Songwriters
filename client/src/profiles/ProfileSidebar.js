@@ -14,7 +14,7 @@ function ProfileSidebar() {
     // const selectedText = "SelectedText";
     
     const [page, setPage] = useState(0);
-    const [username, setUsername] = useState("");
+    const [usrname, setUsername] = useState("");
 
     // const [hoveringProgress, setHoveringProgress] = useState(false);
     // const [hoveringProfile, setHoveringProfile] = useState(false);
@@ -33,14 +33,8 @@ function ProfileSidebar() {
     
     const id = useParams()
     console.log("ID:", id)
-    // setUserPath(id)
 
     useEffect(() => {
-        // let {id } = useParams()
-        // if (id != "") {
-        //     setUserPath(id)
-        // }
-
         
         async function getUsernameAndPage() {
             const username = await UserFunc.getCurrentUsername();
@@ -52,23 +46,30 @@ function ProfileSidebar() {
 
     }, [])
 
-    // Current bug: calls when username is empty and so it automatically shades to this
-    const getWindowLocation = () => {
-        const url = window.location.href
+    useEffect(() => {
+        updatePages()
+    }, [usrname])
 
+    let {username} = useParams()
+    console.log("path", username)
+
+
+    // Current bug: calls when username is empty and so it automatically shades to this
+    const GetWindowLocation = () => {
+        const url = window.location.href
+        
         if (url.includes("settings")) {
             return 2
-        } else if (url.includes(username)) {
+        } else if (url.includes(usrname)) {
             return 1
         } else {
             return 0
         }
     }
 
-    const updatePages = (pageNum = getWindowLocation()) => {
+    const updatePages = (pageNum = GetWindowLocation()) => {
         console.log("Called with pageNum", pageNum)
         setSelectedPage(pageNum)
-        
     }
 
     // useEffect(() => {
@@ -122,7 +123,7 @@ function ProfileSidebar() {
                   to="/api/profile"
                   onClick={() => {updatePages(0)}}>Progress</Link>
             <Link className={selectedPage === 1 ? "sidebar-link selected-link" : "sidebar-link"} 
-                  to={"/api/profile/" + username}
+                  to={"/api/profile/" + usrname}
                   onClick={() => {updatePages(1)}}>Profile</Link>
             <Link className={selectedPage === 2 ? "sidebar-link selected-link" : "sidebar-link"}
                   to="/api/profile/settings"

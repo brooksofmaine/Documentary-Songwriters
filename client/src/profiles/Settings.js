@@ -18,22 +18,23 @@ function Settings(props) {
 
     // TODO: Get all this info from UserData only 
     const fetchUserData = async () => {
-        const userData = await UserFunc.getCurrentUser()
+
+        const currentUser = await UserFunc.getCurrentUser()
+        const userData = await UserFunc.getUserInfo(currentUser.user.username)
+        console.log("userData:", userData)
         if (userData) {
             console.log("User Data:", userData)
-            if (userData.status === "logged_in") {
-                setUsername(userData.user.username)
-                setFirstName(userData.user.firstName)
-                setLastName(userData.user.lastName)
-                setEmail(userData.user.email)
-                
-                setUserInfo(userData)
-                if (userData.user.weeklyAchievement) {
-                    setGoal(userData.user.weeklyAchievement)
-                }
-            } 
+            setUsername(userData.username)
+            setFirstName(userData.firstName)
+            setLastName(userData.lastName)
+            setEmail(userData.email)
+            setUserInfo(userData)
+            if (userData.weeklyAchievement) {
+                setGoal(userData.weeklyAchievement)
+            }
         } 
-    }
+    } 
+    
 
     useEffect(() => {
         fetchUserData()
@@ -50,17 +51,17 @@ function Settings(props) {
     // TODO: Add check for if changed to invalid email/username
     const handleSubmit = () => {
         if (userInfo) {
-            if (userInfo.user.firstName != firstName) {
+            if (userInfo.firstName != firstName) {
                 UserFunc.changeInfo("firstName", firstName)
             }
-            if (userInfo.user.lastName != lastName) {
+            if (userInfo.lastName != lastName) {
                 UserFunc.changeInfo("lastName", lastName)
             }
-            if (userInfo.user.email != email) {
+            if (userInfo.email != email) {
                 UserFunc.changeInfo("email", email)
             }
-            if (userInfo.user.weeklyAchievement) {
-                if (userInfo.user.weeklyAchievement != goal) {
+            if (userInfo.weeklyAchievement) {
+                if (userInfo.weeklyAchievement != goal) {
                     UserFunc.changeInfo("weeklyAchievement", goal)
                 }
             } else {
@@ -72,7 +73,7 @@ function Settings(props) {
     }
 
 
-
+    // TODO: Validate all inputs, also inputs for pitch counting
     return(
         <div className="Settings">
             <button className="settings-btn" onClick={handleButton}>

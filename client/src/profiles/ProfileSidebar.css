@@ -17,10 +17,14 @@
     width: 100px;
     border-radius: 5px;
     transition: 0.1s all ease-in;
+    color: #101010;
+    font-weight: normal;
+    margin: 4px 0;
 }
 
 .sidebar-link:hover {
     background-color: #e6e6e6;
+    color: #101010;
 }
 
 .selected-link {

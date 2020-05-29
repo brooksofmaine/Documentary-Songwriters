@@ -20,8 +20,8 @@ function SummaryPage() {
         return null;
     }
     const { path, url } = useRouteMatch();
-    console.log("Path: ", path)
-    console.log(`URL: ${url}`)
+    // console.log("Path: ", path)
+    // console.log(`URL: ${url}`)
     return(
         <div className="SummaryPage">
             <Router>

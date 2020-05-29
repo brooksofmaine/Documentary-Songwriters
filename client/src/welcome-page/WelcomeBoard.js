@@ -52,6 +52,8 @@ class WelcomeBoard extends React.Component {
                         });
                     }
                 );
+
+                
             } else {
                 window.location = "/";
             }

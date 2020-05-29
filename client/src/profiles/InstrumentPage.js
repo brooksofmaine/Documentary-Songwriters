@@ -19,18 +19,34 @@ function InstrumentPage(props) {
     const [recordingGoal, setRecordingGoal] = useState(100);
     const [percentage, setPercentage] = useState(0);
 
+    const fetchRecordingGoal = async (usr) => {
+        const userInfo = await UserFunc.getUserInfo(usr)
+        console.log("User Info:", userInfo)
+        if (userInfo) {
+            if (userInfo.weeklyAchievement) {
+                setRecordingGoal(userInfo.weeklyAchievement)
+                console.log("Recording goal:", userInfo.weeklyAchievement)
+            }
+        }
+    }
 
-
+    // TODO: Clean up
     useEffect(() => {
+        
         UserFunc.getCurrentUser().then((user_info) => {
             if (user_info.status === "logged_in") {
                 setUsername(user_info.user.username);
+                
+                console.log("User info:", user_info)
+                fetchRecordingGoal(user_info.user.username)
             }
             // Set recording goal here
+            
 
         }).catch((err) => {
             console.log(err);
         });
+        
         
     }, [])
 
@@ -73,7 +89,7 @@ function InstrumentPage(props) {
 
     const margin = { top: 20, right: 20, bottom: 30, left: 40 };
 
-
+    // TODO: Update text for when you pass your goal
     return (
         <div className="InstrumentPage">
             <div className="Progress">
