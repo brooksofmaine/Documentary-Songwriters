@@ -15,9 +15,6 @@
 }
 
 .ErrorMessage {
-    
-    position: relative;
-    margin: 1.5em 0 -1em 0;
     color: #f00;
     font-weight: 200;
     font-size: 0.8em;
@@ -49,10 +46,10 @@
 }
 
 .GroupFormText {
-    /* position: absolute; */
+    position: absolute;
     width: 100%;
     padding: 1%;
-    margin: 5% 0;
+    margin: 1% 0;
     border-color: transparent;
     border-radius: 5px;
     font-size: 1em;
@@ -87,12 +84,16 @@
     z-index: 999;
 }
 
+.NewGroup {
+    background-color: #eee;
+}
+
 .NewGroupMemberBox {
     background-color: #fff;
     height: 200px;
     width: 95%;
     padding: 2% 4%;
-    margin: 5% 0 3% 0;
+    margin: 1% 0 3% 0;
     border-radius: 5px;
     overflow: auto;
     position: relative;
@@ -143,7 +144,6 @@
     position: absolute;
     padding: 3% 0;
     right: 0;
-    top: 20px;
     color: #666;
     z-index: 999;
     cursor: pointer;

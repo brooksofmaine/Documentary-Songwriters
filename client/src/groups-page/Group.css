@@ -41,21 +41,11 @@
 }
 
 .MemberBox {
-    position: relative;
-    height: 70%;
-    overflow: auto;
-}
-
-.MemberContainer {
-    padding: 2% 2%;
-    margin-left: -20%;
     background-color: #fff;
-    position: relative;
-    box-sizing: border-box;
-    width: 70%;
     height: 405px;
+    padding: 2% 4%;
     border-radius: 5px;
-    float: right;
+    overflow: auto;
 }
 
 .GroupSideBar {
@@ -68,41 +58,4 @@
     padding: 2% 3% 4% 3%;
     overflow: auto;
     position: relative;
-}
-
-.NewMemberInput {
-    margin: 0 5%;
-    padding: 2%;
-    border-radius: 5px;
-    border-color: transparent;
-    font-size: 1em;
-    font-weight: 200;
-    box-shadow: -1px 1px 2px 1px #ccc;
-    outline: none;
-    width: 90%;
-}
-
-.NewMemberInput:focus {
-    box-shadow: 0 0 10px #888;
-    outline: none;
-}
-
-.ErrorMessage {
-    color: #f00;
-    font-weight: 200;
-    font-size: 0.8em;
-}
-
-.MemberButtonColumn {
-    box-sizing: border-box;
-    width: 27%;
-    display: inline-block;
-    text-align: center;
-    margin: 2%;
-}
-
-.GroupsForm {
-    box-sizing: border-box;
-    width: 27%;
-    margin: 2%;
 }

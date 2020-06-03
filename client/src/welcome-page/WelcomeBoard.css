@@ -1,14 +1,11 @@
 .WelcomeBoard {
     text-align: left;
-    /* top: 25%; */
-    margin-top: 20%;
-    /* position: absolute; */
-    position: relative;
+    top: 25%;
+    position: absolute;
 }
 
 .WelcomeBoard > h1 p {
     margin: 20px;
-    z-index: 5;
 }
 
 .pitch_progress {
@@ -22,11 +19,4 @@
 
 #record-btn {
     margin-top: 30px;
-}
-
-.WelcomeBoardImage {
-    position: absolute;
-    right: 0;
-    top: -60%;
-    z-index: 0;
 }

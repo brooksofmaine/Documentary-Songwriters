@@ -59,19 +59,18 @@ function UserProfile(props) {
     // initializes secondary user characteristics once
     useEffect(() => {
         
-        // currently not implenting profile pictures--can add in later
         // helper function to set profile picture
-        // function setProfilePic() {
-        //     let pic; // TEMPORARY
-        //     userData2.picture ? 
-        //         pic = <img 
-        //                 src={userData2.picture}
-        //                 className="ProfilePicture"
-        //                 alt="Profile avatar for user"
-        //             /> :
-        //         pic = <div className = "NoProPic ProfilePicture"></div>;
-        //         setProPic(pic);
-        // }
+        function setProfilePic() {
+            let pic; // TEMPORARY
+            userData2.picture ? 
+                pic = <img 
+                        src={userData2.picture}
+                        className="ProfilePicture"
+                        alt="Profile avatar for user"
+                    /> :
+                pic = <div className = "NoProPic ProfilePicture"></div>;
+                setProPic(pic);
+        }
 
         // helper function to identify played instruments
         function setUniqueInstruments() {
@@ -111,13 +110,14 @@ function UserProfile(props) {
         }
         
         // sets data using above functions
-        // setProfilePic();
+        setProfilePic();
         setUniqueInstruments();
         setInstrumentString();
     }, [recordings])
     
     return(
         <div className = "Center GreyBackground">
+            {proPic}
             <h4>{firstName} {lastName}</h4>
             <p className = "InstrumentLine">{playString}</p>
             <div className = "Spacer"></div>
