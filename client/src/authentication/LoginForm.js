@@ -1,36 +1,34 @@
 import React from 'react';
 import './LoginForm.css'
 import Button from "../Button"
-import GoogleImg from '../assets/google_signin.png'
+import GoogleImg from '../assets/google_signin.png';
 import LoginImages from './LoginImages';
-import loginImage from './login-form.png';
+import Login from './Login';
+import Register from './Register';
 
 class LoginForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             login: 0,
-            remember_me: false
+            remember_me: false,
+            
+            username: "",
+            password: "",
+
+            badUser : false,
+            badPassword: false,
+            userMessage: "",
+            passwordMessage: ""
         };
 
         // Function bindings
-        this.loginState = this.loginState.bind(this);
         this.updateLoginState = this.updateLoginState.bind(this);
-        this.Login = this.Login.bind(this);
-        this.Register = this.Register.bind(this);
         this.createUser = this.createUser.bind(this);
         this.authUser = this.authUser.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.openGoogleLogin = this.openGoogleLogin.bind(this);
         this.handleCheckBoxChange = this.handleCheckBoxChange.bind(this);
-    }
-
-    loginState() {
-        if (this.state.login === 0) {
-            return this.Login();
-        } else {
-            return this.Register();
-        }
     }
 
     updateLoginState(num) {
@@ -89,15 +87,26 @@ class LoginForm extends React.Component {
     };
 
     async authUser() {
-        const fields = ['username', 'password'];
+        let error = false;
 
-        for (const field of fields) {
-            if (!this.state.hasOwnProperty(field) || this.state[field] === "") {
-                alert("Something's not filled in");
-                console.log(field);
-                console.log(this.state);
-                return;
-            }
+        if (this.state.username === "") {
+            console.log('missing username')
+            this.setState({
+                badUser: true,
+                userMessage: "You need to enter a username"
+            })
+            error = true;
+        }
+        if (this.state.password === "") {
+            console.log('missing password')
+            this.setState({
+                badPassword: true,
+                passwordMessage: "You need to enter a password"
+            })
+            error = true;
+        }
+        if (error) {
+            return;
         }
 
         /* Construct JSON with user info*/
@@ -106,9 +115,6 @@ class LoginForm extends React.Component {
             "password": this.state.password,
             "remember_me": this.state.remember_me
         };
-
-        console.log(userInfo);
-
 
         /* Send to server */
         const response = await fetch('http://localhost:5000/api/auth/local', {
@@ -122,7 +128,12 @@ class LoginForm extends React.Component {
 
         /* TODO: more status code error handling */
         if (response.status !== 200) {
-            alert("Wrong password");
+            this.setState({
+                badUser: true,
+                userMessage: "",
+                badPassword: true,
+                passwordMessage: "This username and password combination is invalid"
+            })
         } else {
             const myJson = await response.json();
             console.log(JSON.stringify(myJson));
@@ -136,65 +147,48 @@ class LoginForm extends React.Component {
         let json = {};
         json[e.target.name] = e.target.value;
         this.setState(json);
+
+        if (e.target.name === "username") {
+            this.setState({
+                badUser: false
+            })
+        }
+        else if (e.target.name === "password") {
+            this.setState({
+                badPassword: false
+            })
+        }
     };
 
     handleCheckBoxChange(e){
+        console.log('checkbox')
         let json = {};
         json['remember_me'] = e.target.checked;
         this.setState(json);
     };
 
-    Login() {
-        return (
-            <div>
-                <form className="form">
-                    <input className="login-input" type="text" placeholder="Username"
-                           name="username" onChange={this.handleChange}/>
-                    <input className="login-input" type="password" placeholder="Password"
-                           name="password" onChange={this.handleChange}/>
-                    <label htmlFor="remember_me">
-                        <input id="remember_me" type="checkbox" name="remember_me"
-                               onChange={this.handleCheckBoxChange}/>
-                        <span>Remember Me</span>
-                    </label>
-                </form>
-                <Button style={{zIndex: 100}} id="login" onClick={this.authUser} name="Login"/>
-                <div className={"new_user_prompt login_section"}>
-                    <h2>New User?</h2>
-                    <button className="link-style" onClick={() => this.setState({login: 1})}>Register a new account</button>
-                </div>
-            </div>
-        )
-    };
-
-    Register() {
-        return (
-            <div>
-            <form className="form">
-                <input className="login-input" type="text"
-                       placeholder="Username" name="username" onChange={this.handleChange}/>
-                <input className="login-input" type="text"
-                       placeholder="Email" name="email" onChange={this.handleChange}/>
-                <input className="login-input" type="text"
-                       placeholder="First Name" name="firstName" onChange={this.handleChange}/>
-                <input className="login-input" type="text"
-                       placeholder="Last name" name="lastName" onChange={this.handleChange}/>
-                <input className="login-input" type="password"
-                       placeholder="Password" name="password" onChange={this.handleChange}/>
-                <input className="login-input" type="password"
-                       placeholder="Confirm Password" name="password_confirm" onChange={this.handleChange}/>
-            </form>
-                <Button id="register" onClick={this.createUser} name="Register"/>
-                <div className={"new_user_prompt login_section"}>
-                    <h2>Already have an account?</h2>
-                    <button className="link-style" onClick={() => this.setState({login: 0})}>Click here to log in</button>
-                    
-                </div>
-            </div>
-        )
-    };
-
     render() {
+        const boyVisible = this.state.login === 0 ? true : false;
+
+        const displayedComponent = this.state.login === 0 ? 
+            <Login 
+                handleChange={this.handleChange}
+                handleCheckBoxChange={this.handleCheckBoxChange}
+                authUser={this.authUser}
+                changeDisplay={this.updateLoginState}
+                errorMessage={this.state.errorMessage}
+                badUser={this.state.badUser}
+                userMessage={this.state.userMessage}
+                badPassword={this.state.badPassword}
+                passwordMessage={this.state.passwordMessage}
+            /> : 
+            <Register 
+                handleChange={this.handleChange}
+                createUser={this.createUser}
+                changeDisplay={this.updateLoginState}
+                errorMessage={this.state.errorMessage}
+            />
+        
         return (
             <div className="loginform">
                 <h1 className={"Title"}>Documentary Songwriters</h1>
@@ -203,9 +197,12 @@ class LoginForm extends React.Component {
                         <button className="google-button" onClick={() => this.openGoogleLogin()}>
                             <img src={GoogleImg} alt="Google Login Button" />
                         </button>
-                        {this.loginState()}
+                        <div onChange={this.handleChange} onClick={this.handleCheckBoxChange}>
+                            {displayedComponent}
+                        </div>
                     </div>
                 </div>
+                <LoginImages boyVisible={boyVisible} />
             </div>
         );
     };
@@ -224,4 +221,4 @@ class LoginForm extends React.Component {
     };
 }
 
-export default LoginForm
+export default LoginForm;

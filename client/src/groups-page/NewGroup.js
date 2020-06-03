@@ -6,8 +6,6 @@ import NewMember from './NewMember';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 
-import {getGroup} from '../api-helper/group.js'
-
 import {server_add} from "../api-helper/config";
 import UserFunc from "../api-helper/user";
 import GroupFunc from '../api-helper/group';
@@ -210,7 +208,6 @@ class NewGroup extends React.Component {
                                 className="GroupFormText"
                             />
                         </div>
-                        <br />
                         <div className="ErrorMessage" style={groupErrorStyle}>
                             A group with this name already exists
                         </div>
@@ -225,7 +222,6 @@ class NewGroup extends React.Component {
                                 className="GroupFormText"
                             />
                         </div>
-                        <br />
 
                         <div className="InputWrapper">
                             <input 
@@ -240,7 +236,6 @@ class NewGroup extends React.Component {
                             />
                             <span><FontAwesomeIcon icon={faSearch} className="SearchIcon" onClick={this.addMember}/></span>
                         </div>
-                        <br />
                         <div className="ErrorMessage" style={userErrorStyle}>
                             {this.state.errorMessage}
                         </div>
@@ -258,7 +253,7 @@ class NewGroup extends React.Component {
             </div>
         )
     }
-    /* public/private not currentl implemented
+    /* public/private not currently implemented
      * add this back in if they ever are 
      */
 

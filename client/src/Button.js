@@ -6,7 +6,7 @@ class Button extends React.Component {
         return (
             <button id={this.props.id} 
                     onClick={this.props.onClick} 
-                    className="Button">
+                    className="Button Front">
                 <a href={this.props.url}>{this.props.name}</a>
             </button>
         );
