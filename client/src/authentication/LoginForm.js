@@ -2,6 +2,8 @@ import React from 'react';
 import './LoginForm.css'
 import Button from "../Button"
 import GoogleImg from '../assets/google_signin.png'
+import LoginImages from './LoginImages';
+import loginImage from './login-form.png';
 
 class LoginForm extends React.Component {
     constructor(props) {
@@ -49,7 +51,7 @@ class LoginForm extends React.Component {
             }
         }
         if (this.state.password !== this.state.password_confirm) {
-            alert("The passwords don't match");
+            alert("password don't match");
             console.log(this.state);
             return;
         }
@@ -62,8 +64,7 @@ class LoginForm extends React.Component {
             "firstName": this.state.firstName,
             "lastName": this.state.lastName,
             "email": this.state.email,
-            "weeklyAchievement": this.state.weeklyAchievement,
-            "LastPlayedInstrument": ""
+            "weeklyAchievement": 0
         };
 
         console.log(userInfo);
@@ -157,7 +158,7 @@ class LoginForm extends React.Component {
                         <span>Remember Me</span>
                     </label>
                 </form>
-                <Button id="login" onClick={this.authUser} name="Login"/>
+                <Button style={{zIndex: 100}} id="login" onClick={this.authUser} name="Login"/>
                 <div className={"new_user_prompt login_section"}>
                     <h2>New User?</h2>
                     <button className="link-style" onClick={() => this.setState({login: 1})}>Register a new account</button>
@@ -182,8 +183,6 @@ class LoginForm extends React.Component {
                        placeholder="Password" name="password" onChange={this.handleChange}/>
                 <input className="login-input" type="password"
                        placeholder="Confirm Password" name="password_confirm" onChange={this.handleChange}/>
-                <input className="login-input" type="number" 
-                       placeholder="Weekly Pitch Goal" name="weeklyAchievement" onChange={this.handleChange} />
             </form>
                 <Button id="register" onClick={this.createUser} name="Register"/>
                 <div className={"new_user_prompt login_section"}>
@@ -201,9 +200,9 @@ class LoginForm extends React.Component {
                 <h1 className={"Title"}>Documentary Songwriters</h1>
                 <div className="login_area flex_container">
                     <div className={"user_login login_section"}>
-                    <button className="google-button" onClick={() => this.openGoogleLogin()}>
-                        <img src={GoogleImg} alt="Google Login Button" />
-                    </button>
+                        <button className="google-button" onClick={() => this.openGoogleLogin()}>
+                            <img src={GoogleImg} alt="Google Login Button" />
+                        </button>
                         {this.loginState()}
                     </div>
                 </div>

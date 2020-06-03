@@ -72,6 +72,7 @@ class Stopwatch extends React.Component {
 
     // on stop
     stop = () => {
+        this.props.stopFunction();
         this.props.reset("stop", "stop");
         this.stopTimer();
     };

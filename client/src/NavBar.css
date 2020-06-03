@@ -12,7 +12,6 @@
     transition-duration: 0.5s;
     transition-timing-function: ease;
     margin-left: 45px;
-    /* border: 1px solid blue; */
 }
 
 .NavBar a:hover {

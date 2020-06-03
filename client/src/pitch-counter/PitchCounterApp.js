@@ -1,5 +1,4 @@
 
-
 class PitchCounterApp {
 
     constructor(instr) {
@@ -28,7 +27,7 @@ class PitchCounterApp {
     }
 
     // Pauses the EventListener and returns the current pitch_counter
-    change_state() {
+    changeState() {
         return this.instrument.changeListenerState();
     }
 }
@@ -44,7 +43,7 @@ function Stop() {
 }
 
 function ChangeState() {
-    app.change_state();
+    app.changeState();
 }
 
 module.exports = app;
