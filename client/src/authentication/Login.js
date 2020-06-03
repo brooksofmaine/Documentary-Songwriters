@@ -17,7 +17,7 @@ function Login(props) {
                     {props.userMessage}
                 </div>
                 <input className="login-input" type="password" placeholder="Password"
-                        name="password" style={passwordStyle} />
+                        name="password" style={passwordStyle}/>
                 <div className="ErrorMessage" style={passwordErrorStyle}>
                     {props.passwordMessage}
                 </div>

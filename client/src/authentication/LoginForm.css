@@ -142,4 +142,5 @@
     color: #f00;
     font-weight: 200;
     font-size: 0.8em;
+    z-index: 100;
 }

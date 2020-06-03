@@ -178,6 +178,7 @@ class NewGroup extends React.Component {
     render() {
         console.log(this.state.members)
         const userStyle  = this.state.badUser ? { color: '#f00' } : { color: '#000' };
+        const groupStyle  = this.state.badGroup ? { color: '#f00' } : { color: '#000' };
 
         const userErrorStyle = this.state.badUser ? { display : 'block' } : { display : 'none' };
         const groupErrorStyle = this.state.badGroup ? { display : 'block' } : { display : 'none' };
@@ -206,6 +207,7 @@ class NewGroup extends React.Component {
                                 value={this.state.groupName}
                                 placeholder="Group Name"
                                 className="GroupFormText"
+                                style={groupStyle}
                             />
                         </div>
                         <div className="ErrorMessage" style={groupErrorStyle}>

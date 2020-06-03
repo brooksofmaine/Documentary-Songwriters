@@ -15,11 +15,24 @@ class LoginForm extends React.Component {
             
             username: "",
             password: "",
+            email: "",
+            firstName: "",
+            lastName: "",
+            password_confirm: "",
 
             badUser : false,
             badPassword: false,
+            badEmail: false,
+            badFirstName: false,
+            badLastName: false,
+            badConfirmPassword: false,
             userMessage: "",
-            passwordMessage: ""
+            passwordMessage: "",
+            emailMessage: "",
+            firstNameMessage: "",
+            lastNameMessage: "",
+            confirmPasswordMessage: ""
+            
         };
 
         // Function bindings
@@ -38,19 +51,79 @@ class LoginForm extends React.Component {
     async createUser() {
         /* Check if valid */
         /* TODO: check email format; interactive alert of invalid fields */
-        const fields = ['username', 'password', 'password_confirm', 'firstName', 'lastName', 'email'];
 
-        for (const field of fields) {
-            if (!this.state.hasOwnProperty(field) || this.state[field] === "") {
-                alert("Something's not filled in");
-                console.log(field);
-                console.log(this.state);
-                return;
-            }
+        // checks that no fields are empty
+        let error = false;
+        let missingPassword = false;
+        if (this.state.username === "") {
+            this.setState({
+                badUser: true,
+                userMessage: "You need to enter a username"
+            })
+            error = true;
         }
-        if (this.state.password !== this.state.password_confirm) {
-            alert("password don't match");
-            console.log(this.state);
+        if (this.state.firstName === "") {
+            this.setState({
+                badFirstName: true,
+                firstNameMessage: "You need to enter a first name"
+            })
+            error = true;
+        }
+        if (this.state.lastName === "") {
+            this.setState({
+                badLastName: true,
+                lastNameMessage: "You need to enter a last name"
+            })
+            error = true;
+        }
+        if (this.state.password === "") {
+            this.setState({
+                badPassword: true,
+                passwordMessage: "You need to enter a password"
+            })
+            error = true;
+            missingPassword = true;
+        }
+        if (this.state.password_confirm === "") {
+            this.setState({
+                badConfirmPassword: true,
+                confirmPasswordMessage: "You need to confirm your password"
+            })
+            error = true;
+            missingPassword = true;
+        }
+        if (this.state.email === "") {
+            this.setState({
+                badEmail: true,
+                emailMessage: "You need to enter an email"
+            })
+            error = true;
+        }
+        // checks format of email
+        else if (!(/^[\.\-_a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(this.state.email))) {
+            this.setState({
+                badEmail: true,
+                emailMessage: "Please enter a valid email"
+            })
+        }
+        // check that passwords match
+        if ( !missingPassword && !(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(this.state.password))) {
+            this.setState({
+                badPassword: true,
+                passwordMessage: "Make sure your password includes at least one lowercase letter, uppercase letter, number, and special character, and is at least 8 characters long",
+                badConfirmPassword: true,
+                confirmPasswordMessage: ""
+            });
+        }
+        else if (this.state.password !== this.state.password_confirm) {
+            this.setState({
+                badPassword: true,
+                passwordMessage: "",
+                badConfirmPassword: true,
+                confirmPasswordMessage: "Passwords must match"
+            });
+        }
+        if (error) {
             return;
         }
 
@@ -64,8 +137,6 @@ class LoginForm extends React.Component {
             "email": this.state.email,
             "weeklyAchievement": 0
         };
-
-        console.log(userInfo);
 
         /* Send it */
         const response = await fetch('http://localhost:5000/api/user/create', {
@@ -90,7 +161,6 @@ class LoginForm extends React.Component {
         let error = false;
 
         if (this.state.username === "") {
-            console.log('missing username')
             this.setState({
                 badUser: true,
                 userMessage: "You need to enter a username"
@@ -98,7 +168,6 @@ class LoginForm extends React.Component {
             error = true;
         }
         if (this.state.password === "") {
-            console.log('missing password')
             this.setState({
                 badPassword: true,
                 passwordMessage: "You need to enter a password"
@@ -148,15 +217,48 @@ class LoginForm extends React.Component {
         json[e.target.name] = e.target.value;
         this.setState(json);
 
+        switch (e.target.name) {
+            case "username":
+                this.setState({
+                    badUser: false
+                });
+                break;
+            case "email":
+                this.setState({
+                    badEmail: false
+                });
+                break;
+            case "firstName":
+                this.setState({
+                    badFirstName: false
+                });
+                break;
+            case "lastName":   
+                this.setState({
+                    badLastName: false
+                });
+                break;
+            case "password":
+                this.setState({
+                    badPassword: false
+                });
+                break;
+            case "password_confirm":
+                this.setState({
+                    badConfirmPassword: false
+                });
+                break;
+            default:
+                break;
+        }
         if (e.target.name === "username") {
-            this.setState({
-                badUser: false
-            })
+            
         }
         else if (e.target.name === "password") {
-            this.setState({
-                badPassword: false
-            })
+            
+        }
+        else if (e.target.name === "email") {
+            
         }
     };
 
@@ -187,6 +289,18 @@ class LoginForm extends React.Component {
                 createUser={this.createUser}
                 changeDisplay={this.updateLoginState}
                 errorMessage={this.state.errorMessage}
+                badUser={this.state.badUser}
+                userMessage={this.state.userMessage}
+                badEmail={this.state.badEmail}
+                emailMessage={this.state.emailMessage}
+                badFirstName={this.state.badFirstName}
+                firstNameMessage={this.state.firstNameMessage}
+                badLastName={this.state.badLastName}
+                lastNameMessage={this.state.lastNameMessage}
+                badPassword={this.state.badPassword}
+                passwordMessage={this.state.passwordMessage}
+                badConfirmPassword={this.state.badConfirmPassword}
+                confirmPasswordMessage={this.state.confirmPasswordMessage}
             />
         
         return (
