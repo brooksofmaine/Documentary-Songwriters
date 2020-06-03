@@ -47,7 +47,7 @@ class NavBar extends React.Component {
                 <div className="dropdown-menu">
                     <a style={progressStyle} className="nav-link" href="/api/profile">My Progress</a>
                     <span className="dropdown">
-                       <button onClick={this.log_out}>Log out</button>
+                       <button className="DropdownButton" onClick={this.log_out}>Log out</button>
                     </span>
                 </div>
             </nav>
