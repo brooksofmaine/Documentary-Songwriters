@@ -6,39 +6,49 @@ import RecordingFunc from "../api-helper/recording";
 
 import ProgressCircle from "./ProgressCircle"
 import ProgressGraph from "./ProgressGraph"
-import ProfileSidebar from './ProfileSidebar';
+// import ProfileSidebar from './ProfileSidebar';
 
 
-
-{/* <BarChart ylabel='Pitches'
-                    width={600}
-                    height={400}
-                    margin={margin}
-                    data={data}
-                    onBarClick={handleBarClick}/> */}
 function InstrumentPage(props) {
     const [username, setUsername] = useState("");
     const [todayPitches, setTodayPitches] = useState(0);
     const [weekPitches, setWeekPitches] = useState(0);
     const [monthPitches, setMonthPitches] = useState(0);
 
-    // Change to be zero once API call exists to get recordingGoal
+    // TODO: Change to be zero once API call exists to get recordingGoal
     const [recordingGoal, setRecordingGoal] = useState(100);
     const [percentage, setPercentage] = useState(0);
 
+    const fetchRecordingGoal = async (usr) => {
+        const userInfo = await UserFunc.getUserInfo(usr)
+        console.log("User Info:", userInfo)
+        if (userInfo) {
+            if (userInfo.weeklyAchievement) {
+                setRecordingGoal(userInfo.weeklyAchievement)
+                console.log("Recording goal:", userInfo.weeklyAchievement)
+            }
+        }
+    }
 
-
+    // TODO: Clean up
     useEffect(() => {
+        
         UserFunc.getCurrentUser().then((user_info) => {
             if (user_info.status === "logged_in") {
                 setUsername(user_info.user.username);
+                
+                console.log("User info:", user_info)
+                fetchRecordingGoal(user_info.user.username)
             }
+            // Set recording goal here
+            
 
         }).catch((err) => {
             console.log(err);
         });
         
-}, [])
+        
+    }, [])
 
     useEffect(() => {
         if (username != "") {
@@ -71,7 +81,7 @@ function InstrumentPage(props) {
 
     useEffect(() => {
         if (recordingGoal != 0) {
-            setPercentage((weekPitches / recordingGoal).toFixed(2) * 100);
+            setPercentage(((weekPitches / recordingGoal)*100).toFixed(0));
         }
         
     }, [recordingGoal, weekPitches])
@@ -79,10 +89,9 @@ function InstrumentPage(props) {
 
     const margin = { top: 20, right: 20, bottom: 30, left: 40 };
 
-
+    // TODO: Update text for when you pass your goal
     return (
         <div className="InstrumentPage">
-            <ProfileSidebar />
             <div className="Progress">
                 <div className="top-bar">
                     <div className="pitch-progress section">
@@ -115,13 +124,10 @@ function InstrumentPage(props) {
 
                     </div>
                 </div>
-                <div className="progress-report section">
-
-                    <ProgressGraph username={username}/>
-
-
-                </div>
-            </div>    
+            </div>
+            <div className="progress-report section">
+                <ProgressGraph username={username}/>
+            </div>
 
         </div>
     )

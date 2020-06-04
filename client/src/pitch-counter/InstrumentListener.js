@@ -123,6 +123,5 @@ class InstrumentListener {
         this.initVoice();
     }
 }
-
 const instrumentListener = new InstrumentListener("default");
 module.exports = instrumentListener;

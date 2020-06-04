@@ -69,8 +69,8 @@ export default class GroupFunc {
     }
 
     // TODO: distinguish group and user not found
-    static async removeMember(group_name, member) {
-        const query_url = server_add + "/api/group/"+ group_name + "/removeUser";
+    static async deleteMember(group_name, member) {
+        const query_url = server_add + "/api/group/"+ group_name + "/delete";
         const new_user_name = {
             "username": member
         };
@@ -88,19 +88,6 @@ export default class GroupFunc {
             throw Error("Error: User or Group Not Found");
         } else if (response.status !== 200) {
             throw Error("Error: Connection Error");
-        }
-
-        return await response.json();
-    }
-
-    // Returns an array of members.
-    static async getMembers(group_name) {
-        const query_url = server_add + "/api/group/" + group_name + "/getUsers";
-        const response = await fetch(query_url, init_params_get);
-        if (response.status === 404) {
-            throw Error("Error: User or Group not found");
-        } else if (response.status !== 200) {
-            throw Error("Error: Connection error");
         }
 
         return await response.json();
