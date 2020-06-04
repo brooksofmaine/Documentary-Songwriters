@@ -12,10 +12,3 @@
     background-color: #444;
     z-index: 100;
 }
-
-.RecordImages {
-    position: absolute;
-    top: -10%;
-    left: -20%;
-    z-index: 1;
-}

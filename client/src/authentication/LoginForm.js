@@ -107,10 +107,10 @@ class LoginForm extends React.Component {
             })
         }
         // check that passwords match
-        if ( !missingPassword && !(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(this.state.password))) {
+        if ( !missingPassword && !(/^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}$/.test(this.state.password))) {
             this.setState({
                 badPassword: true,
-                passwordMessage: "Make sure your password includes at least one lowercase letter, uppercase letter, number, and special character, and is at least 8 characters long",
+                passwordMessage: "Make sure your password includes at least one letter, number, and special character, and is at least 8 characters long",
                 badConfirmPassword: true,
                 confirmPasswordMessage: ""
             });

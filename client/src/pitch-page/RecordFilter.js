@@ -57,7 +57,7 @@ class RecordFilter extends React.Component {
         const percussionStyle = this.state.instrument === "Percussion" ? { fontWeight : 400 } : { fontWeight : 200 };
 
         return(
-            <div className="InstrumentSelectContainer">
+            <div className="InstrumentSelectContainer Front">
                 <span className="RecordHeading" onClick={this.toggleFilter}>{this.state.instrument}</span>
                 <FontAwesomeIcon icon = {this.state.open ? faMinus : faAngleDown} className = "RecordFilterIcon" />
                 <div className = {this.state.open ? 'RecordSlider' : 'RecordSlider SlideOut'}>
