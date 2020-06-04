@@ -1,0 +1,105 @@
+.Container {
+    width: 100%;
+}
+
+.Date {
+    width: 35%;
+    padding: 0 0 0 6%;
+    text-align: left;
+}
+
+.FilterTopper {
+    cursor: pointer;
+}
+
+.HeaderRow {
+    padding: 0;
+}
+
+.HeaderColumn {
+    display: inline-block;
+    text-transform: uppercase;
+    font-size: 0.8em;
+    box-sizing: border-box;
+}
+
+.Icon {
+    color: #666;
+}
+
+.Inline {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+
+.InstrTitle {
+    font-weight: 600;
+    display: inline-block;
+    margin-right: 1.5%;
+    margin-left: 2%;
+}
+
+.Instrument {
+    width: 25%;
+    padding: 0 1%;
+    text-align: left;
+}
+
+.Length {
+    width: 20%;
+    padding: 0 1%;
+    text-align: left;
+}
+
+.Pitch {
+    width: 20%;
+    padding: 1% 8% 0 0;
+    text-align: right;
+}
+
+.PracticeBar {
+    margin: 0 auto;
+    width: 70%;
+    text-align: left;
+}
+
+.PracticeBox {
+    height: 240px;
+    width: 100%;
+    box-sizing: border-box;
+    overflow-y: auto;
+    border-radius: 0 0 10px 10px;
+    background-color: #fff;
+    padding: 2% 4% 2% 1%;
+}
+
+.PracticeBox::-webkit-scrollbar-thumb {
+    background: #5fa0d9;
+}
+
+.PracticeBox::-webkit-scrollbar-thumb::hover {
+    background: #40719c;
+}
+
+.PracticeContainer {
+    position: relative;
+}
+
+.PracticeHeader {
+    height: 70px;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: #fff;
+    border-radius: 10px 10px 0 0;
+    padding: 3% 4% 0 1%;
+}
+
+.PracticeOverlay {
+    position: absolute;
+    opacity: 0.5;
+    border-radius: 10px;
+    background-color: #444;
+    z-index: 10;
+}
