@@ -5,7 +5,7 @@ const { Client } = require('pg');
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/config.json')[env];
-const defaultURI = process.env.DATABASE_URL || 'postgres://' + config.username + ':' + config.password + '@' + config.host + ':' + config.port + '/postgres';
+const defaultURI = 'postgres://' + config.username + ':' + config.password + '@' + config.host + ':' + config.port + config.database;
 let db = {};
 
 
