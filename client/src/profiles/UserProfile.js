@@ -60,15 +60,16 @@ function UserProfile(props) {
         
         // helper function to set profile picture
         function setProfilePic() {
-            let pic; // TEMPORARY
-            userData2.picture ? 
-                pic = <img 
-                        src={userData2.picture}
-                        className="ProfilePicture"
-                        alt="Profile avatar for user"
-                    /> :
-                pic = <div className = "NoProPic ProfilePicture"></div>;
-                setProPic(pic);
+            console.log("setting profile pic")
+            // let pic; // TEMPORARY
+            // userData2.picture ? 
+            //     pic = <img 
+            //             src={userData2.picture}
+            //             className="ProfilePicture"
+            //             alt="Profile avatar for user"
+            //         /> :
+            //     pic = <div className = "NoProPic ProfilePicture"></div>;
+            //     setProPic(pic);
         }
 
         // helper function to identify played instruments

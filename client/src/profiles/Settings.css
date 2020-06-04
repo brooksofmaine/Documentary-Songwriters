@@ -28,22 +28,27 @@
     /* flex-direction: column; */
 }
 
+.Settings .normal-input {
+    border: none;
+}
+
+.Settings .normal-input:disabled {
+    background-color: rgb(238, 238, 238);
+    color: slategray;
+}
+
 .Settings input {
     width: 292px;
     max-height: 20px;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.18);
     border-radius: 5px;
-    border: none;
+    
     font-size: 16px;
     padding: 8px;
-    
 }
 
 
-.Settings input:disabled {
-    background-color: rgb(238, 238, 238);
-    color: slategray;
-}
+
 .Settings .row {
     display: flex;
     align-items: center;
@@ -56,6 +61,18 @@
     justify-content: space-between;
 }
 
+.Settings .input-error-msg {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    /* height: 120px; */
+    padding: 10px;
+}
+
+.Settings .input-error-msg input {
+    /* margin-top: 40px; */
+}
+
 .Settings .pitch input {
     width: 100px;
 }
@@ -65,16 +82,43 @@
     margin: 0 5px;
 }
 
+.Settings .name-error {
+    margin-left: 20%;
+}
+
 .Settings .settings-btn {
     width: 100px;
     height: 35px;
     border-radius: 5px;
     margin: 15px;
-    /* background: #303D8B; */
-    /* color: #fff; */
     border: none;
     outline: none;
     cursor: pointer;
     font-size: 16px;
     font-weight: 600;
+}
+
+.invalid-input {
+    border: 1px solid red;
+    color: red;
+    background-color: #ffcfcf;
+}
+
+.error {
+    margin: 5px 0 0 0;
+    /* visibility: hidden; */
+    color: red;
+    font-size: 12px;
+    
+    text-align: left;
+}
+
+.hidden {
+    
+    display: none;
+}
+
+#pitches-error {
+    margin: 10px 0 0 0;
+    /* border: 1px solid red; */
 }
