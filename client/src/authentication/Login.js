@@ -2,17 +2,34 @@ import React from 'react';
 import './LoginForm.css';
 import Button from '../Button';
 
+/* 
+ * Second-level component for login form fields
+ * Child of LoginForm
+ */
 function Login(props) {
+    // makes corresponding field text in red and un-hides error message if there's a problem 
     const userStyle  = props.badUser ? { color: '#f00' } : { color: '#000' };
     const userErrorStyle = props.badUser ? { display : 'block' } : { display : 'none' };
     const passwordStyle  = props.badPassword ? { color: '#f00' } : { color: '#000' };
     const passwordErrorStyle = props.badPassword ? { display : 'block' } : { display : 'none' };
     
+    /*
+     * Renders username and password fields and remember me option
+     * Renders errors if necessary from props logic
+     * Allows option to switch to Register component
+     */
     return (
         <div>
             <form className="form">
-                <input className="login-input" type="text" placeholder="Username"
-                        name="username" style={userStyle} />
+                <label>Username
+                    <br />
+                    <input className="login-input" 
+                           type="text" 
+                           placeholder="Username"
+                           name="username" 
+                           style={userStyle} 
+                    />
+                </label>
                 <div className="ErrorMessage" style={userErrorStyle}>
                     {props.userMessage}
                 </div>

@@ -6,28 +6,36 @@ import LoginImages from './LoginImages';
 import Login from './Login';
 import Register from './Register';
 
+/* 
+ * Top-level component to manage login screen
+ * First page scene when logging in
+ * Displayed at "/"
+ * Only screen viewable to users who aren't logged in
+ * Allows for login authentication and registering manually or via Google
+ * Handles field validation
+ */
 class LoginForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            login: 0,
-            remember_me: false,
+            login: 0,           // 0 if showing Login component, 1 if showing Register component
+            remember_me: false, // corresponds to remember me checkbox value
             
-            username: "",
-            password: "",
-            email: "",
-            firstName: "",
-            lastName: "",
-            password_confirm: "",
+            username: "",   // handles username field
+            password: "",   // handles password field
+            email: "",      // handles email field
+            firstName: "",  // handles first name field
+            lastName: "",   // handles last name field
+            password_confirm: "",     // handles password confirmation field
 
-            badUser : false,
-            badPassword: false,
-            badEmail: false,
+            badUser : false,                // one "bad" state variable for each possible field
+            badPassword: false,             // true if something wrong with input; otherwise false
+            badEmail: false,                // username and password work for both Login and Register components
             badFirstName: false,
             badLastName: false,
             badConfirmPassword: false,
-            userMessage: "",
-            passwordMessage: "",
+            userMessage: "",                // message to display if "bad" variable for this field is true
+            passwordMessage: "",            // explains in red error text to user what they did wrong
             emailMessage: "",
             firstNameMessage: "",
             lastNameMessage: "",
@@ -44,16 +52,26 @@ class LoginForm extends React.Component {
         this.handleCheckBoxChange = this.handleCheckBoxChange.bind(this);
     }
 
+    /*
+     * Sets visible form component to either Login or Register
+     * Changed on click by button at bottom allowing user to choose to make new account or login
+     */
     updateLoginState(num) {
         this.setState({login: num});
     }
 
+    /*
+     * Creates user when user manually creates their account
+     * Authenticates fields and produces error message if necessary
+     * Sends available info to database to create user in users table
+     */
     async createUser() {
-        /* Check if valid */
 
         // checks that no fields are empty
-        let error = false;
-        let missingPassword = false;
+        let error = false;           // makes it so it returns early if there are any errors
+        let missingPassword = false; // won't check for password errors if password is empty
+
+        // checks for empty username field
         if (this.state.username === "") {
             this.setState({
                 badUser: true,
@@ -61,6 +79,7 @@ class LoginForm extends React.Component {
             })
             error = true;
         }
+        // checks for empty first name field
         if (this.state.firstName === "") {
             this.setState({
                 badFirstName: true,
@@ -68,6 +87,7 @@ class LoginForm extends React.Component {
             })
             error = true;
         }
+        // checks for empty last name field
         if (this.state.lastName === "") {
             this.setState({
                 badLastName: true,
@@ -75,6 +95,7 @@ class LoginForm extends React.Component {
             })
             error = true;
         }
+        // checks for empty password field
         if (this.state.password === "") {
             this.setState({
                 badPassword: true,
@@ -83,6 +104,7 @@ class LoginForm extends React.Component {
             error = true;
             missingPassword = true;
         }
+        // checks for empty password confirmation field
         if (this.state.password_confirm === "") {
             this.setState({
                 badConfirmPassword: true,
@@ -91,6 +113,7 @@ class LoginForm extends React.Component {
             error = true;
             missingPassword = true;
         }
+        // checks for empty email field
         if (this.state.email === "") {
             this.setState({
                 badEmail: true,
@@ -153,13 +176,14 @@ class LoginForm extends React.Component {
         });
 
         const myJson = await response.json();
-        console.log(JSON.stringify(myJson));
+        // console.log(JSON.stringify(myJson));
 
+        // if successful, go back to login page so user can login
         if (response.status === 200) {
-            window.location = "/api/home";
+            window.location = "/";
         }
+        // if username is already taken, issue error message
         else if (response.status === 409) {
-            console.log("409")
             this.setState({
                 badUser: true,
                 userMessage: "Sorry, that username is already taken"
@@ -168,9 +192,16 @@ class LoginForm extends React.Component {
 
     };
 
+    /*
+     * Authenticates user's credentials (username and password)
+     * Handles producing errors for user if there's something wrong
+     * If successful, redirects to homepage
+     * Called when (existing) user tries to login
+     */
     async authUser() {
-        let error = false;
+        let error = false; // ensures returns early if there's something wrong
 
+        // checks for empty username
         if (this.state.username === "") {
             this.setState({
                 badUser: true,
@@ -178,6 +209,7 @@ class LoginForm extends React.Component {
             })
             error = true;
         }
+        // checks for empty password
         if (this.state.password === "") {
             this.setState({
                 badPassword: true,
@@ -185,6 +217,7 @@ class LoginForm extends React.Component {
             })
             error = true;
         }
+        // returns if necessary before even checking database
         if (error) {
             return;
         }
@@ -206,7 +239,8 @@ class LoginForm extends React.Component {
             credentials: 'include'
         });
 
-        /* TODO: more status code error handling */
+        // if there's no match in the database, produce error for user
+        // this could be incorrect password or nonexistent user
         if (response.status !== 200) {
             this.setState({
                 badUser: true,
@@ -214,20 +248,27 @@ class LoginForm extends React.Component {
                 badPassword: true,
                 passwordMessage: "This username and password combination is invalid"
             })
+        // if successful, login and redirect to homepage
         } else {
             const myJson = await response.json();
             console.log(JSON.stringify(myJson));
             window.location = "/api/home";
         }
-
-
     };
 
+    /*
+     * Handles all changes within Login and Register forms
+     * Triggered on change from either component e.g. typing in any field
+     * Updates value of appropriately named state variable based on event target
+     * If that field had an error before, gets rid of the error on its change
+     */
     handleChange(e){
+        // updates corresponding state variable
         let json = {};
         json[e.target.name] = e.target.value;
         this.setState(json);
 
+        // takes away error styling since user is making corrections
         switch (e.target.name) {
             case "username":
                 this.setState({
@@ -262,27 +303,30 @@ class LoginForm extends React.Component {
             default:
                 break;
         }
-        if (e.target.name === "username") {
-            
-        }
-        else if (e.target.name === "password") {
-            
-        }
-        else if (e.target.name === "email") {
-            
-        }
     };
 
+    /*
+     * Handles changes for the remember me checkbox 
+     * Activates through the Login child component
+     * Kept separate from above function to improve functionality
+     */
     handleCheckBoxChange(e){
-        console.log('checkbox')
         let json = {};
         json['remember_me'] = e.target.checked;
         this.setState(json);
     };
 
     render() {
+        /*
+         * Hides the graphic boy when Register component is showing
+         * Shows the graphic boy when Login component is showing
+         */
         const boyVisible = this.state.login === 0 ? true : false;
 
+        /*
+         * Passes in handle change and submit functions as props
+         * Passes in error handling behavior traits as props
+         */
         const displayedComponent = this.state.login === 0 ? 
             <Login 
                 handleChange={this.handleChange}
@@ -314,6 +358,9 @@ class LoginForm extends React.Component {
                 confirmPasswordMessage={this.state.confirmPasswordMessage}
             />
         
+        /*
+         * Renders entire page, including Login or Register, Google Button, and images
+         */
         return (
             <div className="loginform">
                 <h1 className={"Title"}>Documentary Songwriters</h1>
@@ -331,7 +378,9 @@ class LoginForm extends React.Component {
             </div>
         );
     };
-
+    
+    /* For debugging purposes */
+    /*
     componentDidMount = () => {
         window.addEventListener('message', (event) => {
             if (event.origin.startsWith("http://localhost:5000")) {
@@ -340,7 +389,11 @@ class LoginForm extends React.Component {
             }
         });
     };
+    */
 
+    /*
+     * Handles login via Google button
+     */
     openGoogleLogin = () => {
         window.open("http://localhost:5000/api/auth/google/", "Login",'height=800,width=500');
     };

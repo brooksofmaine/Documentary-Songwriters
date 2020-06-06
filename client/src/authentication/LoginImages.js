@@ -1,11 +1,18 @@
 import React from 'react';
 import './LoginImages.css';
 
+/*
+ * Low-level component for rendering images and graphics
+ */
 class LoginImages extends React.Component {
     
     render() {
-
+        // only renders the boy if Login showing, not Register for best visibility
         const boyStyle= this.props.boyVisible ? { display: "block" } : { display: "none" }
+
+        /*
+         * Renders decorative lines, boy, girl, and their respective music bubbles
+         */
         return(
             <div>
                 <div className="LoginLowerBubble" style={boyStyle}>

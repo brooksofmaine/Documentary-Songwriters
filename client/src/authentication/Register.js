@@ -1,7 +1,12 @@
 import React from 'react';
 import Button from '../Button';
 
+/* 
+ * Second-level component for login form fields
+ * Child of LoginForm
+ */
 function Register(props) {
+    // makes corresponding field text in red and un-hides error message if there's a problem 
     const userStyle  = props.badUser ? { color: '#f00' } : { color: '#000' };
     const userErrorStyle = props.badUser ? { display : 'block' } : { display : 'none' };
     const emailStyle  = props.badEmail ? { color: '#f00' } : { color: '#000' };
@@ -15,7 +20,11 @@ function Register(props) {
     const confirmPasswordStyle  = props.badConfirmPassword ? { color: '#f00' } : { color: '#000' };
     const confirmPasswordErrorStyle = props.badConfirmPassword ? { display : 'block' } : { display : 'none' };
 
-    
+    /*
+     * Renders username, email, first name, last name, password, and confirm password fields
+     * Renders errors if necessary from props logic
+     * Allows option to switch to Login component
+     */
     return(
         <div>
             <form className="form">
