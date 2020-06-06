@@ -5,6 +5,14 @@ import UserFunc from "../api-helper/user";
 import RecordingFunc from "../api-helper/recording";
 import { lowerFirstLetter } from './capitalization';
 
+/*
+ * UserProfile
+ * Top level component rendered at /api/profile/:username
+ * Intended mostly to display filterable past practices
+ * Visible to the public, not just the current user
+ * Potential TODO: Add profile picture to user table in database and display here
+ */
+
 function UserProfile(props) {
 
     const [username]                    = useState(props.match.params.username); // from query string
@@ -12,15 +20,20 @@ function UserProfile(props) {
     const [lastName, setLastName]       = useState("");      // last name of curr user
     const [createdAt, setCreatedAt]     = useState("");      // date curr user account created
     const [recordings, setRecordings]   = useState([]);      // array of all user's practices
-    const [proPic, setProPic]           = useState(null);    // src of user profile pic
-    const [instruments, setInstruments] = useState([]);      // array of unique instruments
-    const [playString, setPlayString]   = useState("");      // string of what instruments played
+    const [instruments, setInstruments] = useState([]);      // array of unique instruments that user has played
+    const [playString, setPlayString]   = useState("");      // string of what instruments the user plays to display at top
     const [initialized, setInitialized] = useState(false);   // bool if data done initializing
+    const [maxPitches, setMaxPitches] = useState(100); 
     
-    // initializes user data once
+    /*
+     * Initializes all user to data to be used on this page
+     */
     useEffect(() => {
         
-        // helper function to get user info from database
+        /*
+         * Helper function to get user info from database
+         * Retrieves first name, last name, and creation date
+         */
         async function getUserInfo() {
             await UserFunc.getUserInfo(username)
                 .then(userInfo => {
@@ -30,7 +43,9 @@ function UserProfile(props) {
                 });
         }
 
-        // helper function to get recordings of user
+        /*
+         * Helper function to get recordings of user
+         */
         async function getRecordings() {
             const msOfStartDate = Date.parse(createdAt);
             const startDate     = new Date(msOfStartDate);
@@ -47,32 +62,41 @@ function UserProfile(props) {
                 });   
         }
         
-
-        // call above functions
+        /* 
+         * Main to call above functions
+         */
         if ( !initialized ) {
             getUserInfo();
             getRecordings();
+            
         } 
-    }, [username, createdAt, recordings, initialized])
+
+        /*
+         * Calculate max pitches user has ever played in a recording
+         * Uses this info in filter
+         */
+        if (initialized) {
+            let max = 100;
+            
+            for (let recording of recordings) {
+                if (recording.numPitches > max) {
+                    max = recording.numPitches;
+                }
+            }
+            setMaxPitches(max);
+        }
+    }, [username, createdAt, recordings])
     
-    // initializes secondary user characteristics once
+    /*
+     * Initializes secondary user characteristics once
+     * Called once practices are initialized
+     * Includes unique instruments (for filter) and instrument string (at top of page)
+     */
     useEffect(() => {
         
-        // helper function to set profile picture
-        function setProfilePic() {
-            console.log("setting profile pic")
-            // let pic; // TEMPORARY
-            // userData2.picture ? 
-            //     pic = <img 
-            //             src={userData2.picture}
-            //             className="ProfilePicture"
-            //             alt="Profile avatar for user"
-            //         /> :
-            //     pic = <div className = "NoProPic ProfilePicture"></div>;
-            //     setProPic(pic);
-        }
-
-        // helper function to identify played instruments
+        /* 
+         * Helper function to identify all unique played instruments
+        */
         function setUniqueInstruments() {
             let uniqueInstruments = [];
             let flags             = [];
@@ -86,7 +110,9 @@ function UserProfile(props) {
             setInstruments(uniqueInstruments);
         }
 
-        // helper function to create "plays" string
+        /*
+         * Helper function to create "plays" string
+         */
         function setInstrumentString() {
             let plays = "Plays ";
             if ( instruments.length === 0 ) {
@@ -109,15 +135,20 @@ function UserProfile(props) {
             setPlayString(plays);
         }
         
-        // sets data using above functions
-        setProfilePic();
+        /*
+         * Main part of function which sets data using above functions
+         */
         setUniqueInstruments();
         setInstrumentString();
     }, [recordings])
     
+    /* 
+     * Display including name, play string, collapsible filter, practices
+     * Does NOT include sidebar (if applicable)
+     */
     return(
         <div className = "Center GreyBackground">
-            {proPic}
+            <div className="UserProfileSpacer"></div>
             <h4>{firstName} {lastName}</h4>
             <p className = "InstrumentLine">{playString}</p>
             <div className = "Spacer"></div>
@@ -125,6 +156,7 @@ function UserProfile(props) {
             <PracticeBar
                 practices = {recordings} 
                 instruments = {instruments} 
+                maxPitches={maxPitches}
             />
             <div className = "Spacer"></div>
         </div>

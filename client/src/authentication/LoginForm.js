@@ -110,7 +110,7 @@ class LoginForm extends React.Component {
         if ( !missingPassword && !(/^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}$/.test(this.state.password))) {
             this.setState({
                 badPassword: true,
-                passwordMessage: "Make sure your password includes at least one letter, number, and special character, and is at least 8 characters long",
+                passwordMessage: "Make sure your password includes at least one letter, number, and special character, and is 8-16 characters long",
                 badConfirmPassword: true,
                 confirmPasswordMessage: ""
             });
@@ -157,6 +157,13 @@ class LoginForm extends React.Component {
 
         if (response.status === 200) {
             window.location = "/api/home";
+        }
+        else if (response.status === 409) {
+            console.log("409")
+            this.setState({
+                badUser: true,
+                userMessage: "Sorry, that username is already taken"
+            })
         }
 
     };
