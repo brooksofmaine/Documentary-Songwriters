@@ -50,7 +50,6 @@ class LoginForm extends React.Component {
 
     async createUser() {
         /* Check if valid */
-        /* TODO: check email format; interactive alert of invalid fields */
 
         // checks that no fields are empty
         let error = false;
@@ -105,8 +104,9 @@ class LoginForm extends React.Component {
                 badEmail: true,
                 emailMessage: "Please enter a valid email"
             })
+            error = true;
         }
-        // check that passwords match
+        // checks for strong password
         if ( !missingPassword && !(/^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}$/.test(this.state.password))) {
             this.setState({
                 badPassword: true,
@@ -114,7 +114,9 @@ class LoginForm extends React.Component {
                 badConfirmPassword: true,
                 confirmPasswordMessage: ""
             });
+            error = true;
         }
+        // check that passwords match
         else if (this.state.password !== this.state.password_confirm) {
             this.setState({
                 badPassword: true,
@@ -122,7 +124,9 @@ class LoginForm extends React.Component {
                 badConfirmPassword: true,
                 confirmPasswordMessage: "Passwords must match"
             });
+            error = true;
         }
+        // doesn't try to create user if anything is wrong
         if (error) {
             return;
         }
