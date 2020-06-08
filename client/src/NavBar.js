@@ -5,9 +5,6 @@ import UserFunc from "./api-helper/user";
 class NavBar extends React.Component {
     constructor() {
         super();
-        this.state = {
-            highlighted: 0
-        };
     }
 
     async log_out() {
@@ -21,17 +18,34 @@ class NavBar extends React.Component {
     }
 
     render() {
-        const style = {
+        const regStyle = {
+            "fontWeight" : 400
+        };
+        const boldStyle = {
             "fontWeight": 800
         };
+        
+        let homeStyle, groupsStyle, practiceStyle, progressStyle;
+        const url = window.location.href;
+
+        homeStyle = url.includes("home") ? boldStyle : regStyle;
+        groupsStyle = url.includes("groups") ? boldStyle : regStyle;
+        practiceStyle = url.includes("practice") ? boldStyle : regStyle;
+        progressStyle = url.includes("profile") ? boldStyle : regStyle;
+        
         return (
             <nav className="NavBar">
-                <a style={style}
+                <a style={homeStyle}
                    className="nav-link" 
                    href="/api/home">Home</a>
-                <a className="nav-link" href="/api/groups">Groups</a>
+                <a style={groupsStyle} 
+                   className="nav-link" 
+                   href="/api/groups">Groups</a>
+                <a style={practiceStyle}
+                   className="nav-link"
+                   href="/api/practice">Practice</a>
                 <div className="dropdown-menu">
-                    <a className="nav-link" href="/api/profile">My Progress</a>
+                    <a style={progressStyle} className="nav-link" href="/api/profile">My Progress</a>
                     <span className="dropdown">
                        <button onClick={this.log_out}>Log out</button>
                     </span>

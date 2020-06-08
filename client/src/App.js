@@ -45,6 +45,7 @@ class App extends Component {
   render() {
     return (
     <div className="App">
+      <div className="InnerApp">
 
       <Router>
         <Switch>
@@ -55,7 +56,7 @@ class App extends Component {
           </PrivateRoute>
         </Switch>
       </Router>
-      
+      </div>
     </div>);
   }
 }

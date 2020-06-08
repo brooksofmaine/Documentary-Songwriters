@@ -70,7 +70,7 @@ class WelcomeBoard extends React.Component {
                     <WelcomeCounter count={this.state.weekCount} name="this week"/>
                     <WelcomeCounter count={this.state.monthCount} name="this month"/>
                 </div>
-                <Button url="/api/record" name="Record" id="record-btn"/>
+                <Button url="/api/practice" name="Practice" id="record-btn"/>
             </div>
         )
     }
