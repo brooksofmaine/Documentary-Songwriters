@@ -1,6 +1,13 @@
 import React from "react";
 import './Practice.css';
 
+/*
+ * Low-level component to render a single practice
+ * Child of PracticeBar (mapped)
+ * Render logic controlled in parent component
+ * Converts to legible format
+ * Displays practice date, length, pitches, instrument, and description
+ */
 function Practice(props) {
 
     let dateStr;
@@ -52,6 +59,9 @@ function Practice(props) {
     const formattedInstrument = props.instrument.charAt(0).toUpperCase() 
                                 + props.instrument.slice(1);
 
+    /*
+     * Renders single practice and its info in styled box
+     */
     return(
         <div className = "Practice">
             <div className = "PracticeCol PaddedDate">

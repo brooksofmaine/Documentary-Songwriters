@@ -4,18 +4,13 @@ import Stopwatch from './Stopwatch';
 import './Record.css';
 
 import UserFunc from "../api-helper/user";
-import InstrumentListener from '../pitch-counter/InstrumentListener.js';
-import pitchCounter from '../pitch-counter/PitchCounter.js';
 import app from '../pitch-counter/PitchCounterApp.js';
 import RecordingFunc from "../api-helper/recording";
 import RecordFilter from './RecordFilter';
 import StopPopup from './StopPopup';
 import SavePopup from './SavePopup';
 import FrequencyBars from './FrequencyBars';
-
-// Function to pause: change_state
-
-// import PitchCounter  from '../../server/pitch-counter/pitch_counter'
+import RecordImages from './RecordImages';
 
 
 class Record extends React.Component {
@@ -27,9 +22,9 @@ class Record extends React.Component {
         
         this.state = {
             count: 0,
-            overlayStyle : {                 
-                width: 0,                  
-                height: 0 
+            overlayStyle : {
+                width: 0,
+                height: 0
             },
             stopping : false,
             saving : false,
@@ -48,7 +43,7 @@ class Record extends React.Component {
     }
 
     async componentDidMount() {
-        
+
         let username;
         let instrument;
 
@@ -67,7 +62,7 @@ class Record extends React.Component {
                 lastPlayedInstrument : "Piano"
             })
         }
-        
+
         this.interval = setInterval(() => {
             let instr, time;
 
@@ -77,21 +72,20 @@ class Record extends React.Component {
             else {
                 time = null;
             }
-            
+
             if ( this.filter ) {
                 instr = this.filter.state.instrument;
             }
             else {
                 instr = null;
             }
-            
-            this.setState({ 
+
+            this.setState({
                 instrument : instr,
                 length : this.prettyTime(time)
-            });
-        }, 1000); 
+        })}, 1000);
 
-        let frequency = 16; // TEMPORARY
+        let frequency = 16;
 
         this.frequency = setInterval(() => {
             if ( this.frequencyBars !== null ) {
@@ -110,18 +104,18 @@ class Record extends React.Component {
 
     showPopup(popup, reason) {
         this.stopwatch.stopTimer();
-        
+
         if ( popup === "stop" ) {
 
             // only ask about restart if actually recorded anything or changed instrument
             if ( this.stopwatch.state.timerTime > 0 ) {
                 this.setState({
                     stopping : true,
-                    overlayStyle: { 
+                    overlayStyle: {
                         width  : "105%",
-                        height : "110vh" 
+                        height : "110vh"
                     }
-                });  
+                });
 
                 if ( reason === "instrument" ) {
                     this.setState({
@@ -133,14 +127,14 @@ class Record extends React.Component {
                         removeMessage : "Stopping your recording"
                     });
                 }
-            }  
+            }
         }
         else { // save
             this.setState({
                 saving : true,
-                overlayStyle: { 
+                overlayStyle: {
                     width  : "105%",
-                    height : "110vh" 
+                    height : "110vh"
                 }
             })
         }
@@ -159,13 +153,13 @@ class Record extends React.Component {
         }
 
         this.setState({
-            overlayStyle : {                 
-                width: 0,                  
-                height: 0 
+            overlayStyle : {
+                width: 0,
+                height: 0
             }
         });
     }
-    
+
     saveRecording(description) {
         // TODO: fix start and end times
         // TODO: fix connection error? (recording.js:137)
@@ -181,9 +175,8 @@ class Record extends React.Component {
             startTime,              // start time
             endTime                 // end time
             );
-        
+
         // TODO: handle errors somehow
-        // TODO: make this link to progress page when it exists
         this.props.history.push("/api/profile");
 
 
@@ -199,7 +192,7 @@ class Record extends React.Component {
     }
 
     render() {
-        
+
         return(
             <div className="Record">
                 <div className="RecordOverlay" style={this.state.overlayStyle}></div>
@@ -212,16 +205,18 @@ class Record extends React.Component {
                 <RecordFilter defaultInstrument = {this.state.lastPlayedInstrument} changeInstrument={() => this.showPopup("stop", "instrument")} ref = {filter => this.filter = filter}/>
                 <Counter countNum={this.state.count} />
                 <Stopwatch 
-                    startFunction={() => app.start()} 
+                    startFunction={() => app.start()}
                     stopFunction={() => app.stop()} 
+                    pauseFunction={() => app.changeState()}
                     reset={() => this.showPopup("stop", "stop")} 
                     save={this.showPopup} 
                     ref={stopwatch => this.stopwatch = stopwatch}
                 />
-                <FrequencyBars ref = {frequencyBars => {this.frequencyBars = frequencyBars}} />
+                <RecordImages />
+                <FrequencyBars ref={frequencyBars => {this.frequencyBars = frequencyBars}} />
             </div>
         )
     }
 }
 
-export default Record
+export default Record;

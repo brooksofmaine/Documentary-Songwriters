@@ -1,6 +1,66 @@
 .ProgressGraph {
-    margin-left: 10%;
-    width: 80%;
+    margin: 5% 0;
+    /* margin-left: 10%; */
+    /* width: 80%; */
     height: 90%;
     margin-top: 5%;
+}
+
+.ProgressGraph .graph-button {
+    border: none;
+    
+}
+
+.ProgressGraph .graph-button .btn-content {
+    width: 35px;
+    height: 35px;
+    padding: 10px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+
+.ProgressGraph .graph-button:focus, .ProgressGraph .btn-content:focus {
+    outline: none;
+}
+
+.graph-button:focus > .btn-content {
+    outline: 1px solid black;
+}
+.ProgressGraph .title-bar {
+    margin: 10px 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.ProgressGraph h3 {
+    margin: 0;
+    font-weight: 500;
+    padding-right: 20px;
+}
+
+.ProgressGraph .title-bar h4 {
+    margin: 0;
+}
+
+.ProgressGraph .dates {
+    display: flex;
+}
+
+.ProgressGraph .dates button {
+    border: none;
+    background: #ffffff;
+    font-size: 20px;
+    outline: none;
+}
+
+.date-string {
+    padding-top: 5px;
+    min-width: 150px;
+    text-align: center;
+    font-weight: 400;
+}
+
+.ProgressGraph .row {
+    display: flex;
 }

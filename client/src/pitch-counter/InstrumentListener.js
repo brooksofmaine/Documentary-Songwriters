@@ -10,9 +10,9 @@ class InstrumentListener {
 
     startListener() {
         this.pitchCounter.initPitchCounting();
-        this.pitchCounter.frequencyData = new Float32Array(
-            512);
-        this.pitchCounter.audioContext.resume();
+        // this.pitchCounter.frequencyData = new Float32Array(
+        //     512);
+        // this.pitchCounter.audioContext.resume();
     }
 
     changeInstrument(instrument) {
@@ -123,5 +123,6 @@ class InstrumentListener {
         this.initVoice();
     }
 }
+
 const instrumentListener = new InstrumentListener("default");
 module.exports = instrumentListener;

@@ -1,126 +1,68 @@
 import React, {useState, useEffect} from 'react';
+import {Link, useRouteMatch, useParams} from 'react-router-dom'
 import './ProfileSidebar.css';
 import UserFunc from '../api-helper/user.js';
 
 function ProfileSidebar() {
-    const normalContainer = {backgroundColor: "#EEE", fontWeight: 200};
-    const hoverContainer = {backgroundColor: "#8EACCD", fontWeight: 700};
-    const selectedContainer = {backgroundColor: "#0A1658", fontWeight: 700};
-    const normalText = "NormalText";
-    const hoverText = "HoverText";
-    const selectedText = "SelectedText";
-    
+    // TODO: Centralize
     const [page, setPage] = useState(0);
-    const [username, setUsername] = useState("");
+    const [usrname, setUsername] = useState("");
 
-    const [hoveringProgress, setHoveringProgress] = useState(false);
-    const [hoveringProfile, setHoveringProfile] = useState(false);
-    const [hoveringSettings, setHoveringSettings] = useState(false);
 
-    const [progressText, setProgressText] = useState(selectedText);
-    const [progressContainer, setProgressContainer] = useState(selectedContainer);
-    const [profileText, setProfileText] = useState(normalText);
-    const [profileContainer, setProfileContainer] = useState(normalContainer);
-    const [settingsText, setSettingsText] = useState(normalText);
-    const [settingsContainer, setSettingsContainer] = useState(normalContainer);
-
+    const [selectedPage, setSelectedPage] = useState(0);
     
+    // const id = useParams()
+    // console.log("ID:", id)
+
     useEffect(() => {
-        
-        getUsernameAndPage();
         
         async function getUsernameAndPage() {
             const username = await UserFunc.getCurrentUsername();
-            console.log(username);
-            setUsername(username);
-
-            const url = window.location.href;
-            console.log(url);
-            if (url.includes(username)) {
-                setPage(1);
-            }
-            else if (url.includes("settings")) {
-                setPage(2);
-            }
-            else {
-                setPage(0);
-            }
-            console.log(page)
+            setUsername(username)
         }
+        getUsernameAndPage();
+        updatePages();
+
     }, [])
 
     useEffect(() => {
-        if (page === 0) {
-            setProgressContainer(selectedContainer);
-            setProgressText(selectedText);
-        }
-        else if (hoveringProgress) {
-            setProgressContainer(hoverContainer);
-            setProgressText(hoverText);
-        }
-        else {
-            setProgressContainer(normalContainer);
-            setProgressText(normalText);
-        }
-    }, [hoveringProgress])
+        updatePages()
+    }, [usrname])
 
-    useEffect(() => {
-        if (page === 1) {
-            setProfileContainer(selectedContainer);
-            setProfileText(selectedText);
-        }
-        else if (hoveringProfile) {
-            setProfileContainer(hoverContainer);
-            setProfileText(hoverText);
-        }
-        else {
-            setProfileContainer(normalContainer);
-            setProfileText(normalText);
-        }
-    }, [hoveringProfile])
+    let {username} = useParams()
+    console.log("path", username)
 
-    useEffect(() => {
-        if (page === 2) {
-            setSettingsContainer(selectedContainer);
-            setSettingsText(selectedText);
+
+    // Current bug: calls when username is empty and so it automatically shades to this
+    const GetWindowLocation = () => {
+        const url = window.location.href
+        
+        if (url.includes("settings")) {
+            return 2
+        } else if (url.includes(usrname)) {
+            return 1
+        } else {
+            return 0
         }
-        else if (hoveringSettings) {
-            setSettingsContainer(hoverContainer);
-            setSettingsText(hoverText);
-        }
-        else {
-            setSettingsContainer(normalContainer);
-            setSettingsText(normalText);
-        }
-    }, [hoveringSettings])
+    }
+
+    const updatePages = (pageNum = GetWindowLocation()) => {
+        console.log("Called with pageNum", pageNum)
+        setSelectedPage(pageNum)
+    }
 
     return(
         <div className="ProfileSidebar">
-            <padding className="Padding"></padding>
-            <a className={progressText} href="/api/profile">
-                <p onMouseEnter={() => setHoveringProgress(true)} 
-                   onMouseLeave={() => setHoveringProgress(false)} 
-                   className="SidebarLink"
-                   style={progressContainer}>
-                    Progress
-                </p>
-            </a>
-            <a className={profileText} href={"/api/profile/" + username}>
-                <p onMouseEnter={() => setHoveringProfile(true)} 
-                   onMouseLeave={() => setHoveringProfile(false)} 
-                   className="SidebarLink"
-                   style={profileContainer}>
-                    Profile
-                </p>
-            </a>
-            <a className={settingsText} href="/api/settings">
-                <p onMouseEnter={() => setHoveringSettings(true)} 
-                   onMouseLeave={() => setHoveringSettings(false)} 
-                   className="SidebarLink"
-                   style={settingsContainer}>
-                    Settings
-                </p>
-            </a>
+            <Link className={selectedPage === 0 ? "sidebar-link selected-link" : "sidebar-link"}
+                  to="/api/profile"
+                  onClick={() => {updatePages(0)}}>Progress</Link>
+            <Link className={selectedPage === 1 ? "sidebar-link selected-link" : "sidebar-link"} 
+                  to={"/api/profile/" + usrname}
+                  onClick={() => {updatePages(1)}}>Profile</Link>
+            <Link className={selectedPage === 2 ? "sidebar-link selected-link" : "sidebar-link"}
+                  to="/api/profile/settings"
+                  onClick={() => {updatePages(2)}}>Settings</Link>
+
         </div>
     )
 }

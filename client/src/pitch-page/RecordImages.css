@@ -1,0 +1,8 @@
+.RecordImages {
+    position: absolute;
+    top: -10%;
+    left: -20%;
+    /* left: 0; */
+    right: 0;
+    z-index: 1;
+}

@@ -9,12 +9,12 @@ class GroupMember extends React.Component {
             <div className = "GroupMember">
                 <p>
                     <span className = "MemberName">
-                        <a href="/api/profile">
+                        <a href={"/api/profile/" + this.props.name}>
                             {this.props.name}
                         </a>
                     </span>
                 </p>
-                <p>Average Pitch Count Per Week: <b>{this.props.pitches}</b></p>
+                <p>Weekly Pitch Count: <b>{this.props.pitches}</b></p>
             </div>
         );
     };
