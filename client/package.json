@@ -8,8 +8,11 @@
     "@fortawesome/react-fontawesome": "^0.1.9",
     "@material-ui/core": "^4.9.12",
     "amd-loader": "0.0.8",
+<<<<<<< HEAD
     "fibers": "^5.0.0",
     "node-sass": "^4.14.1",
+=======
+>>>>>>> 4e437126c062fde711295826f344bff8002154ce
     "http-proxy-middleware": "^1.0.4",
     "react": "^16.13.1",
     "react-circular-progressbar": "^2.0.3",
