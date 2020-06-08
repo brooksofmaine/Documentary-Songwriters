@@ -1,0 +1,63 @@
+.StopPopup {
+    width: 40%;
+    height: 150px;
+    position: absolute;
+    margin: 0 auto;
+    top: 30%;
+    left: 26%;
+    padding: 4%;
+    border-radius: 10px;
+    z-index: 1000;
+    background-color: #fff;
+    color: #000;
+    font-weight: 200;
+    text-align: center;
+}
+
+.OptionButton {
+    display: inline-block;
+    width: 8em;
+    height: 2.5em;
+    padding: 2% 4%;
+    margin: 4%;
+    border-radius: 10px;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+.DarkButton {
+    background-color: #40719c;
+    color: #fff;
+    transition: 0.4s;
+}
+
+.DarkButton:hover {
+    background-color: #6094c2;
+}
+
+.LightButton {
+    background-color: #fff;
+    border: 2px solid #40719c;
+    color: #000;
+    transition: 0.4s;
+}
+
+.LightButton:hover {
+    background-color: #eee;
+}
+
+.Boldish  {
+    font-weight: 400;
+}
+
+.CornerX {
+    position: absolute;
+    color: #888;
+    left: 10px;
+    top: 10px;
+    transition: 0.2s;
+}
+
+.CornerX:hover {
+    color: #222;
+}

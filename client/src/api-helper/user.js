@@ -121,7 +121,7 @@ export default class UserFunc {
     }
 
     static async getGroups(username) {
-        const query_url = server_add + "/api/user/"+ username + "/getGroups";
+        const query_url = server_add + "/api/user/" + username + "/getGroups";
         const response = await fetch(query_url, init_params_get);
         if (response.status === 404) {
             throw Error("Error: User Not Found");

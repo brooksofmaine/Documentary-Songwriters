@@ -6,7 +6,9 @@ import GroupName from './GroupName';
 import './Group.css';
 
 import groupData from './groupData'; // this is temporary data
-import { getGroup } from '../api-helper/group.js'
+import GroupFunc, { getGroup } from '../api-helper/group.js'
+import UserFunc from '../api-helper/user.js';
+import RecordingFunc from '../api-helper/recording.js';
 import {server_add} from "../api-helper/config";
 // button at bottom should link to make a group page
 class Group extends React.Component {
@@ -17,28 +19,45 @@ class Group extends React.Component {
         }
         this.showGroup = this.showGroup.bind(this);
         this.getGroups = this.getGroups.bind(this);
-    };
+    }
 
     showGroup(key) {
         this.setState({currGroup : key - 1});
     }
 
     componentDidMount() {
-        //this.getGroups();
+        this.getGroups();
+        // TODO: render only one group at a time
     }
 
     // This isn't returning groups that the user is currently in
     async getGroups() {
-        // TODO: Getting current username?
-        const username = "peter" 
-        const query_url = server_add + '/api/user/' + username
-        const response = await fetch(query_url);
-        const body = await response.json();
-        console.log("User response body: ", body)
-        if (response.status !== 200) {
-          throw Error(body.message) 
+        
+        let username, groups, data;
+        username = await UserFunc.getCurrentUsername()
+        console.log(username)
+        data  = await UserFunc.getGroups(username)
+        groups = data.Groups;
+        console.log(groups);
+
+        let tempGroupsInfo = new Array();
+        let memberUsername, memberPitches;
+
+        for (let i = 0; i < groups.length; i++) {
+        
+            tempGroupsInfo[i] = await GroupFunc.getMembers(groups[i].groupName);
+            console.log(tempGroupsInfo[i]);
+
+            for (let j = 0; j < tempGroupsInfo[i].length; j++) {
+                memberUsername = tempGroupsInfo[i][j].username;
+                RecordingFunc.getPitchTotalCount(memberUsername,
+                    RecordingFunc.nthDayAgo(7),
+                    new Date()).then(
+                    result => memberPitches = result
+                );
+            }
         }
-        return body;
+
     }
 
     render() {

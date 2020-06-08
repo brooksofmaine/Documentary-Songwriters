@@ -4,8 +4,10 @@ import LoginForm from './authentication/LoginForm'
 import WelcomeBoard from './welcome-page/WelcomeBoard'
 import Record from './pitch-page/Record'
 import Group from './groups-page/Group'
-import UserProfile from './profiles/UserProfile.js'
+// import UserProfileContainer from './profiles/UserProfileContainer.js'
+import UserProfile from './profiles/UserProfile'
 import NewGroup from './groups-page/NewGroup'
+import SummaryPage from './profiles/SummaryPage'
 import {
     BrowserRouter as Router,
     Switch,
@@ -24,11 +26,12 @@ import {
                     <Route path="/api/home">
                         <WelcomeBoard />
                     </Route>
-                    <Route path="/api/record" component={Record} />
+                    <Route path="/api/practice" component={Record} />
                     <Route path="/api/groups" exact component={Group} />
                     <Route path="/api/groups/new" component={NewGroup} />
-                    <Route path="/api/profile" component={UserProfile} />
-
+                    
+                    <Route path="/api/profile" exact component={SummaryPage} />
+                    <Route path="/api/profile/:username" component={UserProfile}/>
                     </Switch>
                 </Router>
             </div>
