@@ -2,25 +2,8 @@ const router = require('express').Router();
 const passport = require('passport');
 const token_utils = require('../auth/token-utils');
 let client_add = "http://localhost:3000";
-
-// function ensureAuthenticated
-// ensures the user is logged in before it grants access to the api.
-// input: req, the request; res, the response obj; next, the function to be called next
-
-function ensureAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) {
-        return next();
-    } else {
-        res.status(401).json( {"err": "you are not logged in"});
-    }
-}
-
-module.exports.ensureAuthenticated = ensureAuthenticated;
-
-// auth login
-router.get('/login', (req,res) => {
-  res.send('Success');
-});
+const utils = require("./utils");
+const ensureAuthenticated = utils.ensureAuthenticated;
 
 // auth logout
 router.get('/logout', ensureAuthenticated, (req,res) => {
@@ -107,3 +90,4 @@ router.get('/loginstatus', (req, res) => {
 });
 
 module.exports = router;
+module.exports.ensureAuthenticated = ensureAuthenticated;

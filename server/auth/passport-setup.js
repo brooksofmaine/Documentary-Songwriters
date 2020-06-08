@@ -147,7 +147,7 @@ passport.deserializeUser((obj, cb) => {
 
 function findUser(username)
 {
-    return db.User.findByPk(username);
+    return db.User.scope("withPassword").findByPk(username);
 }
 
 function findUserOrCreate (username, profile, done)
