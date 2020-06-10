@@ -27,7 +27,7 @@ function PracticeBar(props) {
     const [instrument, setInstrument] = useState(["all"]);    // array of currently sshwoing instruments
     const [order, setOrder]           = useState("newFirst"); // string representing order of practices (newFirst or oldFirst)
     const [minPitch, setMinPitch]     = useState(0);          // min pitch to display
-    const [maxPitch, setMaxPitch]     = useState(500);        // max pitch to display
+    const [maxPitch, setMaxPitch]     = useState(props.maxPitches);        // max pitch to display
 
     const [instrumentOptions, setInstrumentOptions] = useState(["all"]); // array of instrument options to display, 
                                                                          // including "all" and all instruments played by this user
@@ -130,7 +130,7 @@ function PracticeBar(props) {
             </div>
         );
         setInstrumentOptions(options);
-    }, [props.instruments])
+    }, [props.instruments, changeSelectedInstruments])
 
     /*
      * Converts every viable instrument into a clickable filter option component
@@ -179,7 +179,7 @@ function PracticeBar(props) {
             </div>
         );
         setInstrumentOptions(options);
-    }, [instrument])
+    }, [instrument, changeSelectedInstruments])
 
     /*
      * Controls how date filters look and condenses into array
@@ -280,7 +280,7 @@ function PracticeBar(props) {
             }
         });
         setDisplay(displayedPractices);
-    }, [instrument, minPitch, maxPitch])
+    }, [instrument, minPitch, maxPitch, props.practices])
 
     /*
      * Triggered on click of main filter

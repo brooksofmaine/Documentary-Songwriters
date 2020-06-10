@@ -3,9 +3,6 @@ import './NavBar.css';
 import UserFunc from "./api-helper/user";
 
 class NavBar extends React.Component {
-    constructor() {
-        super();
-    }
 
     async log_out() {
         const result = await UserFunc.logUserOut();

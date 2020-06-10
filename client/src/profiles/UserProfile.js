@@ -85,7 +85,7 @@ function UserProfile(props) {
             }
             setMaxPitches(max);
         }
-    }, [username, createdAt, recordings])
+    }, [username, createdAt, recordings, initialized])
     
     /*
      * Initializes secondary user characteristics once

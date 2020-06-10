@@ -26,6 +26,7 @@
     "concurrently": "^5.0.0",
     "react": "^16.13.1",
     "react-bar-chart": "^0.1.2",
+    "react-burger-menu": "^2.6.15",
     "react-circular-progressbar": "^2.0.3",
     "react-dom": "^16.8.0",
     "react-slider": "^1.0.3",

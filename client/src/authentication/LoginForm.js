@@ -363,10 +363,10 @@ class LoginForm extends React.Component {
          */
         return (
             <div className="loginform">
-                <h1 className={"Title"}>Documentary Songwriters</h1>
+                <h1 className="Title Front">Documentary Songwriters</h1>
                 <div className="login_area flex_container">
                     <div className={"user_login login_section"}>
-                        <button className="google-button" onClick={() => this.openGoogleLogin()}>
+                        <button className="google-button Front" onClick={() => this.openGoogleLogin()}>
                             <img src={GoogleImg} alt="Google Login Button" />
                         </button>
                         <div onChange={this.handleChange} onClick={this.handleCheckBoxChange}>
@@ -379,8 +379,10 @@ class LoginForm extends React.Component {
         );
     };
     
-    /* For debugging purposes */
-    /*
+    /* 
+     * Handles logging in via Google with event listener
+     * Redirects to home if successful
+     */
     componentDidMount = () => {
         window.addEventListener('message', (event) => {
             if (event.origin.startsWith("http://localhost:5000")) {
@@ -389,7 +391,7 @@ class LoginForm extends React.Component {
             }
         });
     };
-    */
+    
 
     /*
      * Handles login via Google button
