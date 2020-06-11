@@ -87,7 +87,7 @@ class Record extends React.Component {
         let frequency = 16;
 
         this.frequency = setInterval(() => {
-            if ( this.frequencyBars !== null ) {
+            if ( this.frequencyBars !== null && app.instrument.pitchCounter.frequencyData !== undefined) {
                 this.frequencyBars.updateFrequencyBars(app.instrument.pitchCounter.frequencyData);
                 this.setState({
                     count: app.get_pitch_count()

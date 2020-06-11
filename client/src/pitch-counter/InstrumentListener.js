@@ -1,4 +1,4 @@
-const PitchCounter = require('./PitchCounter.js');
+const PitchCounter = require('./PitchCounter.js').pitchCounter;
 
 class InstrumentListener {
     constructor(instrument) {

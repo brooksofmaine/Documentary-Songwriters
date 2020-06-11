@@ -6,7 +6,7 @@ class PitchCounter {
         this.prev_peaks = [];
         this.final_peaks = [];
         this.peaksInNote = [];
-        this.frequencyData = new Float32Array();
+        this.frequencyData = null;
         this.prev_time = 0;
         this.curFrame = 0;
         this.framesSinceQuiet = 0;
@@ -102,12 +102,6 @@ class PitchCounter {
         })
     }
 
-    stop() {
-        this.audioContext.close();
-        this.audioContext = null;
-        this.counter = 0;
-    }
-
     initPitchCounting() {
         this.initListener();
         this.frequencyData = new Float32Array(
@@ -117,7 +111,7 @@ class PitchCounter {
 
     //pause pitch counting
     changeState() {
-        if (this.audioContext === null)
+        if (this.audioContext === null || this.audioContext === undefined)
             this.initPitchCounting();
         else {
             this.audioContext.close();
@@ -159,16 +153,6 @@ class PitchCounter {
     //Stop Listening
     stop() {
         if (this.audioContext !== null) {
-            this.audioContext.close();
-            this.audioContext = null;
-        }
-    }
-
-    //pause pitch counting
-    changeState() {
-        if (this.audioContext === null || this.audioContext === undefined)
-            this.initPitchCounting();
-        else {
             this.audioContext.close();
             this.audioContext = null;
         }
