@@ -1,0 +1,77 @@
+
+.InstrumentPage .section {
+    background-color: #FFF;
+    border-radius: 5px;
+    padding: 5px 30px;
+    margin: 1vw;
+}
+
+
+.heading {
+    font-weight: 500;
+}
+
+.pitch-progress.section, .achievements.section {
+    width: 25vw;
+}
+
+.progress-report.section {
+    width: 57vw;
+}
+
+.InstrumentPage hr {
+    border-top: 1px solid #f0f0f0;
+    width: 100%;
+}
+
+.data {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    align-items: flex-end;
+    justify-content: flex-start;
+    height: 60%;
+    margin-left: 2vw;
+}
+
+.data .row {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 40px;
+}
+
+
+.data p, .data h3 {
+    margin: 0;
+}
+
+.InstrumentPage .row {
+    display: flex;
+}
+
+.InstrumentPage .top-bar {
+    display: flex;
+}
+
+.progress-bar {
+    max-width: 180px;
+}
+
+.achievements p {
+    max-width: 150px;
+    margin-left: 40px;
+    font-family: 'Avenir', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 29px;
+}
+
+
+.Progress {
+    /* display: inline-block; */
+    /* position: relative; */
+    width: 80%;
+    /* float: right; */
+}
