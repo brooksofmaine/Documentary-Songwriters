@@ -23,15 +23,15 @@ import {
                     <NavBar />
                     <Switch>
                     <Route exact path="/" component={LoginForm} />
-                    <Route path="/api/home">
+                    <Route path="/home">
                         <WelcomeBoard />
                     </Route>
-                    <Route path="/api/practice" component={Record} />
-                    <Route path="/api/groups" exact component={Group} />
-                    <Route path="/api/groups/new" component={NewGroup} />
+                    <Route path="/practice" component={Record} />
+                    <Route path="/groups" exact component={Group} />
+                    <Route path="/groups/new" component={NewGroup} />
                     
-                    <Route path="/api/profile" exact component={SummaryPage} />
-                    <Route path="/api/profile/:username" component={UserProfile}/>
+                    <Route path="/profile" exact component={SummaryPage} />
+                    <Route path="/profile/:username" component={UserProfile}/>
                     </Switch>
                 </Router>
             </div>

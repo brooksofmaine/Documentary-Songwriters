@@ -93,7 +93,7 @@ class Group extends React.Component {
                     <h3 className = "BigName">My Groups</h3>
                     {groupNames}
                     <div className = "ButtonContainer">
-                        <button className= "GroupButton" onClick={() => window.location.href="/api/groups/new"}>
+                        <button className= "GroupButton" onClick={() => window.location.href="/groups/new"}>
                             Create a Group
                         </button>
                     </div>

@@ -8,6 +8,7 @@ const passportSetup = require('./auth/passport-setup');
 const userRoutes = require('./routes/userRoutes');
 const groupRoutes = require('./routes/groupRoutes');
 const recordingRoutes = require('./routes/recordingRoutes');
+const env = process.env.NODE_ENV || 'development';
 let db;
 
 const corsOptions = {
@@ -51,9 +52,15 @@ const startDB = (done) => {
     recordingRoutes.init(database);
     passportSetup.init(database);
     db = database;
-    db.sequelize.sync({force: true}).then(() => {
-      done();
-    });
+    if (env === "development") {
+      db.sequelize.sync({force: true}).then(() => {
+        done();
+      });
+    } else {
+      db.sequelize.sync().then(() => {
+        done();
+      });
+    }
   });
 };
 

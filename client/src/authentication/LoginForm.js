@@ -81,7 +81,7 @@ class LoginForm extends React.Component {
         console.log(JSON.stringify(myJson));
 
         if (response.status === 200) {
-            window.location = "/api/home";
+            window.location = "/home";
         }
 
     };
@@ -124,7 +124,7 @@ class LoginForm extends React.Component {
         } else {
             const myJson = await response.json();
             console.log(JSON.stringify(myJson));
-            window.location = "/api/home";
+            window.location = "/home";
         }
 
 
@@ -212,7 +212,7 @@ class LoginForm extends React.Component {
         window.addEventListener('message', (event) => {
             if (event.origin.startsWith("http://localhost:5000")) {
                 console.log("User " + event.data + " successfully logged in.");
-                window.location = "/api/home";
+                window.location = "/home";
             }
         });
     };

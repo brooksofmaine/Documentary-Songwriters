@@ -81,7 +81,7 @@ class NewGroup extends React.Component {
                     console.log(response.err)
                 }
             }
-            this.props.history.push("/api/groups");
+            this.props.history.push("/groups");
         }
 
         return body;
@@ -182,7 +182,7 @@ class NewGroup extends React.Component {
 
     render() {
         
-        const userStyle  = this.state.badUser ? { color: '#f00' } : { color: '#000' };
+        const userStyle  = this.state.badUser ? { color: '#ff0000' } : { color: '#000' };
 
         const userErrorStyle = this.state.badUser ? { display : 'block' } : { display : 'none' };
         const groupErrorStyle = this.state.badGroup ? { display : 'block' } : { display : 'none' };
