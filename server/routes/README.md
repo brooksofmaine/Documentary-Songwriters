@@ -336,7 +336,8 @@ To edit something about a recording as the creator of the recording
 
 **Body Parameters**
 
-* start - the start time of the recording
+* username - the username of the user whose recording we're changing
+* startTime - the start time of the recording
 * key - the name of the attribute to change, either `description`
 * value - the value to change the attribute to
 
