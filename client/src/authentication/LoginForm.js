@@ -2,6 +2,7 @@ import React from 'react';
 import './LoginForm.css'
 import Button from "../Button"
 import GoogleImg from '../assets/google_signin.png'
+import UserFunc from "../api-helper/user"
 
 class LoginForm extends React.Component {
     constructor(props) {
@@ -208,13 +209,11 @@ class LoginForm extends React.Component {
         );
     };
 
-    componentDidMount = () => {
-        window.addEventListener('message', (event) => {
-            if (event.origin.startsWith("http://localhost:5000")) {
-                console.log("User " + event.data + " successfully logged in.");
-                window.location = "/home";
-            }
-        });
+    componentDidMount = async () => {
+        const curr_user = UserFunc.getCurrentUser();
+        if (curr_user && 'status' in curr_user && curr_user['status'] == "logged_in") {
+            window.location.href = "/home";
+        }
     };
 
     openGoogleLogin = () => {
