@@ -1,5 +1,4 @@
 {
-  "use_env_variable": "DATABASE_URL",
   "development": {
     "username": "postgres",
     "password": null,
@@ -18,11 +17,6 @@
     "logging": false
   },
   "production": {
-    "username": "CHANGEME",
-    "password": "CHANGEME",
-    "database": "prod",
-    "host": "CHANGEME",
-    "port": 5432,
-    "dialect": "postgres"
+    "use_env_variable": "DATABASE_URL",
   }
 }
