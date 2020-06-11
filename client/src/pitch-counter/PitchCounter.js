@@ -1,7 +1,4 @@
-// import frequencyBars from '../pitch-page/FrequencyBars';
 const d3_peaks = require('./d3-peaks.js');
-const FrequencyBars = require('../pitch-page/FrequencyBars');
-
 
 class PitchCounter {
     constructor() {
@@ -108,6 +105,7 @@ class PitchCounter {
     stop() {
         this.audioContext.close();
         this.audioContext = null;
+        this.counter = 0;
     }
 
     initPitchCounting() {
@@ -121,10 +119,10 @@ class PitchCounter {
     changeState() {
         if (this.audioContext === null)
             this.initPitchCounting();
-        else if(this.audioContext.state === 'running')
-            this.audioContext.suspend();
-        else if(this.audioContext.state === 'suspended')
-            this.audioContext.resume();
+        else {
+            this.audioContext.close();
+            this.audioContext = null;
+        }
     }
 
     //initialize EventListener
@@ -149,8 +147,73 @@ class PitchCounter {
         this.startRecord();
     }
 
-    //increase Pitch counter and reset list of peaks
-    //Assumes that a new note has been found
+    // Completely start pitch counter by initializing the listener and
+    // by creating the starting Float32Array of frequencies
+    initPitchCounting() {
+            this.initListener();
+            this.frequencyData = new Float32Array(
+                this.analyser.frequencyBinCount);
+            this.audioContext.resume();
+    }
+
+    //Stop Listening
+    stop() {
+        if (this.audioContext !== null) {
+            this.audioContext.close();
+            this.audioContext = null;
+        }
+    }
+
+    //pause pitch counting
+    changeState() {
+        if (this.audioContext === null || this.audioContext === undefined)
+            this.initPitchCounting();
+        else {
+            this.audioContext.close();
+            this.audioContext = null;
+        }
+    }
+
+    // Testing function to plot frequencies
+    plotOutput() {
+        document.getElementById('counter').innerHTML = "Current Pitch count: " + this.counter;
+
+        var peakHeights = [];
+
+        //find height of the peaks
+        for(var i = 0; i < this.final_peaks.length; i ++) {
+            peakHeights.push(this.frequencyData[this.final_peaks[i]]);
+        }
+
+        //trace of peaks
+        var trace1 = {
+            y: this.frequencyData,
+            type: 'scatter',
+        };
+
+        //trace of all frequencies
+        var trace2 = {
+            x: this.final_peaks,
+            y: peakHeights,
+            mode: 'markers',
+            marker: {
+                color: 'rgb(219, 64, 82)',
+                size: 6
+            }
+        };
+
+        //trace of peak requirement
+        var trace3 = {
+            x: [0, 200],
+            y: [this.peakRequirement(0), this.peakRequirement(200)],
+            type: 'scatter'
+        };
+
+        // Plotly.newPlot('myDiv', [trace1, trace2, trace3], {}, {showSendToCloud:true});
+    }
+
+    // Increase Pitch counter and reset list of peaks
+    // Assumes that a new note has been found
     startNewNote() {
         this.framesOfQuiet = 0;
         this.counter++;
@@ -345,28 +408,14 @@ class PitchCounter {
                 this.analyzeVoice();
         }
         this.prev_peaks = this.final_peaks;
-        // this.updateFrequencyBars();
     }
-
-    updateTimeBars() {
-        var timeData = new Uint8Array(
-            this.analyser.frequencyBinCount);
-        this.analyser.getByteTimeDomainData(timeData);
-
-        this.frequencyBars.updateTime(timeData);
-        requestAnimationFrame(this.updateTimeBars.bind(this));
-      }
 
     updateFrequencyBars() {
         var timeData = new Uint8Array(
             this.analyser.frequencyBinCount);
         this.analyser.getByteTimeDomainData(timeData);
         this.frequencyBars.updateFrequencyBars(this.frequencyData);
-    }
-
-    // getFrequencyData() {
-    //     return this.frequencyData;
-    // }
+        }
 }
 
 export const pitchCounter = new PitchCounter();

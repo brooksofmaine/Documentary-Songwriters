@@ -15,6 +15,8 @@
 }
 
 .ErrorMessage {
+    position: relative;
+    margin: 0.2em 0;
     color: #f00;
     font-weight: 200;
     font-size: 0.8em;
@@ -46,7 +48,7 @@
 }
 
 .GroupFormText {
-    position: absolute;
+    flex: 1;
     width: 100%;
     padding: 1%;
     margin: 1% 0;
@@ -72,8 +74,10 @@
 
 .InputWrapper {
     position: relative;
+    display: flex;
     width: 100%;
-    height: 1.4em;
+    min-height: 1.4em;
+    /* height: 1.4em; */
 }
 
 .MemberX {
@@ -84,16 +88,12 @@
     z-index: 999;
 }
 
-.NewGroup {
-    background-color: #eee;
-}
-
 .NewGroupMemberBox {
     background-color: #fff;
     height: 200px;
-    width: 95%;
+    width: 92%;
     padding: 2% 4%;
-    margin: 1% 0 3% 0;
+    margin: 3% 0;
     border-radius: 5px;
     overflow: auto;
     position: relative;
@@ -143,7 +143,8 @@
 .SearchIcon {
     position: absolute;
     padding: 3% 0;
-    right: 0;
+    right: 10px;
+    top: -3px;
     color: #666;
     z-index: 999;
     cursor: pointer;

@@ -1,9 +1,8 @@
-const instrument = require('./InstrumentListener.js').instrumentListener;
 
 class PitchCounterApp {
 
     constructor(instr) {
-        this.instrument = instrument;
+        this.instrument = require('./InstrumentListener.js')
         this.instrument.changeInstrument(instr)
         // this.instrument = this.InstrumentListener.changeInstrument(instr)
 
@@ -28,7 +27,7 @@ class PitchCounterApp {
     }
 
     // Pauses the EventListener and returns the current pitch_counter
-    change_state() {
+    changeState() {
         return this.instrument.changeListenerState();
     }
 }
@@ -44,5 +43,5 @@ function Stop() {
 }
 
 function ChangeState() {
-    app.change_state();
+    app.changeState();
 }

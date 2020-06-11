@@ -1,10 +1,13 @@
-
+.login-input {
+    background-color: #fff !important;
+}
 
 .form input {
     height: 35px;
     border: none;
     padding-left: 10px;
-    margin-bottom: 20px;
+    /* margin-bottom: 20px; */
+    margin: 0.3em 0;
     background-color: #EBEBEB;
     border-radius: 5px;
     font-size: 16px; 
@@ -117,3 +120,27 @@
     max-width: 200px;
 }
 
+.Front {
+    position: relative;
+    z-index: 100;
+}
+
+
+#remember_me {
+    height: 1em;
+    margin: 3% 4% 10% 2%;
+}
+
+#remember-me-text {
+    display: inline-block;
+    height: 0.5em;
+}
+
+.ErrorMessage {
+    position: relative;
+    margin: -3em 0 0.5em 0.2em;
+    color: #f00;
+    font-weight: 200;
+    font-size: 0.8em;
+    z-index: 100;
+}

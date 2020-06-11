@@ -35,3 +35,8 @@
 .Button:active {
     background-color: #a1a1a1;
 }
+
+.Front {
+    position: relative;
+    z-index: 100;
+}

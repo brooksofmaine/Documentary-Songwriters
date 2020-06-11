@@ -5,6 +5,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleRight, faTimes } from '@fortawesome/free-solid-svg-icons';
 import ReactSlider from 'react-slider';
 
+/*
+ * Low-level component to render the filter and options for the profile page
+ * Child of PracticeBar
+ * Receives props for icons, classes, styles, instrument options, etc.
+ * All render logic handled in parent component
+ */
 function ProfileFilter(props) {
     
     let instrumentOptions = [];
@@ -13,6 +19,12 @@ function ProfileFilter(props) {
     let dateClasses = ["", ""];
     let sliderClass = "";
 
+    /*
+     * Renders main filter
+     * Renders instrument subfilter (multiple choice with "all" and all instruments previously played)
+     * Renders date subfilter (newest first or oldest first, order only)
+     * Renders pitch subfilter (slider on a scale from 0 to 100 or the most pitches ever played, whichever's bigger)
+     */
     return(
         <div className = {props.sliderClass}>
             <div className = "Filter">
@@ -74,12 +86,12 @@ function ProfileFilter(props) {
                             className="horizontal-slider SliderMain"
                             thumbClassName="SliderThumb"
                             trackClassName="SliderTrack"
-                            defaultValue={[0, 500]}
+                            defaultValue={[0, props.maxPitches]}
                             renderThumb={(props, state) => <div {...props}>{state.valueNow}</div>}
                             minDistance={10}
                             onAfterChange={props.updatePitch}
                             min={0}
-                            max={500}
+                            max={props.maxPitches}
                         />
                     </div>
                 </div>

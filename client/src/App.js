@@ -51,7 +51,6 @@ class App extends Component {
         <Switch>
           <Route exact path="/" component={LoginForm} />
           <PrivateRoute path="/">
-
             <AuthPages />
           </PrivateRoute>
         </Switch>

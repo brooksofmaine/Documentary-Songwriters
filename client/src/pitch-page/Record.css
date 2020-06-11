@@ -1,6 +1,6 @@
 .Record {
     text-align: center;
-    background-color: #eee;
+    position: relative;
 }
 
 .RecordOverlay {

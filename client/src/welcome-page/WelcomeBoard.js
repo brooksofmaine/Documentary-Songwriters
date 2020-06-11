@@ -2,6 +2,7 @@ import React from 'react';
 import './WelcomeBoard.css'
 import WelcomeCounter from "./WelcomeCounter";
 import Button from "../Button"
+import WelcomeImage from './WelcomeImage';
 
 import UserFunc from "../api-helper/user";
 import RecordingFunc from "../api-helper/recording";
@@ -61,19 +62,24 @@ class WelcomeBoard extends React.Component {
     }
 
     render() {
+        const name = this.state.user ? this.state.user.firstName + " " + this.state.user.lastName : ""
+
         return (
             <div className="WelcomeBoard">
-            <p className="welcome_back">Welcome Back, {this.state.user_fullname}</p>
-                <h1 className="pitch_progress">Your Pitch Progress</h1>
-                <div>
-                    <WelcomeCounter count={this.state.dayCount} name="today"/>
-                    <WelcomeCounter count={this.state.weekCount} name="this week"/>
-                    <WelcomeCounter count={this.state.monthCount} name="this month"/>
+                <div className="Front">
+                    <p className="welcome_back">Welcome Back, {name}</p>
+                    <h1 className="pitch_progress">Your Pitch Progress</h1>
+                    <div>
+                        <WelcomeCounter count={this.state.dayCount} name="today"/>
+                        <WelcomeCounter count={this.state.weekCount} name="this week"/>
+                        <WelcomeCounter count={this.state.monthCount} name="this month"/>
+                    </div>
+                    <Button url="/api/practice" name="Practice" id="record-btn"/>
                 </div>
-                <Button url="/practice" name="Practice" id="record-btn"/>
+                <WelcomeImage />
             </div>
         )
     }
 }
 
-export default WelcomeBoard
+export default WelcomeBoard;

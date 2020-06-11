@@ -117,13 +117,13 @@ class FrequencyBars extends React.Component {
             context = canvas.getContext('2d');
         }
         
-        const length = 100 // low frequency only
+        const length = 75 // low frequency only
         let width;
         if ( canvas !== null ) {
             width = canvas.width / length;
         }
         
-        var buffer = width / 2;
+        var buffer = width / 1.2;
         width -= buffer;
 
         for (var i = 0; i < length; i += 1) {
@@ -131,7 +131,7 @@ class FrequencyBars extends React.Component {
             if ( canvas !== null ) {
                 rectHeight = Math.floor((361 + data[i] * 3) / (361 / canvas.height));
             }
-            var greyScale = rectHeight / 2;
+            var greyScale = rectHeight / 1.1;
     
             if ( context !== undefined ) {
                 context.fillStyle =

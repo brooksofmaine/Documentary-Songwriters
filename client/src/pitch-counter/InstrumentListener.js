@@ -10,9 +10,9 @@ class InstrumentListener {
 
     startListener() {
         this.pitchCounter.initPitchCounting();
-        this.pitchCounter.frequencyData = new Float32Array(
-            512);
-        this.pitchCounter.audioContext.resume();
+        // this.pitchCounter.frequencyData = new Float32Array(
+        //     512);
+        // this.pitchCounter.audioContext.resume();
     }
 
     changeInstrument(instrument) {
