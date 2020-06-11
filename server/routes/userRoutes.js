@@ -124,7 +124,7 @@ router.post('/create', async (req, res) => {
 
   try {
     let newUserInstance = await db.User.create(createObj);
-    res.json({"success": "user created."});
+    res.json(newUserInstance.toJSON());
   } catch (err) {
     if (err.name === 'SequelizeUniqueConstraintError') {
       res.status(409).json({ err: 'username taken' });

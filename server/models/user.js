@@ -1,3 +1,5 @@
+"use strict";
+
 module.exports = (sequelize, DataTypes) => {
   let User = sequelize.define('User', {
     username: {
@@ -22,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   });
 
-  User.prototype.toJSON = () => {
+  User.prototype.toJSON = function () {
     let values = Object.assign({}, this.get({plain: true}));
 
     delete values.password;
