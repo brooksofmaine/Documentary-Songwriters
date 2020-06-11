@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "postinstall": "concurrently \"cd server && npm ci\" \"cd client && npm ci\"",
-    "start": "concurrently \"cd server && npm start\" \"cd client && npm start\"",
+    "start": "concurrently \"cd server && npm start\" \"if [ \\\"$NODE_ENV\\\" != \\\"production\\\" ]; then cd client && npm start; fi \"",
     "test": "cd server && npm test"
   },
   "repository": {
