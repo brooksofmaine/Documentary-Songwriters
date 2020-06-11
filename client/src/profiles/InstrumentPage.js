@@ -51,7 +51,7 @@ function InstrumentPage(props) {
     }, [])
 
     useEffect(() => {
-        if (username != "") {
+        if (username !== "") {
             RecordingFunc.getPitchTotalCount(username,
                 RecordingFunc.nthDayAgo(1),
                 new Date()).then(
@@ -80,7 +80,7 @@ function InstrumentPage(props) {
 
 
     useEffect(() => {
-        if (recordingGoal != 0) {
+        if (recordingGoal !== 0) {
             setPercentage(((weekPitches / recordingGoal)*100).toFixed(0));
         }
         

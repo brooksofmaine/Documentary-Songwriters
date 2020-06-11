@@ -4,7 +4,7 @@ import Stopwatch from './Stopwatch';
 import './Record.css';
 
 import UserFunc from "../api-helper/user";
-import app from '../pitch-counter/PitchCounterApp.js';
+import {app} from '../pitch-counter/PitchCounterApp.js';
 import RecordingFunc from "../api-helper/recording";
 import RecordFilter from './RecordFilter';
 import StopPopup from './StopPopup';
