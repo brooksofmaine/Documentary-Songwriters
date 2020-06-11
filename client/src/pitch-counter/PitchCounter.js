@@ -369,5 +369,4 @@ class PitchCounter {
     // }
 }
 
-const pitchCounter = new PitchCounter();
-module.exports = pitchCounter;
+export const pitchCounter = new PitchCounter();

@@ -6,7 +6,7 @@ import './Record.css';
 import UserFunc from "../api-helper/user";
 import InstrumentListener from '../pitch-counter/InstrumentListener.js';
 import pitchCounter from '../pitch-counter/PitchCounter.js';
-import app from '../pitch-counter/PitchCounterApp.js';
+import {app} from '../pitch-counter/PitchCounterApp.js';
 import RecordingFunc from "../api-helper/recording";
 import RecordFilter from './RecordFilter';
 import StopPopup from './StopPopup';
@@ -184,7 +184,7 @@ class Record extends React.Component {
         
         // TODO: handle errors somehow
         // TODO: make this link to progress page when it exists
-        this.props.history.push("/api/profile");
+        this.props.history.push("/profile");
 
 
     }
