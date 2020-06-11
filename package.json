@@ -6,7 +6,8 @@
   "scripts": {
     "postinstall": "concurrently \"cd server && npm ci\" \"cd client && npm ci\"",
     "start": "concurrently \"cd server && npm start\" \"if [ \\\"$NODE_ENV\\\" != \\\"production\\\" ]; then cd client && npm start; fi \"",
-    "test": "cd server && npm test"
+    "test": "cd server && npm test",
+    "build": "cd client && npm run build"
   },
   "repository": {
     "type": "git",
