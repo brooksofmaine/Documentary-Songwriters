@@ -6,6 +6,7 @@ import LoginImages from './LoginImages';
 import Login from './Login';
 import Register from './Register';
 import UserFunc from "../api-helper/user";
+import {server_add} from "../api-helper/config";
 
 /*
  * Top-level component to manage login screen
@@ -167,7 +168,7 @@ class LoginForm extends React.Component {
         };
 
         /* Send it */
-        const response = await fetch('http://localhost:5000/api/user/create', {
+        const response = await fetch(server_add + '/api/user/create', {
             method: 'post',
             headers: {
                 'Content-Type': 'application/json'
@@ -231,7 +232,7 @@ class LoginForm extends React.Component {
         };
 
         /* Send to server */
-        const response = await fetch('http://localhost:5000/api/auth/local', {
+        const response = await fetch(server_add + '/api/auth/local', {
             method: 'post',
             headers: {
                 'Content-Type': 'application/json'
@@ -391,7 +392,7 @@ class LoginForm extends React.Component {
      * Handles login via Google button
      */
     openGoogleLogin = () => {
-        window.open("http://localhost:5000/api/auth/google/", "Login",'height=800,width=500');
+        window.open(server_add + "/api/auth/google/", "Login",'height=800,width=500');
     };
 }
 
