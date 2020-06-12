@@ -87,7 +87,7 @@ class PitchCounter {
                 .connect(self.analyser);
             self.analyser.connect(self.biquad);
 
-            var smoothValue = self.analyser.smoothingTimeConstant;
+            // var smoothValue = self.analyser.smoothingTimeConstant;
             self.analyser.smoothingTimeConstant = self.smoother; //// TODO: decrease?
             self.analyser.fftSize = 1024;
             self.biquad.connect(self.scriptProcessor);

@@ -17,6 +17,8 @@
     right: 10%;
     top: 10%;
     z-index: 1;
+    width: 279px;
+    height: 456px;
 }
 
 .LoginUpperBubble {
@@ -24,6 +26,8 @@
     top: -10%;
     right: 30%;
     z-index: 0;
+    width: 323px; 
+    height: 340px;
 }
 
 .LoginLines {
@@ -31,4 +35,42 @@
     left: -10%;
     top: 40%;
     z-index: 0;
+}
+
+@media only screen and (max-width: 900px) {
+    .LoginBoy {
+        visibility: hidden;
+    }
+
+    .LoginLowerBubble {
+        visibility: hidden;
+    }
+    
+    .LoginGirl {
+        width: 250px;
+        height: 420px;
+        top: 30%;
+    }
+
+    .LoginUpperBubble {
+        top: 10%;
+        width: 280px; 
+        height: 290px;
+    }
+}
+
+@media only screen and (max-width: 700px) {
+    .LoginUpperBubble {
+        visibility: hidden;
+     }
+}
+
+@media only screen and (max-width: 500px) {
+
+    .LoginGirl {
+        top: 45%;
+        right: -5%;
+        width: 210px;
+        height: 380px;
+    }
 }

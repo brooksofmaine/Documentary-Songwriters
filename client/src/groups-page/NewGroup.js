@@ -4,12 +4,11 @@ import './NewGroup.css';
 import NewMember from './NewMember';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
+import { faSearch} from '@fortawesome/free-solid-svg-icons'; // include faCheckCircle if using radio buttons
 
 import {server_add} from "../api-helper/config";
 import UserFunc from "../api-helper/user";
 import GroupFunc from '../api-helper/group';
-
 
 class NewGroup extends React.Component {
     constructor() {

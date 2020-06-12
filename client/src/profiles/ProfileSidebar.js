@@ -30,7 +30,7 @@ function ProfileSidebar() {
     }, [usrname])
 
     let {username} = useParams()
-    console.log("path", username)
+    // console.log("path", username)
 
 
     // Current bug: calls when username is empty and so it automatically shades to this

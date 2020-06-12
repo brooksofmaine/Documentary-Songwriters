@@ -1,6 +1,11 @@
 import React from 'react';
 import './WelcomeCounter.css'
 
+/*
+ * Low-level component 
+ * Displays a single counter on homepage
+ * Child of WelcomeBoard
+ */ 
 class WelcomeCounter extends React.Component {
     render() {
         return (

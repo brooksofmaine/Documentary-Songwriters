@@ -12,3 +12,11 @@
 .WelcomeCounter > .name {
     margin: 0;
 }
+
+@media only screen and (max-width: 500px) {
+    .WelcomeCounter {
+        display: block;
+        padding-left: 5%;
+        text-align: left;
+    }
+}

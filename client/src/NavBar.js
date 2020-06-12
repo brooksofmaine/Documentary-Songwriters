@@ -5,9 +5,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faBars} from '@fortawesome/free-solid-svg-icons'
 
 class NavBar extends React.Component {
-    constructor() {
-        super();
-    }
 
     async log_out() {
         const result = await UserFunc.logUserOut();

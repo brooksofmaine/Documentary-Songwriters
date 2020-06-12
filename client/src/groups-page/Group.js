@@ -5,7 +5,7 @@ import GroupName from './GroupName';
 
 import './Group.css';
 
-import GroupFunc, { getGroup } from '../api-helper/group.js'
+import GroupFunc from '../api-helper/group.js'
 import UserFunc from '../api-helper/user.js';
 import RecordingFunc from '../api-helper/recording.js';
 import {server_add} from "../api-helper/config";

@@ -16,12 +16,12 @@ class InstrumentListener {
     }
 
     changeInstrument(instrument) {
-        if (instrument == "piano") this.initPiano();
-        else if (instrument == "voice") this.initVoice();
-        else if (instrument == "guitar") this.initGuitar();
-        else if (instrument == "percussion") this.initPercussion();
-        else if (instrument == "strings") this.initStrings();
-        else if (instrument == "winds") this.initWinds();
+        if (instrument === "piano") this.initPiano();
+        else if (instrument === "voice") this.initVoice();
+        else if (instrument === "guitar") this.initGuitar();
+        else if (instrument === "percussion") this.initPercussion();
+        else if (instrument === "strings") this.initStrings();
+        else if (instrument === "winds") this.initWinds();
         else this.initDefault();
     }
 
