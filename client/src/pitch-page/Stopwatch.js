@@ -3,7 +3,7 @@ import React from 'react';
 import './Stopwatch.css';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faDownload, faPause, faPlay, faStop }
+import { faDownload, faPause, faPlay, faStop } 
     from '@fortawesome/free-solid-svg-icons';
 
 import ReactTooltip from 'react-tooltip';
@@ -62,12 +62,11 @@ class Stopwatch extends React.Component {
 
     // controls play and pause
     playPause = () => {
-        this.props.pauseFunction()
         if ( this.state.timerOn ) {
             this.stopTimer();
         }
         else {
-            this.startTimer();
+            this.startTimer();    
         }
     };
 
@@ -108,7 +107,7 @@ class Stopwatch extends React.Component {
                 </div>
 
                 <div>
-                    <div className="RecordDot"></div>
+                    <div className="RecordDot"></div> 
                     {hours} : {minutes} : {seconds}
                 </div>
             </div>

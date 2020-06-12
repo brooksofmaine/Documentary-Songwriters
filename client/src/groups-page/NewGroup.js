@@ -73,9 +73,12 @@ class NewGroup extends React.Component {
             const username = await UserFunc.getCurrentUsername();
             GroupFunc.addMember(this.state.groupName, username);
 
-            for (let i = 0; i < this.state.members.length; i++) {
-                GroupFunc.addMember(this.state.groupName, this.state.members[i].name);
-            }
+            // for (let i = 0; i < this.state.members.length; i++) {
+            //     const response = GroupFunc.addMember(this.state.groupName, this.state.members[i]);
+            //     if (response.err) {
+            //         console.log(response.err)
+            //     }
+            // }
             this.props.history.push("/api/groups");
         }
 
@@ -110,7 +113,7 @@ class NewGroup extends React.Component {
     async addMember() {
         const username = await UserFunc.getCurrentUsername();
 
-        fetch('/api/user/' + this.state.currMember)
+        await fetch('/api/user/' + this.state.currMember)
             .then(response => response.json())
             .then(data => {
                 console.log(data);
@@ -176,7 +179,7 @@ class NewGroup extends React.Component {
     }
 
     render() {
-        console.log(this.state.members)
+        
         const userStyle  = this.state.badUser ? { color: '#f00' } : { color: '#000' };
         const groupStyle  = this.state.badGroup ? { color: '#f00' } : { color: '#000' };
 
@@ -245,6 +248,9 @@ class NewGroup extends React.Component {
                         <div className="NewGroupMemberBox">
                             {newMembers}
                         </div>
+
+                        
+
                         <div className="ButtonBox">
                             <button 
                                 className="GroupButton" 
@@ -259,36 +265,34 @@ class NewGroup extends React.Component {
      * add this back in if they ever are 
      */
 
-     /*
-                         <div className="RadioBox">
-                            <label className="RadioLabel" style={privateStyle}>
-                                <input 
-                                    type="radio" 
-                                    name="publicity"
-                                    value="private"
-                                    onChange={this.handleChange}
-                                    className="RadioButton"
-                                />
-                                <div className="NoCheckButton"></div>
-                                <FontAwesomeIcon icon={faCheckCircle} className="CheckButton"/>
-                                Private
-                            </label>
+    //                      <div className="RadioBox">
+    //                         <label className="RadioLabel" style={privateStyle}>
+    //                             <input 
+    //                                 type="radio" 
+    //                                 name="publicity"
+    //                                 value="private"
+    //                                 onChange={this.handleChange}
+    //                                 className="RadioButton"
+    //                             />
+    //                             <div className="NoCheckButton"></div>
+    //                             <FontAwesomeIcon icon={faCheckCircle} className="CheckButton"/>
+    //                             Private
+    //                         </label>
 
-                            <label className="RadioLabel" style={publicStyle}>
-                                <input 
-                                    type="radio" 
-                                    name="publicity"
-                                    value="public"
-                                    onChange={this.handleChange}
-                                    className="RadioButton"
-                                />
-                                <div className="NoCheckButton"></div>
-                                <FontAwesomeIcon icon={faCheckCircle} className="CheckButton"/>
-                                Public
-                            </label>
-                        </div>
-                        <br />
-    */
+    //                         <label className="RadioLabel" style={publicStyle}>
+    //                             <input 
+    //                                 type="radio" 
+    //                                 name="publicity"
+    //                                 value="public"
+    //                                 onChange={this.handleChange}
+    //                                 className="RadioButton"
+    //                             />
+    //                             <div className="NoCheckButton"></div>
+    //                             <FontAwesomeIcon icon={faCheckCircle} className="CheckButton"/>
+    //                             Public
+    //                         </label>
+    //                     </div>
+    //                     <br />
 }
 
 export default NewGroup;
