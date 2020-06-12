@@ -2,11 +2,16 @@ const express = require('express');
 const utils = require('./utils');
 const anyValuesUndefined = utils.anyValuesUndefined;
 const groupKeyCheck = utils.groupKeyCheck;
-const ensureAuthenticated = require("authRoutes").ensureAuthenticated;
 let router = express.Router();
 let db;
 
 /*
+ * TODO: Add user to group      - POST /api/group/{groupName}/add
+ * TODO: Remove user from group - POST /api/group/{groupName}/remove
+ */
+
+/*
+ * TODO: Only allow logged in users to create groups
  * TODO: Add user making request as the admin
  *
  * To create a group, post to the endpoint /api/group/create
@@ -21,7 +26,7 @@ let db;
  *     visible:     true
  *   }
  */
-router.post('/create', ensureAuthenticated, (req, res) => {
+router.post('/create', (req, res) => {
   let createObj = {
     groupName: req.body.groupName,
     description: req.body.description,
@@ -92,7 +97,7 @@ router.get('/:groupName', (req, res) => {
  *   Post /api/group/FooBar/change/groupName
  *   With data { groupName: "Baz" }
  */
-router.post('/:groupName/change/:key', ensureAuthenticated, (req, res) => {
+router.post('/:groupName/change/:key', (req, res) => {
   let groupName = req.params.groupName;
   let key = req.params.key;
   let val = req.body[key];
@@ -137,7 +142,7 @@ router.post('/:groupName/change/:key', ensureAuthenticated, (req, res) => {
 
 //delete a group
 //TODO: make sure only admin of group can delete a group
-router.post('/:groupName/delete', ensureAuthenticated, (req, res) => {
+router.post('/:groupName/delete', (req, res) => {
   //req.user.username --> check if this is admin
 
   let groupName = req.params.groupName;
@@ -166,7 +171,7 @@ router.post('/:groupName/delete', ensureAuthenticated, (req, res) => {
  * where groupName is that of the group.
  *
  */
-router.post('/:groupName/addUser', ensureAuthenticated, async (req, res, next) => {
+router.post('/:groupName/addUser', async (req, res, next) => {
   try {
     let groupName = req.params.groupName;
     let username = req.body.username;
@@ -203,37 +208,39 @@ router.post('/:groupName/addUser', ensureAuthenticated, async (req, res, next) =
 
 //delete a user from a group
 //TODO: make sure only admin of group can delete user from a group
-router.post('/:groupName/removeUser', ensureAuthenticated, async (req, res, next) => {
-  try {
-    const groupName = req.params.groupName;
-    const username = req.body.username;
-
-    let groupInstance = await db.Group.findByPk(groupName);
-    if (groupInstance === null) {
+router.post('/:groupName/remove', (req, res) => {
+  let groupName = req.params.groupName;
+  let username = req.body.username;
+  let group = db.Group.findByPk(req.params.groupName).then((modelInstance) => {
+    if (modelInstance === null) {
       res.status(404).json({ err: 'group not found' });
       return;
     }
 
-    let userInstance = await db.User.findByPk(username);
-    if (userInstance === null) {
+    res.json(modelInstance.get({ plain: true }));
+    return;
+  }).catch((err) => {
+    console.log('Error while retrieving group.');
+    console.log(err);
+    res.status(500).json({ err: err });
+    return;
+  });
+
+  db.User.removeGroup(group, {
+    where: {
+      username: username
+    }
+  }).then(([numRows, rowsAffected]) => {
+    if (numRows === 0) {
       res.status(404).json({ err: 'user not found' });
       return;
     }
-
-    if (!(await groupInstance.hasUser(userInstance))) {
-      res.status(404).json({ err: 'user does not belong to the group' });
-      return;
-    }
-
-    const numRows = groupInstance.removeUser(userInstance);
-    if (numRows === 0) {
-      res.status(404).json({ err: 'error when deleting' });
-      return;
-    }
-  } catch (e) {
-    next(e);
-  }
-
+  }).catch((err) => {
+    console.log('Error while retrieving user.');
+    console.log(err);
+    res.status(500).json({ err: err });
+    return;
+  });
 });
 
 
@@ -243,22 +250,43 @@ router.post('/:groupName/removeUser', ensureAuthenticated, async (req, res, next
  * where groupName is that of the group. 
  *
  */
-router.get('/:groupName/getUsers', ensureAuthenticated, async (req, res, next) => {
-  try {
-    let groupName = req.params.groupName;
+router.get('/:groupName/getUsers', (req, res) => {
+  let groupName = req.params.groupName;
 
-    let groupInstance = await db.Group.findByPk(groupName);
-    if (groupInstance === null) {
+  // check that group exists first 
+  let group = db.Group.findByPk(req.params.groupName).then((modelInstance) => {
+    if (modelInstance === null) {
       res.status(404).json({ err: 'group not found' });
       return;
     }
-    let users = await groupInstance.getUsers({attributes: ['username', 'email', 'firstName', 'lastName']});
+    res.json(modelInstance.get({ plain: true }));
+    return;
+  }).catch((err) => {
+    console.log('Error while retrieving group.');
+    console.log(err);
+    res.status(500).json({ err: err });
+    return;
+  });
 
-    let json = users.map(user => user.get({plain: true}));
-    res.json(json);
-  } catch(e) {
-    next(e);
-  }
+  db.User.findAll({
+    where: {
+      groupId: groupName
+    }
+  }).then((modelInstance) => {
+    if (modelInstance === null) {
+      res.status(404).json({ err: 'users not found' });
+      return;
+    }
+    res.json(modelInstance.map((user) => { return user.get({ plain: true }) }));
+    return;
+
+  }).catch((err) => {
+    console.log('Error while retrieving users.');
+    console.log(err);
+    res.status(500).json({ err: err });
+    return;
+  });
+
 });
 
 module.exports = router;
