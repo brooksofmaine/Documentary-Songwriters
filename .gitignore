@@ -4,6 +4,4 @@ node_modules
 .*~
 \#*#
 server\config
-package-lock.json
 server/config/config.json
-package-lock.json
