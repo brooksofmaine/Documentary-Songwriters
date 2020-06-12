@@ -1,6 +1,8 @@
 import React from 'react';
 import './NavBar.css';
 import UserFunc from "./api-helper/user";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {faBars} from '@fortawesome/free-solid-svg-icons'
 
 class NavBar extends React.Component {
     constructor() {
@@ -35,6 +37,7 @@ class NavBar extends React.Component {
         
         return (
             <nav className="NavBar">
+                <FontAwesomeIcon className="hamburger-icon" icon={faBars} />
                 <a style={homeStyle}
                    className="nav-link" 
                    href="/api/home">Home</a>

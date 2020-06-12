@@ -31,7 +31,7 @@
 }
 
 .dropdown a {
-    /* padding-top: 50px; */
+    padding-top: 50px;
     margin: 10px 0 0 0;
     /* border: 1px solid red; */
 }
@@ -43,6 +43,12 @@
 }
 .dropdown-menu:hover > .dropdown {
     display: block;
+}
+
+.NavBar .hamburger-icon {
+    font-size: 24px;
+    cursor: pointer;
+    display: none;
 }
 /* .NavBar > .Button {
     margin: 30px;
