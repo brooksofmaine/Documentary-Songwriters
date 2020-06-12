@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const passport = require('passport');
 const token_utils = require('../auth/token-utils');
-let client_add = process.env.SERVER_ADD || "http://localhost:3000";
+let client_add = process.env.CLIENT_ADD || process.env.SERVER_ADD || "http://localhost:3000";
 const utils = require("./utils");
 const ensureAuthenticated = utils.ensureAuthenticated;
 
