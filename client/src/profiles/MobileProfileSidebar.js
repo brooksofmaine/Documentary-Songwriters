@@ -63,11 +63,11 @@ function MobileProfileSidebar() {
 
     return(
         <div>
-            <div className="StyledBurger" onClick={toggleMenu}>
+            {/* <div className="StyledBurger" onClick={toggleMenu}>
                 <div className="BurgerLine" style={line1style}></div>
                 <div className="BurgerLine" style={line2style}></div>
                 <div className="BurgerLine" style={line3style}></div>
-            </div>
+            </div> */}
             <div className="BurgerMenu" style={menuStyle}>
                 <Link className={selectedPage === 0 ? "SelectedBurgerLink" : ""}
                     to="/api/profile"
@@ -79,7 +79,7 @@ function MobileProfileSidebar() {
                     to="/api/profile/settings"
                     onClick={() => {updatePages(2)}}>Settings</Link>
             </div>
-            <div className="PopupOverlay" onClick={closeMenu} style={overlayStyle}></div>
+            {/* <div className="PopupOverlay" onClick={closeMenu} style={overlayStyle}></div> */}
         </div>
     )
 }

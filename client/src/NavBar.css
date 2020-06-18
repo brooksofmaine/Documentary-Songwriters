@@ -6,6 +6,150 @@
     justify-content: flex-end;
 }
 
+.NavBar .icon {
+    display: none;
+}
+
+.NavBar .pages {
+    display: flex;
+}
+
+.NavBar .pages a, button {
+    margin: 0 25px;
+}
+
+.NavBar a {
+    color: #000;
+    text-decoration:none;
+    transition-duration: 0.5s;
+    transition-timing-function: ease;
+    transition-property: color;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.NavBar a:hover {
+    color: #555;
+}
+
+.NavBar .child-links {
+    display: none;
+}
+
+.NavBar button {
+    border: none;
+    background: transparent;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: 300;
+}
+
+.NavBar .selected {
+    font-weight: 800;
+}
+
+.NavBar .open {
+    height: 0;
+}
+
+@media only screen and (max-width: 750px) {
+    .NavBar .hamburger {
+        display: block;
+        font-size: 40px;
+        cursor: pointer;
+    }
+
+    .NavBar {
+        display: flex;
+        justify-content: flex-end;
+        flex-direction: row;
+    }
+
+    .NavBar .items {
+        background: #8EACCD;
+        top: 0;
+        right: 0;
+        height: 100%;
+        width: 100vw;
+        z-index: 500;
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        margin: 0;
+        padding: 0;
+        align-items: flex-end;
+        transform: translateX(100%);
+        transition: all 1s;
+    }
+
+    .NavBar .pages {
+        flex-direction: column;
+        
+    }
+
+    .NavBar .close {
+        display: block;
+        color: white;
+        font-size: 35px;
+        cursor: pointer;
+        padding: 5vh 10vw 0 0;
+    }
+
+
+    .NavBar button {
+        font-size: 30px;
+        /* border: 1px solid red; */
+    }
+
+    .NavBar .pages a, button {
+        margin: 0;
+        text-align: center;
+        font-size: 30px;
+        padding: 3vh 0;
+        color: white;
+        /* border: 1px solid red; */
+        text-transform: uppercase;
+        width: 100vw;
+    }
+
+
+    .NavBar .selected, a:active, button:active {
+        background-color: #718aa6;
+    }
+
+    .NavBar .dropdown-menu {
+        width: 100vw;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .NavBar .dropdown-menu a {
+        font-size: 30px;
+        padding: 3vh 0;
+    }
+
+    .NavBar .child-links {
+        display: flex;
+        flex-direction: column;
+        margin: 0;
+        height: 0;
+        overflow: hidden;
+    }
+
+    .NavBar .child-links a {
+        background-color: #7892ad;
+    }
+
+    .NavBar .open {
+        height: 100%;
+    }
+    .NavBar .child-links a {
+        font-size: 25px;
+        padding: 10px 0;
+    }
+}
+
+/* 
 .NavBar a {
     color: #000;
     text-decoration:none;
@@ -33,11 +177,9 @@
 .dropdown a {
     padding-top: 50px;
     margin: 10px 0 0 0;
-    /* border: 1px solid red; */
 }
 
 .dropdown-menu {
-    /* border: 1px solid purple; */
     
     padding-bottom: 20px;
 }
@@ -50,6 +192,67 @@
     cursor: pointer;
     display: none;
 }
+
+.NavBar .links {
+    display: flex;
+}
+
+.close-btn {
+    display: none;
+}
+
+@media only screen and (max-width: 600px) {
+    .NavBar .hamburger-icon {
+        display: block;
+        cursor: pointer;
+    }
+
+    .close-btn {
+        display: inline-block;
+        border: none;
+        cursor: pointer;
+        margin-left: 90%;
+        height: 25px;
+        font-size: 23px;
+        background-color: #C0DAED;
+        
+    }
+
+    .NavBar .links {
+        height: 0;
+        width: 0;
+        text-align: center;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transition: all 0.5s ease-in-out;
+        position: absolute;
+        background: #C0DAED;
+        font-size: 23px;
+    }
+
+    .NavBar .links a {
+        width: 100%;
+        padding: 20px;
+    }
+
+    .NavBar .links a:hover {
+        background-color: #A0C8E4;
+    }
+
+    .NavBar #open-menu {
+        height: 100vh;
+        width: 100vw;
+        margin-top: -4vh;
+        margin-left: 10vw;
+    
+    }
+
+
+
+
+} */
 /* .NavBar > .Button {
     margin: 30px;
 }
@@ -66,11 +269,11 @@
     text-align: right;
 } */
 
-.DropdownButton {
+/* .DropdownButton {
     outline: none;
     border: 0px;
     font-size: 1.1em;
     line-height: 2.5em;
     padding-left: 0.7em;
     cursor: pointer;
-}
+} */
