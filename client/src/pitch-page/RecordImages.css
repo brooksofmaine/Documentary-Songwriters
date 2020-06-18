@@ -1,8 +1,11 @@
 .RecordImages {
     position: absolute;
     top: -10%;
-    left: -20%;
-    /* left: 0; */
+    left: 50%;
     right: 0;
+    margin-left: -250px;
+    width: 500px;
+    height: 300px;
     z-index: 1;
 }
+

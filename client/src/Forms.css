@@ -4,3 +4,11 @@
     background-color: #f2f2f2;
     z-index: 200;
 }
+
+.Front {
+    z-index: 100;
+}
+
+.SuperFront {
+    z-index: 10000;
+}

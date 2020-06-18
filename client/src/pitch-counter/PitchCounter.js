@@ -99,26 +99,25 @@ class PitchCounter {
         })
         .catch(function(error) {
             alert(error.name + ': ' + error.message);
+            // TODO: fix this
         })
     }
 
-    stop() {
-        this.audioContext.close();
-        this.audioContext = null;
-        this.counter = 0;
-    }
-
+    // Completely start pitch counter by initializing the listener and
+    // by creating the starting Float32Array of frequencies
     initPitchCounting() {
+        console.log('init pitch counting')
         this.initListener();
         this.frequencyData = new Float32Array(
             this.analyser.frequencyBinCount);
         this.audioContext.resume();
-    }
+}
 
     //pause pitch counting
     changeState() {
-        if (this.audioContext === null)
-            this.initPitchCounting();
+        if (this.audioContext === null) {
+            this.initPitchCounting();   
+        }
         else {
             this.audioContext.close();
             this.audioContext = null;
@@ -147,18 +146,12 @@ class PitchCounter {
         this.startRecord();
     }
 
-    // Completely start pitch counter by initializing the listener and
-    // by creating the starting Float32Array of frequencies
-    initPitchCounting() {
-            this.initListener();
-            this.frequencyData = new Float32Array(
-                this.analyser.frequencyBinCount);
-            this.audioContext.resume();
-    }
+    
 
     //Stop Listening
     stop() {
-        if (this.audioContext !== null) {
+        console.log('stop within counter 2')
+        if (this.audioContext !== null && this.audioContext !== undefined) {
             this.audioContext.close();
             this.audioContext = null;
         }

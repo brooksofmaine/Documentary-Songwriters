@@ -5,6 +5,13 @@ import './StopPopup.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
+/*
+ * StopPopup
+ * Mid-level component
+ * Child of Record
+ * Renders text warning and yes/no buttons for stopping recording without saving
+ * Takes props for message to describe why this popup is being triggered
+ */
 class StopPopup extends React.Component {
     render() {
         return(

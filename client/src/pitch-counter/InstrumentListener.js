@@ -26,6 +26,7 @@ class InstrumentListener {
     }
 
     stopListener() {
+        console.log('stop within listener')
         this.pitchCounter.stop();
         this.pitchCounter.counter = 0;
     }

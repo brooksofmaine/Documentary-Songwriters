@@ -4,19 +4,29 @@ import './RecordFilter.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMinus, faAngleDown } from '@fortawesome/free-solid-svg-icons';
 
+/*
+ * RecordFilter
+ * Second-level component, child of Record
+ * Handles logic of instrument filter opening, closing, and selecting
+ */
 class RecordFilter extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            instrument: this.props.defaultInstrument,
-            open: false,
-            altered : false
+            instrument: this.props.defaultInstrument, // selected instrument
+            open: false,                              // if filter open
+            altered : false                           // initialized or not
         }
 
         this.toggleFilter = this.toggleFilter.bind(this);
     }
 
+    /*
+     * Called when component mounts
+     * Sets interval to repeatedly check for instrument until it's initialized
+     * Done to account for delay in fetching this from API
+     */
     componentDidMount() {
         this.interval = setInterval(() => {
             if ( !this.state.altered ) {
@@ -27,16 +37,26 @@ class RecordFilter extends React.Component {
         }, 500); 
     }
 
-    // toggles if filter is open
+    /*
+     * Toggle filter
+     * Opens/closes instrument filter
+     * Triggered on click to the main filter
+     */
     toggleFilter() {
-        // opens/closes main filter 
         this.setState(prevState => ({
             open  : ! prevState.open,
         }));
     }
 
+    /*
+     * Set instrument
+     * Updates which instrument is currently selected
+     * Displays cautionary popup if necessary
+     * Called on click to a new instrument within the filter
+     * instrument parameter: string representing instrument to select
+     */
     setInstrument(instrument) {
-        
+        // if changing instrument mid-recording, cues popup
         if ( instrument !== this.state.instrument ) {
             this.props.changeInstrument("stop", "instrument");
 
@@ -47,8 +67,12 @@ class RecordFilter extends React.Component {
         }
     }
 
+    /*
+     * Renders main instrument filter and (if open) all instrument options
+     */
     render() {
 
+        const voiceStyle      = this.state.instrument === "Voice" ? { fontWeight : 400 } : { fontWeight : 200 };
         const pianoStyle      = this.state.instrument === "Piano" ? { fontWeight : 400 } : { fontWeight : 200 };
         const guitarStyle     = this.state.instrument === "Guitar" ? { fontWeight : 400 } : { fontWeight : 200 };
         const stringsStyle    = this.state.instrument === "Strings" ? { fontWeight : 400 } : { fontWeight : 200 };
@@ -62,6 +86,7 @@ class RecordFilter extends React.Component {
                 <FontAwesomeIcon icon = {this.state.open ? faMinus : faAngleDown} className = "RecordFilterIcon" />
                 <div className = {this.state.open ? 'RecordSlider' : 'RecordSlider SlideOut'}>
                     <div className="RecordFilter">
+                        <div className = "RecordFilterOption" style={voiceStyle} onClick={() => this.setInstrument("Voice")}>Voice</div>
                         <div className = "RecordFilterOption" style={pianoStyle} onClick={() => this.setInstrument("Piano")}>Piano</div>
                         <div className = "RecordFilterOption" style={guitarStyle} onClick={() => this.setInstrument("Guitar")}>Guitar</div>
                         <div className = "RecordFilterOption" style={stringsStyle} onClick={() => this.setInstrument("Strings")}>Strings</div>

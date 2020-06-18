@@ -1,10 +1,16 @@
 import React from 'react';
 import './RecordImages.css';
 
+/*
+ * Record images
+ * Low-level component
+ * Child of Record
+ * Displays musical note graphics for decoration
+ */
 function RecordImages() {
     return(
         <div className="RecordImages">
-            <svg width="1300" height="300" viewBox="0 0 1029 644" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg viewBox="0 0 1029 644" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M585.552 615.26C585.552 620.342 580.976 624.698 575.026 624.698C569.076 624.698 564.5 620.342 564.5 615.26C564.5 610.178 569.076 605.822 575.026 605.822C580.976 605.822 585.552 610.178 585.552 615.26Z" stroke="#8EACCD" stroke-width="3"/>
                 <line y1="-1.5" x2="45.7053" y2="-1.5" transform="matrix(0.375772 -0.926712 0.911702 0.410853 587.053 615.355)" stroke="#8EACCD" stroke-width="3"/>
                 <path d="M604.03 573L612.048 599.847" stroke="#8EACCD" stroke-width="2"/>
