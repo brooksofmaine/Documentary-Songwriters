@@ -3,7 +3,10 @@ import PracticeBar from './PracticeBar';
 import './UserProfile.css';
 import UserFunc from "../api-helper/user";
 import RecordingFunc from "../api-helper/recording";
-import { lowerFirstLetter } from './capitalization';
+
+const lowerFirstLetter = (word) => {
+    return word.charAt(0).toLowerCase() + word.slice(1);
+}
 
 /*
  * UserProfile

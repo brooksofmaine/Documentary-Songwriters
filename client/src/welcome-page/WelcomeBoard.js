@@ -63,7 +63,7 @@ class WelcomeBoard extends React.Component {
 
     render() {
         const name = this.state.user ? this.state.user.firstName + " " + this.state.user.lastName : ""
-        
+
         return (
             <div className="WelcomeBoard">
                 <div className="Front">
@@ -74,7 +74,7 @@ class WelcomeBoard extends React.Component {
                         <WelcomeCounter count={this.state.weekCount} name="this week"/>
                         <WelcomeCounter count={this.state.monthCount} name="this month"/>
                     </div>
-                    <Button url="/api/practice" name="Practice" id="record-btn"/>
+                    <Button url="/practice" name="Practice" id="record-btn"/>
                 </div>
                 <WelcomeImage />
             </div>

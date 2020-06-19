@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "postinstall": "concurrently \"cd server && npm ci\" \"cd client && npm ci\"",
-    "start": "concurrently \"cd server && npm start\" \"cd client && npm start\"",
-    "test": "cd server && npm test"
+    "start": "concurrently \"cd server && npm start\" \"if [ \\\"$NODE_ENV\\\" != \\\"production\\\" ]; then cd client && npm start; fi \"",
+    "test": "cd server && npm test",
+    "build": "cd client && npm run build"
   },
   "repository": {
     "type": "git",
@@ -24,6 +25,7 @@
     "@fortawesome/react-fontawesome": "^0.1.8",
     "@material-ui/core": "^4.9.4",
     "concurrently": "^5.0.0",
+    "pg": "^8.2.1",
     "react": "^16.13.1",
     "react-bar-chart": "^0.1.2",
     "react-circular-progressbar": "^2.0.3",

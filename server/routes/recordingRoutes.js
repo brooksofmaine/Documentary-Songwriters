@@ -1,7 +1,8 @@
 const express = require('express');
 const utils = require('./utils');
 const anyValuesUndefined = utils.anyValuesUndefined;
-const ensureAuthenticated = require("authRoutes").ensureAuthenticated;
+const ensureAuthenticated = utils.ensureAuthenticated;
+
 let router = express.Router();
 let db;
 

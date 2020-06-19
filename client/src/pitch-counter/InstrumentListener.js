@@ -1,4 +1,4 @@
-const PitchCounter = require('./PitchCounter.js');
+const PitchCounter = require('./PitchCounter.js').pitchCounter;
 
 class InstrumentListener {
     constructor(instrument) {
@@ -16,12 +16,12 @@ class InstrumentListener {
     }
 
     changeInstrument(instrument) {
-        if (instrument == "piano") this.initPiano();
-        else if (instrument == "voice") this.initVoice();
-        else if (instrument == "guitar") this.initGuitar();
-        else if (instrument == "percussion") this.initPercussion();
-        else if (instrument == "strings") this.initStrings();
-        else if (instrument == "winds") this.initWinds();
+        if (instrument === "piano") this.initPiano();
+        else if (instrument === "voice") this.initVoice();
+        else if (instrument === "guitar") this.initGuitar();
+        else if (instrument === "percussion") this.initPercussion();
+        else if (instrument === "strings") this.initStrings();
+        else if (instrument === "winds") this.initWinds();
         else this.initDefault();
     }
 
@@ -123,6 +123,4 @@ class InstrumentListener {
         this.initVoice();
     }
 }
-
-const instrumentListener = new InstrumentListener("default");
-module.exports = instrumentListener;
+export const instrumentListener = new InstrumentListener("default");

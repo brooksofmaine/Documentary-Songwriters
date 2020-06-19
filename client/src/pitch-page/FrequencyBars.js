@@ -40,11 +40,11 @@ class FrequencyBars extends React.Component {
         context.clearRect(0, 0, canvas.width, canvas.height);
         
         cancelAnimationFrame(this.state.timer);
-        if (this.state.x == 0)
+        if (this.state.x === 0)
             this.update4(data);
-        if (this.state.x == 1)
+        if (this.state.x === 1)
             this.update3(data);
-        if (this.state.x == 2)
+        if (this.state.x === 2)
             this.update2(data);
     }
 
