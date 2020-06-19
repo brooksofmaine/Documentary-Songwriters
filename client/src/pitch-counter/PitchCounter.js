@@ -115,9 +115,9 @@ class PitchCounter {
 
     //pause pitch counting
     changeState() {
-        if (this.audioContext === null) {
-            this.initPitchCounting();   
-        }
+        console.log('change state')
+        if (this.audioContext === null || this.audioContext === undefined)
+            this.initPitchCounting();
         else {
             this.audioContext.close();
             this.audioContext = null;
@@ -146,22 +146,9 @@ class PitchCounter {
         this.startRecord();
     }
 
-    
-
     //Stop Listening
     stop() {
-        console.log('stop within counter 2')
         if (this.audioContext !== null && this.audioContext !== undefined) {
-            this.audioContext.close();
-            this.audioContext = null;
-        }
-    }
-
-    //pause pitch counting
-    changeState() {
-        if (this.audioContext === null || this.audioContext === undefined)
-            this.initPitchCounting();
-        else {
             this.audioContext.close();
             this.audioContext = null;
         }

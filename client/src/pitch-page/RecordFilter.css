@@ -46,6 +46,7 @@
 
 .RecordFilterOption {
     padding: 3%;
+    cursor: pointer;
 }
 
 .SlideOut {

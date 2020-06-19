@@ -59,10 +59,6 @@ class Stopwatch extends React.Component {
      * Called when user hits pause
      */
     stopTimer = () => {
-        if (this.state.timerOn) {
-            this.props.pauseFunction();
-        }
-        
         this.setState({
             timerOn: false
         });
@@ -106,7 +102,12 @@ class Stopwatch extends React.Component {
     stop = () => {
         this.props.stopFunction();
         this.props.reset("stop", "stop");
-        this.stopTimer();
+        // this.stopTimer();
+        this.setState({
+            timerOn: false
+        });
+        // stops sampling and updating times
+        clearInterval(this.timer);
     };
 
     /*

@@ -70,7 +70,7 @@ class Record extends React.Component {
         }
         else {
             this.setState({
-                lastPlayedInstrument : "Piano"
+                lastPlayedInstrument : "Voice"
             })
         }
 
@@ -103,10 +103,10 @@ class Record extends React.Component {
         this.frequency = setInterval(() => {
             if ( this.frequencyBars !== null && this.stopwatch.state.timerOn) {
                 this.frequencyBars.updateFrequencyBars(app.instrument.pitchCounter.frequencyData);
-                this.setState({
-                    count: app.get_pitch_count()
-                });
             }
+            this.setState({
+                count: app.get_pitch_count()
+            });
         }, frequency);
     }
 
@@ -116,6 +116,13 @@ class Record extends React.Component {
      * Called from stop popup when user tries to stop or change instrument mid-practice
      */
     restart() {
+        // changes instrument on front and back end if that was reason for stop
+        let newInstrument = this.filter.state.pendingInstrument
+        if (newInstrument !== "") {
+            this.filter.changeInstrument();
+            app.change_instrument(newInstrument);
+        }
+        
         this.removePopup("stop");
         this.stopwatch.resetTimer("stop");
     }
@@ -157,6 +164,10 @@ class Record extends React.Component {
                     });
                 }
             }
+            else if (reason === "instrument") {
+                this.filter.changeInstrument();
+                app.change_instrument(this.filter.state.pendingInstrument);
+            }
         }
         // save
         else { 
@@ -180,8 +191,10 @@ class Record extends React.Component {
             this.setState({
                 stopping : false
             });
+            // clears pending instrument regardless of reason for stop
+            this.filter.clearPending();
         }
-        else { // save
+        else {
             this.setState({
                 saving : false
             });
@@ -249,7 +262,10 @@ class Record extends React.Component {
                 <div style = {this.state.saving ? {} : {display : "none"}} ref = {filterContainer => this.filterContainer = filterContainer}>
                     <SavePopup exit = {this.removePopup} save = {this.saveRecording} instrument = {this.state.instrument} length = {this.state.length} pitches = {this.state.count}/>
                 </div>
-                <RecordFilter defaultInstrument = {this.state.lastPlayedInstrument} changeInstrument={() => this.showPopup("stop", "instrument")} ref = {filter => this.filter = filter}/>
+                <RecordFilter 
+                    defaultInstrument = {this.state.lastPlayedInstrument} 
+                    changeInstrument={() => this.showPopup("stop", "instrument")} 
+                    ref = {filter => this.filter = filter}/>
                 <Counter countNum={this.state.count} />
                 <Stopwatch 
                     startFunction={() => app.start()}

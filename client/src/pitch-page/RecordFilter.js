@@ -16,7 +16,8 @@ class RecordFilter extends React.Component {
         this.state = {
             instrument: this.props.defaultInstrument, // selected instrument
             open: false,                              // if filter open
-            altered : false                           // initialized or not
+            altered : false,                          // initialized or not
+            pendingInstrument: ""                     // tracks if instrument waiting to be changed
         }
 
         this.toggleFilter = this.toggleFilter.bind(this);
@@ -50,21 +51,41 @@ class RecordFilter extends React.Component {
 
     /*
      * Set instrument
-     * Updates which instrument is currently selected
      * Displays cautionary popup if necessary
      * Called on click to a new instrument within the filter
      * instrument parameter: string representing instrument to select
      */
     setInstrument(instrument) {
+        this.setState({
+            pendingInstrument: instrument
+        })
+
         // if changing instrument mid-recording, cues popup
         if ( instrument !== this.state.instrument ) {
             this.props.changeInstrument("stop", "instrument");
-
-            this.setState({
-                instrument : instrument,
-                altered : true
-            });
         }
+    }
+
+    /*
+     * Change instrument
+     * Changes instrument by taking data from own state
+     * Only deals with front end (back end is done in Record.js)
+     */
+    changeInstrument() {
+        this.setState(prevState => ({
+            instrument : prevState.pendingInstrument,
+            altered : true
+        }));
+    }
+
+    /*
+     * Clear pending
+     * Clears out pending instrument field to be ready for another change
+     */
+    clearPending() {
+        this.setState({
+            pendingInstrument: ""
+        });
     }
 
     /*
