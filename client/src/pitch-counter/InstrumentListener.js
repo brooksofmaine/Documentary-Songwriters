@@ -1,4 +1,4 @@
-const PitchCounter = require('./PitchCounter.js');
+const PitchCounter = require('./PitchCounter.js').pitchCounter;
 
 class InstrumentListener {
     constructor(instrument) {
@@ -124,6 +124,4 @@ class InstrumentListener {
         this.initVoice();
     }
 }
-
-const instrumentListener = new InstrumentListener("default");
-module.exports = instrumentListener;
+export const instrumentListener = new InstrumentListener("default");

@@ -2,8 +2,8 @@
 class PitchCounterApp {
 
     constructor(instr) {
-        this.instrument = require('./InstrumentListener.js')
-        this.instrument.changeInstrument(instr)
+        this.instrument = require('./InstrumentListener.js').instrumentListener;
+        this.instrument.changeInstrument(instr);
         // this.instrument = this.InstrumentListener.changeInstrument(instr)
 
         this.get_pitch_count = function () {
@@ -32,7 +32,7 @@ class PitchCounterApp {
     }
 }
 
-const app = new PitchCounterApp("voice");
+export const app = new PitchCounterApp("voice");
 
 function Begin() {
     app.start();
@@ -45,5 +45,3 @@ function Stop() {
 function ChangeState() {
     app.changeState();
 }
-
-module.exports = app;

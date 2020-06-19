@@ -4,7 +4,7 @@ const anyValuesUndefined = utils.anyValuesUndefined;
 const userKeyCheck = utils.userKeyCheck;
 let router = express.Router();
 const hashPassword = require('../auth/passport-setup').hashPassword;
-const ensureAuthenticated = require("authRoutes").ensureAuthenticated;
+const ensureAuthenticated = utils.ensureAuthenticated;
 let db;
 
 
@@ -98,6 +98,7 @@ router.post('/:userName/addGroups', (req, res) =>{
  *     email:     "email@email.com"
  *   }
  */
+// WARNING: for now, this only returns a success message due to some weird bugs.
 router.post('/create', async (req, res) => {
   let createObj = {
     username:  req.body.username,
@@ -121,20 +122,18 @@ router.post('/create', async (req, res) => {
     return;
   }
 
-  db.User.create(createObj).then((newUserInstance) => {
-    res.json(newUserInstance.get({ plain: true }));
-    return;
-  }).catch((err) => {
+  try {
+    let newUserInstance = await db.User.create(createObj);
+    res.json(newUserInstance.toJSON());
+  } catch (err) {
     if (err.name === 'SequelizeUniqueConstraintError') {
       res.status(409).json({ err: 'username taken' });
-      return;
+    } else {
+      console.log('Error while creating user.');
+      console.log(err);
+      res.status(500).json({ err: err });
     }
-
-    console.log('Error while creating user.');
-    console.log(err);
-    res.status(500).json({ err: err });
-    return;
-  });
+  }
 });
 
 
@@ -191,9 +190,7 @@ router.post('/:username/change/:key', ensureAuthenticated, async (req, res) => {
   }
   let username = req.params.username;
   let key = req.params["key"];
-  console.log(key);
   let val = req.body[key];
-  console.log(req.body);
   let updateObj = {};
 
   // Error checking
@@ -208,23 +205,30 @@ router.post('/:username/change/:key', ensureAuthenticated, async (req, res) => {
 
   // If the thing to be changed is password, hash it first.
   if (key === "password") {
-    console.log(val);
     val = await hashPassword(val);
+    updateObj[key] = val;
+    const numRows = await db.User.scope("withPassword").update(updateObj, {
+                where: { username: username },
+              });
+    if (numRows === 0) {
+      res.status(404).json({ err: 'user not found' });
+      return;
+    }
+    res.json({"success": "password updated"});
+    return;
   }
 
   updateObj[key] = val;
   db.User.update(updateObj, {
     where: { username: username },
-    returning: true,
-    raw: true
+    returning: true
   }).then(([numRows, rowsAffected]) => {
     if (numRows === 0) {
       res.status(404).json({ err: 'user not found' });
       return;
     }
 
-    res.json(rowsAffected[0]);
-    return;
+    res.json(rowsAffected[0].toJSON());
   }).catch((err) => {
     if (err.name === 'SequelizeUniqueConstraintError') {
       res.status(409).json({ err: 'username taken' });

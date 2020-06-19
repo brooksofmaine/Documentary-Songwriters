@@ -50,7 +50,7 @@ class App extends Component {
       <Router>
         <Switch>
           <Route exact path="/" component={LoginForm} />
-          <PrivateRoute path="/api">
+          <PrivateRoute path="/">
             <AuthPages />
           </PrivateRoute>
         </Switch>

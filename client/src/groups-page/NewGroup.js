@@ -75,7 +75,7 @@ class NewGroup extends React.Component {
             for (let i = 0; i < this.state.members.length; i++) {
                 GroupFunc.addMember(this.state.groupName, this.state.members[i].name);
             }
-            this.props.history.push("/api/groups");
+            this.props.history.push("/groups");
         }
 
         return body;
@@ -261,8 +261,8 @@ class NewGroup extends React.Component {
      /*
                          <div className="RadioBox">
                             <label className="RadioLabel" style={privateStyle}>
-                                <input 
-                                    type="radio" 
+                                <input
+                                    type="radio"
                                     name="publicity"
                                     value="private"
                                     onChange={this.handleChange}
@@ -274,8 +274,8 @@ class NewGroup extends React.Component {
                             </label>
 
                             <label className="RadioLabel" style={publicStyle}>
-                                <input 
-                                    type="radio" 
+                                <input
+                                    type="radio"
                                     name="publicity"
                                     value="public"
                                     onChange={this.handleChange}

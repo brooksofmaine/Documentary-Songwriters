@@ -11,12 +11,7 @@ const token_util = require('./token-utils');       // the util to generate and s
 /** bcrypt, the algorithm to hash the password. **/
 let bcrypt = require("bcrypt");
 // set number of iterations for the bcrypt algorithm
-let num_iterations;
-try {
-    num_iterations = require("../config/password_config.json")["salt_iterations"];
-} catch {
-    num_iterations = 10;
-}
+const bcrypt_num_iterations = process.env.PW_HASH_ITERATIONS || 10;
 
 let db;
 
@@ -36,7 +31,7 @@ async function hashPassword(password) {
     if (typeof password !== "string") {
         return null;
     }
-    return "bcrypt:" + await bcrypt.hash(password, num_iterations);
+    return "bcrypt:" + await bcrypt.hash(password, bcrypt_num_iterations);
 }
 
 module.exports.hashPassword = hashPassword;
@@ -147,7 +142,7 @@ passport.deserializeUser((obj, cb) => {
 
 function findUser(username)
 {
-    return db.User.findByPk(username);
+    return db.User.scope("withPassword").findByPk(username);
 }
 
 function findUserOrCreate (username, profile, done)

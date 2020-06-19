@@ -3,7 +3,6 @@ import './NavBar.css';
 import UserFunc from "./api-helper/user";
 
 class NavBar extends React.Component {
-
     async log_out() {
         const result = await UserFunc.logUserOut();
         if (result === "Success") {
@@ -34,15 +33,15 @@ class NavBar extends React.Component {
             <nav className="NavBar">
                 <a style={homeStyle}
                    className="nav-link" 
-                   href="/api/home">Home</a>
+                   href="/home">Home</a>
                 <a style={groupsStyle} 
                    className="nav-link" 
-                   href="/api/groups">Groups</a>
+                   href="/groups">Groups</a>
                 <a style={practiceStyle}
                    className="nav-link"
-                   href="/api/practice">Practice</a>
+                   href="/practice">Practice</a>
                 <div className="dropdown-menu">
-                    <a style={progressStyle} className="nav-link" href="/api/profile">My Progress</a>
+                    <a style={progressStyle} className="nav-link" href="/profile">My Progress</a>
                     <span className="dropdown">
                        <button className="DropdownButton" onClick={this.log_out}>Log out</button>
                     </span>

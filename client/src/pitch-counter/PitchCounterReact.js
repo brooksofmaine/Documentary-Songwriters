@@ -4,7 +4,8 @@ const d3_peaks = require('./d3-peaks.js');
 
 
 class PitchCounter extends React.Component {
-    constructor() {
+    constructor(props) {
+        super(props);
         this.counter = 0;
         this.prev_peaks = [];
         this.final_peaks = [];
@@ -365,6 +366,4 @@ class PitchCounter extends React.Component {
       }
 }
 
-// const pitchCounter = new PitchCounter();
-// module.exports = pitchCounter;
 export default PitchCounter;
