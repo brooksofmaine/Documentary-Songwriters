@@ -1,12 +1,12 @@
 .login-input {
     background-color: #fff !important;
+    min-width: 60%;
 }
 
 .form input {
     height: 35px;
     border: none;
     padding-left: 10px;
-    /* margin-bottom: 20px; */
     margin: 0.3em 0;
     background-color: #EBEBEB;
     border-radius: 5px;
@@ -136,6 +136,12 @@
     height: 0.5em;
 }
 
+.AccountText {
+    display: inline-block;
+    padding: 0;
+    margin-right: -100%;
+}
+
 .ErrorMessage {
     position: relative;
     margin: -3em 0 0.5em 0.2em;
@@ -143,4 +149,8 @@
     font-weight: 200;
     font-size: 0.8em;
     z-index: 100;
+}
+
+.SolidBackground {
+    background-color: #F2F2F2;
 }

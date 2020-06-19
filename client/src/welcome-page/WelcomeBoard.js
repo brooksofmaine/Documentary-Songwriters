@@ -6,19 +6,27 @@ import WelcomeImage from './WelcomeImage';
 
 import UserFunc from "../api-helper/user";
 import RecordingFunc from "../api-helper/recording";
-import GroupFunc from "../api-helper/group";
 
+/*
+ * Top-level component for homepage
+ * Displayed at /api/home
+ */
 class WelcomeBoard extends React.Component {
     constructor() {
         super();
         this.state = {
-            user: null,
-            dayCount: 0,
-            weekCount: 0,
-            monthCount: 0
+            user: null,     // user object
+            dayCount: 0,    // pitches today
+            weekCount: 0,   // pitches in last week
+            monthCount: 0   // pitches in last month
         };
     }
 
+    /*
+     * Ensures currently logged in and retrieves user data
+     * Counts up daily, weekly, and monthly pitches to display
+     * Called when component mounts
+     */
     componentDidMount() {
         UserFunc.getCurrentUser().then((user_info) => {
             if (user_info.status === "logged_in") {
@@ -61,6 +69,9 @@ class WelcomeBoard extends React.Component {
         });
     }
 
+    /*
+     * Renders entire homepage including username and pitch counters
+     */
     render() {
         const name = this.state.user ? this.state.user.firstName + " " + this.state.user.lastName : ""
 

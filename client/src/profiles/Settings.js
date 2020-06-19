@@ -29,7 +29,6 @@ function Settings(props) {
 
     // TODO: Get all this info from UserData only 
     const fetchUserData = async () => {
-
         const currentUser = await UserFunc.getCurrentUser()
         const userData = await UserFunc.getUserInfo(currentUser.user.username)
         console.log("userData:", userData)
@@ -42,7 +41,6 @@ function Settings(props) {
 
     useEffect(() => {
         fetchUserData()
-        
     }, [])
 
     const setFormFields = (data) => {
