@@ -1,7 +1,7 @@
 const express = require('express');
 const utils = require('./utils');
 const anyValuesUndefined = utils.anyValuesUndefined;
-const recordingKeyCheck = utils.recordingKeyCheck;
+const ensureAuthenticated = require("authRoutes").ensureAuthenticated;
 let router = express.Router();
 let db;
 
@@ -78,8 +78,7 @@ router.post('/create', (req, res) => {
  * 
  */
 
-
-router.post('/edit', (req, res) => {
+router.post('/edit', ensureAuthenticated, (req, res) => {
   let username   = req.body.username;
   let startTime  = req.body.startTime;
   let key        = req.body.key;

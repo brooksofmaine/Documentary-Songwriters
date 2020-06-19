@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const passport = require('passport');
-const token_utils = require('../passport/passport-token-utils');
+const token_utils = require('../auth/token-utils');
 let client_add = "http://localhost:3000";
 
 // function ensureAuthenticated
@@ -11,9 +11,11 @@ function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
         return next();
     } else {
-        res.status(401).json( {"failure": "you are not logged in"});
+        res.status(401).json( {"err": "you are not logged in"});
     }
 }
+
+module.exports.ensureAuthenticated = ensureAuthenticated;
 
 // auth login
 router.get('/login', (req,res) => {
