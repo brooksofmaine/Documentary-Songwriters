@@ -26,7 +26,7 @@ import {
                     <Switch>
                     
                     <Route exact path="/" component={LoginForm} />
-                    <Route path="/api/home">
+                    <Route path="/home">
                         <WelcomeBoard />
                     </Route>
                     <Route path="/api/practice" component={Record} />

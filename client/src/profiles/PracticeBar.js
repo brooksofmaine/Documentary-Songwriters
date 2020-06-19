@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { capFirstLetter } from './capitalization';
 import './PracticeBar.css';
 import ProfileFilter from './ProfileFilter';
 import Practice from './Practice';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMinus, faAngleDown, faAngleRight, faTimes } 
         from '@fortawesome/free-solid-svg-icons';
+
+const capFirstLetter = (word) => {
+    return word.charAt(0).toUpperCase() + word.slice(1);
+}
 
 /*
  * Second level component for profile page

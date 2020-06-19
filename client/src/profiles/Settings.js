@@ -67,7 +67,7 @@ function Settings(props) {
         console.log("Calling handleSubmit")
         var invalid = false;
         if (userInfo) {
-            if (userInfo.firstName != firstName) {
+            if (userInfo.firstName !== firstName) {
                 if (firstName.length < 1 || firstName.length > 20) {
                     setFirstNameValid(false)
                     invalid = true;
@@ -78,7 +78,7 @@ function Settings(props) {
                 }
                 
             }
-            if (userInfo.lastName != lastName) {
+            if (userInfo.lastName !== lastName) {
                 if (lastName.length < 1 || lastName.length > 20) {
                     setLastNameValid(false)
                     invalid = true;
@@ -88,7 +88,7 @@ function Settings(props) {
                     setLastNameValid(true)
                 }
             }
-            if (userInfo.email != email) {
+            if (userInfo.email !== email) {
                 if (validateEmail(email)) {
                     UserFunc.changeInfo("email", email)
                     setEmailValid(true)
@@ -101,7 +101,7 @@ function Settings(props) {
                 }
             }
             if (userInfo.weeklyAchievement) {
-                if (userInfo.weeklyAchievement != goal) {
+                if (userInfo.weeklyAchievement !== goal) {
                     if (validatePitches(goal)) {
                         UserFunc.changeInfo("weeklyAchievement", goal)
                         setPitchesValid(true)

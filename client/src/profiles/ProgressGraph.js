@@ -68,13 +68,13 @@ function ProgressGraph(props) {
     const buttonStyle = (buttonNum) => {
         const shadowStyle = {"boxShadow": "0 1px 4px 1px rgba(0,0,0,0.17)"}
         if (isBarChart) {
-            if (buttonNum == 0) {
+            if (buttonNum === 0) {
                 return ({})
             } else {
                 return shadowStyle
             }
         } else {
-            if (buttonNum == 0) {
+            if (buttonNum === 0) {
                 return shadowStyle
             } else {
                 return ({})

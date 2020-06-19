@@ -3,13 +3,9 @@ const utils = require('./utils');
 const anyValuesUndefined = utils.anyValuesUndefined;
 const userKeyCheck = utils.userKeyCheck;
 let router = express.Router();
+const hashPassword = require('../auth/passport-setup').hashPassword;
+const ensureAuthenticated = utils.ensureAuthenticated;
 let db;
-
-/*
- * TODO: Implement login       - POST /api/user/login
- * TODO: Add recording to user - POST /api/user/{username}/record
- * TODO: Get recording of user - GET  /api/user/{username}/?...
- */
 
 
 router.get('/:userName/getGroups', (req, res) => {
@@ -43,13 +39,12 @@ router.get('/:userName/getGroups', (req, res) => {
 
 
 router.post('/:userName/addGroups', (req, res) =>{
-  console.log("in addGroups!");
   let userName = req.params.userName;
   let groupObj = {
     groupName: req.body.groupName,
     description: req.body.description,
     visible: req.body.visible
-  }
+  };
 
   if (anyValuesUndefined(groupObj)) {
     res.status(400).json({ err: 'undefined fields' });
@@ -89,7 +84,6 @@ router.post('/:userName/addGroups', (req, res) =>{
 
 /*
  * TODO: Make sure not already logged in
- * TODO: hash password
  *
  * To create a user, post to the endpoint /api/user/create
  * with the username, firstName, lastName, and email in the body of the request
@@ -104,15 +98,16 @@ router.post('/:userName/addGroups', (req, res) =>{
  *     email:     "email@email.com"
  *   }
  */
-router.post('/create', (req, res) => {
+// WARNING: for now, this only returns a success message due to some weird bugs.
+router.post('/create', async (req, res) => {
   let createObj = {
     username:  req.body.username,
     firstName: req.body.firstName,
     lastName:  req.body.lastName,
     email:     req.body.email,
-    password:  req.body.password, // TODO hash password
+    password:  await hashPassword(req.body.password),
     weeklyAchievement: req.body.weeklyAchievement,
-    LastPlayedInstrument: req.body.LastPlayedInstrument // TODO hash password
+    LastPlayedInstrument: req.body.LastPlayedInstrument
   };
 
   if (createObj.LastPlayedInstrument === undefined) {
@@ -127,20 +122,18 @@ router.post('/create', (req, res) => {
     return;
   }
 
-  db.User.create(createObj).then((newUserInstance) => {
-    res.json(newUserInstance.get({ plain: true }));
-    return;
-  }).catch((err) => {
+  try {
+    let newUserInstance = await db.User.create(createObj);
+    res.json(newUserInstance.toJSON());
+  } catch (err) {
     if (err.name === 'SequelizeUniqueConstraintError') {
       res.status(409).json({ err: 'username taken' });
-      return;
+    } else {
+      console.log('Error while creating user.');
+      console.log(err);
+      res.status(500).json({ err: err });
     }
-
-    console.log('Error while creating user.');
-    console.log(err);
-    res.status(500).json({ err: err });
-    return;
-  });
+  }
 });
 
 
@@ -154,7 +147,9 @@ router.post('/create', (req, res) => {
  *   Get /api/user/bobbyS
  */
 router.get('/:username', (req, res) => {
-  db.User.findByPk(req.params.username).then((modelInstance) => {
+  db.User.findByPk(req.params.username, {
+    attributes: {exclude: ['password']}
+  }).then((modelInstance) => {
     if (modelInstance === null) {
       res.status(404).json({ err: 'user not found' });
       return;
@@ -188,36 +183,52 @@ router.get('/:username', (req, res) => {
  *   Post /api/user/bobbyS/change/username
  *   With data { username: "robertS" }
  */
-router.post('/:username/change/:key', (req, res) => {
+router.post('/:username/change/:key', ensureAuthenticated, async (req, res) => {
+  if (!req.is('json')) {
+    res.status(400).json({err: 'Please specify the correct content type.'});
+    return;
+  }
   let username = req.params.username;
-  let key = req.params.key;
+  let key = req.params["key"];
   let val = req.body[key];
   let updateObj = {};
-  updateObj[key] = val;
 
+  // Error checking
   // username cannot be changed for now.
   if (!userKeyCheck(key) || key === "username") {
     res.status(400).json({ err: 'key not recognized' });
     return;
-  }
-
-  if (anyValuesUndefined(updateObj)) {
+  } else if (anyValuesUndefined(updateObj)) {
     res.status(400).json({ err: 'undefined fields' });
     return;
   }
 
+  // If the thing to be changed is password, hash it first.
+  if (key === "password") {
+    val = await hashPassword(val);
+    updateObj[key] = val;
+    const numRows = await db.User.scope("withPassword").update(updateObj, {
+                where: { username: username },
+              });
+    if (numRows === 0) {
+      res.status(404).json({ err: 'user not found' });
+      return;
+    }
+    res.json({"success": "password updated"});
+    return;
+  }
+
+  updateObj[key] = val;
   db.User.update(updateObj, {
     where: { username: username },
-    returning: true,
-    raw: true
+    returning: true
   }).then(([numRows, rowsAffected]) => {
     if (numRows === 0) {
       res.status(404).json({ err: 'user not found' });
       return;
     }
 
-    res.json(rowsAffected[0]);
-    return;
+    res.json(rowsAffected[0].toJSON());
   }).catch((err) => {
     if (err.name === 'SequelizeUniqueConstraintError') {
       res.status(409).json({ err: 'username taken' });
