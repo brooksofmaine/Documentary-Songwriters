@@ -6,7 +6,7 @@ import Record from './pitch-page/Record'
 import Group from './groups-page/Group'
 import UserProfile from './profiles/UserProfile'
 import NewGroup from './groups-page/NewGroup'
-// import SummaryPage from './profiles/SummaryPage'
+import NoMatch from './NoMatch'
 import InstrumentPage from './profiles/InstrumentPage'
 import ProfileSidebar from './profiles/ProfileSidebar'
 import Settings from './profiles/Settings'
@@ -24,6 +24,7 @@ import {
                 <Router>
                     <NavBar />
                     <Switch>
+                    
                     <Route exact path="/" component={LoginForm} />
                     <Route path="/api/home">
                         <WelcomeBoard />
@@ -53,7 +54,7 @@ import {
                             )
                         }} />
                     </div>
-                    
+                    <Route path="/api/nomatch" component={NoMatch} />
                     </Switch>
                 </Router>
             </div>

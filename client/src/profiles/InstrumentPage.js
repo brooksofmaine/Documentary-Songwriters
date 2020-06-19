@@ -120,8 +120,6 @@ function InstrumentPage(props) {
                             <ProgressCircle percentage={percentage} /> 
                             <p>You've played {weekPitches} pitches this week. You have {recordingGoal - weekPitches} pitches until you reach your weekly goal!</p>
                         </div>
-
-
                     </div>
                 </div>
             </div>
