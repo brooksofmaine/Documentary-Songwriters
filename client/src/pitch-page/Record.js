@@ -4,7 +4,7 @@ import Stopwatch from './Stopwatch';
 import './Record.css';
 
 import UserFunc from "../api-helper/user";
-import app from '../pitch-counter/PitchCounterApp.js';
+import {app} from '../pitch-counter/PitchCounterApp.js';
 import RecordingFunc from "../api-helper/recording";
 import RecordFilter from './RecordFilter';
 import StopPopup from './StopPopup';
@@ -230,8 +230,9 @@ class Record extends React.Component {
             endTime                 // end time
             ).then(err => console.log(err))
 
-        // reroute to progress page
-        this.props.history.push("/api/profile");
+        // TODO: handle errors somehow
+        this.props.history.push("/profile");
+
     }
 
     /*
@@ -271,7 +272,7 @@ class Record extends React.Component {
                     startFunction={() => app.start()}
                     stopFunction={() => app.stop()} 
                     pauseFunction={() => app.changeState()}
-                    reset={() => this.showPopup("stop", "stop")} 
+                    reset={() => this.showPopup("stop", "stop")}
                     save={this.showPopup} 
                     ref={stopwatch => this.stopwatch = stopwatch}
                 />

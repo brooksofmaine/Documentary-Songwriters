@@ -6,7 +6,7 @@ class PitchCounter {
         this.prev_peaks = [];
         this.final_peaks = [];
         this.peaksInNote = [];
-        this.frequencyData = new Float32Array();
+        this.frequencyData = null;
         this.prev_time = 0;
         this.curFrame = 0;
         this.framesSinceQuiet = 0;
@@ -102,9 +102,9 @@ class PitchCounter {
             // TODO: fix this
         })
     }
-
     // Completely start pitch counter by initializing the listener and
     // by creating the starting Float32Array of frequencies
+
     initPitchCounting() {
         console.log('init pitch counting')
         this.initListener();
@@ -115,7 +115,7 @@ class PitchCounter {
 
     //pause pitch counting
     changeState() {
-        console.log('change state')
+
         if (this.audioContext === null || this.audioContext === undefined)
             this.initPitchCounting();
         else {
@@ -199,7 +199,7 @@ class PitchCounter {
         this.counter++;
         this.peaksInNote = []; //clear peaksInNote
         this.curFrame = 0;
-        if (this.rememberedFrames != 1)
+        if (this.rememberedFrames !== 1)
             this.recordPeaks(this.rememberedFrames);
     }
 
@@ -248,7 +248,7 @@ class PitchCounter {
     analyzeVoice() {
         var similarNotes = 0;
         //Return if no notes are found
-        if (this.final_peaks.length==0) {
+        if (this.final_peaks.length === 0) {
             this.framesSinceQuiet = 0;
             this.recordPeaks(this.rememberedFrames);
             this.framesOfQuiet++;
@@ -258,7 +258,7 @@ class PitchCounter {
 
         //increase found notes if no peaks were found previously but
         //peaks have now been found
-        if (this.framesSinceQuiet == 3 && this.framesOfQuiet > this.silenceBuffer) {
+        if (this.framesSinceQuiet === 3 && this.framesOfQuiet > this.silenceBuffer) {
                 this.startNewNote();
                 return;
         }
@@ -278,13 +278,13 @@ class PitchCounter {
         var allFullPeaks = true;
         var framesOfNoise = this.peaksInNote.length;
         for(var i = 0; i < framesOfNoise; i ++) {
-            if(this.peaksInNote[i].length == 0 || framesOfNoise < this.rememberedFrames) {
+            if(this.peaksInNote[i].length === 0 || framesOfNoise < this.rememberedFrames) {
                 allFullPeaks = false;
                 break;
             }
         }
 
-        if (allFullPeaks && this.peaksInNote.length == this.rememberedFrames) {
+        if (allFullPeaks && this.peaksInNote.length === this.rememberedFrames) {
             //if new notes and old notes are different start new note
             if (similarNewNotes <= requiredNew && requiredNew > 0) {
                 if (similarOldNotes <= requiredOld) {
@@ -301,10 +301,10 @@ class PitchCounter {
 
     analyzeInstrument() {
         // Stop analysis if their are no peaks to analyze
-        if (this.final_peaks.length==0) {
+        if (this.final_peaks.length === 0) {
             // Record the last peak that a note makes to ensure that the same
             // peak does not straddle the threshold as mentioned above
-            if (this.prev_peaks.length == 1)
+            if (this.prev_peaks.length === 1)
                 this.lastPeakInNote = this.prev_peaks[0];
             this.framesOfQuiet ++;
             this.recordPeaks(this.rememberedFrames);
@@ -314,11 +314,11 @@ class PitchCounter {
 
         // Start new note if the frequencies in the current frame have peak
         // but the previous peaks are empty
-        if (this.prev_peaks.length == 0 && this.final_peaks.length!=0) {
+        if (this.prev_peaks.length === 0 && this.final_peaks.length !== 0) {
             // Ensure that when a frequency is fazing out (when it is ringing
             // in real life) that it does not hop above and below the threshold
             // triggering new notes.
-            if (!(this.lastPeakInNote == this.final_peaks[0] || this.framesOfQuiet <= 2)) {
+            if (!(this.lastPeakInNote === this.final_peaks[0] || this.framesOfQuiet <= 2)) {
                 this.startNewNote();
                 return;
             }
@@ -334,7 +334,7 @@ class PitchCounter {
         else
             var requiredNotes =
                 Math.floor(this.final_peaks.length / this.simNoteThreshold);
-        if (requiredNotes == 0)
+        if (requiredNotes === 0)
             requiredNotes = 1;
 
         if (this.framesSinceQuiet > 8) {
@@ -381,8 +381,8 @@ class PitchCounter {
             }
         }
         //if note dissipears before two frames dont count
-        if (!noisy || this.final_peaks.length == 0) {
-            if (this.rememberedFrames == 1)
+        if (!noisy || this.final_peaks.length === 0) {
+            if (this.rememberedFrames === 1)
                 this.analyzeInstrument();
             else
                 this.analyzeVoice();
@@ -398,5 +398,4 @@ class PitchCounter {
         }
 }
 
-const pitchCounter = new PitchCounter();
-module.exports = pitchCounter;
+export const pitchCounter = new PitchCounter();

@@ -2,16 +2,11 @@ const express = require('express');
 const utils = require('./utils');
 const anyValuesUndefined = utils.anyValuesUndefined;
 const groupKeyCheck = utils.groupKeyCheck;
+const ensureAuthenticated = utils.ensureAuthenticated;
 let router = express.Router();
 let db;
 
 /*
- * TODO: Add user to group      - POST /api/group/{groupName}/add
- * TODO: Remove user from group - POST /api/group/{groupName}/remove
- */
-
-/*
- * TODO: Only allow logged in users to create groups
  * TODO: Add user making request as the admin
  *
  * To create a group, post to the endpoint /api/group/create
@@ -26,7 +21,7 @@ let db;
  *     visible:     true
  *   }
  */
-router.post('/create', (req, res) => {
+router.post('/create', ensureAuthenticated, (req, res) => {
   let createObj = {
     groupName: req.body.groupName,
     description: req.body.description,
@@ -97,7 +92,7 @@ router.get('/:groupName', (req, res) => {
  *   Post /api/group/FooBar/change/groupName
  *   With data { groupName: "Baz" }
  */
-router.post('/:groupName/change/:key', (req, res) => {
+router.post('/:groupName/change/:key', ensureAuthenticated, (req, res) => {
   let groupName = req.params.groupName;
   let key = req.params.key;
   let val = req.body[key];
@@ -142,7 +137,7 @@ router.post('/:groupName/change/:key', (req, res) => {
 
 //delete a group
 //TODO: make sure only admin of group can delete a group
-router.post('/:groupName/delete', (req, res) => {
+router.post('/:groupName/delete', ensureAuthenticated, (req, res) => {
   //req.user.username --> check if this is admin
 
   let groupName = req.params.groupName;
@@ -171,7 +166,7 @@ router.post('/:groupName/delete', (req, res) => {
  * where groupName is that of the group.
  *
  */
-router.post('/:groupName/addUser', async (req, res, next) => {
+router.post('/:groupName/addUser', ensureAuthenticated, async (req, res, next) => {
   try {
     let groupName = req.params.groupName;
     let username = req.body.username;
@@ -208,7 +203,7 @@ router.post('/:groupName/addUser', async (req, res, next) => {
 
 //delete a user from a group
 //TODO: make sure only admin of group can delete user from a group
-router.post('/:groupName/removeUser', async (req, res, next) => {
+router.post('/:groupName/removeUser', ensureAuthenticated, async (req, res, next) => {
   try {
     const groupName = req.params.groupName;
     const username = req.body.username;
@@ -248,7 +243,7 @@ router.post('/:groupName/removeUser', async (req, res, next) => {
  * where groupName is that of the group. 
  *
  */
-router.get('/:groupName/getUsers', async (req, res, next) => {
+router.get('/:groupName/getUsers', ensureAuthenticated, async (req, res, next) => {
   try {
     let groupName = req.params.groupName;
 

@@ -1,6 +1,6 @@
 {
   "development": {
-    "username": "Rebecca",
+    "username": "postgres",
     "password": null,
     "database": "dev",
     "host": "localhost",
@@ -17,11 +17,6 @@
     "logging": false
   },
   "production": {
-    "username": "CHANGEME",
-    "password": "CHANGEME",
-    "database": "prod",
-    "host": "CHANGEME",
-    "port": 5432,
-    "dialect": "postgres"
+    "use_env_variable": "DATABASE_URL"
   }
 }
