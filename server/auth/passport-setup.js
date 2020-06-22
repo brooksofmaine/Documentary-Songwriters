@@ -86,15 +86,17 @@ function localAuth(username, password, done)
  ************************************************************/
 /* ref: https://stackoverflow.com/questions/36486397/ */
 
-passport.use(
-    'google',
-    new GoogleStrategy({
-        // options for the google strategy
-        callbackURL: '/api/auth/google/redirect',
-        clientID: keys.google.clientID,
-        clientSecret: keys.google.clientSecret
-    }, googleLoginDone)
-);
+if (keys.google.clientID && keys.google.clientSecret) {
+    passport.use(
+        'google',
+        new GoogleStrategy({
+            // options for the google strategy
+            callbackURL: '/api/auth/google/redirect',
+            clientID: keys.google.clientID,
+            clientSecret: keys.google.clientSecret
+        }, googleLoginDone)
+    );
+}
 
 
 // Callback function for google login
