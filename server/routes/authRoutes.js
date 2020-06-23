@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const passport = require('passport');
 const googleLoginEnabled = typeof process.env.GOOGLE_CLIENT_ID !== 'undefined';
-const token_utils = require('../auth/token-utils');
+const token_utils = require('../passport/passport-token-utils');
 let client_add = process.env.CLIENT_ADD || process.env.SERVER_ADD || "http://localhost:3000";
 const utils = require("./utils");
 const ensureAuthenticated = utils.ensureAuthenticated;

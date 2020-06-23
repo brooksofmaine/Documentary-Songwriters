@@ -6,7 +6,7 @@ const RememberMeStrategy = require("passport-remember-me").Strategy;
 /** END Passport.js and passport strategies **/
 
 const keys = require('../config/keys');            // google login keys
-const token_util = require('./token-utils');       // the util to generate and store the tokens
+const token_util = require('./passport-token-utils');       // the util to generate and store the tokens
 
 /** bcrypt, the algorithm to hash the password. **/
 let bcrypt = require("bcrypt");

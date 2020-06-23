@@ -3,7 +3,7 @@ const utils = require('./utils');
 const anyValuesUndefined = utils.anyValuesUndefined;
 const userKeyCheck = utils.userKeyCheck;
 let router = express.Router();
-const hashPassword = require('../auth/passport-setup').hashPassword;
+const hashPassword = require('../passport/passport-setup').hashPassword;
 const ensureAuthenticated = utils.ensureAuthenticated;
 let db;
 
