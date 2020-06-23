@@ -1,6 +1,22 @@
 .WelcomeBoardImage {
     position: absolute;
-    right: 0;
-    top: -60%;
+    right: -10%;
+    top: -70%;
     z-index: 1;
+    width: 500px;
+    height: 700px;
+}
+
+@media only screen and (max-width: 1200px) {
+    .WelcomeBoardImage {
+        width: 350px;
+        height: 550px;
+        top: -20%;
+    }
+}
+
+@media only screen and (max-width: 1000px) {
+    .WelcomeBoardImage {
+        visibility: hidden;
+    }
 }

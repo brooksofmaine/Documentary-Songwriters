@@ -1,5 +1,6 @@
 import React from 'react';
 import './LoginForm.css';
+import '../Forms.css';
 import Button from '../Button';
 
 /* 
@@ -21,23 +22,30 @@ function Login(props) {
     return (
         <div>
             <form className="form">
-                <label>Username
-                    <br />
-                    <input className="login-input" 
-                           type="text" 
-                           placeholder="Username"
-                           name="username" 
-                           style={userStyle} 
-                    />
-                </label>
+                <label className="Label">Username</label>
+                <input 
+                    className="login-input Front" 
+                    type="text" 
+                    placeholder="Username"
+                    name="username" 
+                    style={userStyle} 
+                />
                 <div className="ErrorMessage" style={userErrorStyle}>
                     {props.userMessage}
                 </div>
-                <input className="login-input" type="password" placeholder="Password"
-                        name="password" style={passwordStyle}/>
+
+                <label className="Label">Password</label>
+                <input 
+                    className="login-input Front" 
+                    type="password" 
+                    placeholder="Password"
+                    name="password" 
+                    style={passwordStyle}
+                />
                 <div className="ErrorMessage" style={passwordErrorStyle}>
                     {props.passwordMessage}
                 </div>
+
                 <label htmlFor="remember_me">
                     <input id="remember_me" type="checkbox" name="remember_me"/>
                     <div id="remember-me-text">Remember Me</div>
@@ -45,8 +53,9 @@ function Login(props) {
             </form>
             <Button id="login" onClick={() => props.authUser()} name="Login"/>
             <div className="new_user_prompt login_section">
-                <h2 className="Front">New User?</h2>
-                <button className="link-style Front" onClick={() => props.changeDisplay(1)}>Register a new account</button>
+                <h2 className="Front SolidBackground AccountText">New User?</h2>
+                <br />
+                <button className="link-style Front SolidBackground" onClick={() => props.changeDisplay(1)}>Register a new account</button>
             </div>
         </div>
     )

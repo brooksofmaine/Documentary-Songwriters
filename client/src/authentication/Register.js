@@ -1,5 +1,6 @@
 import React from 'react';
 import Button from '../Button';
+import '../Forms.css';
 
 /* 
  * Second-level component for login form fields
@@ -28,31 +29,42 @@ function Register(props) {
     return(
         <div>
             <form className="form">
+                <label className="Label">Username *</label>
                 <input className="login-input Front" type="text"
                         placeholder="Username" name="username" style={userStyle} />
                 <div className="ErrorMessage" style={userErrorStyle}>
                     {props.userMessage}
                 </div>
+
+                <label className="Label">Email *</label>
                 <input className="login-input Front" type="text"
                         placeholder="Email" name="email" style={emailStyle} />
                 <div className="ErrorMessage" style={emailErrorStyle}>
                     {props.emailMessage}
                 </div>
+
+                <label className="Label">First Name *</label>
                 <input className="login-input Front" type="text"
                         placeholder="First Name" name="firstName"style={firstNameStyle} />
                 <div className="ErrorMessage" style={firstNameErrorStyle}>
                     {props.firstNameMessage}
                 </div>
+
+                <label className="Label">Last Name *</label>
                 <input className="login-input Front" type="text"
                         placeholder="Last name" name="lastName" style={lastNameStyle} />
                 <div className="ErrorMessage" style={lastNameErrorStyle}>
                     {props.lastNameMessage}
                 </div>
+
+                <label className="Label">Password *</label>
                 <input className="login-input Front" type="password"
                         placeholder="Password" name="password" style={passwordStyle} />
                 <div className="ErrorMessage" style={passwordErrorStyle}>
                     {props.passwordMessage}
                 </div>
+
+                <label className="Label">Confirm Password *</label>
                 <input className="login-input Front" type="password"
                         placeholder="Confirm Password" name="password_confirm" style={confirmPasswordStyle} />
                 <div className="ErrorMessage" style={confirmPasswordErrorStyle}>
@@ -61,8 +73,9 @@ function Register(props) {
             </form>
             <Button id="register" onClick={() => props.createUser()} name="Register"/>
             <div className={"new_user_prompt login_section"}>
-                <h2 className="Front">Already have an account?</h2>
-                <button className="link-style Front" onClick={() => props.changeDisplay(0)}>Click here to log in</button>
+                <h2 className="Front SolidBackground AccountText">Already have an account?</h2>
+                <br />
+                <button className="link-style Front SolidBackground" onClick={() => props.changeDisplay(0)}>Click here to log in</button>
                 
             </div>
         </div>
