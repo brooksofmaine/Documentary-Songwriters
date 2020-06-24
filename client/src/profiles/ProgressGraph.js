@@ -104,7 +104,8 @@ function ProgressGraph(props) {
             <div className="title-bar">
                 <div className="row">
                     <h3 className="heading">Progress Report</h3>
-                    <button className="graph-button" onClick={() => {setIsBarChart(false)}}>
+                    <div className="graph-bar">
+                       <button className="graph-button" onClick={() => {setIsBarChart(false)}}>
                         <span className="btn-content" tabIndex="-1" style={buttonStyle(0)} >
                             <FontAwesomeIcon icon={faChartBar} />
                         </span>
@@ -113,7 +114,9 @@ function ProgressGraph(props) {
                         <span tabIndex="-1" className="btn-content" style={buttonStyle(1)} >
                             <FontAwesomeIcon icon={faChartLine} />
                         </span>
-                    </button>
+                    </button> 
+                    </div>
+                    
                 </div>
                 <div className="dates">
                     <button 
@@ -126,9 +129,9 @@ function ProgressGraph(props) {
                 </div>
             </div>
             
-            <ResponsiveContainer width="100%" height={300}>
+            <ResponsiveContainer width="100%" height={300} className="graph">
                 {!isBarChart ?
-                <LineChart width={400} height={400} data={data}>
+                <LineChart width={500} height={400} data={data}>
                     <Line type="monotone" 
                         dataKey="pitches" 
                         isAnimationActive={false}

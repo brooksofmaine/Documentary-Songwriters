@@ -54,11 +54,11 @@
     display: flex;
 }
 
-.progress-bar {
+.InstrumentPage .progress-bar {
     max-width: 180px;
 }
 
-.achievements p {
+.InstrumentPage .achievements p {
     max-width: 150px;
     margin-left: 40px;
     font-family: 'Avenir', sans-serif;
@@ -70,8 +70,41 @@
 
 
 .Progress {
-    /* display: inline-block; */
-    /* position: relative; */
     width: 80%;
-    /* float: right; */
+}
+
+@media only screen and (max-width: 750px) {
+    .top-bar {
+        display: flex;
+        flex-direction: column;
+        /* align-items: flex-start; */
+    }
+
+    .InstrumentPage .section {
+        width: 60vw;
+    }
+    .InstrumentPage .achievements {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .InstrumentPage .achievements .row {
+        display: flex;
+        flex-direction: column;
+        /* width: 200px;; */
+        align-items: center;
+        /* border: 1 */
+    }
+
+    .InstrumentPage .achievements p {
+        max-width: 100%;
+        margin: 3vh 0;
+        text-align: center;
+        /* min-width: 100%; */
+    }
+
+    .InstrumentPage .ProgressCircle {
+        max-width: 200px;
+    }
 }

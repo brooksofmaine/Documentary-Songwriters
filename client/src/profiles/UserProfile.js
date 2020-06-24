@@ -18,7 +18,7 @@ const lowerFirstLetter = (word) => {
 
 function UserProfile(props) {
 
-    const [username]                    = useState(props.match.params.username); // from query string
+    const [username, setUsername]                    = useState(props.match.params.username); // from query string
     const [firstName, setFirstName]     = useState("");      // first name of curr user
     const [lastName, setLastName]       = useState("");      // last name of curr user
     const [createdAt, setCreatedAt]     = useState("");      // date curr user account created

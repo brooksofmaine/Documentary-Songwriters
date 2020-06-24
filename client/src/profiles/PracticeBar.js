@@ -58,6 +58,7 @@ function PracticeBar(props) {
      * Updates displayed practices when they load from API
      */
     useEffect(() => {
+        console.log("setting display")
         setDisplay(props.practices);
     }, [props.practices])
     
@@ -66,7 +67,7 @@ function PracticeBar(props) {
      * Called whenever filter changes display logic
      */
     useEffect(() => {
-        
+        console.log("update rendered practice")
         let practiceRows;
         practiceRows = display.map(practice => {
             // displays date in a legible format
@@ -106,6 +107,7 @@ function PracticeBar(props) {
      * Updates once on first render based on data from API
      */
     useEffect(() => {
+        console.log("update rendered practice")
         // first create options for all actual instruments that have been previously played
         const options = props.instruments.map(instr => {
             const formattedInstrument = capFirstLetter(instr);
@@ -133,7 +135,8 @@ function PracticeBar(props) {
             </div>
         );
         setInstrumentOptions(options);
-    }, [props.instruments, changeSelectedInstruments])
+    // }, [props.instruments, changeSelectedInstruments])
+        }, [props.instruments])
 
     /*
      * Converts every viable instrument into a clickable filter option component
@@ -182,7 +185,8 @@ function PracticeBar(props) {
             </div>
         );
         setInstrumentOptions(options);
-    }, [instrument, changeSelectedInstruments])
+    // }, [instrument, changeSelectedInstruments])
+    }, [instrument])
 
     /*
      * Controls how date filters look and condenses into array

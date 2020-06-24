@@ -44,6 +44,7 @@ function SummaryPage() {
     return(
         <div className="SummaryPage">
             <Router>
+                {/* <ProfileSidebar /> */}
                 {menu}
                 <Switch>
                     <Route path={`${path}/settings`} component={Settings} />
