@@ -41,3 +41,33 @@
     text-align: left;
     padding-left: 3%;
 }
+.responsive {
+    display: none;  
+}
+
+@media only screen and (max-width: 750px) {
+    .Practice {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .PracticeCol {
+        width: 100%;
+        text-align: left;
+    }
+    .PaddedDate {
+        margin: 10px 0 0 0;
+        /* padding: 0; */
+        /* width: 30%; */
+    }
+    .PaddedDate p {
+        margin: 0 0;
+    }
+    .PaddedPitch {
+        font-weight: 300;
+    }
+    .responsive {
+        display: inline;  
+    }
+    
+}

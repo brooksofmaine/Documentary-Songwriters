@@ -103,3 +103,27 @@
     background-color: #444;
     z-index: 10;
 }
+
+@media only screen and (max-width: 750px) {
+    .PracticeBar {
+        width: 100%;
+    }
+
+    .InstrTitle {
+        visibility: hidden;
+        width: 90%;
+    }
+
+    .InstrTitle:after {
+        content: 'Filter';
+        visibility: visible;
+        position: absolute;
+        left: 10%;
+        /* top: 0; */
+    }
+    
+    .arrowIcon {
+        font-size: 1.5em;
+    }
+    
+}
