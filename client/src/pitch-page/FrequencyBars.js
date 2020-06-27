@@ -128,7 +128,9 @@ class FrequencyBars extends React.Component {
 
         for (var i = 0; i < length; i += 1) {
             let rectHeight;
-            if ( canvas !== null ) {
+            if ( canvas !== null && data !== null) {
+                // console.log("data:", data)
+                // console.log("canvas:", canvas)
                 rectHeight = Math.floor((361 + data[i] * 3) / (361 / canvas.height));
             }
             var greyScale = rectHeight / 1.1;

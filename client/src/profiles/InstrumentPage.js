@@ -15,9 +15,20 @@ function InstrumentPage(props) {
     const [weekPitches, setWeekPitches] = useState(0);
     const [monthPitches, setMonthPitches] = useState(0);
 
-    // TODO: Change to be zero once API call exists to get recordingGoal
+    // Default recording goal is set to 100 pitches per week
     const [recordingGoal, setRecordingGoal] = useState(100);
     const [percentage, setPercentage] = useState(0);
+
+    // Pitch goal messages--the first is for when you haven't yet hit your goal, 
+    // the second is for when you have. 
+    
+    const goalMessages = () => {
+        if (weekPitches < recordingGoal) {
+            return(`You've played ${weekPitches} pitches this week. You have ${recordingGoal - weekPitches} pitches until you reach your weekly goal!`)
+        } else {
+            return(`You've passed your goal of ${recordingGoal} pitches with ${weekPitches} pitches this week! Congratulations! `)
+        }
+    }
 
     const fetchRecordingGoal = async (usr) => {
         const userInfo = await UserFunc.getUserInfo(usr)
@@ -118,7 +129,7 @@ function InstrumentPage(props) {
                         <h3 className="heading">Your Achievements</h3>
                         <div className="row">
                             <ProgressCircle percentage={percentage} /> 
-                            <p>You've played {weekPitches} pitches this week. You have {recordingGoal - weekPitches} pitches until you reach your weekly goal!</p>
+                            <p>{goalMessages()}</p>
                         </div>
                     </div>
                 </div>

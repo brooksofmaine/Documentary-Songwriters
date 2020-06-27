@@ -176,7 +176,7 @@ class Record extends React.Component {
             );
 
         // TODO: handle errors somehow
-        this.props.history.push("/profile");
+        this.props.history.push("/api/profile");
 
 
     }

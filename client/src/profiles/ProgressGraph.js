@@ -116,7 +116,6 @@ function ProgressGraph(props) {
                         </span>
                     </button> 
                     </div>
-                    
                 </div>
                 <div className="dates">
                     <button 
