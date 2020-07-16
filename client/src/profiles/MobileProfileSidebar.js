@@ -70,13 +70,13 @@ function MobileProfileSidebar() {
             </div> */}
             <div className="BurgerMenu" style={menuStyle}>
                 <Link className={selectedPage === 0 ? "SelectedBurgerLink" : ""}
-                    to="/api/profile"
+                    to="/profile"
                     onClick={() => {updatePages(0)}}>Progress</Link>
                 <Link className={selectedPage === 1 ? "SelectedBurgerLink" : ""} 
-                    to={"/api/profile/" + usrname}
+                    to={"/profile/user/" + usrname}
                     onClick={() => {updatePages(1)}}>Profile</Link>
                 <Link className={selectedPage === 2 ? "SelectedBurgerLink" : ""}
-                    to="/api/profile/settings"
+                    to="/profile/settings"
                     onClick={() => {updatePages(2)}}>Settings</Link>
             </div>
             {/* <div className="PopupOverlay" onClick={closeMenu} style={overlayStyle}></div> */}

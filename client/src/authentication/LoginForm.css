@@ -11,6 +11,7 @@
     background-color: #EBEBEB;
     border-radius: 5px;
     font-size: 16px; 
+    box-shadow: -1px 1px 2px 1px #ccc;
 }
 
 .form {

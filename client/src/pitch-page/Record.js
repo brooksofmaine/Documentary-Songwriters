@@ -266,6 +266,7 @@ class Record extends React.Component {
                 <RecordFilter 
                     defaultInstrument = {this.state.lastPlayedInstrument} 
                     changeInstrument={() => this.showPopup("stop", "instrument")} 
+                    stopFunction={() => app.stop()} 
                     ref = {filter => this.filter = filter}/>
                 <Counter countNum={this.state.count} />
                 <Stopwatch 

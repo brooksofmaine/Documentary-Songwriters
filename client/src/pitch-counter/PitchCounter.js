@@ -106,7 +106,6 @@ class PitchCounter {
     // by creating the starting Float32Array of frequencies
 
     initPitchCounting() {
-        console.log('init pitch counting')
         this.initListener();
         this.frequencyData = new Float32Array(
             this.analyser.frequencyBinCount);

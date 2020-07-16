@@ -62,6 +62,7 @@ class RecordFilter extends React.Component {
 
         // if changing instrument mid-recording, cues popup
         if ( instrument !== this.state.instrument ) {
+            this.props.stopFunction();
             this.props.changeInstrument("stop", "instrument");
         }
     }

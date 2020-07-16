@@ -5,6 +5,10 @@
     z-index: 200;
 }
 
+.LightLabel {
+    background-color: #fff;
+}
+
 .Front {
     z-index: 100;
 }

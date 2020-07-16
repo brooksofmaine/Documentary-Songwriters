@@ -9,6 +9,7 @@ import NewGroup from './groups-page/NewGroup'
 import NoMatch from './NoMatch'
 import InstrumentPage from './profiles/InstrumentPage'
 import ProfileSidebar from './profiles/ProfileSidebar'
+import Creators from './creators/Creators';
 import Settings from './profiles/Settings'
 import {
     BrowserRouter as Router,
@@ -29,23 +30,24 @@ import {
                     <Route path="/home">
                         <WelcomeBoard />
                     </Route>
-                    <Route path="/api/practice" component={Record} />
-                    <Route path="/api/groups" exact component={Group} />
-                    <Route path="/api/groups/new" component={NewGroup} />
+                    <Route path="/practice" component={Record} />
+                    <Route path="/groups" exact component={Group} />
+                    <Route path="/groups/new" component={NewGroup} />
+                    <Route path="/creators" component={Creators} />
                     <div>
-                        <Route path="/api/profile/settings/" exact>
+                        <Route path="/profile/settings/" exact>
                             <div className="profile-components">
                                 <ProfileSidebar />
                                 <Settings />
                             </div>
                         </Route>
-                        <Route path="/api/profile/" exact>
+                        <Route path="/profile/" exact>
                             <div className="profile-components">
                             <ProfileSidebar />
                             <InstrumentPage />
                             </div>
                         </Route>
-                        <Route path="/api/profile/username/:username" render={(matchProps) => {
+                        <Route path="/profile/user/:username" render={(matchProps) => {
                             return(
                                 <div className="profile-components">
                                     <ProfileSidebar />
@@ -54,7 +56,7 @@ import {
                             )
                         }} />
                     </div>
-                    <Route path="/api/nomatch" component={NoMatch} />
+                    <Route path="/nomatch" component={NoMatch} />
                     </Switch>
                 </Router>
             </div>
