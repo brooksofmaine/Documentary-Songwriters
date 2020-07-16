@@ -5,15 +5,9 @@
   "main": "index.js",
   "scripts": {
     "postinstall": "concurrently \"cd server && npm ci\" \"cd client && npm ci\"",
-<<<<<<< HEAD
     "start": "concurrently \"cd server && npm start\" \"cd client && npm start\"",
     "test": "cd server && npm test",
     "heroku-postbuild": "npm install && cd client && npm install --only-dev && npm install && npm run build"
-=======
-    "start": "concurrently \"cd server && npm start\" \"if [ \\\"$NODE_ENV\\\" != \\\"production\\\" ]; then cd client && npm start; fi \"",
-    "test": "cd server && npm test",
-    "build": "cd client && npm run build"
->>>>>>> 6f00ce2c293748a1635bec0830119bbc45d488a5
   },
   "repository": {
     "type": "git",
