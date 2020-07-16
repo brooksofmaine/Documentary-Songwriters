@@ -6,17 +6,12 @@ const RememberMeStrategy = require("passport-remember-me").Strategy;
 /** END Passport.js and passport strategies **/
 
 const keys = require('../config/keys');            // google login keys
-const token_util = require('./token-utils');       // the util to generate and store the tokens
+const token_util = require('./passport-token-utils');       // the util to generate and store the tokens
 
 /** bcrypt, the algorithm to hash the password. **/
 let bcrypt = require("bcrypt");
 // set number of iterations for the bcrypt algorithm
-let num_iterations;
-try {
-    num_iterations = require("../config/password_config.json")["salt_iterations"];
-} catch {
-    num_iterations = 10;
-}
+const bcrypt_num_iterations = process.env.PW_HASH_ITERATIONS || 10;
 
 let db;
 
@@ -36,7 +31,7 @@ async function hashPassword(password) {
     if (typeof password !== "string") {
         return null;
     }
-    return "bcrypt:" + await bcrypt.hash(password, num_iterations);
+    return "bcrypt:" + await bcrypt.hash(password, bcrypt_num_iterations);
 }
 
 module.exports.hashPassword = hashPassword;
@@ -91,15 +86,17 @@ function localAuth(username, password, done)
  ************************************************************/
 /* ref: https://stackoverflow.com/questions/36486397/ */
 
-passport.use(
-    'google',
-    new GoogleStrategy({
-        // options for the google strategy
-        callbackURL: '/api/auth/google/redirect',
-        clientID: keys.google.clientID,
-        clientSecret: keys.google.clientSecret
-    }, googleLoginDone)
-);
+if (keys.google.clientID && keys.google.clientSecret) {
+    passport.use(
+        'google',
+        new GoogleStrategy({
+            // options for the google strategy
+            callbackURL: '/api/auth/google/redirect',
+            clientID: keys.google.clientID,
+            clientSecret: keys.google.clientSecret
+        }, googleLoginDone)
+    );
+}
 
 
 // Callback function for google login
@@ -147,7 +144,7 @@ passport.deserializeUser((obj, cb) => {
 
 function findUser(username)
 {
-    return db.User.findByPk(username);
+    return db.User.scope("withPassword").findByPk(username);
 }
 
 function findUserOrCreate (username, profile, done)

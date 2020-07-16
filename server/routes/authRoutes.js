@@ -1,26 +1,10 @@
 const router = require('express').Router();
 const passport = require('passport');
-const token_utils = require('../auth/token-utils');
-let client_add = "http://localhost:3000";
-
-// function ensureAuthenticated
-// ensures the user is logged in before it grants access to the api.
-// input: req, the request; res, the response obj; next, the function to be called next
-
-function ensureAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) {
-        return next();
-    } else {
-        res.status(401).json( {"err": "you are not logged in"});
-    }
-}
-
-module.exports.ensureAuthenticated = ensureAuthenticated;
-
-// auth login
-router.get('/login', (req,res) => {
-  res.send('Success');
-});
+const googleLoginEnabled = typeof process.env.GOOGLE_CLIENT_ID !== 'undefined';
+const token_utils = require('../passport/passport-token-utils');
+let client_add = process.env.CLIENT_ADD || process.env.SERVER_ADD || "http://localhost:3000";
+const utils = require("./utils");
+const ensureAuthenticated = utils.ensureAuthenticated;
 
 // auth logout
 router.get('/logout', ensureAuthenticated, (req,res) => {
@@ -72,22 +56,25 @@ router.post('/local', passport.authenticate('local'), (req, res) => {
 
 
 // auth with google
-router.get('/google', passport.authenticate('google', {
-  scope: ['profile', 'email']
-}));
+
+if (googleLoginEnabled) {
+    router.get('/google', passport.authenticate('google', {
+        scope: ['profile', 'email']
+    }));
 
 // callback route for google to redirect to
-router.get('/google/redirect',
-  passport.authenticate('google', {"failureRedirect": "/google"}),
-  (req,res) => {
-      var name = req.user.firstName + " " + req.user.lastName;
+    router.get('/google/redirect',
+        passport.authenticate('google', {"failureRedirect": "/google"}),
+        (req,res) => {
+            var name = req.user.firstName + " " + req.user.lastName;
 
-      res.send("<html><p>Login successful. </p><button onclick='window.close()'>Close Window</button>" +
-          "<script>window.onload = () => {" +
-          "window.opener.postMessage(\"" + name + "\", \"" + client_add + "\"); window.close()};</script></html>");
+            res.send("<html><p>Login successful. </p><button onclick='window.close()'>Close Window</button>" +
+                "<script>window.onload = () => {" +
+                "window.opener.postMessage(\"" + name + "\", \"" + client_add + "\"); window.close()};</script></html>");
 
-  }
-);
+        }
+    );
+}
 
 router.get('/loginstatus', (req, res) => {
 
@@ -107,3 +94,4 @@ router.get('/loginstatus', (req, res) => {
 });
 
 module.exports = router;
+module.exports.ensureAuthenticated = ensureAuthenticated;

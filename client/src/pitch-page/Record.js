@@ -4,7 +4,7 @@ import Stopwatch from './Stopwatch';
 import './Record.css';
 
 import UserFunc from "../api-helper/user";
-import app from '../pitch-counter/PitchCounterApp.js';
+import {app} from '../pitch-counter/PitchCounterApp.js';
 import RecordingFunc from "../api-helper/recording";
 import RecordFilter from './RecordFilter';
 import StopPopup from './StopPopup';
@@ -43,7 +43,6 @@ class Record extends React.Component {
     }
 
     async componentDidMount() {
-
         let username;
         let instrument;
 
@@ -88,7 +87,7 @@ class Record extends React.Component {
         let frequency = 16;
 
         this.frequency = setInterval(() => {
-            if ( this.frequencyBars !== null ) {
+            if ( this.frequencyBars !== null && app.instrument.pitchCounter.frequencyData !== undefined) {
                 this.frequencyBars.updateFrequencyBars(app.instrument.pitchCounter.frequencyData);
                 this.setState({
                     count: app.get_pitch_count()
@@ -177,7 +176,7 @@ class Record extends React.Component {
             );
 
         // TODO: handle errors somehow
-        this.props.history.push("/api/profile");
+        this.props.history.push("/profile");
 
 
     }
@@ -208,7 +207,7 @@ class Record extends React.Component {
                     startFunction={() => app.start()}
                     stopFunction={() => app.stop()} 
                     pauseFunction={() => app.changeState()}
-                    reset={() => this.showPopup("stop", "stop")} 
+                    reset={() => this.showPopup("stop", "stop")}
                     save={this.showPopup} 
                     ref={stopwatch => this.stopwatch = stopwatch}
                 />

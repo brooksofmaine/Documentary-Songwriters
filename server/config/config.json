@@ -17,12 +17,16 @@
     "logging": false
   },
   "production": {
+<<<<<<< HEAD
     "username": "tuyozjgnikwwtj",
     "password": "11c86c3146b8f37560e30a0ae49fd3cae61270d5c59b665a4d3f583ead54a014",
     "database": "d8m1bc4e7c18a1",
     "host": "ec2-52-71-55-81.compute-1.amazonaws.com",
     "port": 5432,
     "dialect": "postgres"
+=======
+    "use_env_variable": "DATABASE_URL"
+>>>>>>> 6f00ce2c293748a1635bec0830119bbc45d488a5
   }
 }
 

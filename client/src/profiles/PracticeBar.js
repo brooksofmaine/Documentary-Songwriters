@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { capFirstLetter } from './capitalization';
 import './PracticeBar.css';
 import ProfileFilter from './ProfileFilter';
 import Practice from './Practice';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMinus, faAngleDown, faAngleRight, faTimes } 
         from '@fortawesome/free-solid-svg-icons';
+
+const capFirstLetter = (word) => {
+    return word.charAt(0).toUpperCase() + word.slice(1);
+}
 
 /*
  * Second level component for profile page
@@ -27,7 +30,7 @@ function PracticeBar(props) {
     const [instrument, setInstrument] = useState(["all"]);    // array of currently sshwoing instruments
     const [order, setOrder]           = useState("newFirst"); // string representing order of practices (newFirst or oldFirst)
     const [minPitch, setMinPitch]     = useState(0);          // min pitch to display
-    const [maxPitch, setMaxPitch]     = useState(500);        // max pitch to display
+    const [maxPitch, setMaxPitch]     = useState(props.maxPitches);        // max pitch to display
 
     const [instrumentOptions, setInstrumentOptions] = useState(["all"]); // array of instrument options to display, 
                                                                          // including "all" and all instruments played by this user
@@ -55,6 +58,7 @@ function PracticeBar(props) {
      * Updates displayed practices when they load from API
      */
     useEffect(() => {
+        console.log("setting display")
         setDisplay(props.practices);
     }, [props.practices])
     
@@ -63,7 +67,7 @@ function PracticeBar(props) {
      * Called whenever filter changes display logic
      */
     useEffect(() => {
-        
+        console.log("update rendered practice")
         let practiceRows;
         practiceRows = display.map(practice => {
             // displays date in a legible format
@@ -103,6 +107,7 @@ function PracticeBar(props) {
      * Updates once on first render based on data from API
      */
     useEffect(() => {
+        console.log("update rendered practice")
         // first create options for all actual instruments that have been previously played
         const options = props.instruments.map(instr => {
             const formattedInstrument = capFirstLetter(instr);
@@ -130,7 +135,8 @@ function PracticeBar(props) {
             </div>
         );
         setInstrumentOptions(options);
-    }, [props.instruments])
+    // }, [props.instruments, changeSelectedInstruments])
+        }, [props.instruments])
 
     /*
      * Converts every viable instrument into a clickable filter option component
@@ -179,6 +185,7 @@ function PracticeBar(props) {
             </div>
         );
         setInstrumentOptions(options);
+    // }, [instrument, changeSelectedInstruments])
     }, [instrument])
 
     /*
@@ -280,7 +287,7 @@ function PracticeBar(props) {
             }
         });
         setDisplay(displayedPractices);
-    }, [instrument, minPitch, maxPitch])
+    }, [instrument, minPitch, maxPitch, props.practices])
 
     /*
      * Triggered on click of main filter

@@ -51,7 +51,7 @@ function InstrumentPage(props) {
     }, [])
 
     useEffect(() => {
-        if (username != "") {
+        if (username !== "") {
             RecordingFunc.getPitchTotalCount(username,
                 RecordingFunc.nthDayAgo(1),
                 new Date()).then(
@@ -80,7 +80,7 @@ function InstrumentPage(props) {
 
 
     useEffect(() => {
-        if (recordingGoal != 0) {
+        if (recordingGoal !== 0) {
             setPercentage(((weekPitches / recordingGoal)*100).toFixed(0));
         }
         
@@ -120,8 +120,6 @@ function InstrumentPage(props) {
                             <ProgressCircle percentage={percentage} /> 
                             <p>You've played {weekPitches} pitches this week. You have {recordingGoal - weekPitches} pitches until you reach your weekly goal!</p>
                         </div>
-
-
                     </div>
                 </div>
             </div>

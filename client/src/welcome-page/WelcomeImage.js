@@ -1,10 +1,15 @@
 import React from 'react';
 import './WelcomeImage.css';
 
+/*
+ * Low-level decorative component
+ * Displays frequency bar graphic
+ * Child of WelcomeBoard
+ */
 function WelcomeImage() {
     return(
         <div className="WelcomeBoardImage">
-            <svg width="350" height="550" viewBox="0 0 638 795" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg  viewBox="0 0 638 795" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <line x1="3" y1="-3" x2="193.605" y2="-3" transform="matrix(0 -1 0.999991 0.00413698 36 496.605)" stroke="#303D8B" stroke-width="6" stroke-linecap="round"/>
                 <line x1="3" y1="-3" x2="393.029" y2="-3" transform="matrix(0 -1 0.999996 0.00272677 76 596.029)" stroke="#303D8B" stroke-width="6" stroke-linecap="round"/>
                 <path d="M116 654.704L116 142" stroke="#303D8B" stroke-width="6" stroke-linecap="round"/>

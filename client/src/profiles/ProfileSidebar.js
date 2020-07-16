@@ -30,7 +30,7 @@ function ProfileSidebar() {
     }, [usrname])
 
     let {username} = useParams()
-    console.log("path", username)
+    // console.log("path", username)
 
 
     // Current bug: calls when username is empty and so it automatically shades to this
@@ -54,13 +54,13 @@ function ProfileSidebar() {
     return(
         <div className="ProfileSidebar">
             <Link className={selectedPage === 0 ? "sidebar-link selected-link" : "sidebar-link"}
-                  to="/api/profile"
+                  to="/profile"
                   onClick={() => {updatePages(0)}}>Progress</Link>
             <Link className={selectedPage === 1 ? "sidebar-link selected-link" : "sidebar-link"} 
-                  to={"/api/profile/" + usrname}
+                  to={"/api/profile/username/" + usrname}
                   onClick={() => {updatePages(1)}}>Profile</Link>
             <Link className={selectedPage === 2 ? "sidebar-link selected-link" : "sidebar-link"}
-                  to="/api/profile/settings"
+                  to="/profile/settings"
                   onClick={() => {updatePages(2)}}>Settings</Link>
 
         </div>

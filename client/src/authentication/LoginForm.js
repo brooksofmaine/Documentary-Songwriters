@@ -5,8 +5,10 @@ import GoogleImg from '../assets/google_signin.png';
 import LoginImages from './LoginImages';
 import Login from './Login';
 import Register from './Register';
+import UserFunc from "../api-helper/user";
+import {server_add} from "../api-helper/config";
 
-/* 
+/*
  * Top-level component to manage login screen
  * First page scene when logging in
  * Displayed at "/"
@@ -20,7 +22,7 @@ class LoginForm extends React.Component {
         this.state = {
             login: 0,           // 0 if showing Login component, 1 if showing Register component
             remember_me: false, // corresponds to remember me checkbox value
-            
+
             username: "",   // handles username field
             password: "",   // handles password field
             email: "",      // handles email field
@@ -40,7 +42,7 @@ class LoginForm extends React.Component {
             firstNameMessage: "",
             lastNameMessage: "",
             confirmPasswordMessage: ""
-            
+
         };
 
         // Function bindings
@@ -166,7 +168,7 @@ class LoginForm extends React.Component {
         };
 
         /* Send it */
-        const response = await fetch('http://localhost:5000/api/user/create', {
+        const response = await fetch(server_add + '/api/user/create', {
             method: 'post',
             headers: {
                 'Content-Type': 'application/json'
@@ -230,7 +232,7 @@ class LoginForm extends React.Component {
         };
 
         /* Send to server */
-        const response = await fetch('http://localhost:5000/api/auth/local', {
+        const response = await fetch(server_add + '/api/auth/local', {
             method: 'post',
             headers: {
                 'Content-Type': 'application/json'
@@ -252,7 +254,7 @@ class LoginForm extends React.Component {
         } else {
             const myJson = await response.json();
             console.log(JSON.stringify(myJson));
-            window.location = "/api/home";
+            window.location = "/home";
         }
     };
 
@@ -285,7 +287,7 @@ class LoginForm extends React.Component {
                     badFirstName: false
                 });
                 break;
-            case "lastName":   
+            case "lastName":
                 this.setState({
                     badLastName: false
                 });
@@ -306,7 +308,7 @@ class LoginForm extends React.Component {
     };
 
     /*
-     * Handles changes for the remember me checkbox 
+     * Handles changes for the remember me checkbox
      * Activates through the Login child component
      * Kept separate from above function to improve functionality
      */
@@ -327,8 +329,8 @@ class LoginForm extends React.Component {
          * Passes in handle change and submit functions as props
          * Passes in error handling behavior traits as props
          */
-        const displayedComponent = this.state.login === 0 ? 
-            <Login 
+        const displayedComponent = this.state.login === 0 ?
+            <Login
                 handleChange={this.handleChange}
                 handleCheckBoxChange={this.handleCheckBoxChange}
                 authUser={this.authUser}
@@ -338,8 +340,8 @@ class LoginForm extends React.Component {
                 userMessage={this.state.userMessage}
                 badPassword={this.state.badPassword}
                 passwordMessage={this.state.passwordMessage}
-            /> : 
-            <Register 
+            /> :
+            <Register
                 handleChange={this.handleChange}
                 createUser={this.createUser}
                 changeDisplay={this.updateLoginState}
@@ -357,16 +359,16 @@ class LoginForm extends React.Component {
                 badConfirmPassword={this.state.badConfirmPassword}
                 confirmPasswordMessage={this.state.confirmPasswordMessage}
             />
-        
+
         /*
          * Renders entire page, including Login or Register, Google Button, and images
          */
         return (
             <div className="loginform">
-                <h1 className={"Title"}>Documentary Songwriters</h1>
+                <h1 className="Title Front">Documentary Songwriters</h1>
                 <div className="login_area flex_container">
                     <div className={"user_login login_section"}>
-                        <button className="google-button" onClick={() => this.openGoogleLogin()}>
+                        <button className="google-button Front" onClick={() => this.openGoogleLogin()}>
                             <img src={GoogleImg} alt="Google Login Button" />
                         </button>
                         <div onChange={this.handleChange} onClick={this.handleCheckBoxChange}>
@@ -378,24 +380,19 @@ class LoginForm extends React.Component {
             </div>
         );
     };
-    
-    /* For debugging purposes */
-    /*
-    componentDidMount = () => {
-        window.addEventListener('message', (event) => {
-            if (event.origin.startsWith("http://localhost:5000")) {
-                console.log("User " + event.data + " successfully logged in.");
-                window.location = "/api/home";
-            }
-        });
+
+    componentDidMount = async () => {
+        const curr_user = UserFunc.getCurrentUser();
+        if (curr_user && 'status' in curr_user && curr_user['status'] == "logged_in") {
+            window.location.href = "/home";
+        }
     };
-    */
 
     /*
      * Handles login via Google button
      */
     openGoogleLogin = () => {
-        window.open("http://localhost:5000/api/auth/google/", "Login",'height=800,width=500');
+        window.open(server_add + "/api/auth/google/", "Login",'height=800,width=500');
     };
 }
 
