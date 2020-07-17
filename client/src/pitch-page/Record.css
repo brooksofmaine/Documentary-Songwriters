@@ -12,3 +12,10 @@
     background-color: #444;
     z-index: 100;
 }
+
+@media only screen and (max-width: 500px) {
+    .RecordOverlay {
+        width: 105vw!important;
+    }
+    
+}

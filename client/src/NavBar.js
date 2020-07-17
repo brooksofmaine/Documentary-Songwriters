@@ -24,7 +24,6 @@ function NavBar() {
     }
 
     useEffect(() => {
-        
         async function getUsername() {
             const username = await UserFunc.getCurrentUsername();
             setUsername(username)
@@ -42,7 +41,7 @@ function NavBar() {
             <div className="items" style={openMenu ? openStyle : {}}>
                 <FontAwesomeIcon className="close icon" icon={faTimes} onClick={() => setOpenMenu(false)} />
                 <div className="pages">
-                    <NavLink activeClassName="selected" to="/api/home" onClick={() => setOpenMenu(false)}>Home</NavLink>
+                    <NavLink tabindex="-1   " activeClassName="selected" to="/api/home" onClick={() => setOpenMenu(false)}>Home</NavLink>
                     <NavLink activeClassName="selected" to="/api/groups" onClick={() => setOpenMenu(false)}>Groups</NavLink>
                     <NavLink activeClassName="selected" to="/api/practice" onClick={() => setOpenMenu(false)}>Practice</NavLink>
                     <div className="dropdown-menu">
