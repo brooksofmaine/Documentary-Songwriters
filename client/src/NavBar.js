@@ -42,15 +42,15 @@ function NavBar() {
             <div className="items" style={openMenu ? openStyle : {}}>
                 <FontAwesomeIcon className="close icon" icon={faTimes} onClick={() => setOpenMenu(false)} />
                 <div className="pages">
-                    <NavLink activeClassName="selected" to="/api/home" onClick={() => setOpenMenu(false)}>Home</NavLink>
-                    <NavLink activeClassName="selected" to="/api/groups" onClick={() => setOpenMenu(false)}>Groups</NavLink>
-                    <NavLink activeClassName="selected" to="/api/practice" onClick={() => setOpenMenu(false)}>Practice</NavLink>
+                    <NavLink activeClassName="selected" to="/home" onClick={() => setOpenMenu(false)}>Home</NavLink>
+                    <NavLink activeClassName="selected" to="/groups" onClick={() => setOpenMenu(false)}>Groups</NavLink>
+                    <NavLink activeClassName="selected" to="/practice" onClick={() => setOpenMenu(false)}>Practice</NavLink>
                     <div className="dropdown-menu">
-                        <NavLink activeClassName="selected" to="/api/profile" onClick={() => setOpenChild(!openChild)}>My Progress</NavLink>
+                        <NavLink activeClassName="selected" to="/profile" onClick={() => setOpenChild(!openChild)}>My Progress</NavLink>
                         <div className={openChild ? "child-links open" : "child-links"}>
-                            <NavLink to="/api/profile/" onClick={() => setOpenMenu(false)}>My Progress</NavLink>
-                            <NavLink to={"/api/profile/username/" + username} onClick={() => setOpenMenu(false)}>My Profile</NavLink>
-                            <NavLink to="/api/profile/settings" onClick={() => setOpenMenu(false)}>Settings</NavLink>
+                            <NavLink to="/profile/" onClick={() => setOpenMenu(false)}>My Progress</NavLink>
+                            <NavLink to={"/profile/username/" + username} onClick={() => setOpenMenu(false)}>My Profile</NavLink>
+                            <NavLink to="/profile/settings" onClick={() => setOpenMenu(false)}>Settings</NavLink>
                         </div>
                     </div>
                     <button className="menu-btn" onClick={log_out}>Log out</button>
@@ -90,15 +90,15 @@ function NavBar() {
     //             <button className="close-btn" onClick={() => {setOpenMenu(false)}}>X</button>
     //             <a style={homeStyle}
     //                 className="nav-link" 
-    //                 href="/api/home">Home</a>
+    //                 href="/home">Home</a>
     //             <a style={groupsStyle} 
     //                 className="nav-link" 
-    //                 href="/api/groups">Groups</a>
+    //                 href="/groups">Groups</a>
     //             <a style={practiceStyle}
     //                 className="nav-link"
-    //                 href="/api/practice">Practice</a>
+    //                 href="/practice">Practice</a>
     //             <div className="dropdown-menu">
-    //                 <a style={progressStyle} className="nav-link" href="/api/profile">My Progress</a>
+    //                 <a style={progressStyle} className="nav-link" href="/profile">My Progress</a>
     //                 <span className="dropdown">
     //                     <button className="DropdownButton" onClick={log_out}>Log out</button>
     //                 </span>
