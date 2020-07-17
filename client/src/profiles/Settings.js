@@ -201,7 +201,7 @@ function Settings(props) {
                            onChange={(e) => {setGoal(e.target.value)}} 
                            className={pitchesValid ? 'normal-input' : 'invalid-input'}/>
                     <p id="pitches-error" className={pitchesValid ? 'error hidden' : 'error'}>
-                        Whoops! Your weekly goal must be between 10 and 15000 pitches.
+                        Whoops! Your weekly goal must be between 10 and 999999 pitches.
                     </p>
                 </div>
             </form>
