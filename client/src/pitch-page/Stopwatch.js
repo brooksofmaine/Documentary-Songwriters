@@ -3,7 +3,7 @@ import React from 'react';
 import './Stopwatch.css';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faDownload, faPause, faPlay, faStop }
+import { faDownload, faPause, faPlay, faStop, faTrashAlt }
     from '@fortawesome/free-solid-svg-icons';
 
 import ReactTooltip from 'react-tooltip';
@@ -94,7 +94,7 @@ class Stopwatch extends React.Component {
                     </div>
                     <div>
                         <button className="Button RecordButton" onClick={this.stop}>
-                            <FontAwesomeIcon icon={faStop} className="RecordIcon" />
+                            <FontAwesomeIcon icon={faTrashAlt} className="RecordIcon" />
                         </button>
                     </div>
                     <div>
