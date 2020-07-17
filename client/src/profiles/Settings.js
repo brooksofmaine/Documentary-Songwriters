@@ -62,7 +62,6 @@ function Settings(props) {
         
     }
 
-    // TODO: Add check for if changed to invalid email/username
     const handleSubmit = (e) => {
         var invalid = false;
         if (userInfo) {
@@ -96,7 +95,6 @@ function Settings(props) {
                     invalid = true;
                     console.log("setting email invalid")
                     setEmailValid(false)
-                    // e.preventDefault()
                 }
             }
             if (password != "") {

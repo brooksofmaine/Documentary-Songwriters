@@ -26,13 +26,13 @@ import {
                     <Switch>
                     
                     <Route exact path="/" component={LoginForm} />
-                    <Route path="/home">
+                    <Route path="/api/home">
                         <WelcomeBoard />
                     </Route>
                     <Route path="/api/practice" component={Record} />
                     <Route path="/api/groups" exact component={Group} />
                     <Route path="/api/groups/new" component={NewGroup} />
-                    <div>
+                    
                         <Route path="/api/profile/settings/" exact>
                             <div className="profile-components">
                                 <ProfileSidebar />
@@ -53,7 +53,6 @@ import {
                                 </div>
                             )
                         }} />
-                    </div>
                     <Route path="/api/nomatch" component={NoMatch} />
                     </Switch>
                 </Router>

@@ -75,7 +75,7 @@ class NewGroup extends React.Component {
             for (let i = 0; i < this.state.members.length; i++) {
                 GroupFunc.addMember(this.state.groupName, this.state.members[i].name);
             }
-            this.props.history.push("/groups");
+            this.props.history.push("/api/groups");
         }
 
         return body;
@@ -199,6 +199,7 @@ class NewGroup extends React.Component {
                 <div className = "GroupBox">
                     <form>
                         <div className="InputWrapper">  
+                            <label>Group Name</label>
                             <input 
                                 type="text" 
                                 name="groupName"
@@ -214,6 +215,9 @@ class NewGroup extends React.Component {
                         </div>
 
                         <div className="InputWrapper">  
+                            <label for="group-description">
+                                Group Description
+                            </label>
                             <input 
                                 type="text" 
                                 name="description"
@@ -223,15 +227,18 @@ class NewGroup extends React.Component {
                                 className="GroupFormText"
                             />
                         </div>
-
+                        <label for="members">
+                            Enter username of member to invite then click search
+                        </label>
                         <div className="InputWrapper">
                             <input 
                                 type="text" 
+                                id="members"
                                 name="currMember"
                                 onChange={this.handleChange}
                                 value={this.state.currMember}
                                 onKeyPress={this.handleClick}
-                                placeholder="Enter username of member to invite then click search"
+                                placeholder="Search members"
                                 className="GroupFormText"
                                 style={userStyle}
                             />
@@ -240,8 +247,9 @@ class NewGroup extends React.Component {
                         <div className="ErrorMessage" style={userErrorStyle}>
                             {this.state.errorMessage}
                         </div>
-
+                        <label>Added Members</label>
                         <div className="NewGroupMemberBox">
+                            
                             {newMembers}
                         </div>
                         <div className="ButtonBox">

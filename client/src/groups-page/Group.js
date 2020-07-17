@@ -214,12 +214,12 @@ class Group extends React.Component {
         }
         
         return(
-            <div>
+            <div className="GroupPage">
                 <div className = "GroupSideBar">
                     <h3 className = "BigName">My Groups</h3>
                     {groupNames}
                     <div className = "ButtonContainer">
-                        <button className= "GroupButton" onClick={() => window.location.href="/groups/new"}>
+                        <button className= "GroupButton" onClick={() => window.location.href="/api/groups/new"}>
                             Create a Group
                         </button>
                     </div>

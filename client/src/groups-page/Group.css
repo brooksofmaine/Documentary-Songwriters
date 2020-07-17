@@ -106,3 +106,31 @@
     width: 27%;
     margin: 2%;
 }
+
+@media only screen and (max-width: 750px) {
+    .GroupPage {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .GroupSideBar {
+        width: 80vw;
+        height: 40vh;
+    }
+
+    .MemberContainer {
+        width: 80vw;
+        margin-left: 0;
+    }
+
+    .MemberButtonContainer {
+        display: flex;
+        flex-direction: column;
+        
+    }
+
+    .NewMemberInput {
+        width: 60vw;
+    }
+}
