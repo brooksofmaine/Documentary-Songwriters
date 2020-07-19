@@ -7,7 +7,7 @@
     left: 26%;
     padding: 4%;
     border-radius: 10px;
-    z-index: 1000;
+    z-index: 10000;
     background-color: #fff;
     color: #000;
     font-weight: 200;
@@ -67,4 +67,10 @@
 .SaveInput:focus {
     box-shadow: 0 0 5px #888;
     outline: none;
+}
+
+.SaveLabel {
+    background-color: transparent !important;
+    position: relative;
+    margin-left: -35%;
 }

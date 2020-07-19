@@ -8,13 +8,19 @@ import { faDownload, faPause, faPlay, faStop }
 
 import ReactTooltip from 'react-tooltip';
 
+/*
+ * Stopwatch
+ * Second-level component
+ * Child of Record
+ * Tracks timer, pausing, playing, etc. of the stopwatch for practices
+ */
 class Stopwatch extends React.Component {
     constructor() {
         super();
         this.state = {
-            timerOn: false,
-            timerStart: 0,
-            timerTime: 0
+            timerOn: false, // tracks if timer currently running
+            timerStart: 0,  // tracks time that timer started
+            timerTime: 0    // tracks time since timer started
         };
 
         this.startTimer = this.startTimer.bind(this);
@@ -24,7 +30,11 @@ class Stopwatch extends React.Component {
         this.stop       = this.stop.bind(this);
     };
 
-    // on play
+    /*
+     * Start timer
+     * Alters state, updates timer times, starts pitch counter and timer
+     * Called when user hits play button
+     */
     startTimer = () => {
         this.props.startFunction();
         if ( ! this.state.timerOn ) {
@@ -43,7 +53,11 @@ class Stopwatch extends React.Component {
         }
     };
 
-    // pauses timer
+    /*
+     * Stop timer
+     * Alters state, pauses pitch counter and timer
+     * Called when user hits pause
+     */
     stopTimer = () => {
         this.setState({
             timerOn: false
@@ -52,7 +66,11 @@ class Stopwatch extends React.Component {
         clearInterval(this.timer);
     };
 
-    // resets timer to zero
+    /*
+     * Reset timer
+     * Resets timer to 0, erases everything to date
+     * Called when user hits stop
+     */
     resetTimer = () => {
         this.setState({
             timerStart: 0,
@@ -60,7 +78,12 @@ class Stopwatch extends React.Component {
         });
     };
 
-    // controls play and pause
+    /*
+     * Play pause
+     * Toggles play and pause functionality since play/pause button doubles
+     * Decides if should play or pause then calls appropriate function
+     * Called when user hits play/pause button
+     */
     playPause = () => {
         this.props.pauseFunction()
         if ( this.state.timerOn ) {
@@ -71,14 +94,26 @@ class Stopwatch extends React.Component {
         }
     };
 
-    // on stop
+    /*
+     * Stop
+     * Stops pitch counter and timer, and triggers warning popup if necessary
+     * Called when user hits stop
+     */
     stop = () => {
         this.props.stopFunction();
         this.props.reset("stop", "stop");
-        this.stopTimer();
+        this.setState({
+            timerOn: false
+        });
+        // stops sampling and updating times
+        clearInterval(this.timer);
     };
 
+    /*
+     * Renders stopwatch counter and buttons to control it
+     */
     render() {
+        // makes timer (milliseconds) look nice
         const { timerTime } = this.state;
         let seconds = ("0" + (Math.floor(timerTime / 1000) % 60)).slice(-2);
         let minutes = ("0" + (Math.floor(timerTime / 60000) % 60)).slice(-2);

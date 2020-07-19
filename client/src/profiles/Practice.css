@@ -30,6 +30,26 @@
     width: 30%;
 }
 
+@media only screen and (max-width: 900px) {
+    .PaddedDate {
+        width: 20%;
+    }
+
+    .PaddedInstrument {
+        width: 35%;
+    }
+}
+
+@media only screen and (max-width: 750px) {
+    .PaddedDate {
+        width: 30%;
+    }
+
+    .PaddedInstrument {
+        width: 25%;
+    }
+}
+
 .PaddedLength {
     width: 25%;
     text-align: right;
