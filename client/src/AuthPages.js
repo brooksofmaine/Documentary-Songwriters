@@ -33,20 +33,20 @@ import {
                     <Route path="/api/practice" component={Record} />
                     <Route path="/api/groups" exact component={Group} />
                     <Route path="/api/groups/new" component={NewGroup} />
-                    
+                    <Route path="/api/creators" component={Creators} />
                         <Route path="/api/profile/settings/" exact>
                             <div className="profile-components">
                                 <ProfileSidebar />
                                 <Settings />
                             </div>
                         </Route>
-                        <Route path="/profile/" exact>
+                        <Route path="/api/profile/" exact>
                             <div className="profile-components">
                             <ProfileSidebar />
                             <InstrumentPage />
                             </div>
                         </Route>
-                        <Route path="/profile/user/:username" render={(matchProps) => {
+                        <Route path="/api/profile/user/:username" render={(matchProps) => {
                             return(
                                 <div className="profile-components">
                                     <ProfileSidebar />
@@ -54,7 +54,8 @@ import {
                                 </div>
                             )
                         }} />
-                    <Route path="/api/nomatch" component={NoMatch} />
+                    {/* Route path for if you reach a page that you're not supposd to be on */}
+                    <Route component={NoMatch} />
                     </Switch>
                 </Router>
             </div>

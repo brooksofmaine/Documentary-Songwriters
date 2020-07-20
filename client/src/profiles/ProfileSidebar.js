@@ -53,7 +53,7 @@ function ProfileSidebar() {
                   to="/api/profile"
                   onClick={() => {updatePages(0)}}>Progress</Link>
             <Link className={selectedPage === 1 ? "sidebar-link selected-link" : "sidebar-link"} 
-                  to={"/profile/user/" + usrname}
+                  to={"/api/profile/user/" + usrname}
                   onClick={() => {updatePages(1)}}>Profile</Link>
             <Link className={selectedPage === 2 ? "sidebar-link selected-link" : "sidebar-link"}
                   to="/api/profile/settings"
