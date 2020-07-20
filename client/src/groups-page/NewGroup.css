@@ -41,17 +41,53 @@
     outline: none;
     transition: 0.4s;
     margin: 0;
+    border: 0;
 }
 
 .GroupButton:hover {
     background-color: #6094c2;
 }
 
+@media only screen and (max-width: 1000px) {
+    .GroupButton {
+        padding: 0.6em 2em;
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    .GroupButton {
+        padding: 0.6em 1em;
+    }
+}
+
+@media only screen and (max-width: 650px) {
+    .MemberButtonColumn {
+        display: block !important;
+        width: 80%;
+        margin: 0.5em auto;
+    }
+
+    .GroupsForm {
+        position: relative;
+        display: block !important;
+        box-sizing: border-box;
+        width: 95%;
+    }
+
+    .SearchIcon {
+        top: 1px !important;
+    }
+
+    .GroupBox {
+        width: 85%;
+    }
+}
+
 .GroupFormText {
     flex: 1;
     width: 100%;
     padding: 1%;
-    margin: 1% 0;
+    margin: 1% 0 2% 0;
     border-color: transparent;
     border-radius: 5px;
     font-size: 1em;
@@ -152,8 +188,8 @@
 .SearchIcon {
     position: absolute;
     padding: 3% 0;
-    right: 10px;
-    top: -3px;
+    right: 4px;
+    top: -4px;
     color: #666;
     z-index: 999;
     cursor: pointer;
@@ -168,4 +204,7 @@
         border-radius: 5px;
         overflow: auto;
     }
+}
+.NewMemberInput {
+    margin: 2%;
 }

@@ -7,7 +7,7 @@
     left: 26%;
     padding: 4%;
     border-radius: 10px;
-    z-index: 1000;
+    z-index: 10000;
     background-color: #fff;
     color: #000;
     font-weight: 200;
@@ -75,6 +75,11 @@
         margin: 0;
         left: 0;
     }
+}
 
     
+.SaveLabel {
+    background-color: transparent !important;
+    position: relative;
+    margin-left: -35%;
 }

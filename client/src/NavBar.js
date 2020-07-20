@@ -4,7 +4,6 @@ import UserFunc from "./api-helper/user";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faBars, faTimes} from '@fortawesome/free-solid-svg-icons';
 import {NavLink} from 'react-router-dom';
-// import UserFunc from './api-helper/user.js';
 
 function NavBar() {
 
@@ -44,11 +43,12 @@ function NavBar() {
                     <NavLink tabindex="-1   " activeClassName="selected" to="/api/home" onClick={() => setOpenMenu(false)}>Home</NavLink>
                     <NavLink activeClassName="selected" to="/api/groups" onClick={() => setOpenMenu(false)}>Groups</NavLink>
                     <NavLink activeClassName="selected" to="/api/practice" onClick={() => setOpenMenu(false)}>Practice</NavLink>
+                    <NavLink activeClassName="selected" to="/api/creators" onClick={() => setOpenMenu(false)}>Creators</NavLink>
                     <div className="dropdown-menu">
                         <NavLink activeClassName="selected" to="/api/profile" onClick={() => setOpenChild(!openChild)}>My Progress</NavLink>
                         <div className={openChild ? "child-links open" : "child-links"}>
                             <NavLink to="/api/profile/" onClick={() => setOpenMenu(false)}>My Progress</NavLink>
-                            <NavLink to={"/api/profile/username/" + username} onClick={() => setOpenMenu(false)}>My Profile</NavLink>
+                            <NavLink to={"/api/profile/user/" + username} onClick={() => setOpenMenu(false)}>My Profile</NavLink>
                             <NavLink to="/api/profile/settings" onClick={() => setOpenMenu(false)}>Settings</NavLink>
                         </div>
                     </div>
@@ -57,55 +57,6 @@ function NavBar() {
             </div>
         </nav>
     )
-    
-
-    
-    // const regStyle = {
-    //     "fontWeight" : 400
-    // };
-    // const boldStyle = {
-    //     "fontWeight": 800
-    // };
-    
-    // let homeStyle, groupsStyle, practiceStyle, progressStyle;
-    // const url = window.location.href;
-
-    // homeStyle = url.includes("home") ? boldStyle : regStyle;
-    // groupsStyle = url.includes("groups") ? boldStyle : regStyle;
-    // practiceStyle = url.includes("practice") ? boldStyle : regStyle;
-    // progressStyle = url.includes("profile") ? boldStyle : regStyle;
-    
-    // const handleClick = () => {
-    //     setOpenMenu(!openMenu)
-    //     console.log("open menu set")
-    // }
-
-    // return (
-    //     <nav className="NavBar">
-    //         {/* <span className="menu-icon" onClick={handleClick}> */}
-    //         <FontAwesomeIcon className="hamburger-icon" icon={faBars} onClick={() => setOpenMenu(true)} />
-    //         {/* </span> */}
-    //         <div className="links" id={openMenu ? "open-menu" : ""}>
-    //             <button className="close-btn" onClick={() => {setOpenMenu(false)}}>X</button>
-    //             <a style={homeStyle}
-    //                 className="nav-link" 
-    //                 href="/api/home">Home</a>
-    //             <a style={groupsStyle} 
-    //                 className="nav-link" 
-    //                 href="/api/groups">Groups</a>
-    //             <a style={practiceStyle}
-    //                 className="nav-link"
-    //                 href="/api/practice">Practice</a>
-    //             <div className="dropdown-menu">
-    //                 <a style={progressStyle} className="nav-link" href="/api/profile">My Progress</a>
-    //                 <span className="dropdown">
-    //                     <button className="DropdownButton" onClick={log_out}>Log out</button>
-    //                 </span>
-    //             </div>
-    //         </div>
-    //     </nav>
-    // );
-    
 }
 
 export default NavBar;

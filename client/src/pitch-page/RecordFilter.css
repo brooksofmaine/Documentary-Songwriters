@@ -16,6 +16,17 @@
     text-align: left;
 }
 
+@media only screen and (max-width: 900px) {
+    .InstrumentSelectContainer {
+        margin-left: 20%;
+    }
+}
+@media only screen and (max-width: 500px) {
+    .InstrumentSelectContainer {
+        margin-left: 10%;
+    }
+}
+
 .RecordFilter {
     width: 100%;
     height: 100%;
@@ -35,6 +46,7 @@
 
 .RecordFilterOption {
     padding: 3%;
+    cursor: pointer;
 }
 
 .SlideOut {

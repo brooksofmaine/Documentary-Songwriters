@@ -10,9 +10,6 @@ function ProfileSidebar() {
 
 
     const [selectedPage, setSelectedPage] = useState(0);
-    
-    // const id = useParams()
-    // console.log("ID:", id)
 
     useEffect(() => {
         
@@ -47,7 +44,6 @@ function ProfileSidebar() {
     }
 
     const updatePages = (pageNum = GetWindowLocation()) => {
-        console.log("Called with pageNum", pageNum)
         setSelectedPage(pageNum)
     }
 
@@ -57,7 +53,7 @@ function ProfileSidebar() {
                   to="/api/profile"
                   onClick={() => {updatePages(0)}}>Progress</Link>
             <Link className={selectedPage === 1 ? "sidebar-link selected-link" : "sidebar-link"} 
-                  to={"/api/profile/username/" + usrname}
+                  to={"/profile/user/" + usrname}
                   onClick={() => {updatePages(1)}}>Profile</Link>
             <Link className={selectedPage === 2 ? "sidebar-link selected-link" : "sidebar-link"}
                   to="/api/profile/settings"

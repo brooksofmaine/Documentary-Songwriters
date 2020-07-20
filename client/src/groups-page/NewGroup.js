@@ -1,28 +1,36 @@
 import React from "react";
 
 import './NewGroup.css';
+import '../Forms.css';
 import NewMember from './NewMember';
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch} from '@fortawesome/free-solid-svg-icons'; // include faCheckCircle if using radio buttons
+import NewGroupBox from './NewGroupBox';
 
 import {server_add} from "../api-helper/config";
 import UserFunc from "../api-helper/user";
 import GroupFunc from '../api-helper/group';
 
+/*
+ * NewGroup
+ * Top-level component
+ * Displays entire form to create new group and add new users
+ * Rendered at /groups/new
+ */
 class NewGroup extends React.Component {
     constructor() {
         super();
         this.state = {
-            groupName    : "",
-            description  : "",
-            currMember   : "",
-            publicity    : "",
-            members      : [],
-            lastKey      : -1,
-            badUser      : false,
-            badGroup     : false,
-            errorMessage : ""
+            groupName    : "", // name of group to be created
+            description  : "", // description of group to be created e.g. "For guitar players"
+            currMember   : "", // name of member being added right now
+            publicity    : "", // *** currently not in use *** for private/public groups
+
+            members      : [], // array of members added so far
+            lastKey      : -1, // tracks key of member to be added
+            
+            badUser      : false, // bool if error with user being added
+            badGroup     : false, // bool if error with group name being created
+            userErrorMessage : "", // to alert user what's wrong with the user
+            groupErrorMessage: ""  // to alert user what's wrong with the group
         };
 
         this.handleChange  = this.handleChange.bind(this);
@@ -32,16 +40,31 @@ class NewGroup extends React.Component {
         this.createGroup   = this.createGroup.bind(this)
     }
 
+    /*
+     * createGroup
+     * Called when user clicks Create when they're done entering info
+     * Verifies valid inputs and submits to API to create group
+     */
     async createGroup(event) {
-        event.preventDefault();
+        event.preventDefault(); // prevents page refresh
+
+        // makes sure group name field was filled in
+        if (this.state.groupName === "") {
+            this.setState({
+                badGroup : true,
+                groupErrorMessage: "You must enter a group name"
+            });
+            return;
+        }
 
         let adminUsername;
 
-        // admin username currently does nothing, but should in the future
+        // *** admin username currently does nothing, but should in the future ***
         UserFunc.getCurrentUsername().then(username => {
             adminUsername = username;
         });
 
+        // loads and posts group info that was entered
         const groupInfo = {
             groupName: this.state.groupName,
             description: this.state.description,
@@ -61,9 +84,11 @@ class NewGroup extends React.Component {
         const body = await response.json();
         console.log("Response body: ", body)
 
+        // ensures there was no issue creating the group
         if ( body.err ) {
             this.setState({
-                badGroup : true
+                badGroup : true,
+                groupErrorMessage: "A group with this name already exists"
             });
         }
         // redirect to groups page if successfully created group
@@ -81,6 +106,12 @@ class NewGroup extends React.Component {
         return body;
     }
 
+    /*
+     * handleChange
+     * Called whenever any of the input fields are altered
+     * Maintains single point of truth
+     * Undoes red error lettering if there was any now that it was altered
+     */
     handleChange(event) {
         const {name, value} = event.target;
         this.setState({
@@ -99,6 +130,10 @@ class NewGroup extends React.Component {
         }
     }
 
+    /*
+     * handleClick
+     * Ensures that page won't refresh when user tries to add a member
+     */
     handleClick(event) {
         if ( event.key === 'Enter' ) {
             event.preventDefault();
@@ -106,6 +141,11 @@ class NewGroup extends React.Component {
         }
     }
 
+    /*
+     * addMember
+     * Called when user clicks Add Member button
+     * Ensures valid user then adds to user to current group in API
+     */
     async addMember() {
         const username = await UserFunc.getCurrentUsername();
 
@@ -114,8 +154,8 @@ class NewGroup extends React.Component {
             .then(data => {
                 console.log(data);
 
+                // makes sure user isn't already in group
                 let alreadyAdded = false;
-
                 for ( let i = 0; i < this.state.members.length; i++ ) {
                     console.log(this.state.members[i])
                     if ( this.state.members[i].name === this.state.currMember ) {
@@ -124,24 +164,27 @@ class NewGroup extends React.Component {
                     }
                 }
 
+                // makes sure user exists
                 if ( data.err ) {
                     this.setState({
                         badUser : true,
-                        errorMessage : 'No user with this username exists'
+                        userErrorMessage : 'No user with this username exists'
                     });
                 }
                 else if ( alreadyAdded ) {
                     this.setState({
                         badUser : true,
-                        errorMessage : 'This user has already been added'
+                        userErrorMessage : 'This user has already been added'
                     }); 
                 }
+                // makes sure not adding self
                 else if (this.state.currMember === username) {
                     this.setState({
                         badUser : true,
-                        errorMessage : 'You are already in this group. There\'s no need to add yourself'
+                        userErrorMessage : 'You are already in this group. There\'s no need to add yourself'
                     })
                 }
+                // if successful, adds new user to group
                 else {
                     this.setState(prevState => {
                         prevState.members.push({
@@ -158,9 +201,13 @@ class NewGroup extends React.Component {
                     });
                 }
             });
-        
     }
 
+    /*
+     * clickToDelete
+     * Identifies user by their key and deletes them so won't be added
+     * Called when user clicks on a to-be-added user
+     */
     clickToDelete(key) {
         for ( let i = 0; i < this.state.members.length; i++ ) {
             if ( this.state.members[i].id === key ) {
@@ -174,14 +221,11 @@ class NewGroup extends React.Component {
         }
     }
 
+    /*
+     * Renders page with input fields to create group and add users to it
+     */
     render() {
-        console.log(this.state.members)
-        const userStyle  = this.state.badUser ? { color: '#f00' } : { color: '#000' };
-        const groupStyle  = this.state.badGroup ? { color: '#f00' } : { color: '#000' };
-
-        const userErrorStyle = this.state.badUser ? { display : 'block' } : { display : 'none' };
-        const groupErrorStyle = this.state.badGroup ? { display : 'block' } : { display : 'none' };
-
+        // creates array of member components
         const newMembers = this.state.members.map(member => 
             <NewMember 
                 deleteMe = {this.clickToDelete} 
@@ -190,112 +234,31 @@ class NewGroup extends React.Component {
                 name = {member.name} 
             />);
 
-        const privateStyle = this.state.publicity === 'private' ? { fontWeight : 400 } : { fontWeight : 200 };
-        const publicStyle  = this.state.publicity === 'public'  ? { fontWeight : 400 } : { fontWeight : 200 };
-
         return(
             <div className="NewGroup">
-                <h2 className = "GroupHeading">Create a Group</h2>
-                <div className = "GroupBox">
-                    <form>
-                        <div className="InputWrapper">  
-                            <label>Group Name</label>
-                            <input 
-                                type="text" 
-                                name="groupName"
-                                onChange={this.handleChange}
-                                value={this.state.groupName}
-                                placeholder="Group Name"
-                                className="GroupFormText"
-                                style={groupStyle}
-                            />
-                        </div>
-                        <div className="ErrorMessage" style={groupErrorStyle}>
-                            A group with this name already exists
-                        </div>
+                <h2 className="GroupHeading">Create a Group</h2>
+                <NewGroupBox 
+                    badUser={this.state.badUser}
+                    badGroup={this.state.badGroup}
 
-                        <div className="InputWrapper">  
-                            <label for="group-description">
-                                Group Description
-                            </label>
-                            <input 
-                                type="text" 
-                                name="description"
-                                onChange={this.handleChange}
-                                value={this.state.description}
-                                placeholder="Group Description"
-                                className="GroupFormText"
-                            />
-                        </div>
-                        <label for="members">
-                            Enter username of member to invite then click search
-                        </label>
-                        <div className="InputWrapper">
-                            <input 
-                                type="text" 
-                                id="members"
-                                name="currMember"
-                                onChange={this.handleChange}
-                                value={this.state.currMember}
-                                onKeyPress={this.handleClick}
-                                placeholder="Search members"
-                                className="GroupFormText"
-                                style={userStyle}
-                            />
-                            <span><FontAwesomeIcon icon={faSearch} className="SearchIcon" onClick={this.addMember}/></span>
-                        </div>
-                        <div className="ErrorMessage" style={userErrorStyle}>
-                            {this.state.errorMessage}
-                        </div>
-                        <label>Added Members</label>
-                        <div className="NewGroupMemberBox">
-                            
-                            {newMembers}
-                        </div>
-                        <div className="ButtonBox">
-                            <button 
-                                className="GroupButton" 
-                                onClick={this.createGroup}>Create Group</button>
-                        </div>
-                    </form>
-                </div>
+                    groupErrorMessage={this.state.groupErrorMessage}
+                    userErrorMessage={this.state.userErrorMessage}
+
+                    groupName={this.state.groupName}
+                    description={this.state.description}
+                    currMember={this.state.currMember}
+
+                    newMembers={newMembers}
+
+                    handleChange={this.handleChange}
+                    handleClick={this.handleClick}
+
+                    addMember={this.addMember}
+                    createGroup={this.createGroup}
+                />
             </div>
         )
     }
-    /* public/private not currently implemented
-     * add this back in if they ever are 
-     */
-
-     /*
-                         <div className="RadioBox">
-                            <label className="RadioLabel" style={privateStyle}>
-                                <input
-                                    type="radio"
-                                    name="publicity"
-                                    value="private"
-                                    onChange={this.handleChange}
-                                    className="RadioButton"
-                                />
-                                <div className="NoCheckButton"></div>
-                                <FontAwesomeIcon icon={faCheckCircle} className="CheckButton"/>
-                                Private
-                            </label>
-
-                            <label className="RadioLabel" style={publicStyle}>
-                                <input
-                                    type="radio"
-                                    name="publicity"
-                                    value="public"
-                                    onChange={this.handleChange}
-                                    className="RadioButton"
-                                />
-                                <div className="NoCheckButton"></div>
-                                <FontAwesomeIcon icon={faCheckCircle} className="CheckButton"/>
-                                Public
-                            </label>
-                        </div>
-                        <br />
-    */
 }
 
 export default NewGroup;

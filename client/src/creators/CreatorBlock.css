@@ -1,0 +1,65 @@
+.CreatorBlockContainer {
+    display: inline-block;
+    width: 30%;
+    margin: 1%;
+}
+
+.CreatorBlock {
+    background-color: #fff;
+    width: 100%;
+    display: flex;
+    box-sizing: border-box;
+    align-items: center;
+    padding: 6% 2%;
+    border-radius: 20px;
+    box-shadow: -1px 1px 2px 1px #ccc;
+}
+
+.Creators > div {
+    font-weight: 200;
+}
+
+.ProfilePics {
+    height: 100px;
+    width: 100px;
+    border-radius: 100%;
+}
+
+.CreatorBlockColumn {
+    display: inline-block;
+    width: 45%;
+    text-align: center;
+}
+
+.CreatorBlockColumnRight {
+    padding-left: 6%;
+}
+
+p.CreatorName {
+    margin: 0;
+}
+
+.CreatorBlock > div > p {
+    font-size: 0.9em;
+}
+
+.CreatorName {
+    font-weight: 600;
+    line-height: 3em;
+}
+
+.CreatorInfo {
+    margin: 0;
+}
+
+@media only screen and (max-width: 950px) {
+    .CreatorBlockContainer {
+        width: 45%;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .CreatorBlockContainer {
+        width: 100%;
+    }
+}

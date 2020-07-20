@@ -65,6 +65,30 @@
     text-align: left;
 }
 
+@media only screen and (max-width: 900px) {
+    .Date {
+        width: 20%;
+    }
+
+    .Instrument {
+        width: 35%;
+    }
+}
+
+@media only screen and (max-width: 750px) {
+    .PracticeBar {
+        width: 100%;
+    }
+
+    .Date {
+        width: 30%;
+    }
+
+    .Instrument {
+        width: 25%;
+    }
+}
+
 .PracticeBox {
     height: 240px;
     width: 100%;

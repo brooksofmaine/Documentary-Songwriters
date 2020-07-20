@@ -5,6 +5,13 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons'
 
 import './NewMember.css';
 
+/*
+ * NewMember
+ * Low-level component 
+ * Displays a to-be-added member and allows it to be deleted
+ * Delete functionality handled through props function in parent
+ * Child of NewGroupBox
+ */
 class NewMember extends React.Component {
     render() {
         return(
