@@ -46,6 +46,7 @@ import {
                             <InstrumentPage />
                             </div>
                         </Route>
+                        {/* Route page for viewing your own profile */}
                         <Route path="/api/profile/user/:username" render={(matchProps) => {
                             return(
                                 <div className="profile-components">
@@ -54,6 +55,15 @@ import {
                                 </div>
                             )
                         }} />
+                        {/* Route page for viewing someone else's profile */}
+                        <Route path="/api/user/:username" render={(matchProps) => {
+                            return(
+                                <div className="profile-components">
+                                    <UserProfile {...matchProps} />
+                                </div>
+                            )
+                        }} />
+
                     {/* Route path for if you reach a page that you're not supposd to be on */}
                     <Route component={NoMatch} />
                     </Switch>

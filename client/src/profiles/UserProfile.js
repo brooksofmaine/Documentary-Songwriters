@@ -55,7 +55,7 @@ function UserProfile(props) {
             const endDate       = new Date();
             
             await RecordingFunc.getRecordings(
-                null, 
+                username, 
                 startDate,
                 endDate
                 )
