@@ -27,27 +27,27 @@ import {
                     <Switch>
                     
                     <Route exact path="/" component={LoginForm} />
-                    <Route path="/home">
+                    <Route path="/api/home">
                         <WelcomeBoard />
                     </Route>
-                    <Route path="/practice" component={Record} />
-                    <Route path="/groups" exact component={Group} />
-                    <Route path="/groups/new" component={NewGroup} />
-                    <Route path="/creators" component={Creators} />
-                    <div>
-                        <Route path="/profile/settings/" exact>
+                    <Route path="/api/practice" component={Record} />
+                    <Route path="/api/groups" exact component={Group} />
+                    <Route path="/api/groups/new" component={NewGroup} />
+                    <Route path="/api/creators" component={Creators} />
+                        <Route path="/api/profile/settings/" exact>
                             <div className="profile-components">
                                 <ProfileSidebar />
                                 <Settings />
                             </div>
                         </Route>
-                        <Route path="/profile/" exact>
+                        <Route path="/api/profile/" exact>
                             <div className="profile-components">
                             <ProfileSidebar />
                             <InstrumentPage />
                             </div>
                         </Route>
-                        <Route path="/profile/user/:username" render={(matchProps) => {
+                        {/* Route page for viewing your own profile */}
+                        <Route path="/api/profile/user/:username" render={(matchProps) => {
                             return(
                                 <div className="profile-components">
                                     <ProfileSidebar />
@@ -55,8 +55,17 @@ import {
                                 </div>
                             )
                         }} />
-                    </div>
-                    <Route path="/nomatch" component={NoMatch} />
+                        {/* Route page for viewing someone else's profile */}
+                        <Route path="/api/user/:username" render={(matchProps) => {
+                            return(
+                                <div className="profile-components">
+                                    <UserProfile {...matchProps} />
+                                </div>
+                            )
+                        }} />
+
+                    {/* Route path for if you reach a page that you're not supposd to be on */}
+                    <Route component={NoMatch} />
                     </Switch>
                 </Router>
             </div>

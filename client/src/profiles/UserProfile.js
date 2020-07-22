@@ -55,7 +55,7 @@ function UserProfile(props) {
             const endDate       = new Date();
             
             await RecordingFunc.getRecordings(
-                null, 
+                username, 
                 startDate,
                 endDate
                 )
@@ -150,18 +150,18 @@ function UserProfile(props) {
      * Does NOT include sidebar (if applicable)
      */
     return(
-        <div className = "Center GreyBackground">
+        <div className="Center GreyBackground">
             <div className="UserProfileSpacer"></div>
             <h4>{firstName} {lastName}</h4>
-            <p className = "InstrumentLine">{playString}</p>
-            <div className = "Spacer"></div>
-            <div className = "SmallSpacer"></div>
+            <p className="InstrumentLine">{playString}</p>
+            <div className="Spacer"></div>
+            <div className="SmallSpacer"></div>
             <PracticeBar
-                practices = {recordings} 
-                instruments = {instruments} 
+                practices={recordings} 
+                instruments={instruments} 
                 maxPitches={maxPitches}
             />
-            <div className = "Spacer"></div>
+            <div className="Spacer"></div>
         </div>
     )
 }

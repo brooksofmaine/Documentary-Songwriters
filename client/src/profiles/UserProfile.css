@@ -3,7 +3,6 @@
 }
 
 .GreyBackground {
-    /* background-color: #eee; */
     width: 100%;
 }
 
@@ -34,4 +33,22 @@
 
 .UserProfileSpacer {
     height: 40px;
+}
+
+@media only screen and (max-width: 750px) {
+    .Center h4 {
+        font-size: 1.5em;
+    }
+
+    .SmallSpacer {
+        height: 0;
+    }
+    
+    .Spacer {
+        height: 0;
+    }
+
+    .PracticeHeader {
+        display: none;
+    }
 }

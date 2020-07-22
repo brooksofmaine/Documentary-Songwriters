@@ -69,6 +69,15 @@
     outline: none;
 }
 
+@media only screen and (max-width: 500px) {
+    .SavePopup {
+        width: 70vw;
+        margin: 0;
+        left: 0;
+    }
+}
+
+    
 .SaveLabel {
     background-color: transparent !important;
     position: relative;

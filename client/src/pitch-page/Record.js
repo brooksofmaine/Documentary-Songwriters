@@ -231,7 +231,7 @@ class Record extends React.Component {
             ).then(err => console.log(err))
 
         // TODO: handle errors somehow
-        this.props.history.push("/profile");
+        this.props.history.push("/api/profile");
 
     }
 

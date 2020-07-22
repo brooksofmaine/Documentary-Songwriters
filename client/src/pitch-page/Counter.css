@@ -40,3 +40,13 @@
     user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome, Opera and Firefox */
 }
+
+@media only screen and (max-width: 700px) {
+    .counterBox {
+        width: 80vw;
+    }
+
+    .counterContainer {
+        margin: 0;
+    }
+}

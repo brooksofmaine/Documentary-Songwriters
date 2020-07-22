@@ -385,7 +385,7 @@ function PracticeBar(props) {
                     <p className="InstrTitle">
                         {activeFilterString}
                     </p>
-                    <span>
+                    <span className="arrowIcon">
                         <FontAwesomeIcon icon = {topIcon} className = "Icon" />
                     </span>
                 </div>

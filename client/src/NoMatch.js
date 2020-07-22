@@ -1,20 +1,15 @@
 import React from "react"
-import {
-    BrowserRouter as Router,
-    Route,
-    Link,
-    Switch,
-    Redirect,
-    useLocation
-  } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import ErrorImg from './assets/page-not-found.svg'
 
-  function NoMatch() {
+function NoMatch() {
       const location = useLocation()
 
+
       return(
-          <div>
-              <h1>Hey</h1>
-              <p>No match for {location}</p>
+          <div className="NoMatch">
+              <h2>Whoops! We couldn't find a page at {location.pathname}</h2>
+              <img src={ErrorImg} alt="Woman sitting on top of 404 sign" />
           </div>
       )
   }
