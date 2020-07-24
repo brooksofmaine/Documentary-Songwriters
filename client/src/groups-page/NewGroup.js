@@ -100,7 +100,8 @@ class NewGroup extends React.Component {
             for (let i = 0; i < this.state.members.length; i++) {
                 GroupFunc.addMember(this.state.groupName, this.state.members[i].name);
             }
-            this.props.history.push("/api/groups");
+            window.location="/api/groups"
+            // this.props.history.push("/api/groups");
         }
 
         return body;
