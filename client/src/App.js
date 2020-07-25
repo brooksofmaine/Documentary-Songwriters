@@ -10,6 +10,7 @@ import {
   Switch,
   Route
 } from "react-router-dom";
+import UserFunc from './api-helper/user'
 
 
 
@@ -18,12 +19,16 @@ class App extends Component {
     super(props)
     this.callBackendAPI = this.callBackendAPI.bind(this)
     this.state = {
-      data: null
+      data: null, 
+      loggedIn: null
     }
+    this.getLoginStatus = this.getLoginStatus.bind(this)
   }
   // Code used to call backend API:
 
   componentDidMount() {
+    this.getLoginStatus()
+
     // this.callBackendAPI()
     // .then(res => {
     //   this.setState({ data: res.express })
@@ -42,6 +47,18 @@ class App extends Component {
     return body;
   };
 
+  getLoginStatus = async () => {
+    const login = await UserFunc.getCurrentUser()
+    if (login.status === "logged_in") {
+        this.setState({loggedIn: true})
+        console.log("Logged in")
+    } else {
+      this.setState({loggedIn: false})
+      console.log("Logged out")
+    }
+}
+
+
   render() {
     return (
     <div className="App">
@@ -51,7 +68,7 @@ class App extends Component {
         <Switch>
           <Route exact path="/" component={LoginForm} />
           <PrivateRoute path="/">
-            <AuthPages />
+            <AuthPages loggedIn={this.state.loggedIn} />
           </PrivateRoute>
         </Switch>
       </Router>

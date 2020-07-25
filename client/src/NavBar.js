@@ -20,6 +20,7 @@ function NavBar() {
             console.log("error: log out not success");
             window.location = "/";
         }
+        localStorage.setItem("isLoggedIn", false)
     }
 
     useEffect(() => {

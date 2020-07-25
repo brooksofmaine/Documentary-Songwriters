@@ -3,6 +3,8 @@ import Counter from './Counter';
 import Stopwatch from './Stopwatch';
 import './Record.css';
 
+import {browserHistory} from 'react-router'
+
 import UserFunc from "../api-helper/user";
 import {app} from '../pitch-counter/PitchCounterApp.js';
 import RecordingFunc from "../api-helper/recording";
@@ -217,6 +219,8 @@ class Record extends React.Component {
      * Redirects user to progress page upon success
      */
     saveRecording(description) {
+        
+
         // calculate start and end times
         const now = Date.now();
         const endTime = new Date(now);
@@ -228,9 +232,13 @@ class Record extends React.Component {
             description,            // description
             startTime,              // start time
             endTime                 // end time
-            ).then(err => console.log(err))
+            )
+        .then(err => console.log(err))
+        // .then(() => {window.location = "/api/profile"})
+        
 
         // TODO: handle errors somehow
+        // browserHistory.push("/api/profile")
         this.props.history.push("/api/profile");
 
     }
