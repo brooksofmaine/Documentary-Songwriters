@@ -384,10 +384,11 @@ class LoginForm extends React.Component {
     };
 
     componentDidMount = async () => {
-        const curr_user = await UserFunc.getCurrentUser();
-        if (curr_user && 'status' in curr_user && curr_user['status'] === "logged_in") {
-            window.location.href = "/home";
-        }
+        // commented out due to an error
+        //const curr_user = await UserFunc.getCurrentUser();
+        //if (curr_user && 'status' in curr_user && curr_user['status'] === "logged_in") {
+        //    window.location.href = "/home";
+        //}
     };
 
     /*
