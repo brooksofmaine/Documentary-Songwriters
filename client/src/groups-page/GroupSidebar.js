@@ -14,7 +14,7 @@ function GroupSidebar(props) {
             <h3 className="BigName">My Groups</h3>
             {props.groupNames}
             <div className="ButtonContainer">
-                <button className="GroupButton" onClick={() => window.location.href="/api/groups/new"}>
+                <button className="GroupButton" onClick={() => window.location.href="/groups/new"}>
                     Create a Group
                 </button>
             </div>

@@ -256,7 +256,7 @@ class LoginForm extends React.Component {
             // console.log(JSON.stringify(myJson));
             console.log("Setting local storage")
             localStorage.setItem("isLoggedIn", true)
-            window.location = "/api/home";
+            window.location = "/home";
         }
     };
 
@@ -384,10 +384,9 @@ class LoginForm extends React.Component {
     };
 
     componentDidMount = async () => {
-        const curr_user = UserFunc.getCurrentUser();
-        if (curr_user && 'status' in curr_user && curr_user['status'] == "logged_in") {
-            
-            window.location.href = "/api/home";
+        const curr_user = await UserFunc.getCurrentUser();
+        if (curr_user && 'status' in curr_user && curr_user['status'] === "logged_in") {
+            window.location.href = "/home";
         }
     };
 

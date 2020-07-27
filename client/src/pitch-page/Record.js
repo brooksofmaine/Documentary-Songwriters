@@ -238,8 +238,8 @@ class Record extends React.Component {
         
 
         // TODO: handle errors somehow
-        // browserHistory.push("/api/profile")
-        this.props.history.push("/api/profile");
+        // browserHistory.push("/profile")
+        this.props.history.push("/profile");
 
     }
 
