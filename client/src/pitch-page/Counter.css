@@ -14,6 +14,17 @@
     position: relative;
 }
 
+@media only screen and (max-width: 900px) {
+    .counterContainer {
+        width: 60%;
+    }
+}
+@media only screen and (max-width: 500px) {
+    .counterContainer {
+        width: 80%;
+    }
+}
+
 .pitchCounter {
     font-size: 50px;
     display: inline-block;
@@ -28,4 +39,14 @@
     -ms-user-select: none; /* Internet Explorer/Edge */
     user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome, Opera and Firefox */
+}
+
+@media only screen and (max-width: 700px) {
+    .counterBox {
+        width: 80vw;
+    }
+
+    .counterContainer {
+        margin: 0;
+    }
 }

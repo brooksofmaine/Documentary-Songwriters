@@ -121,8 +121,11 @@ class PitchCounter {
         })
         .catch(function(error) {
             alert(error.name + ': ' + error.message);
+            // TODO: fix this
         })
     }
+    // Completely start pitch counter by initializing the listener and
+    // by creating the starting Float32Array of frequencies
 
     /**
      * Begins the flow of initializations by calling the listener to begin,
@@ -133,13 +136,14 @@ class PitchCounter {
         this.frequencyData = new Float32Array(
             this.analyser.frequencyBinCount);
         this.audioContext.resume();
-    }
+}
 
     /**
      * Pause Listening and analyzing. If AudioContext has not been created
      * (aka the code was not analyzing), then start counting pitches.
      */
     changeState() {
+
         if (this.audioContext === null || this.audioContext === undefined)
             this.initPitchCounting();
         else {
@@ -174,11 +178,9 @@ class PitchCounter {
         this.startRecord();
     }
 
-    /**
-     * Completely stop listening and analyzing the input.
-     */
+    //Stop Listening
     stop() {
-        if (this.audioContext !== null) {
+        if (this.audioContext !== null && this.audioContext !== undefined) {
             this.audioContext.close();
             this.audioContext = null;
         }

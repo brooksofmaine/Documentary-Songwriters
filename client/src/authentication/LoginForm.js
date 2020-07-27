@@ -253,8 +253,10 @@ class LoginForm extends React.Component {
         // if successful, login and redirect to homepage
         } else {
             const myJson = await response.json();
-            console.log(JSON.stringify(myJson));
-            window.location = "/home";
+            // console.log(JSON.stringify(myJson));
+            console.log("Setting local storage")
+            localStorage.setItem("isLoggedIn", true)
+            window.location = "/api/home";
         }
     };
 
@@ -384,7 +386,8 @@ class LoginForm extends React.Component {
     componentDidMount = async () => {
         const curr_user = UserFunc.getCurrentUser();
         if (curr_user && 'status' in curr_user && curr_user['status'] == "logged_in") {
-            window.location.href = "/home";
+            
+            window.location.href = "/api/home";
         }
     };
 

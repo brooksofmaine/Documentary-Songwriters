@@ -18,14 +18,11 @@
 }
 
 .Settings label {
-    /* border: 1px solid red; */
     display: flex;
-    width: 70%;
     justify-content: space-between;
     align-items: center;
     margin: 10px 0;
     font-size: 14px;
-    /* flex-direction: column; */
 }
 
 .Settings .normal-input {
@@ -121,4 +118,32 @@
 #pitches-error {
     margin: 10px 0 0 0;
     /* border: 1px solid red; */
+}
+
+@media only screen and (max-width: 700px) {
+    .Settings {
+        width: 100%;
+    }
+
+    .Settings .name.row {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .Settings .name input{
+        width: 292px;
+        margin: 10px 0;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+    .Settings .name input{
+        width: 60vw;
+        margin: 10px 0;
+    }
+    
+    .Settings input{
+        width: 60vw;
+        margin: 10px 0;
+    }
 }

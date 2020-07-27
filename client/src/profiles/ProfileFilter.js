@@ -29,10 +29,7 @@ function ProfileFilter(props) {
         <div className = {props.sliderClass}>
             <div className = "Filter">
                 <div className = "FilterOption">
-                    <p 
-                        onClick = {() => props.slide("instrument")} 
-                        className = "Inline FilterName"
-                    >
+                    <p onClick = {() => props.slide("instrument")} className = "Inline FilterName">
                         Instrument
                     </p>
                     <div className = "Inline FilterIcon">
@@ -44,10 +41,7 @@ function ProfileFilter(props) {
                 </div>
 
                 <div className = "FilterOption">
-                    <p 
-                        onClick = {() => props.slide("date")} 
-                        className = "Inline FilterName"
-                    >
+                    <p onClick = {() => props.slide("date")} className = "Inline FilterName">
                         Date
                     </p>
                     <div className = "Inline FilterIcon">

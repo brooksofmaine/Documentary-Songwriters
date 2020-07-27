@@ -8,7 +8,7 @@ function validateEmail(email)
 }
 
 function validatePitches(pitches) {
-    if (pitches > 15000 || pitches < 10) {
+    if (pitches > 999999 || pitches < 10) {
         return false
     } 
     return true

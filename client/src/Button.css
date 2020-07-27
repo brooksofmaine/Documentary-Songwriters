@@ -1,9 +1,9 @@
 .Button {
-    color: rgba(0, 0, 0, 0.87);
-    padding: 10px 16px;
+    color: #fff;
+    padding: 0.6em 3em;
     font-size: 0.875rem;
-    border-radius: 4px;
-    font-weight: bold;
+    border-radius: 20px;
+    font-weight: 200;
     cursor: pointer;
     text-decoration: none;
     border: 0;
@@ -12,7 +12,7 @@
     align-items: center;
     user-select: none;
     vertical-align: middle;
-    background-color: #cccccc;
+    background-color: #40719c;
     transition: all 0.1s ease-in;
 }
 
@@ -20,20 +20,21 @@
     outline: none;
 }
 
-.Button > a:visited {
-    color: #000;
-}
-
 .Button > a {
     text-decoration: none;
+    color: #fff;
+}
+
+.Button > a:hover {
+    color: #fff;
 }
 
 .Button:hover {
-    background-color: #b3b3b3;
+    background-color: #6094c2;
 }
 
 .Button:active {
-    background-color: #a1a1a1;
+    background-color: #5b8ab3;
 }
 
 .Front {

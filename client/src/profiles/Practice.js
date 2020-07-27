@@ -76,7 +76,7 @@ function Practice(props) {
                 {formattedInstrument}
             </div>
             <div className = "PracticeCol PaddedPitch">
-                {props.pitches}
+                {props.pitches}<span className="responsive"> pitches</span>
             </div>
             <div className = "PracticeDescription">
                 Description: {props.description}

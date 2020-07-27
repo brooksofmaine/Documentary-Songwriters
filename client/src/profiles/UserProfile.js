@@ -3,7 +3,7 @@ import PracticeBar from './PracticeBar';
 import './UserProfile.css';
 import UserFunc from "../api-helper/user";
 import RecordingFunc from "../api-helper/recording";
-
+import queryString from 'query-string'
 const lowerFirstLetter = (word) => {
     return word.charAt(0).toLowerCase() + word.slice(1);
 }
@@ -18,7 +18,11 @@ const lowerFirstLetter = (word) => {
 
 function UserProfile(props) {
 
-    const [username, setUsername]                    = useState(props.match.params.username); // from query string
+    // Hacky way of getting username
+    // let url = window.location.href
+    // let usernameParam = url.split('/')[url.split('/').length - 1]
+    // console.log("usernameParam", usernameParam)
+    const [username, setUsername]       = useState(props.match.params.username); // from query string
     const [firstName, setFirstName]     = useState("");      // first name of curr user
     const [lastName, setLastName]       = useState("");      // last name of curr user
     const [createdAt, setCreatedAt]     = useState("");      // date curr user account created
@@ -55,7 +59,7 @@ function UserProfile(props) {
             const endDate       = new Date();
             
             await RecordingFunc.getRecordings(
-                null, 
+                username, 
                 startDate,
                 endDate
                 )
@@ -150,18 +154,18 @@ function UserProfile(props) {
      * Does NOT include sidebar (if applicable)
      */
     return(
-        <div className = "Center GreyBackground">
+        <div className="Center GreyBackground">
             <div className="UserProfileSpacer"></div>
             <h4>{firstName} {lastName}</h4>
-            <p className = "InstrumentLine">{playString}</p>
-            <div className = "Spacer"></div>
-            <div className = "SmallSpacer"></div>
+            <p className="InstrumentLine">{playString}</p>
+            <div className="Spacer"></div>
+            <div className="SmallSpacer"></div>
             <PracticeBar
-                practices = {recordings} 
-                instruments = {instruments} 
+                practices={recordings} 
+                instruments={instruments} 
                 maxPitches={maxPitches}
             />
-            <div className = "Spacer"></div>
+            <div className="Spacer"></div>
         </div>
     )
 }

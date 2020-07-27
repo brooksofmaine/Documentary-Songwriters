@@ -76,28 +76,40 @@
 
     .ProgressGraph .title-bar h3 {
         display: flex;
-        /* flex: 1 1 100%; */
         width: 100%;
     }
 
     .ProgressGraph .title-bar .row {
         justify-content: flex-start;
         align-items: center;
-        flex-direction: column;
+        margin-bottom: 10px;
     }
 
-    .ProgressGraph .title-bar .row button {
-        max-width: 100px;
+    .ProgressGraph .title-bar .row .graph-button {
         background-color: white;
-        margin: 50px;
+        width: 50px;
+        height: 50px;
+        padding: 0;
+        margin: 5px;
     }
+
+    .ProgressGraph .title-bar .row .graph-button .btn-content {
+        font-size: 1.5em;
+    }
+
 
     .ProgressGraph .graph {
-        margin: 0;
+        width: 110%;
+        margin-left: -10%;
     }
 
     .ProgressGraph .dates button{
         margin: 0 5px;
+    }
+
+    .ProgressGraph .dates {
+        display: flex;
+        justify-content: center;
     }
 }
 

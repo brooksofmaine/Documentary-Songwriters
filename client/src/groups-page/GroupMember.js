@@ -1,15 +1,18 @@
 import React from 'react';
 
+/*
+ * GroupMember
+ * Low-level component
+ * Displays a single members name and information, and links to their profile
+ * Child of GroupMemberContainer
+ */
 class GroupMember extends React.Component {
-
-    // TODO: make link to actual user page
-    
     render() {
         return(
             <div className = "GroupMember">
                 <p>
                     <span className = "MemberName">
-                        <a href={"/api/profile/" + this.props.name}>
+                        <a href={"/api/user/" + this.props.name}>
                             {this.props.name}
                         </a>
                     </span>
