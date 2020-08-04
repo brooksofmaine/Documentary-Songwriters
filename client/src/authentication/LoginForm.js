@@ -182,7 +182,25 @@ class LoginForm extends React.Component {
 
         // if successful, go back to login page so user can login
         if (response.status === 200) {
-            window.location = "/";
+
+            const loginInfo = {
+                "username": userInfo.username,
+                "password": userInfo.password,
+                "remember_me": false
+            }
+            const res = await fetch(server_add + '/api/auth/local', {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'include',
+                body: JSON.stringify(loginInfo)
+            })
+
+            const myJson = await res.json();
+            localStorage.setItem("isLoggedIn", true)
+            window.location = "/home";
+
         }
         // if username is already taken, issue error message
         else if (response.status === 409) {
@@ -384,11 +402,11 @@ class LoginForm extends React.Component {
     };
 
     componentDidMount = async () => {
-        // commented out due to an error
-        //const curr_user = await UserFunc.getCurrentUser();
-        //if (curr_user && 'status' in curr_user && curr_user['status'] === "logged_in") {
-        //    window.location.href = "/home";
-        //}
+        const curr_user = UserFunc.getCurrentUser();
+        if (curr_user && 'status' in curr_user && curr_user['status'] === "logged_in") {
+
+            window.location.href = "/home";
+        }
     };
 
     /*
