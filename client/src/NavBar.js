@@ -41,7 +41,7 @@ function NavBar() {
             <div className="items" style={openMenu ? openStyle : {}}>
                 <FontAwesomeIcon className="close icon" icon={faTimes} onClick={() => setOpenMenu(false)} />
                 <div className="pages">
-                    <NavLink tabindex="-1   " activeClassName="selected" to="/home" onClick={() => setOpenMenu(false)}>Home</NavLink>
+                    <NavLink tabIndex="-1   " activeClassName="selected" to="/home" onClick={() => setOpenMenu(false)}>Home</NavLink>
                     <NavLink activeClassName="selected" to="/groups" onClick={() => setOpenMenu(false)}>Groups</NavLink>
                     <NavLink activeClassName="selected" to="/practice" onClick={() => setOpenMenu(false)}>Practice</NavLink>
                     <NavLink activeClassName="selected" to="/creators" onClick={() => setOpenMenu(false)}>Creators</NavLink>
