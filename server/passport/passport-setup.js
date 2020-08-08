@@ -11,7 +11,7 @@ const token_util = require('./passport-token-utils');       // the util to gener
 /** bcrypt, the algorithm to hash the password. **/
 let bcrypt = require("bcrypt");
 // set number of iterations for the bcrypt algorithm
-const bcrypt_num_iterations = process.env.PW_HASH_ITERATIONS || 10;
+const bcrypt_num_iterations = parseInt(process.env.PW_HASH_ITERATIONS) || 10;
 
 let db;
 
