@@ -57,7 +57,7 @@ class SavePopup extends React.Component {
                         className = "SaveInput" 
                     />
                 </div>
-                <div onClick = {() => this.props.save(this.state.description)} className = "DarkButton OptionButton">Save</div>
+                <div onClick = {() => this.props.save(this.state.description)} className = "DarkButton OptionButton">Save Count</div>
             </div>
         )
     }
