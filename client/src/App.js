@@ -10,7 +10,8 @@ import {
   Switch,
   Route
 } from "react-router-dom";
-import UserFunc from './api-helper/user'
+import UserFunc from './api-helper/user';
+import Footer from './footer';
 
 
 
@@ -61,19 +62,21 @@ class App extends Component {
 
   render() {
     return (
-    <div className="App">
-      <div className="InnerApp">
+      <div className="App">
+        <div className="InnerApp">
 
-      <Router>
-        <Switch>
-          <Route exact path="/" component={LoginForm} />
-          <PrivateRoute path="/">
-            <AuthPages loggedIn={this.state.loggedIn} />
-          </PrivateRoute>
-        </Switch>
-      </Router>
+        <Router>
+          <Switch>
+            <Route exact path="/" component={LoginForm} />
+            <PrivateRoute path="/">
+              <AuthPages loggedIn={this.state.loggedIn} />
+            </PrivateRoute>
+          </Switch>
+        </Router>
+        </div>
+        <Footer />
       </div>
-    </div>);
+    );
   }
 }
 
