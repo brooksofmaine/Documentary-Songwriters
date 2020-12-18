@@ -62,15 +62,7 @@ const startDB = (done) => {
     recordingRoutes.init(database);
     passportSetup.init(database);
     db = database;
-    if (env === "development") {
-      db.sequelize.sync({force: true}).then(() => {
-        done();
-      });
-    } else {
-      db.sequelize.sync().then(() => {
-        done();
-      });
-    }
+    db.sequelize.sync().then(done);
   });
 };
 
