@@ -9,6 +9,8 @@ const userRoutes = require('./routes/userRoutes');
 const groupRoutes = require('./routes/groupRoutes');
 const recordingRoutes = require('./routes/recordingRoutes');
 const path = require("path");
+
+require('dotenv').config();
 const env = process.env.NODE_ENV || 'development';
 let db;
 
@@ -30,7 +32,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(session({
-secret: 'some_secret_key',
+    secret: 'some_secret_key',
     resave: false,
     saveUninitialized: false
 }));
@@ -49,9 +51,16 @@ app.get('/api', function (req, res) {
 });
 
 if (env !== 'development') {
-  app.use(express.static('../client/build'));
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "../client/build/index.html"));
+  // There are better ways to do this
+  // but this is what we got to work
+  // See refferences here
+  // Express documentation: https://expressjs.com/en/starter/static-files.html
+  // Create React Appp Documentation: https://create-react-app.dev/docs/deployment/
+  app.use('/api', express.static(path.join(__dirname, '../client/build')));
+  app.use(express.static(path.join(__dirname, '../client/build')));
+
+  app.get('/*', function (req, res) {
+    res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
   });
 }
 

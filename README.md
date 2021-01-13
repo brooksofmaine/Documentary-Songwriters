@@ -52,15 +52,28 @@ simply push to their repository.
 npm install
 ```
 
+- Create a `.env` file with the following contents in both the client and server directories. The database config can be found at `server/config/config.json`
+
+`server/.env`
+```
+DATABASE_URL=postgres://<username>@<host>:<port>/<database>
+NODE_ENV=production
+```
+
+`client/.env`
+```
+NODE_ENV=production
+```
+
 - It is recommended and expected to compile the client script into static html in the production build.
 The server will serve static html from `client/build` if the environment variable `NODE_ENV` is set to `production`.
-To do this, run
+To do this, run in the client directory
 
 ```
 npm run-script build
 ```
 
-- Run the server
+- Run the server in the server directory
 ```
 npm start
 ```
