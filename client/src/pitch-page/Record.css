@@ -1,6 +1,11 @@
 .Record {
     text-align: center;
     position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
 }
 
 .RecordOverlay {
@@ -17,7 +22,7 @@
 
 @media only screen and (max-width: 500px) {
     .RecordOverlay {
-        width: 105vw!important;
+        width: 105vw !important;
     }
     
 }

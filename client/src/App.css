@@ -4,6 +4,8 @@ html, #root, body, .App {
   margin: 0;
   padding: 0;
   min-height: 100vh;
+  min-width: 100vw;
+  display: flex;
   background-color: var(--main-bg-color);
 
   overflow-x: hidden;
@@ -13,8 +15,18 @@ html, #root, body, .App {
 .InnerApp {
   margin: 20px 10% 20px 10%;
   font-family: 'Raleway', sans-serif;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
 }
- 
+
+.AuthPages {
+  height: 100%;
+}
+
+.AuthPages > div {
+  height: 100%;
+}
 
 a {
   color: #40719c;
@@ -24,7 +36,6 @@ a {
 a:hover {
   color: #6094c2;
 }
-  
 
 .NoMatch {
     display: flex;

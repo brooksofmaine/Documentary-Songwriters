@@ -1,17 +1,12 @@
 .FrequencyBars {
+    display: flex;
+    justify-content: center;
     position: relative;
     width: 100%;
     height: auto;
 }
 
 .FrequencyCanvas {
-    position: absolute;
-    /* bottom: 0; */
-    top: 0;
-    left: -130px;
-    /* right: 0; */
-    
-    width: 130%;
+    width: 100%;
     height: 130px;
-    z-index: 1000;
 }

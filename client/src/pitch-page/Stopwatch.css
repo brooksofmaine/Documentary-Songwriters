@@ -33,6 +33,7 @@
     margin: 0 1em;
     z-index: 100;
     padding: 10px 16px;
+    position: relative;
 }
 
 .RecordButton {

@@ -276,7 +276,8 @@ class Record extends React.Component {
                     changeInstrument={() => this.showPopup("stop", "instrument")} 
                     stopFunction={() => app.stop()} 
                     ref = {filter => this.filter = filter}/>
-                <Counter countNum={this.state.count} />
+                <RecordImages />
+                <FrequencyBars ref={frequencyBars => {this.frequencyBars = frequencyBars}} />
                 <Stopwatch 
                     startFunction={() => app.start()}
                     stopFunction={() => app.stop()} 
@@ -285,8 +286,6 @@ class Record extends React.Component {
                     save={this.showPopup} 
                     ref={stopwatch => this.stopwatch = stopwatch}
                 />
-                <RecordImages />
-                <FrequencyBars ref={frequencyBars => {this.frequencyBars = frequencyBars}} />
             </div>
         )
     }
